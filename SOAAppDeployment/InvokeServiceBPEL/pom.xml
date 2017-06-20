@@ -86,7 +86,7 @@
           <goal>copy-resources</goal>
         </goals>
         <configuration>
-          <outputDirectory>${project.basedir}/../${env.buildlocation}/</outputDirectory>
+          <outputDirectory>${project.basedir}/../${env.buildlocation}/${project.artifactId}/</outputDirectory>
           <resources>         
             <resource>
               <directory>${project.basedir}</directory>
@@ -105,7 +105,7 @@
               <goal>copy-resources</goal>
             </goals>
             <configuration>
-              <outputDirectory>${project.basedir}/../${env.buildlocation}/</outputDirectory>
+              <outputDirectory>${project.basedir}/../${env.buildlocation}/${project.artifactId}/</outputDirectory>
               <resources>         
                 <resource>
                   <directory>${scac.output.dir}</directory>
