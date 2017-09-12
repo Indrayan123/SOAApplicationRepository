@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<schema attributeFormDefault="unqualified"
+	elementFormDefault="qualified"
+	targetNamespace="http://xmlns.oracle.com/SNIFndIntgIVPServices/FndIntgVisibiltyDataLookupIVP/FndIntgVisibiltyDataLookupIVP"
+	xmlns="http://www.w3.org/2001/XMLSchema">
+	<element name="process">
+		<complexType>
+			<sequence>
+				<element name="visibilityMessageTypeCode" type="string" minOccurs="0"/>
+        <element name="visibilityMessageId" type="string" minOccurs="0"/>
+        <element name="messageTrackingId" type="string" minOccurs="0"/>
+        <element name="numberOfMessages" type="string" minOccurs="0"/>
+        <element name="messageQualificationCode" type="string" minOccurs="0"/>
+        <element name="messageStageCode" type="string" minOccurs="0"/>
+        <element name="lobId" type="string" minOccurs="0"/>
+        <element name="receiverId" type="string" minOccurs="0"/>
+        <element name="senderId" type="string" minOccurs="0"/><element name="messageId" type="string" minOccurs="0"/>
+        <element name="searchValue1" type="string" minOccurs="0"/>
+        <element name="searchValue2" type="string" minOccurs="0"/>
+        <element name="searchValue3" type="string" minOccurs="0"/>
+        <element name="searchValue4" type="string" minOccurs="0"/>
+        <element name="searchValue5" type="string" minOccurs="0"/>
+        <element name="displayValue1" type="string" minOccurs="0"/>
+        <element name="displayValue2" type="string" minOccurs="0"/>
+        <element name="displayValue3" type="string" minOccurs="0"/>
+        <element name="displayValue4" type="string" minOccurs="0"/><element name="displayValue5" type="string" minOccurs="0"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="processResponse">
+		<complexType>
+			<sequence>
+				<element name="result" type="string"/>
+			</sequence>
+		</complexType>
+	</element>
+</schema>

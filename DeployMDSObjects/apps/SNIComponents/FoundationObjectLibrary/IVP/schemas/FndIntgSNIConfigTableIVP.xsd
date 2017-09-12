@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<schema attributeFormDefault="unqualified"
+	elementFormDefault="qualified"
+	targetNamespace="http://xmlns.oracle.com/SNIFndIntgIVPServices/FndIntgSNIConfigTableIVP/FndIntgSNIConfigTableIVP"
+	xmlns="http://www.w3.org/2001/XMLSchema" xmlns:SNICOnfigIVP="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1">
+  <import namespace='http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1' schemaLocation="SNIMap.xsd"/>
+	<element name="process">
+		<complexType>
+			<sequence>
+				<element name="appCode" type="string"/>
+        <element name="configTableName" type="string"/>
+        <element name="inputs" type="SNICOnfigIVP:SNIMapType"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="processResponse">
+		<complexType>
+			<sequence>
+				<element name="result" type="string"/>
+			</sequence>
+		</complexType>
+	</element>
+</schema>

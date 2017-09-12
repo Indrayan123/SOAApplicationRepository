@@ -1,0 +1,36 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="FndIntgFaultHandlingIVP"
+     targetNamespace="http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/FndIntgFaultHandlingIVP/FndIntgFaultHandlingIVP"
+     xmlns:ns1="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1"
+     xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:client="http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/FndIntgFaultHandlingIVP/FndIntgFaultHandlingIVP"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+    <plnk:partnerLinkType name="FndIntgFaultHandlingIVP">
+        <plnk:role name="FndIntgFaultHandlingIVPProvider">
+            <plnk:portType name="client:FndIntgFaultHandlingIVP"/>
+        </plnk:role>
+    </plnk:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/FndIntgFaultHandlingIVP/FndIntgFaultHandlingIVP"
+                 schemaLocation="oramds:/apps/SNIComponents/FoundationObjectLibrary/IVP/schemas/FndIntgFaultHandlingIVP.xsd"/>
+        </schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1" schemaLocation="oramds:/apps/SNIComponents/EnterpriseObjectLibrary/Core/Common/V1/SNICore.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="FndIntgFaultHandlingIVPRequestMessage">
+        <wsdl:part name="payload" element="client:process"/>
+    </wsdl:message>
+    <wsdl:message name="FndIntgFaultHandlingIVPResponseMessage">
+        <wsdl:part name="payload" element="client:processResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="FndIntgFaultHandlingIVP">
+        <wsdl:operation name="process">
+            <wsdl:input message="client:FndIntgFaultHandlingIVPRequestMessage"/>
+            <wsdl:output message="client:FndIntgFaultHandlingIVPResponseMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>
