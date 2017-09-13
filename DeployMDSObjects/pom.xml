@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>DeployMDSApplication</groupId>
+  <artifactId>DeployMDSObjects</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <description>Project for DeployMDSObjects</description>
+  <packaging>pom</packaging>
+  <build>    
+	<plugins>
+	<plugin>
+			<artifactId>maven-assembly-plugin</artifactId>
+			<version>2.4.1</version>
+			<configuration>			 
+				<finalName>MDSObjects</finalName>
+				<descriptors>
+					<descriptor>zip-assembly-descriptor.xml</descriptor>
+				</descriptors>
+			</configuration>
+			<executions>
+				<execution>
+					<id>make-assembly</id>
+					<phase>package</phase>
+					<goals>
+						<goal>single</goal>
+					</goals>
+				</execution>
+		     </executions>
+		</plugin>
+     <plugin>
+	    <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>1.6</version>
+		<configuration>
+
+              <target>                
+                <property name="serverURL" value="http://uxlab017:8001" />
+                <property name="user" value="wls_soa_admin"/>
+                <property name="password" value="tssisfb13" />
+                <property name="sarLocation" value="target/MDSObjects-Deploy.jar" />                
+                <ant antfile="/opt/oracle/middleware/soa/bin/ant-sca-deploy.xml"
+                     dir="/opt/oracle/middleware/soa/bin"
+                     target="deploy" />
+              </target>
+            </configuration>
+        <executions>                   
+          <execution>            
+            <phase>deploy</phase>                        
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+          
+        </executions>
+      </plugin>		
+    
+		</plugins>
+  </build>
+</project>
