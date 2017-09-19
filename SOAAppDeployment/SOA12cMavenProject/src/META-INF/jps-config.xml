@@ -10,8 +10,8 @@
          <property name="location" value="./"/>
       </serviceInstance>
    </serviceInstances>
-   <jpsContexts default="SOA12cMavenApp">
-      <jpsContext name="SOA12cMavenApp">
+   <jpsContexts default="SOAAppDeployment">
+      <jpsContext name="SOAAppDeployment">
          <serviceInstanceRef ref="credstore"/>
       </jpsContext>
    </jpsContexts>

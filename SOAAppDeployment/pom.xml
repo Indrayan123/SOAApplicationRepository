@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>SOA12cMavenApp</groupId>
-  <artifactId>SOA12cMavenApp</artifactId>
+  <groupId>SOAAppDeployment</groupId>
+  <artifactId>SOAAppDeployment</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <description>Super POM for SOA12cMavenApp</description>
+  <description>Super POM for SOAAppDeployment</description>
   <packaging>pom</packaging>
   
   <properties>

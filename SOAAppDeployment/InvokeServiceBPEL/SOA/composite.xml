@@ -11,16 +11,16 @@
            xmlns:orawsp="http://schemas.oracle.com/ws/2006/01/policy"
            xmlns:ui="http://xmlns.oracle.com/soa/designer/"
            xmlns:sca-ext="http://xmlns.oracle.com/sca/1.0-ext">
-  <import namespace="http://xmlns.schneider.com/SOA12cMavenApp/InvokeServiceBPEL/InvokeServiceBPEL"
+  <import namespace="http://xmlns.schneider.com/SOAAppDeployment/InvokeServiceBPEL/InvokeServiceBPEL"
           location="oramds:/apps/SNIComponents/FoundationServiceLibrary/SOA/Services/InvokeServiceBPEL.wsdl" importType="wsdl"/>
-  <import namespace="http://xmlns.oracle.com/SOA12cMavenApp/SOA12cMavenProject/SOASyncBPEL"
+  <import namespace="http://xmlns.oracle.com/SOAAppDeployment/SOA12cMavenProject/SOASyncBPEL"
           location="oramds:/apps/SNIComponents/FoundationServiceLibrary/SOA/Services/SOASyncBPEL.wsdl" importType="wsdl"/>
-  <import namespace="http://xmlns.oracle.com/SOA12cMavenApp/SOA12cMavenProject/SOASyncBPEL"
+  <import namespace="http://xmlns.oracle.com/SOAAppDeployment/SOA12cMavenProject/SOASyncBPEL"
           location="oramds:/apps/SNIComponents/FoundationServiceLibrary/SOA/Services/SOASyncBPEL.wsdl"
           importType="wsdl"/>
   <service name="invokeservicebpel_client_ep" ui:wsdlLocation="oramds:/apps/SNIComponents/FoundationServiceLibrary/SOA/Services/InvokeServiceBPEL.wsdl">
-    <interface.wsdl interface="http://xmlns.schneider.com/SOA12cMavenApp/InvokeServiceBPEL/InvokeServiceBPEL#wsdl.interface(InvokeServiceBPEL)"/>
-    <binding.ws port="http://xmlns.schneider.com/SOA12cMavenApp/InvokeServiceBPEL/InvokeServiceBPEL#wsdl.endpoint(invokeservicebpel_client_ep/InvokeServiceBPEL_pt)"/>
+    <interface.wsdl interface="http://xmlns.schneider.com/SOAAppDeployment/InvokeServiceBPEL/InvokeServiceBPEL#wsdl.interface(InvokeServiceBPEL)"/>
+    <binding.ws port="http://xmlns.schneider.com/SOAAppDeployment/InvokeServiceBPEL/InvokeServiceBPEL#wsdl.endpoint(invokeservicebpel_client_ep/InvokeServiceBPEL_pt)"/>
   </service>
   <property name="productVersion" type="xs:string" many="false">12.2.1.0.0.151013</property>
   <property name="compositeID" type="xs:string" many="false">070a163e-3548-41ac-b7cb-08ee2aee08bc</property>
@@ -28,18 +28,18 @@
     <implementation.bpel src="BPEL/InvokeServiceBPEL.bpel"/>
     <componentType>
       <service name="invokeservicebpel_client" ui:wsdlLocation="oramds:/apps/SNIComponents/FoundationServiceLibrary/SOA/Services/InvokeServiceBPEL.wsdl">
-        <interface.wsdl interface="http://xmlns.schneider.com/SOA12cMavenApp/InvokeServiceBPEL/InvokeServiceBPEL#wsdl.interface(InvokeServiceBPEL)"/>
+        <interface.wsdl interface="http://xmlns.schneider.com/SOAAppDeployment/InvokeServiceBPEL/InvokeServiceBPEL#wsdl.interface(InvokeServiceBPEL)"/>
       </service>
       <reference name="SOA12cProjectSvc"
                  ui:wsdlLocation="oramds:/apps/SNIComponents/FoundationServiceLibrary/SOA/Services/SOASyncBPEL.wsdl">
-        <interface.wsdl interface="http://xmlns.oracle.com/SOA12cMavenApp/SOA12cMavenProject/SOASyncBPEL#wsdl.interface(SOASyncBPEL)"/>
+        <interface.wsdl interface="http://xmlns.oracle.com/SOAAppDeployment/SOA12cMavenProject/SOASyncBPEL#wsdl.interface(SOASyncBPEL)"/>
       </reference>
     </componentType>
     <property name="bpel.config.transaction" type="xs:string" many="false">required</property>
   </component>
   <reference name="SOA12cProjectSvc" ui:wsdlLocation="oramds:/apps/SNIComponents/FoundationServiceLibrary/SOA/Services/SOASyncBPEL.wsdl">
-    <interface.wsdl interface="http://xmlns.oracle.com/SOA12cMavenApp/SOA12cMavenProject/SOASyncBPEL#wsdl.interface(SOASyncBPEL)"/>
-    <binding.ws port="http://xmlns.oracle.com/SOA12cMavenApp/SOA12cMavenProject/SOASyncBPEL#wsdl.endpoint(soasyncbpel_client_ep/SOASyncBPEL_pt)"
+    <interface.wsdl interface="http://xmlns.oracle.com/SOAAppDeployment/SOA12cMavenProject/SOASyncBPEL#wsdl.interface(SOASyncBPEL)"/>
+    <binding.ws port="http://xmlns.oracle.com/SOAAppDeployment/SOA12cMavenProject/SOASyncBPEL#wsdl.endpoint(soasyncbpel_client_ep/SOASyncBPEL_pt)"
                 location="http://161.222.54.217:80010/soa-infra/services/default/SOA12cMavenProject/soasyncbpel_client_ep?WSDL"
                 soapVersion="1.1">
       <property name="weblogic.wsee.wsat.transaction.flowOption" type="xs:string" many="false">WSDLDriven</property>

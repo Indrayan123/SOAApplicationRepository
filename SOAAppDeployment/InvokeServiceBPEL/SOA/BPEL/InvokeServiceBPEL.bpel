@@ -10,14 +10,14 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 -->
 <process name="InvokeServiceBPEL"
-               targetNamespace="http://xmlns.schneider.com/SOA12cMavenApp/InvokeServiceBPEL/InvokeServiceBPEL"
+               targetNamespace="http://xmlns.schneider.com/SOAAppDeployment/InvokeServiceBPEL/InvokeServiceBPEL"
                xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
-               xmlns:client="http://xmlns.schneider.com/SOA12cMavenApp/InvokeServiceBPEL/InvokeServiceBPEL"
+               xmlns:client="http://xmlns.schneider.com/SOAAppDeployment/InvokeServiceBPEL/InvokeServiceBPEL"
                xmlns:ora="http://schemas.oracle.com/xpath/extension"
                xmlns:ui="http://xmlns.oracle.com/soa/designer"
                xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
          xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
-         xmlns:ns1="http://xmlns.oracle.com/SOA12cMavenApp/SOA12cMavenProject/SOASyncBPEL"
+         xmlns:ns1="http://xmlns.oracle.com/SOAAppDeployment/SOA12cMavenProject/SOASyncBPEL"
          xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
          xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
          xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
@@ -29,7 +29,7 @@
          xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
          xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap">
 
-    <import ui:processWSDL="true" namespace="http://xmlns.schneider.com/SOA12cMavenApp/InvokeServiceBPEL/InvokeServiceBPEL" location="oramds:/apps/SNIComponents/FoundationServiceLibrary/SOA/Services/InvokeServiceBPEL.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import ui:processWSDL="true" namespace="http://xmlns.schneider.com/SOAAppDeployment/InvokeServiceBPEL/InvokeServiceBPEL" location="oramds:/apps/SNIComponents/FoundationServiceLibrary/SOA/Services/InvokeServiceBPEL.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
     <!-- 
       ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         PARTNERLINKS                                                      

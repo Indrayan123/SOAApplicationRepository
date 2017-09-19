@@ -10,9 +10,9 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 -->
 <process name="SOASyncBPEL"
-               targetNamespace="http://xmlns.oracle.com/SOA12cMavenApp/SOA12cMavenProject/SOASyncBPEL"
+               targetNamespace="http://xmlns.oracle.com/SOAAppDeployment/SOA12cMavenProject/SOASyncBPEL"
                xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
-               xmlns:client="http://xmlns.oracle.com/SOA12cMavenApp/SOA12cMavenProject/SOASyncBPEL"
+               xmlns:client="http://xmlns.oracle.com/SOAAppDeployment/SOA12cMavenProject/SOASyncBPEL"
                xmlns:ora="http://schemas.oracle.com/xpath/extension"
                xmlns:ui="http://xmlns.oracle.com/soa/designer"
                xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
@@ -28,7 +28,7 @@
          xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
          xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap">
 
-    <import ui:processWSDL="true" namespace="http://xmlns.oracle.com/SOA12cMavenApp/SOA12cMavenProject/SOASyncBPEL" location="oramds:/apps/SNIComponents/FoundationServiceLibrary/SOA/Services/SOASyncBPEL.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import ui:processWSDL="true" namespace="http://xmlns.oracle.com/SOAAppDeployment/SOA12cMavenProject/SOASyncBPEL" location="oramds:/apps/SNIComponents/FoundationServiceLibrary/SOA/Services/SOASyncBPEL.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
     <!-- 
       ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         PARTNERLINKS                                                      

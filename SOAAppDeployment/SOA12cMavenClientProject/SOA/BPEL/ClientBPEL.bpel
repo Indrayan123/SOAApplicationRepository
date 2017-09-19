@@ -10,16 +10,16 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 -->
 <process name="ClientBPEL"
-               targetNamespace="http://xmlns.schneider.com/SOA12cMavenApp/SOA12cMavenClientProject/ClientBPEL"
+               targetNamespace="http://xmlns.schneider.com/SOAAppDeployment/SOA12cMavenClientProject/ClientBPEL"
                xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
-               xmlns:client="http://xmlns.schneider.com/SOA12cMavenApp/SOA12cMavenClientProject/ClientBPEL"
+               xmlns:client="http://xmlns.schneider.com/SOAAppDeployment/SOA12cMavenClientProject/ClientBPEL"
                xmlns:ora="http://schemas.oracle.com/xpath/extension"
                xmlns:ui="http://xmlns.oracle.com/soa/designer"
                xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
          xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
-         xmlns:ns1="http://xmlns.schneider.com/SOA12cMavenApp/InvokeServiceBPEL/InvokeServiceBPEL">
+         xmlns:ns1="http://xmlns.schneider.com/SOAAppDeployment/InvokeServiceBPEL/InvokeServiceBPEL">
 
-    <import ui:processWSDL="true" namespace="http://xmlns.schneider.com/SOA12cMavenApp/SOA12cMavenClientProject/ClientBPEL" location="oramds:/apps/SNIComponents/FoundationServiceLibrary/SOA/Services/ClientBPEL.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import ui:processWSDL="true" namespace="http://xmlns.schneider.com/SOAAppDeployment/SOA12cMavenClientProject/ClientBPEL" location="oramds:/apps/SNIComponents/FoundationServiceLibrary/SOA/Services/ClientBPEL.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
     <!-- 
       ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         PARTNERLINKS                                                      

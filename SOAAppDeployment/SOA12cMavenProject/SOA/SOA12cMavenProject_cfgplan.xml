@@ -20,7 +20,7 @@
       <service name="soasyncbpel_client_ep">
          <binding type="ws">
             <attribute name="port">
-               <replace>http://xmlns.oracle.com/SOA12cMavenApp/SOA12cMavenProject/SOASyncBPEL#wsdl.endpoint(soasyncbpel_client_ep/SOASyncBPEL_pt)</replace>
+               <replace>http://xmlns.oracle.com/SOAAppDeployment/SOA12cMavenProject/SOASyncBPEL#wsdl.endpoint(soasyncbpel_client_ep/SOASyncBPEL_pt)</replace>
             </attribute>
          </binding>
       </service>

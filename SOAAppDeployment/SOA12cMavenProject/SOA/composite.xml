@@ -11,11 +11,11 @@
            xmlns:orawsp="http://schemas.oracle.com/ws/2006/01/policy"
            xmlns:ui="http://xmlns.oracle.com/soa/designer/"
            xmlns:sca-ext="http://xmlns.oracle.com/sca/1.0-ext">
-  <import namespace="http://xmlns.oracle.com/SOA12cMavenApp/SOA12cMavenProject/SOASyncBPEL"
+  <import namespace="http://xmlns.oracle.com/SOAAppDeployment/SOA12cMavenProject/SOASyncBPEL"
           location="oramds:/apps/SNIComponents/FoundationServiceLibrary/SOA/Services/SOASyncBPEL.wsdl" importType="wsdl"/>
   <service name="soasyncbpel_client_ep" ui:wsdlLocation="oramds:/apps/SNIComponents/FoundationServiceLibrary/SOA/Services/SOASyncBPEL.wsdl">
-    <interface.wsdl interface="http://xmlns.oracle.com/SOA12cMavenApp/SOA12cMavenProject/SOASyncBPEL#wsdl.interface(SOASyncBPEL)"/>
-    <binding.ws port="http://xmlns.oracle.com/SOA12cMavenApp/SOA12cMavenProject/SOASyncBPEL#wsdl.endpoint(soasyncbpel_client_ep/SOASyncBPEL_pt)"/>
+    <interface.wsdl interface="http://xmlns.oracle.com/SOAAppDeployment/SOA12cMavenProject/SOASyncBPEL#wsdl.interface(SOASyncBPEL)"/>
+    <binding.ws port="http://xmlns.oracle.com/SOAAppDeployment/SOA12cMavenProject/SOASyncBPEL#wsdl.endpoint(soasyncbpel_client_ep/SOASyncBPEL_pt)"/>
   </service>
   <property name="productVersion" type="xs:string" many="false">12.2.1.0.0.151013</property>
   <property name="compositeID" type="xs:string" many="false">0e0dd58f-6cb3-4d2f-8827-ca51019b2f9e</property>
@@ -23,7 +23,7 @@
     <implementation.bpel src="BPEL/SOASyncBPEL.bpel"/>
     <componentType>
       <service name="soasyncbpel_client" ui:wsdlLocation="oramds:/apps/SNIComponents/FoundationServiceLibrary/SOA/Services/SOASyncBPEL.wsdl">
-        <interface.wsdl interface="http://xmlns.oracle.com/SOA12cMavenApp/SOA12cMavenProject/SOASyncBPEL#wsdl.interface(SOASyncBPEL)"/>
+        <interface.wsdl interface="http://xmlns.oracle.com/SOAAppDeployment/SOA12cMavenProject/SOASyncBPEL#wsdl.interface(SOASyncBPEL)"/>
       </service>
     </componentType>
     <property name="bpel.config.transaction" type="xs:string" many="false">required</property>

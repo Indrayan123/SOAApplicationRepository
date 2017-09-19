@@ -20,7 +20,7 @@
       <service name="invokeservicebpel_client_ep">
          <binding type="ws">
             <attribute name="port">
-               <replace>http://xmlns.schneider.com/SOA12cMavenApp/InvokeServiceBPEL/InvokeServiceBPEL#wsdl.endpoint(invokeservicebpel_client_ep/InvokeServiceBPEL_pt)</replace>
+               <replace>http://xmlns.schneider.com/SOAAppDeployment/InvokeServiceBPEL/InvokeServiceBPEL#wsdl.endpoint(invokeservicebpel_client_ep/InvokeServiceBPEL_pt)</replace>
             </attribute>
          </binding>
       </service>
@@ -45,7 +45,7 @@
          <!--Add search and replace rules for the binding properties-->
          <binding type="ws">
             <attribute name="port">
-               <replace>http://xmlns.oracle.com/SOA12cMavenApp/SOA12cMavenProject/SOASyncBPEL#wsdl.endpoint(soasyncbpel_client_ep/SOASyncBPEL_pt)</replace>
+               <replace>http://xmlns.oracle.com/SOAAppDeployment/SOA12cMavenProject/SOASyncBPEL#wsdl.endpoint(soasyncbpel_client_ep/SOASyncBPEL_pt)</replace>
             </attribute>
             <attribute name="location">
                <replace>${serverURL}/soa-infra/services/default/SOA12cMavenProject/soasyncbpel_client_ep?WSDL</replace>
