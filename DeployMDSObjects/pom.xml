@@ -6,7 +6,11 @@
   <version>1.0-SNAPSHOT</version>
   <description>Project for DeployMDSObjects</description>
   <packaging>pom</packaging>
-
+<properties>
+  <serverURL>${env.weblogicurl}</serverURL>
+  <user>${env.weblogicuname}</user>
+  <password>${env.weblogicpwd}</password>  
+  </properties>
   <build>    
 	<plugins>
 	<plugin>
@@ -37,10 +41,8 @@
         <version>1.6</version>
 		<configuration>
 
-              <target>                
-                <property name="serverURL" value="http://uxlab017:8010" />
-                <property name="user" value="weblogic"/>
-                <property name="password" value="weblogic1" />
+              <target>               
+                
                 <property name="sarLocation" value="target/MDSObjects-Deploy.jar" />                
                 <ant antfile="/opt/oracle/middleware/soa/bin/ant-sca-deploy.xml"
                      dir="/opt/oracle/middleware/soa/bin"
