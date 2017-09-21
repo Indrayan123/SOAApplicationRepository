@@ -8,9 +8,9 @@
   <packaging>pom</packaging>
   
   <properties>
-  <serverURL>${env.weblogicurl}</serverURL>
-  <user>${env.weblogicuname}</user>
-  <password>${env.weblogicpwd}</password>  
+  <serverURL>${serverURL}</serverURL>
+  <user>${user}</user>
+  <password>${soapassword}</password>  
   </properties>
   <parent>
     <groupId>com.oracle.adf</groupId>
