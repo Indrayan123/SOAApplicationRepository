@@ -7,9 +7,9 @@
   <description>Project for DeployMDSObjects</description>
   <packaging>pom</packaging>
 <properties>
-  <serverURL>${env.weblogicurl}</serverURL>
-  <user>${env.weblogicuname}</user>
-  <password>${env.weblogicpwd}</password>  
+  <serverURL>${env.soaurl}</serverURL>
+  <user>${env.soauser}</user>
+  <password>${env.soapass}</password>  
   </properties>
   <build>    
 	<plugins>
