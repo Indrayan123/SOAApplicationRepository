@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions name="FndIntgUMSMailPushNotificationIVP" targetNamespace="http://xmlns.schneider.com/SNIFndIntgIVPServices/FndIntgUMSMailProcessIVP/FndIntgUMSMailPushNotificationIVP" xmlns:ns1="http://schemas.oracle.com/bpel/extension" xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:client="http://xmlns.schneider.com/SNIFndIntgIVPServices/FndIntgUMSMailProcessIVP/FndIntgUMSMailPushNotificationIVP" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+   <plnk:partnerLinkType name="FndIntgUMSMailPushNotificationIVP">
+      <plnk:role name="FndIntgUMSMailPushNotificationIVPProvider">
+         <plnk:portType name="client:FndIntgUMSMailPushNotificationIVP"/>
+      </plnk:role>
+   </plnk:partnerLinkType>
+   <wsdl:import namespace="http://schemas.oracle.com/bpel/extension" location="oramds:/soa/shared/bpel/RuntimeFault.wsdl"/>
+   <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema">
+         <import namespace="http://xmlns.schneider.com/SNIFndIntgIVPServices/FndIntgUMSMailProcessIVP/FndIntgUMSMailPushNotificationIVP" schemaLocation="oramds:/apps/SNIComponents/FoundationObjectLibrary/IVP/schemas/FndIntgUMSMailPushNotificationIVP.xsd"/>
+      </schema>
+   </wsdl:types>
+   <wsdl:message name="FndIntgUMSMailPushNotificationIVPRequestMessage">
+      <wsdl:part name="payload" element="client:process"/>
+   </wsdl:message>
+   <wsdl:message name="FndIntgUMSMailPushNotificationIVPResponseMessage">
+      <wsdl:part name="payload" element="client:processResponse"/>
+   </wsdl:message>
+   <wsdl:portType name="FndIntgUMSMailPushNotificationIVP">
+      <wsdl:operation name="process">
+         <wsdl:input message="client:FndIntgUMSMailPushNotificationIVPRequestMessage"/>
+         <wsdl:output message="client:FndIntgUMSMailPushNotificationIVPResponseMessage"/>
+      </wsdl:operation>
+   </wsdl:portType>
+</wsdl:definitions>

@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions name="FndIntgUOOQueuePublisherIVP" targetNamespace="http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/FndIntgUOOQueuePublisherIVP/FndIntgUOOQueuePublisherIVP" xmlns:ns1="http://xmlns.schneider.com/FoundationObjects/CrossRef/V1" xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:client="http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/FndIntgUOOQueuePublisherIVP/FndIntgUOOQueuePublisherIVP" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+   <plnk:partnerLinkType name="FndIntgUOOQueuePublisherIVP">
+      <plnk:role name="FndIntgUOOQueuePublisherIVPProvider">
+         <plnk:portType name="client:FndIntgUOOQueuePublisherIVP"/>
+      </plnk:role>
+   </plnk:partnerLinkType>
+   <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://xmlns.schneider.com/FoundationObjects/CrossRef/V1" xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:client="http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/FndIntgUOOQueuePublisherIVP/FndIntgUOOQueuePublisherIVP" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+         <import namespace="http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/FndIntgUOOQueuePublisherIVP/FndIntgUOOQueuePublisherIVP" schemaLocation="oramds:/apps/SNIComponents/FoundationObjectLibrary/IVP/schemas/FndIntgUOOQueuePublisherIVP.xsd"/>
+      </schema>
+      <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://xmlns.schneider.com/FoundationObjects/CrossRef/V1" xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:client="http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/FndIntgUOOQueuePublisherIVP/FndIntgUOOQueuePublisherIVP" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+         <xsd:import namespace="http://xmlns.schneider.com/FoundationObjects/CrossRef/V1" schemaLocation="oramds:/apps/SNIComponents/FoundationObjectLibrary/CrossRef/CrossRef.xsd"/>
+      </xsd:schema>
+   </wsdl:types>
+   <wsdl:message name="FndIntgUOOQueuePublisherIVPResponseMessage">
+      <wsdl:part name="payload" element="client:processResponse"/>
+   </wsdl:message>
+   <wsdl:message name="FndIntgUOOQueuePublisherIVPRequestMessage">
+      <wsdl:part name="payload" element="ns1:LookupXrefRequest"/>
+   </wsdl:message>
+   <wsdl:portType name="FndIntgUOOQueuePublisherIVP">
+      <wsdl:operation name="process">
+         <wsdl:input message="client:FndIntgUOOQueuePublisherIVPRequestMessage"/>
+         <wsdl:output message="client:FndIntgUOOQueuePublisherIVPResponseMessage"/>
+      </wsdl:operation>
+   </wsdl:portType>
+</wsdl:definitions>

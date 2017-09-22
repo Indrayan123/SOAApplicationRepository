@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<schema attributeFormDefault="unqualified"
+	elementFormDefault="qualified"
+	targetNamespace="http://xmlns.oracle.com/SNIFndIntgIVPServices/FndIntgBCSLookupIVP/FndIntgBCSLookupIVP"
+	xmlns="http://www.w3.org/2001/XMLSchema">
+	<element name="process">
+		<complexType>
+			<sequence>
+				<element name="messageType" type="string"  minOccurs="0"/>
+        <element name="translationRuleCode" type="string" minOccurs="0"/>
+        <element name="systemCode" type="string" minOccurs="0"/>
+        <element name="qualifier" type="string" minOccurs="0"/>
+        <element name="subQualifier" type="string" minOccurs="0"/>
+        <element name="messageDirection" type="string" minOccurs="0"/>
+        <element name="messageID" type="string" minOccurs="0"/>
+        <element name="fromValue1" type="string" minOccurs="0"/>
+        <element name="fromValue2" type="string" minOccurs="0"/>
+        <element name="fromValue3" type="string" minOccurs="0"/>
+        <element name="searchType" type="string" minOccurs="0"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="processResponse">
+		<complexType>
+			<sequence>
+				<element name="result" type="string"/>
+			</sequence>
+		</complexType>
+	</element>
+</schema>

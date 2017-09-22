@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="SyncCreateAddressProcess"
+             targetNamespace="http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/FndIntgBPELMediatorCompositeIVP/SyncCreateAddressProcess"
+             xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:client="http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/FndIntgBPELMediatorCompositeIVP/SyncCreateAddressProcess"
+             xmlns:ns1="http://xmlns.schneider.com/FoundationObjects/IVP/schemas"
+             xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/">
+
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	TYPE DEFINITION - List of services participating in this BPEL process
+	The default output of the BPEL designer uses strings as input and 
+	output to the BPEL Process. But you can define or import any XML 
+	Schema type and use them as part of the message types.
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->   
+	<wsdl:types>
+		
+		<schema xmlns="http://www.w3.org/2001/XMLSchema">
+			<import namespace="http://xmlns.schneider.com/FoundationObjects/IVP/schemas" schemaLocation="oramds:/apps/SNIComponents/FoundationObjectLibrary/IVP/schemas/SimpleObjects.xsd" />
+		</schema>
+	</wsdl:types>
+
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	MESSAGE TYPE DEFINITION - Definition of the message types used as 
+	part of the port type defintions
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->      
+	<wsdl:message name="SyncCreateAddressProcessRequestMessage">
+		<wsdl:part name="payload" element="ns1:CreateAddressRequestMessage" />
+	</wsdl:message>
+	<wsdl:message name="SyncCreateAddressProcessResponseMessage">
+		<wsdl:part name="payload" element="ns1:CreateAddressResponseMessage"/>
+	</wsdl:message>
+
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	PORT TYPE DEFINITION - A port type groups a set of operations into
+	a logical service unit.
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+	<!-- portType implemented by the SyncCreateAddressProcess BPEL process -->
+	<wsdl:portType name="SyncCreateAddressProcess">
+		<wsdl:operation name="process">
+			<wsdl:input  message="client:SyncCreateAddressProcessRequestMessage" />
+			<wsdl:output message="client:SyncCreateAddressProcessResponseMessage"/>
+		</wsdl:operation>
+	</wsdl:portType>
+
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	PARTNER LINK TYPE DEFINITION
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ --> 
+	<plnk:partnerLinkType name="SyncCreateAddressProcess">
+		<plnk:role name="SyncCreateAddressProcessProvider">
+			<plnk:portType name="client:SyncCreateAddressProcess"/>
+		</plnk:role>
+	</plnk:partnerLinkType>
+</wsdl:definitions>

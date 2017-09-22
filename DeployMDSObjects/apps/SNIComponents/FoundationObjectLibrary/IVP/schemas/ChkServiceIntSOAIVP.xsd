@@ -1,0 +1,58 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://xmlns.schneider.com/SNIFndIntgIVPServices/ChkServiceIntSOAIVP"
+     xmlns="http://xmlns.schneider.com/SNIFndIntgIVPServices/ChkServiceIntSOAIVP" targetNamespace="http://xmlns.schneider.com/SNIFndIntgIVPServices/ChkServiceIntSOAIVP"
+     elementFormDefault="qualified">
+    <xsd:element name="Input">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="ValidateServiceIntReq" type="tns:FndIntgValidateServiceIntIVPReq" minOccurs="1"
+                     maxOccurs="1"/>
+                <xsd:element name="Err_Msg_Length" type="xsd:double"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="Output">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="ValidateServiceIntRes" type="tns:FndIntgValidateServiceIntIVPRes" minOccurs="1"
+                     maxOccurs="1"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:complexType name="FndIntgValidateServiceIntIVPReq">
+        <xsd:sequence>
+            <xsd:element name="fndintglargepayloadBRivp" type="xsd:string"/>
+            <xsd:element name="fndintgsimpleBRivp" type="xsd:string"/>
+            <xsd:element name="fndintgbipivp" type="xsd:string"/>
+            <xsd:element name="fndintgbpelmediatorcompositeivp" type="xsd:string"/>
+            <xsd:element name="fndintgmediatortoexternalbpelivp" type="xsd:string"/>
+            <xsd:element name="fndintgasyncTosyncivp" type="xsd:string"/>
+            <xsd:element name="fndintgsynctToonewayivp" type="xsd:string"/> 
+			<xsd:element name="fndintgsoatoosbintgivp" type="xsd:string"/>			
+            <xsd:element name="fndintgumsmailprocessivp" type="xsd:string"/>
+            <xsd:element name="fndintgodiivp" type="xsd:string"/>
+            <xsd:element name="fndintghumantaskivp" type="xsd:string"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="FndIntgValidateServiceIntIVPRes">
+        <xsd:sequence>
+            <xsd:element name="fndintglargepayloadBRivp" type="tns:ResponseType"/>
+            <xsd:element name="fndintgsimpleBRivp" type="tns:ResponseType"/>
+            <xsd:element name="fndintgbipivp" type="tns:ResponseType"/>
+            <xsd:element name="fndintgbpelmediatorcompositeivp" type="tns:ResponseType"/>
+            <xsd:element name="fndintgmediatortoexternalbpelivp" type="tns:ResponseType"/>
+            <xsd:element name="fndintgasyncTosyncivp" type="tns:ResponseType"/>
+            <xsd:element name="fndintgsynctToonewayivp" type="tns:ResponseType"/>  
+<xsd:element name="fndintgsoatoosbintgivp" type="tns:ResponseType"/>  			
+            <xsd:element name="fndintgumsmailprocessivp" type="tns:ResponseType"/>
+            <xsd:element name="fndintgodiivp" type="tns:ResponseType"/>
+            <xsd:element name="fndintghumantaskivp" type="tns:ResponseType"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ResponseType">
+        <xsd:sequence>
+            <xsd:element name="Status" type="xsd:string"/>
+            <xsd:element name="AdditionalNote" type="xsd:string" minOccurs="0"/>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

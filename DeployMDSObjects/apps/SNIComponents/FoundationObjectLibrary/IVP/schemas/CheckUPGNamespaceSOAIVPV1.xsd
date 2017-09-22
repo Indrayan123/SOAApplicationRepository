@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='windows-1252'?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/UPG/CheckUPGNamespaceSOAIVP/V1" targetNamespace="http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/UPG/CheckUPGNamespaceSOAIVP/V1" xmlns:V2="http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/UPG/CheckUPGNamespaceSOAIVP/V2" elementFormDefault="qualified">
+   <xsd:import namespace="http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/UPG/CheckUPGNamespaceSOAIVP/V2" schemaLocation="oramds:/apps/SNIComponents/FoundationObjectLibrary/IVP/schemas/CheckUPGNamespaceSOAIVPV2.xsd"/>
+   <xsd:element name="Input" type="RequestInputType"/>
+   <xsd:element name="Output" type="ResponseOutputType"/>
+   <xsd:complexType name="RequestInputType">
+      <xsd:sequence>
+         <xsd:element name="Request" type="V2:CustomRequestType"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="ResponseOutputType">
+      <xsd:sequence>
+         <xsd:element name="Response" type="V2:CustomResponseType"/>
+      </xsd:sequence>
+   </xsd:complexType>
+</xsd:schema>

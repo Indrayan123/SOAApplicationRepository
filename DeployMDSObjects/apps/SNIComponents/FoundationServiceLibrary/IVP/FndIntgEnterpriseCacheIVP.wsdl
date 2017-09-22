@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="FndIntgEnterpriseCacheIVP"
+             targetNamespace="http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/FndIntgEnterpriseCacheIVP/FndIntgEnterpriseCacheIVP"
+             xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:client="http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/FndIntgEnterpriseCacheIVP/FndIntgEnterpriseCacheIVP"
+             xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/">
+
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	TYPE DEFINITION - List of services participating in this BPEL process
+	The default output of the BPEL designer uses strings as input and 
+	output to the BPEL Process. But you can define or import any XML 
+	Schema type and use them as part of the message types.
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->   
+	<wsdl:types>
+		<schema xmlns="http://www.w3.org/2001/XMLSchema">
+			<import namespace="http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/FndIntgEnterpriseCacheIVP/FndIntgEnterpriseCacheIVP" schemaLocation="oramds:/apps/SNIComponents/FoundationObjectLibrary/IVP/schemas/FndIntgEnterpriseCacheIVP.xsd" />
+		</schema>
+	</wsdl:types>
+
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	MESSAGE TYPE DEFINITION - Definition of the message types used as 
+	part of the port type defintions
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->      
+	<wsdl:message name="FndIntgEnterpriseCacheIVPRequestMessage">
+		<wsdl:part name="payload" element="client:process"/>
+	</wsdl:message>
+	<wsdl:message name="FndIntgEnterpriseCacheIVPResponseMessage">
+		<wsdl:part name="payload" element="client:processResponse"/>
+	</wsdl:message>
+
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	PORT TYPE DEFINITION - A port type groups a set of operations into
+	a logical service unit.
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+	<!-- portType implemented by the FndIntgEnterpriseCacheIVP BPEL process -->
+	<wsdl:portType name="FndIntgEnterpriseCacheIVP">
+		<wsdl:operation name="process">
+			<wsdl:input  message="client:FndIntgEnterpriseCacheIVPRequestMessage" />
+			<wsdl:output message="client:FndIntgEnterpriseCacheIVPResponseMessage"/>
+		</wsdl:operation>
+	</wsdl:portType>
+
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	PARTNER LINK TYPE DEFINITION
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ --> 
+	<plnk:partnerLinkType name="FndIntgEnterpriseCacheIVP">
+		<plnk:role name="FndIntgEnterpriseCacheIVPProvider">
+			<plnk:portType name="client:FndIntgEnterpriseCacheIVP"/>
+		</plnk:role>
+	</plnk:partnerLinkType>
+</wsdl:definitions>

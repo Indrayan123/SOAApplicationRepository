@@ -1,0 +1,56 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="FndIntgUpgTestSyncService"
+     targetNamespace="http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/FndIntgUPGCheckDynamicPatnerlinkFaultIVP/FndIntgUpgTestSyncService"
+     xmlns:ns2="http://schemas.xmlsoap.org/ws/2003/03/addressing"
+     xmlns:ns1="http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/UPG/FndIntgUpgTestSyncService"
+     xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:ns3="http://xmlns.oracle.com/xdb/B2B"
+     xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+     xmlns:client="http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/FndIntgUPGCheckDynamicPatnerlinkFaultIVP/FndIntgUpgTestSyncService"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+    <plnk:partnerLinkType name="FndIntgUpgTestSyncService">
+        <plnk:role name="FndIntgUpgTestSyncServiceProvider">
+            <plnk:portType name="client:FndIntgUpgTestSyncService"/>
+        </plnk:role>
+    </plnk:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/UPG/FndIntgUpgTestSyncService"
+                 schemaLocation="oramds:/apps/SNIComponents/FoundationObjectLibrary/IVP/schemas/FndIntgUpgTestSyncService.xsd"/>
+        </schema>        
+    </wsdl:types>
+    <wsdl:message name="FndIntgUpgTestSyncServiceRequestMessage">
+        <wsdl:part name="payload" element="ns1:process"/>
+    </wsdl:message>
+    <wsdl:message name="FndIntgUpgTestSyncServiceResponseMessage">
+        <wsdl:part name="payload" element="ns1:processResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="FndIntgUpgTestSyncService">
+        <wsdl:operation name="process">
+            <wsdl:input message="client:FndIntgUpgTestSyncServiceRequestMessage"/>
+            <wsdl:output message="client:FndIntgUpgTestSyncServiceResponseMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+	<wsdl:binding name="FndIntgUpgTestSyncServiceBinding" type="client:FndIntgUpgTestSyncService">
+<soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+<wsdl:operation name="process">
+<soap:operation style="document" soapAction="process"/>
+<wsdl:input>
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output>
+<soap:body use="literal"/>
+</wsdl:output>
+<wsdl:fault name="SNIFault">
+<soap:fault name="SNIFault" use="literal"/>
+</wsdl:fault>
+</wsdl:operation>
+</wsdl:binding>
+<wsdl:service name="fndintgupgtestsyncservice_client_ep">
+<wsdl:port name="FndIntgUpgTestSyncService_pt" binding="client:FndIntgUpgTestSyncServiceBinding">
+<soap:address location="http://NoSuchEndPoint"/>
+</wsdl:port>
+</wsdl:service>
+</wsdl:definitions>

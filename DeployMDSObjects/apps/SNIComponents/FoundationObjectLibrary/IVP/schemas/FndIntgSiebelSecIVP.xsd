@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<xsd:schema attributeFormDefault="unqualified"
+	elementFormDefault="qualified"
+        xmlns:tns="http://xmlns.schneider.com/SNIFndIntgIVPServices/FndIntgSiebelSecIVP/FndIntgSiebelSecIVP"
+	targetNamespace="http://xmlns.schneider.com/SNIFndIntgIVPServices/FndIntgSiebelSecIVP/FndIntgSiebelSecIVP"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<xsd:element name="Revisions_Input">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element ref="tns:ListOfSniOrderRevisions"/>
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="ProcessResponse" type="xsd:string"/>   
+         
+          <xsd:element name="ListOfSniOrderRevisions"
+                      type="tns:ListOfSniOrderRevisionsData"/>
+         <xsd:complexType name="ListOfSniOrderRevisionsTopElmtData">
+            <xsd:sequence>
+               <xsd:element name="ListOfSniOrderRevisions" maxOccurs="1"
+                            minOccurs="1"
+                            type="tns:ListOfSniOrderRevisionsData"/>
+            </xsd:sequence>
+         </xsd:complexType>
+         <xsd:complexType name="ListOfSniOrderRevisionsData">
+            <xsd:sequence>
+               <xsd:element name="SniOrderLineItem-Billing" type="tns:SniOrderLineItem-BillingData"
+                            maxOccurs="unbounded" minOccurs="1"/>
+            </xsd:sequence>
+            <xsd:attribute name="lastpage" type="xsd:boolean"/>
+            <xsd:attribute name="recordcount" type="xsd:integer"/>
+         </xsd:complexType>
+       
+         <xsd:complexType name="SniOrderLineItem-BillingData">
+            <xsd:sequence>
+               <xsd:element name="SNIBatchNum" maxOccurs="1" minOccurs="0"
+                            type="xsd:string"/>
+               <xsd:element name="SNIInvoiceGroupKey" maxOccurs="1"
+                            minOccurs="0" type="xsd:string"/>
+               <xsd:element name="SNIOrderActiveStatus" maxOccurs="1"
+                            minOccurs="0" type="xsd:string"/>
+               <xsd:element name="SNIOrderHeaderId" maxOccurs="1" minOccurs="0"
+                            type="xsd:string"/>
+            </xsd:sequence>
+         </xsd:complexType>
+</xsd:schema>

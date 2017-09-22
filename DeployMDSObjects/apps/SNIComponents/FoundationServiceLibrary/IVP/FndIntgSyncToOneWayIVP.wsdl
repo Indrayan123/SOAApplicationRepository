@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions name="FndIntgSyncToOneWayIVP" targetNamespace="http://xmlns.schneider.com/SNIFndIntgIVPServices/FndIntgSyncToOneWayIVP/FndIntgSyncToOneWayIVP" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:client="http://xmlns.schneider.com/SNIFndIntgIVPServices/FndIntgSyncToOneWayIVP/FndIntgSyncToOneWayIVP" xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/">
+   <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema">
+         <import namespace="http://xmlns.schneider.com/SNIFndIntgIVPServices/FndIntgSyncToOneWayIVP/FndIntgSyncToOneWayIVP" schemaLocation="oramds:/apps/SNIComponents/FoundationObjectLibrary/IVP/schemas/FndIntgSyncToOneWayIVP.xsd"/>
+      </schema>
+   </wsdl:types>
+   <wsdl:message name="FndIntgSyncToOneWayIVPRequestMessage">
+      <wsdl:part name="payload" element="client:process"/>
+   </wsdl:message>
+   <wsdl:message name="FndIntgSyncToOneWayIVPResponseMessage">
+      <wsdl:part name="payload" element="client:processResponse"/>
+   </wsdl:message>
+   <wsdl:portType name="FndIntgSyncToOneWayIVP">
+      <wsdl:operation name="process">
+         <wsdl:input message="client:FndIntgSyncToOneWayIVPRequestMessage"/>
+         <wsdl:output message="client:FndIntgSyncToOneWayIVPResponseMessage"/>
+      </wsdl:operation>
+   </wsdl:portType>
+   <plnk:partnerLinkType name="FndIntgSyncToOneWayIVP">
+      <plnk:role name="FndIntgSyncToOneWayIVPProvider">
+         <plnk:portType name="client:FndIntgSyncToOneWayIVP"/>
+      </plnk:role>
+   </plnk:partnerLinkType>
+</wsdl:definitions>

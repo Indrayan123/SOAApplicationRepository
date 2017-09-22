@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions name="FndIntgHumanTaskStatusUpdate" targetNamespace="http://xmlns.oracle.com/SOA_Application1/FndIntgHumanTaskIVP/FndIntgHumanTaskStatusUpdate" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:client="http://xmlns.oracle.com/SOA_Application1/FndIntgHumanTaskIVP/FndIntgHumanTaskStatusUpdate" xmlns:ns1="http://xmlns.schneider.com/EnterpriseObjects/Common/HumanTask/V1" xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/">
+   <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema">
+         <import namespace="http://xmlns.schneider.com/EnterpriseObjects/Common/HumanTask/V1" schemaLocation="oramds:/apps/SNIComponents/EnterpriseObjectLibrary/Common/HumanTask/V1/HumanTaskInfoEBM.xsd"/>
+      </schema>
+   </wsdl:types>
+   <wsdl:message name="FndIntgHumanTaskStatusUpdateRequestMessage">
+      <wsdl:part name="payload" element="ns1:ManageHumanTaskRequest"/>
+   </wsdl:message>
+   <wsdl:portType name="FndIntgHumanTaskStatusUpdate">
+      <wsdl:operation name="process">
+         <wsdl:input message="client:FndIntgHumanTaskStatusUpdateRequestMessage"/>
+      </wsdl:operation>
+   </wsdl:portType>
+   <plnk:partnerLinkType name="FndIntgHumanTaskStatusUpdate">
+      <plnk:role name="FndIntgHumanTaskStatusUpdateProvider">
+         <plnk:portType name="client:FndIntgHumanTaskStatusUpdate"/>
+      </plnk:role>
+   </plnk:partnerLinkType>
+</wsdl:definitions>

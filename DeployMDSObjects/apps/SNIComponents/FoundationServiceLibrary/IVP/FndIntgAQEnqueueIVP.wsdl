@@ -1,0 +1,34 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="FndIntgAQEnqueueIVP"
+     targetNamespace="http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/FndIntgAQEnqueueIVP/FndIntgAQEnqueueIVP"
+     xmlns:ns1="http://www.globalcompany.com/ns/sales"
+     xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:client="http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/FndIntgAQEnqueueIVP/FndIntgAQEnqueueIVP"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+    <plnk:partnerLinkType name="FndIntgAQEnqueueIVP">
+        <plnk:role name="FndIntgAQEnqueueIVPProvider">
+            <plnk:portType name="client:FndIntgAQEnqueueIVP"/>
+        </plnk:role>
+    </plnk:partnerLinkType>
+    <wsdl:import namespace="http://www.globalcompany.com/ns/sales" location="oramds:/apps/SNIComponents/FoundationServiceLibrary/IVP/FndIntgAQAdapter.wsdl"/>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/FndIntgAQEnqueueIVP/FndIntgAQEnqueueIVP"
+                 schemaLocation="oramds:/apps/SNIComponents/FoundationObjectLibrary/IVP/schemas/FndIntgAQEnqueueIVP.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="FndIntgAQEnqueueIVPResponseMessage">
+        <wsdl:part name="payload" element="client:processResponse"/>
+    </wsdl:message>
+    <wsdl:message name="FndIntgAQEnqueueIVPRequestMessage">
+        <wsdl:part name="payload" element="ns1:test"/>
+    </wsdl:message>
+    <wsdl:portType name="FndIntgAQEnqueueIVP">
+        <wsdl:operation name="process">
+            <wsdl:input message="client:FndIntgAQEnqueueIVPRequestMessage"/>
+            <wsdl:output message="client:FndIntgAQEnqueueIVPResponseMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

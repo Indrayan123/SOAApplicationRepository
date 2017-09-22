@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions name="FndIntgBIPIVP" targetNamespace="http://xmlns.oracle.com/SNIFndIntgIVPServices/FndIntgBIPIVP/FndIntgBIPIVP" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:client="http://xmlns.oracle.com/SNIFndIntgIVPServices/FndIntgBIPIVP/FndIntgBIPIVP" xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/">
+   <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema">
+         <import namespace="http://xmlns.oracle.com/SNIFndIntgIVPServices/FndIntgBIPIVP/FndIntgBIPIVP" schemaLocation="oramds:/apps/SNIComponents/FoundationObjectLibrary/IVP/schemas/FndIntgBIPIVP.xsd"/>
+      </schema>
+   </wsdl:types>
+   <wsdl:message name="FndIntgBIPIVPRequestMessage">
+      <wsdl:part name="payload" element="client:process"/>
+   </wsdl:message>
+   <wsdl:message name="FndIntgBIPIVPResponseMessage">
+      <wsdl:part name="payload" element="client:processResponse"/>
+   </wsdl:message>
+   <wsdl:portType name="FndIntgBIPIVP">
+      <wsdl:operation name="process">
+         <wsdl:input message="client:FndIntgBIPIVPRequestMessage"/>
+      </wsdl:operation>
+   </wsdl:portType>
+   <wsdl:portType name="FndIntgBIPIVPCallback">
+      <wsdl:operation name="processResponse">
+         <wsdl:input message="client:FndIntgBIPIVPResponseMessage"/>
+      </wsdl:operation>
+   </wsdl:portType>
+   <plnk:partnerLinkType name="FndIntgBIPIVP">
+      <plnk:role name="FndIntgBIPIVPProvider">
+         <plnk:portType name="client:FndIntgBIPIVP"/>
+      </plnk:role>
+      <plnk:role name="FndIntgBIPIVPRequester">
+         <plnk:portType name="client:FndIntgBIPIVPCallback"/>
+      </plnk:role>
+   </plnk:partnerLinkType>
+</wsdl:definitions>

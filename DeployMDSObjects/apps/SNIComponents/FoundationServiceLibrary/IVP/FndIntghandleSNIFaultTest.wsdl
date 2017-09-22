@@ -1,0 +1,36 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="FndIntghandleSNIFaultTest"
+     targetNamespace="http://xmlns.oracle.com/c88525Test_jws/FndIntgHandleSNIFaultIVP/FndIntghandleSNIFaultTest"
+     xmlns:ns1="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1"
+     xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:client="http://xmlns.oracle.com/c88525Test_jws/FndIntgHandleSNIFaultIVP/FndIntghandleSNIFaultTest"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+    <plnk:partnerLinkType name="FndIntghandleSNIFaultTest">
+        <plnk:role name="FndIntghandleSNIFaultTestProvider">
+            <plnk:portType name="client:FndIntghandleSNIFaultTest"/>
+        </plnk:role>       
+    </plnk:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.oracle.com/c88525Test_jws/FndIntgHandleSNIFaultIVP/FndIntghandleSNIFaultTest"
+                 schemaLocation="oramds:/apps/SNIComponents/FoundationObjectLibrary/IVP/schemas/FndIntghandleSNIFaultTest.xsd"/>
+        </schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1" schemaLocation="oramds:/apps/SNIComponents/EnterpriseObjectLibrary/Core/Common/V1/SNICore.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="FndIntghandleSNIFaultTestRequestMessage">
+        <wsdl:part name="payload" element="client:process"/>
+    </wsdl:message>
+    <wsdl:message name="FndIntghandleSNIFaultTestResponseMessage">
+        <wsdl:part name="payload" element="client:processResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="FndIntghandleSNIFaultTest">
+        <wsdl:operation name="process">
+            <wsdl:input message="client:FndIntghandleSNIFaultTestRequestMessage"/>
+            <wsdl:output message="client:FndIntghandleSNIFaultTestResponseMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>    
+</wsdl:definitions>

@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions name="FndIntgAQEnQIVP" targetNamespace="http://xmlns.schneider.com/SNIFndIntgIVPServices/FndIntgAQEnQIVP/FndIntgAQEnQIVP" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns1="http://www.globalcompany.com/ns/sales" xmlns:client="http://xmlns.schneider.com/SNIFndIntgIVPServices/FndIntgAQEnQIVP/FndIntgAQEnQIVP" xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/">
+   <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema">
+         <import namespace="http://www.globalcompany.com/ns/sales" schemaLocation="oramds:/apps/SNIComponents/FoundationObjectLibrary/IVP/schemas/test.xsd"/>
+         <import namespace="http://xmlns.schneider.com/SNIFndIntgIVPServices/FndIntgAQEnQIVP/FndIntgAQEnQIVP" schemaLocation="oramds:/apps/SNIComponents/FoundationObjectLibrary/IVP/schemas/FndIntgAQEnQIVP.xsd"/>
+      </schema>
+   </wsdl:types>
+   <wsdl:message name="FndIntgAQEnQIVPRequestMessage">
+      <wsdl:part name="payload" element="ns1:test"/>
+   </wsdl:message>
+   <wsdl:message name="FndIntgAQEnQIVPResponseMessage">
+      <wsdl:part name="payload" element="client:processResponse"/>
+   </wsdl:message>
+   <wsdl:portType name="FndIntgAQEnQIVP">
+      <wsdl:operation name="process">
+         <wsdl:input message="client:FndIntgAQEnQIVPRequestMessage"/>
+         <wsdl:output message="client:FndIntgAQEnQIVPResponseMessage"/>
+      </wsdl:operation>
+   </wsdl:portType>
+   <plnk:partnerLinkType name="FndIntgAQEnQIVP">
+      <plnk:role name="FndIntgAQEnQIVPProvider">
+         <plnk:portType name="client:FndIntgAQEnQIVP"/>
+      </plnk:role>
+   </plnk:partnerLinkType>
+</wsdl:definitions>

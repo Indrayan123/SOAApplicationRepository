@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns:tns="http://www.schneider.com/ns/brtest" xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.schneider.com/ns/brtest" elementFormDefault="qualified" attributeFormDefault="qualified">
+	<element name="BRTestInputs">
+		<complexType>
+			<sequence>
+				<element name="TestType" type="string"/>
+				<element name="NumberOfInterations" type="int"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="BRTestOutputs">
+		<complexType>
+			<sequence>
+				<element name="Success" type="boolean"/>
+			</sequence>
+		</complexType>
+	</element>
+</schema>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns="http://xmlns.schneider.com/IVPObjects/V1"
+            xmlns:snicore="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1"
+            targetNamespace="http://xmlns.schneider.com/IVPObjects/V1"
+            elementFormDefault="qualified">
+            <xsd:import namespace="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1"
+              schemaLocation="oramds:/apps/SNIComponents/EnterpriseObjectLibrary/Core/Common/V1/SNICore.xsd"/>
+  <xsd:element name="FndIntgTest1IVPMessage" type="FndIntgTest1IVPMessageType"> 
+    <xsd:annotation>
+      <xsd:documentation>
+        A sample element
+      </xsd:documentation>
+    </xsd:annotation>
+  </xsd:element>
+  
+  <xsd:complexType name="FndIntgTest1IVPMessageType" >
+  <xsd:sequence>
+     <xsd:element ref="snicore:SNIHeader"/>
+     <xsd:element ref="FndIntgTest1IVPObject"/>
+  </xsd:sequence>
+  </xsd:complexType>
+    <xsd:element name="FndIntgTest1IVPObject">
+   <xsd:complexType >
+      <xsd:sequence>
+         <xsd:element name="Item1" type="xsd:string"/>
+         <xsd:element name="Item2" type="xsd:string"/>
+         <xsd:element name="Item3" type="xsd:string"/>
+      </xsd:sequence>
+   </xsd:complexType>
+  </xsd:element>
+</xsd:schema>

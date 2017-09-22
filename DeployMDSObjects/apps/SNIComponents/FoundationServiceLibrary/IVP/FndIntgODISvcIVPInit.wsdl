@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions name="FndIntgODISvcIVPInit" targetNamespace="http://xmlns.oracle.com/SOA_IVP_App/FndIntgODISvcIVP/FndIntgODISvcIVPInit" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:client="http://xmlns.oracle.com/SOA_IVP_App/FndIntgODISvcIVP/FndIntgODISvcIVPInit" xmlns:ns1="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1" xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/">
+   <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema">
+         <import namespace="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1" schemaLocation="oramds:/apps/SNIComponents/EnterpriseObjectLibrary/Core/Common/V1/SNIODICore.xsd"/>
+      </schema>
+   </wsdl:types>
+   <wsdl:message name="FndIntgODISvcIVPInitRequestMessage">
+      <wsdl:part name="payload" element="ns1:invokeScenario"/>
+   </wsdl:message>
+   <wsdl:message name="FndIntgODISvcIVPInitResponseMessage">
+      <wsdl:part name="payload" element="ns1:invokeScenarioCallback"/>
+   </wsdl:message>
+   <wsdl:portType name="FndIntgODISvcIVPInit">
+      <wsdl:operation name="process">
+         <wsdl:input message="client:FndIntgODISvcIVPInitRequestMessage"/>
+         <wsdl:output message="client:FndIntgODISvcIVPInitResponseMessage"/>
+      </wsdl:operation>
+   </wsdl:portType>
+   <plnk:partnerLinkType name="FndIntgODISvcIVPInit">
+      <plnk:role name="FndIntgODISvcIVPInitProvider">
+         <plnk:portType name="client:FndIntgODISvcIVPInit"/>
+      </plnk:role>
+   </plnk:partnerLinkType>
+</wsdl:definitions>

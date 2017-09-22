@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions name="FndIntgHumanTaskIVP" targetNamespace="http://xmlns.oracle.com/SNIFndIntgIVPServices/FndIntgHumanTaskIVP/FndIntgHumanTaskIVP" xmlns:ns1="http://xmlns.schneider.com/EnterpriseObjects/Common/HumanTask/V1" xmlns:ns="http://xmlns.schneider.com/EnterpriseObjects/Common/HumanTask/V1" xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:client="http://xmlns.oracle.com/SNIFndIntgIVPServices/FndIntgHumanTaskIVP/FndIntgHumanTaskIVP" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+   <plnk:partnerLinkType name="FndIntgHumanTaskIVP">
+      <plnk:role name="FndIntgHumanTaskIVPProvider">
+         <plnk:portType name="client:FndIntgHumanTaskIVP"/>
+      </plnk:role>
+      <plnk:role name="FndIntgHumanTaskIVPRequester">
+         <plnk:portType name="client:FndIntgHumanTaskIVPCallback"/>
+      </plnk:role>
+   </plnk:partnerLinkType>
+   <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema">
+         <import namespace="http://xmlns.oracle.com/SNIFndIntgIVPServices/FndIntgHumanTaskIVP/FndIntgHumanTaskIVP" schemaLocation="oramds:/apps/SNIComponents/FoundationObjectLibrary/IVP/schemas/FndIntgHumanTaskIVP.xsd"/>
+      </schema>
+      <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+         <xsd:import namespace="http://xmlns.schneider.com/EnterpriseObjects/Common/HumanTask/V1" schemaLocation="oramds:/apps/SNIComponents/FoundationObjectLibrary/IVP/schemas/HumanTaskInfoEBM.xsd"/>
+      </xsd:schema>
+   </wsdl:types>
+   <wsdl:message name="FndIntgHumanTaskIVPRequestMessage">
+      <wsdl:part name="payload" element="ns1:HumanTaskRequest"/>
+   </wsdl:message>
+   <wsdl:message name="FndIntgHumanTaskIVPResponseMessage">
+      <wsdl:part name="payload" element="ns1:HumanTaskResponse"/>
+   </wsdl:message>
+   <wsdl:portType name="FndIntgHumanTaskIVPCallback">
+      <wsdl:operation name="processResponse">
+         <wsdl:input message="client:FndIntgHumanTaskIVPResponseMessage"/>
+      </wsdl:operation>
+   </wsdl:portType>
+   <wsdl:portType name="FndIntgHumanTaskIVP">
+      <wsdl:operation name="process">
+         <wsdl:input message="client:FndIntgHumanTaskIVPRequestMessage"/>
+      </wsdl:operation>
+   </wsdl:portType>
+</wsdl:definitions>

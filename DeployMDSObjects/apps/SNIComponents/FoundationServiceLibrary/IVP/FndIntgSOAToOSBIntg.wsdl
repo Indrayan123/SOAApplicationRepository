@@ -1,0 +1,22 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions name="FndIntgSOAToOSBIntg" targetNamespace="http://xmlns.schneider.com/SNIFndSOAIVPServices/FndIntgSOAToOSBIntg/FndIntgSOAToOSBIntg" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:client="http://xmlns.schneider.com/SNIFndSOAIVPServices/FndIntgSOAToOSBIntg/FndIntgSOAToOSBIntg" xmlns:ns1="http://xmlns.schneider.com/SNIFndSOAIVPServices/FndIntgSOAToOSBIntg/FndIntgSOAToOSBIntg" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/">
+
+   <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema">
+         <import namespace="http://xmlns.schneider.com/SNIFndSOAIVPServices/FndIntgSOAToOSBIntg/FndIntgSOAToOSBIntg" schemaLocation="oramds:/apps/SNIComponents/FoundationObjectLibrary/IVP/schemas/FndIntgSOAToOSBIntg.xsd"/>
+      </schema>     
+   </wsdl:types>
+   <wsdl:message name="FndIntgSOAToOSBIntgRequestMessage">
+      <wsdl:part name="payload" element="client:process"/>
+   </wsdl:message>
+   <wsdl:message name="FndIntgSOAToOSBIntgResponseMessage">
+      <wsdl:part name="payload" element="client:processResponse"/>
+   </wsdl:message>
+   <wsdl:portType name="FndIntgSOAToOSBIntg">
+      <wsdl:operation name="execute">
+         <wsdl:input message="client:FndIntgSOAToOSBIntgRequestMessage"/>
+         <wsdl:output message="client:FndIntgSOAToOSBIntgResponseMessage"/>
+      </wsdl:operation>    
+   </wsdl:portType>
+  
+</wsdl:definitions>

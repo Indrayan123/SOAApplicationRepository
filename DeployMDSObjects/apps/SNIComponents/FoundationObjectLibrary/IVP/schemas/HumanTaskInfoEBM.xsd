@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<xs:schema xmlns="http://xmlns.schneider.com/EnterpriseObjects/Common/HumanTask/V1" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://xmlns.schneider.com/EnterpriseObjects/Common/HumanTask/V1" xmlns:snihdr="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1" elementFormDefault="qualified" attributeFormDefault="qualified">
+   <xs:import namespace="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1" schemaLocation="oramds:/apps/SNIComponents/EnterpriseObjectLibrary/Core/Common/V1/SNICore.xsd"/>
+   <xs:element name="HumanTaskRequest" type="HumanTaskRequestType"/>
+   <xs:complexType name="HumanTaskRequestType">
+      <xs:sequence>
+         <xs:element name="Initiator" type="xs:string">
+            <xs:annotation>
+               <xs:documentation>user id that will be tagged as the initiator of all tasks, initiator has additional capabilities</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element name="Assignee" type="xs:string">
+            <xs:annotation>
+               <xs:documentation>group or user that the task will be assigned to</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element name="AssigneeFilter" type="xs:string">
+            <xs:annotation>
+               <xs:documentation>optional filter that can be used to further breakdown the assignee element in the case of using groups</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element name="Owner" type="xs:string">
+            <xs:annotation>
+               <xs:documentation>user id that will be tagged as the owner of all tasks, ownwer has additional capabilities</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element name="Title" type="xs:string">
+            <xs:annotation>
+               <xs:documentation>message to be placed in the title of the task, task message</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element name="CompletionDttm" type="xs:string">
+            <xs:annotation>
+               <xs:documentation>expected date/time for resolution of task</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element name="Category" type="xs:string" minOccurs="0">
+            <xs:annotation>
+               <xs:documentation>non-displayed field that provides a rollout of task messages into categories (ex. several location failures may rollup to LOCATION)</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element name="KeyData1" type="xs:string" minOccurs="0">
+            <xs:annotation>
+               <xs:documentation>one of three keys used to clarify the task (ex. shipment id, order id)</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element name="KeyData2" type="xs:string" minOccurs="0">
+            <xs:annotation>
+               <xs:documentation>one of three keys used to clarify the task, finer grained (ex. trading partner name or customer name)</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element name="KeyData3" type="xs:string" minOccurs="0">
+            <xs:annotation>
+               <xs:documentation>one of three keys used to clarify the task, finer grained (ex. location id or city/state)</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element name="OccurrenceCount" type="xs:string" minOccurs="0">
+            <xs:annotation>
+               <xs:documentation>inidicates the number of times a task has appeared for the same resolution</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:element name="HumanTaskResponse" type="HumanTaskResponseType"/>
+   <xs:complexType name="HumanTaskResponseType">
+      <xs:sequence>
+         <xs:element name="ProcessState" type="xs:string">
+            <xs:annotation>
+               <xs:documentation>current human task process state</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:element name="ManageHumanTaskRequest" type="ManageHumanTaskRequestType"/>
+   <xs:complexType name="ManageHumanTaskRequestType">
+      <xs:sequence>
+         <xs:element ref="snihdr:SNIHeader"/>
+         <xs:element name="KeyData1" type="xs:string"/>
+         <xs:element name="KeyData2" type="xs:string"/>
+         <xs:element name="KeyData3" type="xs:string"/>
+         <xs:element name="TaskDefinitionNames" type="xs:string"/>
+         <xs:element name="Operation" type="xs:string"/>
+         <xs:element name="UserId" type="xs:string"/>
+         <xs:element name="PassWord" type="xs:string"/>
+         <xs:element name="UpdateData" type="xs:string"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:element name="ManageHumanTaskResponse" type="ManageHumanTaskResponseType"/>
+   <xs:complexType name="ManageHumanTaskResponseType">
+      <xs:sequence>
+         <xs:element name="status" type="xs:string"/>
+      </xs:sequence>
+   </xs:complexType>
+</xs:schema>

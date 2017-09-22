@@ -1,0 +1,35 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="SimpleBPELProcess"
+     targetNamespace="http://xmlns.oracle.com/TestApplication/WSMProjectClient/SimpleBPELProcess"
+     xmlns:ns1="http://xmlns.oracle.com/TestApplication/OWSMServiceProject/SimpleOWSMTestService"
+     xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:client="http://xmlns.oracle.com/TestApplication/WSMProjectClient/SimpleBPELProcess"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+    <plnk:partnerLinkType name="SimpleBPELProcess">
+        <plnk:role name="SimpleBPELProcessProvider">
+            <plnk:portType name="client:SimpleBPELProcess"/>
+        </plnk:role>
+    </plnk:partnerLinkType>
+    <wsdl:import namespace="http://xmlns.oracle.com/TestApplication/OWSMServiceProject/SimpleOWSMTestService"
+         location="SimpleOWSMTestService.wsdl"/>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.oracle.com/TestApplication/WSMProjectClient/SimpleBPELProcess"
+                 schemaLocation="../../FoundationObjectLibrary/IVP/schemas/SimpleBPELProcess.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="SimpleBPELProcessRequestMessage">
+        <wsdl:part name="payload" element="client:process"/>
+    </wsdl:message>
+    <wsdl:message name="SimpleBPELProcessResponseMessage">
+        <wsdl:part name="payload" element="client:processResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="SimpleBPELProcess">
+        <wsdl:operation name="process">
+            <wsdl:input message="client:SimpleBPELProcessRequestMessage"/>
+            <wsdl:output message="client:SimpleBPELProcessResponseMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

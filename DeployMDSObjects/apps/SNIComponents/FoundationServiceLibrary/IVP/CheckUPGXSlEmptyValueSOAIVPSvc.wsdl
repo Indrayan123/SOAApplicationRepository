@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions name="CheckUPGXSlEmptyValueSOAIVPSvc" targetNamespace="http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/FndIntgUPGCheckXSlEmptyValueIVP/CheckUPGXSlEmptyValueSOAIVPSvc" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:inp1="http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/UPG/CheckUPGXSlEmptyValueSOAIVP" xmlns:tns="http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/FndIntgUPGCheckXSlEmptyValueIVP/CheckUPGXSlEmptyValueSOAIVPSvc"
+xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+>
+<plnk:partnerLinkType name="CheckUPGXSlEmptyValueSOAIVPSvc">
+        <plnk:role name="execute_ptt">
+            <plnk:portType name="tns:execute_ptt"/>
+        </plnk:role>
+    </plnk:partnerLinkType>
+   <wsdl:types>
+      <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+         <xsd:import namespace="http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/UPG/CheckUPGXSlEmptyValueSOAIVP" schemaLocation="oramds:/apps/SNIComponents/FoundationObjectLibrary/IVP/schemas/CheckUPGXSlEmptyValueSOAIVP.xsd"/>
+      </xsd:schema>
+   </wsdl:types>
+   <wsdl:message name="requestMessage">
+      <wsdl:part name="part" element="inp1:process"/>
+   </wsdl:message>
+   <wsdl:message name="replyMessage">
+      <wsdl:part name="part" element="inp1:processResponse"/>
+   </wsdl:message>
+   <wsdl:portType name="execute_ptt">
+      <wsdl:operation name="execute">
+         <wsdl:input message="tns:requestMessage"/>
+         <wsdl:output message="tns:replyMessage"/>
+      </wsdl:operation>
+   </wsdl:portType>
+</wsdl:definitions>

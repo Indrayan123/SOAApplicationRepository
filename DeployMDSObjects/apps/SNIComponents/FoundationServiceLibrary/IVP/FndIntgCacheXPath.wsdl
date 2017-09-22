@@ -1,0 +1,32 @@
+<wsdl:definitions
+     name="FndIntgCacheXPath"
+     targetNamespace="http://xmlns.oracle.com/SNIFndIntgIVP/FndIntgCacheXPath/FndIntgCacheXPath"
+     xmlns:ns1="http://xmlns.oracle.com/SNIFndIntgIVP/FndIntgXPathIVP/FndIntgTestXPath"
+     xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:client="http://xmlns.oracle.com/SNIFndIntgIVP/FndIntgCacheXPath/FndIntgCacheXPath"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+    <plnk:partnerLinkType name="FndIntgCacheXPath">
+        <plnk:role name="FndIntgCacheXPathProvider">
+            <plnk:portType name="client:FndIntgCacheXPath"/>
+        </plnk:role>
+    </plnk:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.oracle.com/SNIFndIntgIVP/FndIntgCacheXPath/FndIntgCacheXPath"
+                 schemaLocation="oramds:/apps/SNIComponents/FoundationObjectLibrary/IVP/schemas/FndIntgCacheXPath.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="FndIntgCacheXPathRequestMessage">
+        <wsdl:part name="payload" element="client:process"/>
+    </wsdl:message>
+    <wsdl:message name="FndIntgCacheXPathResponseMessage">
+        <wsdl:part name="payload" element="client:processResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="FndIntgCacheXPath">
+        <wsdl:operation name="process">
+            <wsdl:input message="client:FndIntgCacheXPathRequestMessage"/>
+            <wsdl:output message="client:FndIntgCacheXPathResponseMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

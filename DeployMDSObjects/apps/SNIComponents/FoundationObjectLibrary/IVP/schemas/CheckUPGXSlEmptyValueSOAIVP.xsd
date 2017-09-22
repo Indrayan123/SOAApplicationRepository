@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/UPG/CheckUPGXSlEmptyValueSOAIVP" xmlns:sni="http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/UPG/CheckUPGXSlEmptyValueSOAIVP" xmlns="http://www.w3.org/2001/XMLSchema">
+   <element name="process" type="sni:SqlResultsType"/>
+   <element name="processResponse">
+      <complexType>
+         <sequence>
+            <element name="result" type="string" maxOccurs="unbounded"/>
+         </sequence>
+      </complexType>
+   </element>
+   <complexType name="SqlResultsType">
+      <sequence>
+         <element name="Rows" type="sni:RowsType"/>
+      </sequence>
+   </complexType>
+   <complexType name="RowsType">
+      <sequence>
+         <element ref="sni:Row" maxOccurs="unbounded" minOccurs="0"/>
+      </sequence>
+   </complexType>
+   <element name="Row" type="sni:RowType"/>
+   <complexType name="RowType">
+      <sequence>
+         <element name="Columns" type="sni:ColumnsType"/>
+      </sequence>
+   </complexType>
+   <complexType name="ColumnsType">
+      <sequence>
+         <element ref="sni:Column" maxOccurs="unbounded" minOccurs="0"/>
+      </sequence>
+   </complexType>
+   <element name="Column" type="sni:ColumnType"/>
+   <complexType name="ColumnType">
+      <sequence>
+         <element name="Name" type="string"/>
+         <element name="Value" type="string"/>
+      </sequence>
+   </complexType>
+</schema>

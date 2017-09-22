@@ -1,0 +1,33 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="FndIntgSiebelSecIVP"
+     targetNamespace="http://xmlns.schneider.com/SNIFndIntgIVPServices/FndIntgSiebelSecIVP/FndIntgSiebelSecIVP"
+     xmlns:ns1="http://siebel.com/asi/"
+     xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:client="http://xmlns.schneider.com/SNIFndIntgIVPServices/FndIntgSiebelSecIVP/FndIntgSiebelSecIVP"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+    <plnk:partnerLinkType name="FndIntgSiebelSecIVP">
+        <plnk:role name="FndIntgSiebelSecIVPProvider">
+            <plnk:portType name="client:FndIntgSiebelSecIVP"/>
+        </plnk:role>
+    </plnk:partnerLinkType>    
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.schneider.com/SNIFndIntgIVPServices/FndIntgSiebelSecIVP/FndIntgSiebelSecIVP"
+                 schemaLocation="oramds:/apps/SNIComponents/FoundationObjectLibrary/IVP/schemas/FndIntgSiebelSecIVP.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="FndIntgSiebelSecIVPRequestMessage">
+        <wsdl:part name="payload" element="client:Revisions_Input"/>
+    </wsdl:message>
+    <wsdl:message name="FndIntgSiebelSecIVPResponseMessage">
+        <wsdl:part name="payload" element="client:ProcessResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="FndIntgSiebelSecIVP">
+        <wsdl:operation name="process">
+            <wsdl:input message="client:FndIntgSiebelSecIVPRequestMessage"/>
+            <wsdl:output message="client:FndIntgSiebelSecIVPResponseMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

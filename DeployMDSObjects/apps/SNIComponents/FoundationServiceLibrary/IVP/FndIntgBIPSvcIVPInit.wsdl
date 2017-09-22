@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions name="FndIntgBIPSvcIVPInit" targetNamespace="http://xmlns.oracle.com/SOA_IVP_App/FndIntgBIPSvcIVPInit/FndIntgBIPSvcIVPInit" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:client="http://xmlns.oracle.com/SOA_IVP_App/FndIntgBIPSvcIVPInit/FndIntgBIPSvcIVPInit" xmlns:ns1="http://xmlns.oracle.com/SNIFndIntgIVPServices/FndIntgBIPSvcIVPInit/FndIntgBIPSvcIVPInit" xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/">
+   <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema">
+         <import namespace="http://xmlns.oracle.com/SNIFndIntgIVPServices/FndIntgBIPSvcIVPInit/FndIntgBIPSvcIVPInit" schemaLocation="oramds:/apps/SNIComponents/FoundationObjectLibrary/IVP/schemas/FndIntgBIPInitIVP.xsd"/>
+      </schema>
+   </wsdl:types>
+   <wsdl:message name="FndIntgBIPSvcIVPInitRequestMessage">
+      <wsdl:part name="payload" element="ns1:process"/>
+   </wsdl:message>
+   <wsdl:message name="FndIntgBIPSvcIVPInitResponseMessage">
+      <wsdl:part name="payload" element="ns1:processResponse"/>
+   </wsdl:message>
+   <wsdl:portType name="FndIntgBIPSvcIVPInit">
+      <wsdl:operation name="process">
+         <wsdl:input message="client:FndIntgBIPSvcIVPInitRequestMessage"/>
+         <wsdl:output message="client:FndIntgBIPSvcIVPInitResponseMessage"/>
+      </wsdl:operation>
+   </wsdl:portType>
+   <plnk:partnerLinkType name="FndIntgBIPSvcIVPInit">
+      <plnk:role name="FndIntgBIPSvcIVPInitProvider">
+         <plnk:portType name="client:FndIntgBIPSvcIVPInit"/>
+      </plnk:role>
+   </plnk:partnerLinkType>
+</wsdl:definitions>

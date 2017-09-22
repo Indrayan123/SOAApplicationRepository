@@ -1,0 +1,41 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="FndIntgHumanTaskSvcInit"
+     targetNamespace="http://xmlns.oracle.com/SNIFndIntgIVPServices/FndIntgHumanTaskSvcIVP/FndIntgHumanTaskSvcInit"
+     xmlns:ns2="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1"
+     xmlns:ns1="http://xmlns.schneider.com/EnterpriseObjects/Common/HumanTask/V1"
+     xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:client="http://xmlns.oracle.com/SNIFndIntgIVPServices/FndIntgHumanTaskSvcIVP/FndIntgHumanTaskSvcInit"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+    <plnk:partnerLinkType name="FndIntgHumanTaskSvcInit">
+        <plnk:role name="FndIntgHumanTaskSvcInitProvider">
+            <plnk:portType name="client:FndIntgHumanTaskSvcInit"/>
+        </plnk:role>
+    </plnk:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.oracle.com/SNIFndIntgIVPServices/FndIntgHumanTaskSvcIVP/FndIntgHumanTaskSvcInit"
+                 schemaLocation="oramds:/apps/SNIComponents/FoundationObjectLibrary/IVP/schemas/FndIntgHumanTaskSvcInit.xsd"/>
+        </schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://xmlns.schneider.com/EnterpriseObjects/Common/HumanTask/V1"
+                 schemaLocation="oramds:/apps/SNIComponents/FoundationObjectLibrary/IVP/schemas/HumanTaskInfoEBM.xsd"/>
+        </xsd:schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1" schemaLocation="oramds:/apps/SNIComponents/EnterpriseObjectLibrary/Core/Common/V1/SNICore.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="FndIntgHumanTaskSvcInitRequestMessage">
+        <wsdl:part name="payload" element="ns1:HumanTaskRequest"/>
+    </wsdl:message>
+    <wsdl:message name="FndIntgHumanTaskSvcInitResponseMessage">
+        <wsdl:part name="payload" element="ns1:HumanTaskResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="FndIntgHumanTaskSvcInit">
+        <wsdl:operation name="process">
+            <wsdl:input message="client:FndIntgHumanTaskSvcInitRequestMessage"/>
+            <wsdl:output message="client:FndIntgHumanTaskSvcInitResponseMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

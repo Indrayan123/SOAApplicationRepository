@@ -1,0 +1,35 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="CheckUPGThrowFaultSOAIVPSvc"
+     targetNamespace="http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/FndIntgUPGThrowFaultIVP/CheckUPGThrowFaultSOAIVPSvc"
+     xmlns:ns1="http://schemas.oracle.com/bpel/extension"
+     xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:client="http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/FndIntgUPGThrowFaultIVP/CheckUPGThrowFaultSOAIVPSvc"
+     xmlns:ns2="http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/UPG/CheckUPGThrowFaultSOAIVP"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+    <plnk:partnerLinkType name="CheckUPGThrowFaultSOAIVPSvc">
+        <plnk:role name="CheckUPGThrowFaultSOAIVPSvcProvider">
+            <plnk:portType name="client:CheckUPGThrowFaultSOAIVPSvc"/>
+        </plnk:role>
+    </plnk:partnerLinkType>
+    <wsdl:import namespace="http://schemas.oracle.com/bpel/extension" location="oramds:/soa/shared/bpel/RuntimeFault.wsdl"/>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/UPG/CheckUPGThrowFaultSOAIVP"
+                 schemaLocation="oramds:/apps/SNIComponents/FoundationObjectLibrary/IVP/schemas/CheckUPGThrowFaultSOAIVPSvc.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="CheckUPGThrowFaultSOAIVPSvcRequestMessage">
+        <wsdl:part name="payload" element="ns2:process"/>
+    </wsdl:message>
+    <wsdl:message name="CheckUPGThrowFaultSOAIVPSvcResponseMessage">
+        <wsdl:part name="payload" element="ns2:processResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="CheckUPGThrowFaultSOAIVPSvc">
+        <wsdl:operation name="process">
+            <wsdl:input message="client:CheckUPGThrowFaultSOAIVPSvcRequestMessage"/>
+            <wsdl:output message="client:CheckUPGThrowFaultSOAIVPSvcResponseMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

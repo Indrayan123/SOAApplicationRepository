@@ -1,0 +1,432 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsdLocal="http://siebel.com/OrderManagement/Order/Data" xmlns:ebo="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1" targetNamespace="http://siebel.com/OrderManagement/Order/Data" elementFormDefault="qualified" attributeFormDefault="unqualified">
+<xsd:import namespace="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1" schemaLocation="../../../../EnterpriseObjectLibrary/Core/Common/V1/SNICore.xsd"/>
+<xsd:element name="SWIOrderIO" type="xsdLocal:SWIOrderIOType"/>
+<xsd:complexType name="SWIOrderIOType">
+<xsd:sequence>
+<xsd:element ref="ebo:SNIHeader"/>
+<xsd:element name="SWIOrder" type="xsdLocal:SWIOrder"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:element name="SWIOrderOutputs">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element name="Value1" type="xsd:string"/>
+<xsd:element name="Value2" type="xsd:string"/>
+<xsd:element name="Value3" type="xsd:string"/>
+<xsd:element name="Value4" type="xsd:string"/>
+<xsd:element name="Value5" type="xsd:string"/>
+<xsd:element name="Value6" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:complexType name="SWIOrder">
+<xsd:sequence>
+<xsd:element name="SNIExecutionType" type="xsdLocal:string30" minOccurs="0"/>
+<xsd:element name="SNIBillableMIles" type="xsdLocal:string30" minOccurs="0"/>
+<xsd:element name="Account" type="xsdLocal:string100" minOccurs="0"/>
+<xsd:element name="AsOfDate" type="xsdLocal:string7" minOccurs="0"/>
+<xsd:element name="Created" type="xsdLocal:string7" minOccurs="0"/>
+<xsd:element name="CurrencyCode" type="xsdLocal:string15" minOccurs="0"/>
+<xsd:element name="FreightTerms" type="xsdLocal:string30" minOccurs="0"/>
+<xsd:element name="HoldFlag" type="xsdLocal:string1" minOccurs="0"/>
+<xsd:element name="Id" type="xsdLocal:string30" minOccurs="0"/>
+<xsd:element name="OrderNumber" type="xsdLocal:string30"/>
+<xsd:element name="OrderPriority" type="xsdLocal:string30" minOccurs="0"/>
+<xsd:element name="Revision" type="xsdLocal:string22" minOccurs="0"/>
+<xsd:element name="Status" type="xsdLocal:string30"/>
+<xsd:element name="TotalWeight" type="xsdLocal:string22" minOccurs="0"/>
+<xsd:element name="TotalWeightUoM" type="xsdLocal:string30" minOccurs="0"/>
+<xsd:element name="Updated" type="xsd:string" minOccurs="0"/>
+<xsd:element name="AgreementName" type="xsdLocal:string50" minOccurs="0"/>
+<xsd:element name="SNIAgreementNumber" type="xsdLocal:string50" minOccurs="0"/>
+<xsd:element name="SNIAgreementType" type="xsdLocal:string30" minOccurs="0"/>
+<xsd:element name="SNIRateonDateCode" type="xsd:string" minOccurs="0"/>
+<xsd:element name="UpdatedByName" type="xsdLocal:string50" minOccurs="0"/>
+<xsd:element name="CreatedByName" type="xsdLocal:string50" minOccurs="0"/>
+<xsd:element name="ContactFirstName" type="xsdLocal:string50" minOccurs="0"/>
+<xsd:element name="ContactLastName" type="xsdLocal:string50" minOccurs="0"/>
+<xsd:element name="SNIPricedasOverDimenFlg" type="xsdLocal:string1" minOccurs="0"/>
+<xsd:element name="BillingAccount" type="xsdLocal:string100" minOccurs="0"/>
+<xsd:element name="DestinationCity" type="xsdLocal:string50" minOccurs="0"/>
+<xsd:element name="DestinationCountry" type="xsdLocal:string30" minOccurs="0"/>
+<xsd:element name="DestinationState" type="xsdLocal:string10" minOccurs="0"/>
+<xsd:element name="DestinationZipCode" type="xsdLocal:string30" minOccurs="0"/>
+<xsd:element name="LineofBusiness" type="xsdLocal:string30" minOccurs="0"/>
+<xsd:element name="MileagePackage" type="xsdLocal:string30" minOccurs="0"/>
+<xsd:element name="Mode" type="xsdLocal:string30" minOccurs="0"/>
+<xsd:element name="OriginCity" type="xsdLocal:string50" minOccurs="0"/>
+<xsd:element name="OriginCountry" type="xsdLocal:string30" minOccurs="0"/>
+<xsd:element name="OriginState" type="xsdLocal:string10" minOccurs="0"/>
+<xsd:element name="OriginZipCode" type="xsdLocal:string30" minOccurs="0"/>
+<xsd:element name="TotalDistance" type="xsdLocal:string22" minOccurs="0"/>
+<xsd:element name="HoldReasonCode" type="xsdLocal:string30" minOccurs="0"/>
+<xsd:element name="DistanceUOM" type="xsdLocal:string30" minOccurs="0"/>
+<xsd:element name="TotalStops" type="xsd:string" minOccurs="0"/>
+<xsd:element name="SNICapabilityType" type="xsdLocal:string50" minOccurs="0"/>
+<xsd:element name="SNIAvgRateperMile" type="xsdLocal:string22" minOccurs="0"/>
+<xsd:element name="SNICapacity" type="xsdLocal:string22" minOccurs="0"/>
+<xsd:element name="SNICapacityDate" type="xsdLocal:string4000" minOccurs="0"/>
+<xsd:element name="SNIAvgProfit" type="xsdLocal:string22" minOccurs="0"/>
+<xsd:element name="SNICounterTotal" type="xsdLocal:string22" minOccurs="0"/>
+<xsd:element name="SNICustomerApproval" type="xsdLocal:string25" minOccurs="0"/>
+<xsd:element name="SNICustomerAvgProfit" type="xsdLocal:string22" minOccurs="0"/>
+<xsd:element name="SNICustomerVolAvgHistory" type="xsdLocal:string20" minOccurs="0"/>
+<xsd:element name="SNIDLT" type="xsdLocal:string1" minOccurs="0"/>
+<xsd:element name="SNIDTLRemaining" type="xsdLocal:string22" minOccurs="0"/>
+<xsd:element name="SNIDailyMaxCapacity" type="xsdLocal:string22" minOccurs="0"/>
+<xsd:element name="SNIDailyProfit" type="xsdLocal:string22" minOccurs="0"/>
+<xsd:element name="SNIOfferedTotal" type="xsdLocal:string22" minOccurs="0"/>
+<xsd:element name="SNIPriceOverrideAuth" type="xsdLocal:string25" minOccurs="0"/>
+<xsd:element name="SNIPriceOverrideReason" type="xsdLocal:string50" minOccurs="0"/>
+<xsd:element name="SNIPublishLHRate" type="xsdLocal:string22" minOccurs="0"/>
+<xsd:element name="SNIPublishedLHRateperMile" type="xsdLocal:string22" minOccurs="0"/>
+<xsd:element name="SNIPublishedTotal" type="xsdLocal:string22" minOccurs="0"/>
+<xsd:element name="SNISolutionRemarks" type="xsdLocal:string50" minOccurs="0"/>
+<xsd:element name="SNISuggestedLH" type="xsdLocal:string22" minOccurs="0"/>
+<xsd:element name="SNISuggestedTotal" type="xsdLocal:string22" minOccurs="0"/>
+<xsd:element name="SNITimeSlot" type="xsdLocal:string50" minOccurs="0"/>
+<xsd:element name="SNITransitDays" type="xsdLocal:string22" minOccurs="0"/>
+<xsd:element name="SNIAcceptedTotal" type="xsdLocal:string22" minOccurs="0"/>
+<xsd:element name="SNIAcceptanceRemarks" type="xsdLocal:string150" minOccurs="0"/>
+<xsd:element name="RejectCancelReasonCode" type="xsdLocal:string30" minOccurs="0"/>
+<xsd:element name="SNICapacityRemarks" type="xsdLocal:string250" minOccurs="0"/>
+<xsd:element name="SNISID" type="xsdLocal:string30" minOccurs="0"/>
+<xsd:element name="SNISCAC" type="xsdLocal:string30" minOccurs="0"/>
+<xsd:element name="SNIRespondByDTTM" type="xsd:string" minOccurs="0"/>
+<xsd:element name="SNIDestLocationAddress" type="xsdLocal:string200" minOccurs="0"/>
+<xsd:element name="SNILocationId" type="xsdLocal:string40" minOccurs="0"/>
+<xsd:element name="SNILocationName" type="xsdLocal:string100" minOccurs="0"/>
+<xsd:element name="DestinationPricingRegion" type="xsdLocal:string30" minOccurs="0"/>
+<xsd:element name="Comments" type="xsdLocal:string1500" minOccurs="0"/>
+<xsd:element name="OriginPricingRegion" type="xsdLocal:string30" minOccurs="0"/>
+<xsd:element name="SNIMexicanLinehaul" type="xsdLocal:string30" minOccurs="0"/>
+<xsd:element name="SNIOrderSource" type="xsdLocal:string30" minOccurs="0"/>
+<xsd:element name="SNIPreloadedEquipmentDecal" type="xsdLocal:string30" minOccurs="0"/>
+<xsd:element name="SNISegmentCode" type="xsdLocal:string30" minOccurs="0"/>
+<xsd:element name="SNIOriginLocationAddress" type="xsdLocal:string200" minOccurs="0"/>
+<xsd:element name="EntitlementId" type="xsdLocal:string15" minOccurs="0"/>
+<xsd:element name="EndingCustomerRequestedDeliveryDateTime" type="xsdLocal:string7" minOccurs="0"/>
+<xsd:element name="EndingCustomerRequestedPickupDateTime" type="xsdLocal:string7" minOccurs="0"/>
+<xsd:element name="SNIDestCounty" type="xsdLocal:string50" minOccurs="0"/>
+<xsd:element name="SNIDestLocationAddressLine2" type="xsdLocal:string100" minOccurs="0"/>
+<xsd:element name="SNIDestLocationAddressLine3" type="xsdLocal:string100" minOccurs="0"/>
+<xsd:element name="SNIDestLocationAddressLine4" type="xsdLocal:string100" minOccurs="0"/>
+<xsd:element name="SNIDestinationGeoId" type="xsdLocal:string15" minOccurs="0"/>
+<xsd:element name="SNIOriginCounty" type="xsdLocal:string50" minOccurs="0"/>
+<xsd:element name="SNIOriginGeoId" type="xsdLocal:string15" minOccurs="0"/>
+<xsd:element name="SNIOriginLocationAddressLine2" type="xsdLocal:string100" minOccurs="0"/>
+<xsd:element name="SNIOriginLocationAddressLine3" type="xsdLocal:string100" minOccurs="0"/>
+<xsd:element name="SNIOriginLocationAddressLine4" type="xsdLocal:string100" minOccurs="0"/>
+<xsd:element name="StartingCustomerRequestedDeliveryDateTime" type="xsdLocal:string7" minOccurs="0"/>
+<xsd:element name="StartingCustomerRequestedPickupDateTime" type="xsdLocal:string7" minOccurs="0"/>
+<xsd:element name="SNIAccountId" type="xsdLocal:string40" minOccurs="0"/>
+<xsd:element name="OriginTimezone" type="xsdLocal:string30" minOccurs="0"/>
+<xsd:element name="SNIDestinationEnterpriseBuildingBlock" type="xsdLocal:string15" minOccurs="0"/>
+<xsd:element name="SNIBillingAccountId" type="xsdLocal:string40" minOccurs="0"/>
+<xsd:element name="SNIOriginEnterpriseBuildingBlock" type="xsdLocal:string15" minOccurs="0"/>
+<xsd:element name="DestinationTimezone" type="xsdLocal:string30" minOccurs="0"/>
+<xsd:element name="SNITenderingLogin" type="xsdLocal:string50" minOccurs="0"/>
+<xsd:element name="SNIAssignedExecType" type="xsd:string" minOccurs="0"/>
+<xsd:element name="SNINoTenderFlg" type="xsd:string" minOccurs="0"/>
+<xsd:element name="SNICustomerBusinessSegment" type="xsdLocal:string30" minOccurs="0"/>
+<xsd:element name="ListOfSWIOrderItem" type="xsdLocal:ListOfSWIOrderItem" minOccurs="0"/>
+<xsd:element name="ListOfFmOrderEntryStops" type="xsdLocal:ListOfFmOrderEntryStops" minOccurs="0"/>
+<xsd:element name="ListOfFmOrderReferences" type="xsdLocal:ListOfFmOrderReferences" minOccurs="0"/>
+<xsd:element name="ListOfPDSSimplifiedOrderEntry-Orders_Organization" type="xsdLocal:ListOfPDSSimplifiedOrderEntry-Orders_Organization" minOccurs="0"/>
+<xsd:element name="ListOfPDSSimplifiedOrderEntry-Orders_SalesTeam" type="xsdLocal:ListOfPDSSimplifiedOrderEntry-Orders_SalesTeam" minOccurs="0"/>
+<xsd:element name="ListOfSNISpecialInstructions" type="xsdLocal:ListOfSNISpecialInstructions" minOccurs="0"/>
+<xsd:element name="ListOfSNIOrderPaperWork" type="xsdLocal:ListOfSNIOrderPaperWork" minOccurs="0"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="ListOfSWIOrderItem">
+<xsd:sequence>
+<xsd:element name="SWIOrderItem" type="xsdLocal:SWIOrderItem" minOccurs="0" maxOccurs="unbounded"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="SWIOrderItem">
+<xsd:sequence>
+<xsd:element name="PartNumber" type="xsdLocal:string50" minOccurs="0"/>
+<xsd:element name="WeightUoM" type="xsdLocal:string30" minOccurs="0"/>
+<xsd:element name="AcceptedPrice" type="xsdLocal:string22" minOccurs="0"/>
+<xsd:element name="Commodity" type="xsdLocal:string100" minOccurs="0"/>
+<xsd:element name="CounterOffer" type="xsdLocal:string22" minOccurs="0"/>
+<xsd:element name="CurrencyCode2" type="xsdLocal:string20" minOccurs="0"/>
+<xsd:element name="Weight" type="xsd:string" minOccurs="0"/>
+<xsd:element name="ItineraryCurrency" type="xsdLocal:string20" minOccurs="0"/>
+<xsd:element name="Product" type="xsdLocal:string100" minOccurs="0"/>
+<xsd:element name="ProductTypeCode" type="xsdLocal:string30" minOccurs="0"/>
+<xsd:element name="RevisedLineItemId" type="xsdLocal:string15" minOccurs="0"/>
+<xsd:element name="SNIComments" type="xsdLocal:string30" minOccurs="0"/>
+<xsd:element name="SNINon-Negotiable" type="xsdLocal:string1" minOccurs="0"/>
+<xsd:element name="SNIOfferedPrice" type="xsdLocal:string22" minOccurs="0"/>
+<xsd:element name="SNIPrevOfferedPrice" type="xsdLocal:string22" minOccurs="0"/>
+<xsd:element name="SNIPublishedPrice" type="xsdLocal:string22" minOccurs="0"/>
+<xsd:element name="SNISuggestedPrice" type="xsdLocal:string22" minOccurs="0"/>
+<xsd:element name="Status" type="xsdLocal:string30" minOccurs="0"/>
+<xsd:element name="SNILocationId" type="xsdLocal:string40" minOccurs="0"/>
+<xsd:element name="ServicePriceMethod" type="xsdLocal:string30" minOccurs="0"/>
+<xsd:element name="SNIRatingCreatedFlag" type="xsdLocal:string1" minOccurs="0"/>
+<xsd:element name="Name" type="xsdLocal:string100" minOccurs="0"/>
+<xsd:element name="ListOfSWIOrderItemXA" type="xsdLocal:ListOfSWIOrderItemXA" minOccurs="0"/>
+<xsd:element name="ListOfFmLineItemStops" type="xsdLocal:ListOfFmLineItemStops" minOccurs="0"/>
+<xsd:element name="ListOfSNIOrderItemReferences" type="xsdLocal:ListOfSNIOrderItemReferences" minOccurs="0"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="ListOfFmOrderEntryStops">
+<xsd:sequence>
+<xsd:element name="FmOrderEntryStops" type="xsdLocal:FmOrderEntryStops" minOccurs="0" maxOccurs="unbounded"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="FmOrderEntryStops">
+<xsd:sequence>
+<xsd:element name="SNIServiceReportingCode" type="xsdLocal:string100" minOccurs="0"/>
+<xsd:element name="SNIServiceExceptionCode" type="xsdLocal:string50" minOccurs="0"/>
+<xsd:element name="Id" type="xsdLocal:string30" minOccurs="0"/>
+<xsd:element name="SNILocationId" type="xsdLocal:string40" minOccurs="0"/>
+<xsd:element name="City" type="xsdLocal:string50" minOccurs="0"/>
+<xsd:element name="ActualEndDTTM" type="xsdLocal:string7" minOccurs="0"/>
+<xsd:element name="ActualStartDTTM" type="xsdLocal:string7" minOccurs="0"/>
+<xsd:element name="AppointmentConfirmationRequired" type="xsdLocal:string1" minOccurs="0"/>
+<xsd:element name="AppointmentRequested" type="xsdLocal:string50" minOccurs="0"/>
+<xsd:element name="Country" type="xsdLocal:string30" minOccurs="0"/>
+<xsd:element name="Distance" type="xsdLocal:string22" minOccurs="0"/>
+<xsd:element name="DistanceUOM" type="xsdLocal:string30" minOccurs="0"/>
+<xsd:element name="Location" type="xsdLocal:string100" minOccurs="0"/>
+<xsd:element name="LocationId" type="xsd:string" minOccurs="0"/>
+<xsd:element name="PlanEndDTTM" type="xsdLocal:string7" minOccurs="0"/>
+<xsd:element name="PlanStartDTTM" type="xsdLocal:string7" minOccurs="0"/>
+<xsd:element name="ZipCode" type="xsdLocal:string30" minOccurs="0"/>
+<xsd:element name="AppointmentStartDTTM" type="xsdLocal:string7" minOccurs="0"/>
+<xsd:element name="AppointmentEndDTTM" type="xsdLocal:string7" minOccurs="0"/>
+<xsd:element name="State" type="xsdLocal:string15" minOccurs="0"/>
+<xsd:element name="LocationTimezone" type="xsdLocal:string30" minOccurs="0"/>
+<xsd:element name="RQTEndDTTM" type="xsdLocal:string7" minOccurs="0"/>
+<xsd:element name="RQTStartDTTM" type="xsdLocal:string7" minOccurs="0"/>
+<xsd:element name="SNIBorderCrossingType" type="xsdLocal:string30" minOccurs="0"/>
+<xsd:element name="SNIComments" type="xsdLocal:string1500" minOccurs="0"/>
+<xsd:element name="SNILocationAddress" type="xsdLocal:string200" minOccurs="0"/>
+<xsd:element name="SNISolutionEndDateTime" type="xsdLocal:string7" minOccurs="0"/>
+<xsd:element name="SNISolutionStartDateTime" type="xsdLocal:string7" minOccurs="0"/>
+<xsd:element name="SNIRootOrderStopId" type="xsdLocal:string15" minOccurs="0"/>
+<xsd:element name="SNICounty" type="xsdLocal:string50" minOccurs="0"/>
+<xsd:element name="SNIGeoId" type="xsdLocal:string30" minOccurs="0"/>
+<xsd:element name="SNILocationAddressLine2" type="xsdLocal:string100" minOccurs="0"/>
+<xsd:element name="SNILocationAddressLine3" type="xsdLocal:string100" minOccurs="0"/>
+<xsd:element name="SNILocationAddressLine4" type="xsdLocal:string100" minOccurs="0"/>
+<xsd:element name="ListOfFmStopActions" type="xsdLocal:ListOfFmStopActions" minOccurs="0"/>
+<xsd:element name="ListOfFmStopReferences" type="xsdLocal:ListOfFmStopReferences" minOccurs="0"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="ListOfFmOrderReferences">
+<xsd:sequence>
+<xsd:element name="FMOrderReferences" type="xsdLocal:FMOrderReferences" minOccurs="0" maxOccurs="unbounded"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="FMOrderReferences">
+<xsd:sequence>
+<xsd:element name="OrderReference" type="xsdLocal:string30" minOccurs="0"/>
+<xsd:element name="Type" type="xsdLocal:string30" minOccurs="0"/>
+<xsd:element name="SNIReferenceToken" type="xsd:string" minOccurs="0"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="ListOfPDSSimplifiedOrderEntry-Orders_Organization">
+<xsd:sequence>
+<xsd:element name="PDSSimplifiedOrderEntry-Orders_Organization" type="xsdLocal:PDSSimplifiedOrderEntry-Orders_Organization" minOccurs="0" maxOccurs="unbounded"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="PDSSimplifiedOrderEntry-Orders_Organization">
+<xsd:sequence>
+<xsd:element name="Organization" type="xsdLocal:string50"/>
+<xsd:element name="Location2" type="xsdLocal:string50" minOccurs="0"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="ListOfPDSSimplifiedOrderEntry-Orders_SalesTeam">
+<xsd:sequence>
+<xsd:element name="PDSSimplifiedOrderEntry-Orders_SalesTeam" type="xsdLocal:PDSSimplifiedOrderEntry-Orders_SalesTeam" minOccurs="0" maxOccurs="unbounded"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="PDSSimplifiedOrderEntry-Orders_SalesTeam">
+<xsd:sequence>
+<xsd:element name="SalesTeam2" type="xsdLocal:string50" minOccurs="0"/>
+<xsd:element name="Name2" type="xsdLocal:string50"/>
+</xsd:sequence>
+<xsd:attribute name="IsPrimaryMVG" type="xsd:string"/>
+</xsd:complexType>
+<xsd:complexType name="ListOfSNISpecialInstructions">
+<xsd:sequence>
+<xsd:element name="SNISpecialInstructions" type="xsdLocal:SNISpecialInstructions" minOccurs="0" maxOccurs="unbounded"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="SNISpecialInstructions">
+<xsd:sequence>
+<xsd:element name="SNIName" type="xsdLocal:string100" minOccurs="0"/>
+<xsd:element name="SNIOrderId" type="xsdLocal:string15" minOccurs="0"/>
+<xsd:element name="SNISpecialInstructions" type="xsdLocal:string255" minOccurs="0"/>
+<xsd:element name="SNIType" type="xsdLocal:string30" minOccurs="0"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="ListOfSNIOrderPaperWork">
+<xsd:sequence>
+<xsd:element name="SNIOrderPaperWork" type="xsdLocal:SNIOrderPaperWork" minOccurs="0" maxOccurs="unbounded"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="SNIOrderPaperWork">
+<xsd:sequence>
+<xsd:element name="SNIStatus" type="xsdLocal:string30" minOccurs="0"/>
+<xsd:element name="SNIType" type="xsdLocal:string30" minOccurs="0"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="ListOfSWIOrderItemXA">
+<xsd:sequence>
+<xsd:element name="SWIOderItemXA" type="xsdLocal:SWIOderItemXA" minOccurs="0" maxOccurs="unbounded"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="SWIOderItemXA">
+<xsd:sequence>
+<xsd:element name="Name" type="xsdLocal:string75" minOccurs="0"/>
+<xsd:element name="Value" type="xsdLocal:string100" minOccurs="0"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="ListOfFmLineItemStops">
+<xsd:sequence>
+<xsd:element name="FmLineItemStops" type="xsdLocal:FmLineItemStops" minOccurs="0" maxOccurs="unbounded"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="FmLineItemStops">
+<xsd:sequence>
+<xsd:element name="SNIStopSequenceNumber" type="xsdLocal:string22" minOccurs="0"/>
+<xsd:element name="Status" type="xsdLocal:string30" minOccurs="0"/>
+<xsd:element name="StopType" type="xsdLocal:string30" minOccurs="0"/>
+<xsd:element name="SNIRootOrderStopId" type="xsdLocal:string30" minOccurs="0"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="ListOfSNIOrderItemReferences">
+<xsd:sequence>
+<xsd:element name="SNIOrderItemReferences" type="xsdLocal:SNIOrderItemReferences" minOccurs="0" maxOccurs="unbounded"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="SNIOrderItemReferences">
+<xsd:sequence>
+<xsd:element name="SNIReferenceToken" type="xsdLocal:string30" minOccurs="0"/>
+<xsd:element name="SNIReference" type="xsdLocal:string100" minOccurs="0"/>
+<xsd:element name="SNIType" type="xsdLocal:string30" minOccurs="0"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="ListOfFmStopActions">
+<xsd:sequence>
+<xsd:element name="FmStopActions" type="xsdLocal:FmStopActions" minOccurs="0" maxOccurs="unbounded"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="FmStopActions">
+<xsd:sequence>
+<xsd:element name="ActionType" type="xsdLocal:string30" minOccurs="0"/>
+<xsd:element name="Comments" type="xsdLocal:string30" minOccurs="0"/>
+<xsd:element name="Status" type="xsdLocal:string30" minOccurs="0"/>
+<xsd:element name="SNIDurationHrs" type="xsd:string" minOccurs="0"/>
+<xsd:element name="SNIDurationMins" type="xsd:string" minOccurs="0"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="ListOfFmStopReferences">
+<xsd:sequence>
+<xsd:element name="FmStopReferences" type="xsdLocal:FmStopReferences" minOccurs="0" maxOccurs="unbounded"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="FmStopReferences">
+<xsd:sequence>
+<xsd:element name="SNIReferenceToken" type="xsd:string" minOccurs="0"/>
+<xsd:element name="StopReference" type="xsdLocal:string30" minOccurs="0"/>
+<xsd:element name="Type" type="xsdLocal:string30" minOccurs="0"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:simpleType name="string250">
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="250"/>
+</xsd:restriction>
+</xsd:simpleType>
+<xsd:simpleType name="string1500">
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="1500"/>
+</xsd:restriction>
+</xsd:simpleType>
+<xsd:simpleType name="string4000">
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="4000"/>
+</xsd:restriction>
+</xsd:simpleType>
+<xsd:simpleType name="string50">
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="50"/>
+</xsd:restriction>
+</xsd:simpleType>
+<xsd:simpleType name="string7">
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="7"/>
+</xsd:restriction>
+</xsd:simpleType>
+<xsd:simpleType name="string255">
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="255"/>
+</xsd:restriction>
+</xsd:simpleType>
+<xsd:simpleType name="string10">
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="10"/>
+</xsd:restriction>
+</xsd:simpleType>
+<xsd:simpleType name="string75">
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="75"/>
+</xsd:restriction>
+</xsd:simpleType>
+<xsd:simpleType name="string15">
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="15"/>
+</xsd:restriction>
+</xsd:simpleType>
+<xsd:simpleType name="string40">
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="40"/>
+</xsd:restriction>
+</xsd:simpleType>
+<xsd:simpleType name="string30">
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="30"/>
+</xsd:restriction>
+</xsd:simpleType>
+<xsd:simpleType name="string150">
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="150"/>
+</xsd:restriction>
+</xsd:simpleType>
+<xsd:simpleType name="string25">
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="25"/>
+</xsd:restriction>
+</xsd:simpleType>
+<xsd:simpleType name="string200">
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="200"/>
+</xsd:restriction>
+</xsd:simpleType>
+<xsd:simpleType name="string22">
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="22"/>
+</xsd:restriction>
+</xsd:simpleType>
+<xsd:simpleType name="string1">
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="1"/>
+</xsd:restriction>
+</xsd:simpleType>
+<xsd:simpleType name="string100">
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="100"/>
+</xsd:restriction>
+</xsd:simpleType>
+<xsd:simpleType name="string20">
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="20"/>
+</xsd:restriction>
+</xsd:simpleType>
+</xsd:schema>

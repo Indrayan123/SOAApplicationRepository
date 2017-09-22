@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/UPG/CheckUPGNamespaceSOAIVP/V2" targetNamespace="http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/UPG/CheckUPGNamespaceSOAIVP/V2" elementFormDefault="qualified">
+   <xsd:complexType name="CustomRequestType">
+      <xsd:sequence>
+         <xsd:element name="InputParam1" type="xsd:string"/>
+         <xsd:element name="InputParam2" type="xsd:string"/>
+         <xsd:element name="InputParam3" type="xsd:string"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="CustomResponseType">
+      <xsd:sequence>
+         <xsd:element name="OutputResponse" type="xsd:string"/>
+      </xsd:sequence>
+   </xsd:complexType>
+</xsd:schema>

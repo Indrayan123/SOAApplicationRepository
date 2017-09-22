@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions name="FndIntgOneWaySvc" targetNamespace="http://xmlns.schneider.com/SNIFndIntgIVPServices/FndIntgOneWaySvc/FndIntgOneWaySvc" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:client="http://xmlns.schneider.com/SNIFndIntgIVPServices/FndIntgOneWaySvc/FndIntgOneWaySvc" xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/">
+   <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema">
+         <import namespace="http://xmlns.schneider.com/SNIFndIntgIVPServices/FndIntgOneWaySvc/FndIntgOneWaySvc" schemaLocation="oramds:/apps/SNIComponents/FoundationObjectLibrary/IVP/schemas/FndIntgOneWaySvc.xsd"/>
+      </schema>
+   </wsdl:types>
+   <wsdl:message name="FndIntgOneWaySvcRequestMessage">
+      <wsdl:part name="payload" element="client:process"/>
+   </wsdl:message>
+   <wsdl:portType name="FndIntgOneWaySvc">
+      <wsdl:operation name="process">
+         <wsdl:input message="client:FndIntgOneWaySvcRequestMessage"/>
+      </wsdl:operation>
+   </wsdl:portType>
+   <plnk:partnerLinkType name="FndIntgOneWaySvc">
+      <plnk:role name="FndIntgOneWaySvcProvider">
+         <plnk:portType name="client:FndIntgOneWaySvc"/>
+      </plnk:role>
+   </plnk:partnerLinkType>
+</wsdl:definitions>

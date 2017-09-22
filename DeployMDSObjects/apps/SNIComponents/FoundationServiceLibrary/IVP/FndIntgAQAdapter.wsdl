@@ -1,0 +1,21 @@
+<?binding.jca FndIntgAQAdapter_aq.jca?>
+<wsdl:definitions name="FndIntgAQAdapter" targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/aq/SNIFndIntgIVPServices/FndIntgAQEnqueueIVP/FndIntgAQAdapter" xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/aq/SNIFndIntgIVPServices/FndIntgAQEnqueueIVP/FndIntgAQAdapter" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:msg_out="http://www.globalcompany.com/ns/sales" xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/">
+    <plt:partnerLinkType name="Enqueue_plt">
+        <plt:role name="Enqueue_role">
+            <plt:portType name="tns:Enqueue_ptt"/>
+        </plt:role>
+    </plt:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://www.globalcompany.com/ns/sales" schemaLocation="oramds:/apps/SNIComponents/FoundationObjectLibrary/IVP/schemas/test.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="test_msg">
+        <wsdl:part name="test" element="msg_out:test"/>
+    </wsdl:message>
+    <wsdl:portType name="Enqueue_ptt">
+        <wsdl:operation name="Enqueue">
+            <wsdl:input message="tns:test_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

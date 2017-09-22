@@ -1,0 +1,36 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="FndIntgContValidatorIVP"
+     targetNamespace="http://xmlns.schneider.com/SNIFndIntgIVPServices/FndIntgContValidatorIVP/FndIntgContValidatorIVP"
+     xmlns:ns1="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1"
+     xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:client="http://xmlns.schneider.com/SNIFndIntgIVPServices/FndIntgContValidatorIVP/FndIntgContValidatorIVP"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+    <plnk:partnerLinkType name="FndIntgContValidatorIVP">
+        <plnk:role name="FndIntgContValidatorIVPProvider">
+            <plnk:portType name="client:FndIntgContValidatorIVP"/>
+        </plnk:role>
+    </plnk:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.schneider.com/SNIFndIntgIVPServices/FndIntgContValidatorIVP/FndIntgContValidatorIVP"
+                 schemaLocation="oramds:/apps/SNIComponents/FoundationObjectLibrary/IVP/schemas/FndIntgContValidatorIVP.xsd"/>
+        </schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1" schemaLocation="oramds:/apps/SNIComponents/EnterpriseObjectLibrary/Core/Common/V1/SNICore.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="FndIntgContValidatorIVPRequestMessage">
+        <wsdl:part name="payload" element="client:process"/>
+    </wsdl:message>
+    <wsdl:message name="FndIntgContValidatorIVPResponseMessage">
+        <wsdl:part name="payload" element="client:processResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="FndIntgContValidatorIVP">
+        <wsdl:operation name="process">
+            <wsdl:input message="client:FndIntgContValidatorIVPRequestMessage"/>
+            <wsdl:output message="client:FndIntgContValidatorIVPResponseMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

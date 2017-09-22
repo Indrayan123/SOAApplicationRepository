@@ -1,0 +1,41 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="CheckUPGDynamicPatnerlinkFaultSOAIVPSvc"
+     targetNamespace="http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/FndIntgUPGCheckDynamicPatnerlinkFaultIVP/CheckUPGDynamicPatnerlinkFaultSOAIVPSvc"
+     xmlns:ns2="http://schemas.xmlsoap.org/ws/2003/03/addressing"
+     xmlns:ns1="http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/UPG/CheckUPGDynamicPatnerlinkFaultSOAIVP"
+     xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:ns3="http://xmlns.oracle.com/xdb/B2B"
+     xmlns:client="http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/FndIntgUPGCheckDynamicPatnerlinkFaultIVP/CheckUPGDynamicPatnerlinkFaultSOAIVPSvc"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+    <plnk:partnerLinkType name="CheckUPGDynamicPatnerlinkFaultSOAIVPSvc">
+        <plnk:role name="CheckUPGDynamicPatnerlinkFaultSOAIVPSvcProvider">
+            <plnk:portType name="client:CheckUPGDynamicPatnerlinkFaultSOAIVPSvc"/>
+        </plnk:role>
+    </plnk:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/UPG/CheckUPGDynamicPatnerlinkFaultSOAIVP"
+                 schemaLocation="oramds:/apps/SNIComponents/FoundationObjectLibrary/IVP/schemas/CheckUPGDynamicPatnerlinkFaultSOAIVPSvc.xsd"/>
+        </schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://schemas.xmlsoap.org/ws/2003/03/addressing" schemaLocation="oramds:/soa/shared/common/ws-addressing.xsd"/>
+        </xsd:schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://xmlns.oracle.com/xdb/B2B" schemaLocation="oramds:/apps/OracleComponents/ObjectLibrary/B2B/B2B_IP_MESSAGE_TYPE.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="CheckUPGDynamicPatnerlinkFaultSOAIVPSvcRequestMessage">
+        <wsdl:part name="payload" element="ns1:process"/>
+    </wsdl:message>
+    <wsdl:message name="CheckUPGDynamicPatnerlinkFaultSOAIVPSvcResponseMessage">
+        <wsdl:part name="payload" element="ns1:processResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="CheckUPGDynamicPatnerlinkFaultSOAIVPSvc">
+        <wsdl:operation name="process">
+            <wsdl:input message="client:CheckUPGDynamicPatnerlinkFaultSOAIVPSvcRequestMessage"/>
+            <wsdl:output message="client:CheckUPGDynamicPatnerlinkFaultSOAIVPSvcResponseMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions name="FndIntgUMSMailProcessIVPService" targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/ums/SNIFndIntgIVPServices/FndIntgUMSMailProcessIVP/FndIntgUMSMailProcessIVPService" xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/" xmlns:ns1="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/ums/SNIFndIntgIVPServices/FndIntgUMSMailProcessIVP/FndIntgUMSMailProcessIVPService" xmlns:pc="http://xmlns.oracle.com/pcbpel/" xmlns:imp1="http://platform.integration.oracle/blocks/adapter/fw/metadata/FndIntgUMSMailProcessIVPService" xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/">
+   <plt:partnerLinkType name="ReceiveNotification_plt">
+      <plt:role name="ReceiveNotification_role">
+         <plt:portType name="tns:ReceiveNotification_ptt"/>
+      </plt:role>
+   </plt:partnerLinkType>
+   <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema">
+         <import namespace="http://platform.integration.oracle/blocks/adapter/fw/metadata/FndIntgUMSMailProcessIVPService" schemaLocation="oramds:/apps/SNIComponents/FoundationObjectLibrary/IVP/schemas/FndIntgUMSMailProcessIVPService.xsd"/>
+      </schema>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema">
+         <import namespace="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1" schemaLocation="oramds:/apps/SNIComponents/EnterpriseObjectLibrary/Core/Common/V1/SNICore.xsd"/>
+      </schema>
+   </wsdl:types>
+   <wsdl:message name="ReceiveNotification_msg">
+      <wsdl:part name="body" element="imp1:message"/>
+   </wsdl:message>
+   <wsdl:portType name="ReceiveNotification_ptt">
+      <wsdl:operation name="ReceiveNotification">
+         <wsdl:input message="tns:ReceiveNotification_msg"/>
+      </wsdl:operation>
+   </wsdl:portType>
+</wsdl:definitions>

@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions name="Fndintg_largepayloadBRIVP" targetNamespace="http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/Fndintg_largepayloadBRIVP/Fndintg_largepayloadBRIVP" xmlns:ns1="http://siebel.com/OrderManagement/Order/Data" xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:client="http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/Fndintg_largepayloadBRIVP/Fndintg_largepayloadBRIVP" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+   <plnk:partnerLinkType name="Fndintg_largepayloadBRIVP">
+      <plnk:role name="Fndintg_largepayloadBRIVPProvider">
+         <plnk:portType name="client:Fndintg_largepayloadBRIVP"/>
+      </plnk:role>
+      
+   </plnk:partnerLinkType>
+   <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://siebel.com/OrderManagement/Order/Data" xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:client="http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/Fndintg_largepayloadBRIVP/Fndintg_largepayloadBRIVP" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+         <import namespace="http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/Fndintg_largepayloadBRIVP/Fndintg_largepayloadBRIVP" schemaLocation="oramds:/apps/SNIComponents/FoundationObjectLibrary/IVP/schemas/Fndintg_largepayloadBRIVP.xsd"/>
+      </schema>
+      <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://siebel.com/OrderManagement/Order/Data" xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:client="http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/Fndintg_largepayloadBRIVP/Fndintg_largepayloadBRIVP" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+         <xsd:import namespace="http://siebel.com/OrderManagement/Order/Data" schemaLocation="oramds:/apps/SNIComponents/FoundationObjectLibrary/IVP/BusRules/schemas/SNISiebelOrderABM.xsd"/>
+      </xsd:schema>
+   </wsdl:types>
+   <wsdl:message name="Fndintg_largepayloadBRIVPRequestMessage">
+      <wsdl:part name="payload" element="ns1:SWIOrderIO"/>
+   </wsdl:message>
+   <wsdl:message name="Fndintg_largepayloadBRIVPResponseMessage">
+      <wsdl:part name="payload" element="ns1:SWIOrderOutputs"/>
+   </wsdl:message>
+   
+   <wsdl:portType name="Fndintg_largepayloadBRIVP">
+      <wsdl:operation name="process">
+         <wsdl:input message="client:Fndintg_largepayloadBRIVPRequestMessage"/>
+         <wsdl:output message="client:Fndintg_largepayloadBRIVPResponseMessage"/>
+      </wsdl:operation>
+   </wsdl:portType>
+</wsdl:definitions>

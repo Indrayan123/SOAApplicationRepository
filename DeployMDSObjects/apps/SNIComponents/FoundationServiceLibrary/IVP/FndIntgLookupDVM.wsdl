@@ -1,0 +1,35 @@
+<wsdl:definitions
+     name="FndIntgLookupDVM"
+     targetNamespace="http://xmlns.oracle.com/SNIFndIntgIVP_jws/FndIntgLookupDVMIVP/FndIntgLookupDVM"
+     xmlns:ns1="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1"
+     xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:client="http://xmlns.oracle.com/SNIFndIntgIVP_jws/FndIntgLookupDVMIVP/FndIntgLookupDVM"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+    <plnk:partnerLinkType name="FndIntgLookupDVM">
+        <plnk:role name="FndIntgLookupDVMProvider">
+            <plnk:portType name="client:FndIntgLookupDVM"/>
+        </plnk:role>
+    </plnk:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.oracle.com/SNIFndIntgIVP_jws/FndIntgLookupDVMIVP/FndIntgLookupDVM"
+                 schemaLocation="oramds:/apps/SNIComponents/FoundationObjectLibrary/IVP/schemas/FndIntgLookupDVM.xsd"/>
+        </schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1" schemaLocation="oramds:/apps/SNIComponents/EnterpriseObjectLibrary/Core/Common/V1/SNICore.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="FndIntgLookupDVMRequestMessage">
+        <wsdl:part name="payload" element="client:process"/>
+    </wsdl:message>
+    <wsdl:message name="FndIntgLookupDVMResponseMessage">
+        <wsdl:part name="payload" element="client:processResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="FndIntgLookupDVM">
+        <wsdl:operation name="process">
+            <wsdl:input message="client:FndIntgLookupDVMRequestMessage"/>
+            <wsdl:output message="client:FndIntgLookupDVMResponseMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

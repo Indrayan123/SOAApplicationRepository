@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<schema attributeFormDefault="unqualified"
+	elementFormDefault="qualified"
+	targetNamespace="http://xmlns.schneider.com/SNIFndIntgIVPServices/FndIntgHumanTaskSvcIVP/FndIntgHTWrapperIVP"
+	xmlns="http://www.w3.org/2001/XMLSchema">
+	<element name="HumanTaskRequest">
+   <complexType>
+      <sequence>
+         <element name="Initiator" type="string">
+            <annotation>
+               <documentation>user id that will be tagged as the initiator of all tasks, initiator has additional capabilities</documentation>
+            </annotation>
+         </element>
+         <element name="Assignee" type="string">
+            <annotation>
+               <documentation>group or user that the task will be assigned to</documentation>
+            </annotation>
+         </element>
+         <element name="AssigneeFilter" type="string">
+            <annotation>
+               <documentation>optional filter that can be used to further breakdown the assignee element in the case of using groups</documentation>
+            </annotation>
+         </element>
+         <element name="Owner" type="string">
+            <annotation>
+               <documentation>user id that will be tagged as the owner of all tasks, ownwer has additional capabilities</documentation>
+            </annotation>
+         </element>
+         <element name="Title" type="string">
+            <annotation>
+               <documentation>message to be placed in the title of the task, task message</documentation>
+            </annotation>
+         </element>
+         <element name="CompletionDttm" type="string">
+            <annotation>
+               <documentation>expected date/time for resolution of task</documentation>
+            </annotation>
+         </element>
+         <element name="Category" type="string" minOccurs="0">
+            <annotation>
+               <documentation>non-displayed field that provides a rollout of task messages into categories (ex. several location failures may rollup to LOCATION)</documentation>
+            </annotation>
+         </element>
+         <element name="KeyData1" type="string" minOccurs="0">
+            <annotation>
+               <documentation>one of three keys used to clarify the task (ex. shipment id, order id)</documentation>
+            </annotation>
+         </element>
+         <element name="KeyData2" type="string" minOccurs="0">
+            <annotation>
+               <documentation>one of three keys used to clarify the task, finer grained (ex. trading partner name or customer name)</documentation>
+            </annotation>
+         </element>
+         <element name="KeyData3" type="string" minOccurs="0">
+            <annotation>
+               <documentation>one of three keys used to clarify the task, finer grained (ex. location id or city/state)</documentation>
+            </annotation>
+         </element>
+         <element name="OccurrenceCount" type="string" minOccurs="0">
+            <annotation>
+               <documentation>inidicates the number of times a task has appeared for the same resolution</documentation>
+            </annotation>
+                     </element>
+                      <element name="keyIdentifier" type="string" minOccurs="0">            
+                     </element>
+                     </sequence>
+                     </complexType>
+                     </element>
+	<element name="processResponse">
+		<complexType>
+			<sequence>
+				<element name="result" type="string"/>
+			</sequence>
+		</complexType>
+	</element>
+</schema>

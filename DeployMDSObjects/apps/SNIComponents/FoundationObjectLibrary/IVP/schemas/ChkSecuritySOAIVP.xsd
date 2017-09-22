@@ -1,0 +1,53 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://xmlns.schneider.com/SNIFndIntgIVPServices/ChkSecuritySOAIVP"
+     xmlns="http://xmlns.schneider.com/SNIFndIntgIVPServices/ChkSecuritySOAIVP" targetNamespace="http://xmlns.schneider.com/SNIFndIntgIVPServices/ChkSecuritySOAIVP"
+     elementFormDefault="qualified">
+    <xsd:element name="Input">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="ValidateSecurityReq" type="tns:FndIntgValidateSecurityIVPReq" minOccurs="1"
+                     maxOccurs="1"/>
+                <xsd:element name="Err_Msg_Length" type="xsd:double"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="Output">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="ValidateSecurityRes" type="tns:FndIntgValidateSecurityIVPRes" minOccurs="1"
+                     maxOccurs="1"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:complexType name="FndIntgValidateSecurityIVPReq">
+        <xsd:sequence>
+            <xsd:element name="fndintgSecurityivp" type="xsd:string"/>
+            <xsd:element name="fndintgContExecutorivp" type="xsd:string"/>
+            <xsd:element name="fndintgSiebelSecivp" type="xsd:string"/>
+            <xsd:element name="fndintgOWSMivp">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="username" type="xsd:string"/>
+                        <xsd:element name="password" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="FndIntgValidateSecurityIVPRes">
+        <xsd:sequence>
+            <xsd:element name="fndintgSecurityivp" type="tns:ResponseType"/>
+            <xsd:element name="fndintgContExecutorivp" type="tns:ResponseType"/>
+            <xsd:element name="fndintgSiebelSecivp" type="tns:ResponseType"/>
+            <xsd:element name="fndintgOWSMivpAuthResult" type="tns:ResponseType"/>
+            
+        </xsd:sequence>
+    </xsd:complexType>
+     <xsd:complexType name="ResponseType">
+        <xsd:sequence>
+            <xsd:element name="Status" type="xsd:string"/>
+            <xsd:element name="AdditionalNote" type="xsd:string" minOccurs="0"/>                        
+        </xsd:sequence>
+    </xsd:complexType>
+   
+</xsd:schema>

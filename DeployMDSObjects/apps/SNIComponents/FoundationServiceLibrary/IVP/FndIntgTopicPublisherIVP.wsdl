@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions name="FndIntgTopicPublisherIVP" targetNamespace="http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/FndIntgTopicPublisherIVP/FndIntgTopicPublisherIVP" xmlns:ns2="http://xmlns.schneider.com/FoundationObjects/CrossRef/V1" xmlns:ns1="http://xmlns.schneider.com/FoundationObjects/Scheduler/V1" xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:client="http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/FndIntgTopicPublisherIVP/FndIntgTopicPublisherIVP" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+   <plnk:partnerLinkType name="FndIntgTopicPublisherIVP">
+      <plnk:role name="FndIntgTopicPublisherIVPProvider">
+         <plnk:portType name="client:FndIntgTopicPublisherIVP"/>
+      </plnk:role>
+   </plnk:partnerLinkType>
+   <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema">
+         <import namespace="http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/FndIntgTopicPublisherIVP/FndIntgTopicPublisherIVP" schemaLocation="oramds:/apps/SNIComponents/FoundationObjectLibrary/IVP/schemas/FndIntgTopicPublisherIVP.xsd"/>
+      </schema>
+      <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+         <xsd:import namespace="http://xmlns.schneider.com/FoundationObjects/Scheduler/V1" schemaLocation="oramds:/apps/SNIComponents/FoundationObjectLibrary/Scheduler/SOAScheduler.xsd"/>
+      </xsd:schema>
+      <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+         <xsd:import namespace="http://xmlns.schneider.com/FoundationObjects/CrossRef/V1" schemaLocation="oramds:/apps/SNIComponents/FoundationObjectLibrary/CrossRef/CrossRef.xsd"/>
+      </xsd:schema>
+   </wsdl:types>
+   <wsdl:message name="FndIntgTopicPublisherIVPResponseMessage">
+      <wsdl:part name="payload" element="client:processResponse"/>
+   </wsdl:message>
+   <wsdl:message name="FndIntgTopicPublisherIVPRequestMessage">
+      <wsdl:part name="payload" type="ns2:LookupXrefRequestType"/>
+   </wsdl:message>
+   <wsdl:portType name="FndIntgTopicPublisherIVP">
+      <wsdl:operation name="process">
+         <wsdl:input message="client:FndIntgTopicPublisherIVPRequestMessage"/>
+         <wsdl:output message="client:FndIntgTopicPublisherIVPResponseMessage"/>
+      </wsdl:operation>
+   </wsdl:portType>
+</wsdl:definitions>

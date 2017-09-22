@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:tns="http://xmlns.schneider.com/SNIFndIntgIVPServices/ChkXpathSOAIVP"
+            xmlns="http://xmlns.schneider.com/SNIFndIntgIVPServices/ChkXpathSOAIVP"
+            targetNamespace="http://xmlns.schneider.com/SNIFndIntgIVPServices/ChkXpathSOAIVP"
+            elementFormDefault="qualified">
+ <xsd:element name="Input">
+  <xsd:complexType>
+   <xsd:sequence>    
+    <xsd:element name="ValidateXpathFunctionReq"
+                 type="tns:FndIntgValidateXpathFunctionIVPReq" minOccurs="1" maxOccurs="1"/>    
+    <xsd:element name="Err_Msg_Length" type="xsd:double"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+ <xsd:element name="Output">
+  <xsd:complexType>
+   <xsd:sequence>    
+    <xsd:element name="ValidateXpathFunctionRes"
+                 type="tns:FndIntgValidateXpathFunctionIVPRes" minOccurs="1" maxOccurs="1"/>    
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element> 
+ <xsd:complexType name="FndIntgValidateXpathFunctionIVPReq">
+  <xsd:sequence>
+   <xsd:element name="fndintgmiscellaneousivp" type="xsd:string"/>
+   <xsd:element name="fndintgsniconfigtableivp" type="xsd:string"/>
+   <xsd:element name="fndintgenterprisecacheivp" type="xsd:string"/>
+   <xsd:element name="fndintgvisibiltydatalookupivp" type="xsd:string"/>
+   <xsd:element name="fndintgcomparexmlivp" type="xsd:string"/>
+   <xsd:element name="fndintgdatexpathivp" type="xsd:string"/>
+   <xsd:element name="fndintgsendemailivp" type="xsd:string"/>
+   <xsd:element name="fndintgoptimisticlockivp" type="xsd:string"/>
+  </xsd:sequence>
+ </xsd:complexType> 
+ <xsd:complexType name="FndIntgValidateXpathFunctionIVPRes">
+  <xsd:sequence>
+   <xsd:element name="fndintgmiscellaneousivp" type="tns:ResponseType"/>
+   <xsd:element name="fndintgsniconfigtableivp" type="tns:ResponseType"/>
+   <xsd:element name="fndintgenterprisecacheivp" type="tns:ResponseType"/>
+   <xsd:element name="fndintgvisibiltydatalookupivp" type="tns:ResponseType"/>
+   <xsd:element name="fndintgcomparexmlivp" type="tns:ResponseType"/>
+   <xsd:element name="fndintgdatexpathivp" type="tns:ResponseType"/>
+   <xsd:element name="fndintgsendemailivp" type="tns:ResponseType"/>
+   <xsd:element name="fndintgoptimisticlockivp" type="tns:ResponseType"/>
+  </xsd:sequence>
+ </xsd:complexType> 
+  <xsd:complexType name="ResponseType">
+        <xsd:sequence>
+            <xsd:element name="Status" type="xsd:string"/>
+            <xsd:element name="AdditionalNote" type="xsd:string" minOccurs="0"/>                        
+        </xsd:sequence>
+    </xsd:complexType>   
+</xsd:schema>

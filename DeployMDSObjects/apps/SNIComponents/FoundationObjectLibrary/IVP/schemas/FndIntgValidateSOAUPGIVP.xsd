@@ -1,0 +1,52 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/UPG/FndIntgValidateSOAUPGIVP"
+     xmlns="http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/UPG/FndIntgValidateSOAUPGIVP"
+     targetNamespace="http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/UPG/FndIntgValidateSOAUPGIVP"
+     elementFormDefault="qualified">
+    <xsd:element name="Input">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="ValidateSOAUPGIVPReq" type="tns:FndIntgValidateSOAUPGIVPReq" minOccurs="1"
+                     maxOccurs="1"/>
+                <xsd:element name="Err_Msg_Length" type="xsd:double"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="Output">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="ValidateSOAUPGIVPRes" type="tns:FndIntgValidateSOAUPGIVPRes" minOccurs="1"
+                     maxOccurs="1"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:complexType name="FndIntgValidateSOAUPGIVPReq">
+        <xsd:sequence>
+            <xsd:element name="FndIntgUPGCheckDynamicPatnerlinkFaultIVP" type="xsd:string"/>
+            <xsd:element name="FndIntgUPGCheckNamespaceIVP" type="xsd:string"/>
+            <xsd:element name="FndIntgUPGCheckXSlEmptyValueIVP" type="xsd:string"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="FndIntgValidateSOAUPGIVPRes">
+        <xsd:sequence>
+            <xsd:element name="FndIntgUPGCheckDynamicPatnerlinkFaultIVP" type="tns:ResponseType"/>
+            <xsd:element name="FndIntgUPGCheckNamespaceIVP" type="tns:ResponseType"/>
+            <xsd:element name="FndIntgUPGCheckXSlEmptyValueIVP" type="tns:ResponseType"/>
+            <xsd:element name="OtherDetails" type="OtherDetailsType" minOccurs="1"
+                 maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ResponseType">
+        <xsd:sequence>
+            <xsd:element name="Status" type="xsd:string"/>
+            <xsd:element name="AdditionalNote" type="xsd:string"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="OtherDetailsType">
+        <xsd:sequence>
+            <xsd:element name="ExecutionStartTime" type="xsd:string"/>
+            <xsd:element name="ExecutionEndTime" type="xsd:string"/>
+            <xsd:element name="ServerName" type="xsd:string"/>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

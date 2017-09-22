@@ -1,0 +1,44 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://xmlns.schneider.com/SNIFndIntgIVPServices/ChkFaultSOAIVP"
+     xmlns="http://xmlns.schneider.com/SNIFndIntgIVPServices/ChkFaultSOAIVP" targetNamespace="http://xmlns.schneider.com/SNIFndIntgIVPServices/ChkFaultSOAIVP"
+     elementFormDefault="qualified">
+    <xsd:element name="Input">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="ValidateFaultHandlingReq" type="tns:FndIntgValidateFaultHandlingIVPReq"
+                     minOccurs="1" maxOccurs="1"/>
+                <xsd:element name="Err_Msg_Length" type="xsd:double"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="Output">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="ValidateFaultHandlingRes" type="tns:FndIntgValidateFaultHandlingIVPRes"
+                     minOccurs="1" maxOccurs="1"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:complexType name="FndIntgValidateFaultHandlingIVPReq">
+        <xsd:sequence>
+            <xsd:element name="fndintgfaulthandlingivp" type="xsd:string"/>
+            <xsd:element name="fndintghandlesnifaultivp" type="xsd:string"/>
+            <xsd:element name="fndintgheaderxpath" type="xsd:string"/>
+            <xsd:element name="fndintglogsnimessageivp" type="xsd:string"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="FndIntgValidateFaultHandlingIVPRes">
+        <xsd:sequence>
+            <xsd:element name="fndintgfaulthandlingivp" type="tns:ResponseType"/>
+            <xsd:element name="fndintghandlesnifaultivp" type="tns:ResponseType"/>
+            <xsd:element name="fndintgheaderxpath" type="tns:ResponseType"/>
+            <xsd:element name="fndintglogsnimessageivp" type="tns:ResponseType"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ResponseType">
+        <xsd:sequence>
+            <xsd:element name="Status" type="xsd:string"/>
+            <xsd:element name="AdditionalNote" type="xsd:string" minOccurs="0"/>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

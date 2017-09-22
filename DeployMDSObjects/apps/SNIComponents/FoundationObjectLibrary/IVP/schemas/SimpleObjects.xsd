@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='windows-1252'?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://xmlns.schneider.com/FoundationObjects/IVP/schemas" targetNamespace="http://xmlns.schneider.com/FoundationObjects/IVP/schemas" xmlns:snicore="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1" elementFormDefault="qualified">
+<xsd:import namespace="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1" schemaLocation="oramds:/apps/SNIComponents/EnterpriseObjectLibrary/Core/Common/V1/SNICore.xsd"/>
+<xsd:element name="CreateAddressRequestMessage" type="CreateAddressRequestMessageType"/>
+<xsd:element name="CreateAddressResponseMessage" type="CreateAddressResponseMessageType"/>
+<xsd:complexType name="CreateAddressResponseMessageType">
+<xsd:sequence>
+<xsd:element ref="snicore:SNIHeader"/>
+<xsd:element name="AddressId" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="CreateAddressRequestMessageType">
+<xsd:sequence>
+<xsd:element ref="snicore:SNIHeader"/>
+<xsd:element name="AddressElement" type="SimpleAddressType"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="SimpleAddressType">
+<xsd:sequence>
+<xsd:element name="Address1" type="xsd:string"/>
+<xsd:element name="Address2" type="xsd:string"/>
+<xsd:element name="City" type="xsd:string"/>
+<xsd:element name="State" type="xsd:string"/>
+<xsd:element name="Country" type="xsd:string"/>
+<xsd:element name="ZipCode" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:schema>

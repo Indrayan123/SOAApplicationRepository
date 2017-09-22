@@ -1,0 +1,24 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://www.schneider.com/ns/waybill"
+     xmlns:tns="http://www.schneider.com/ns/waybill" xmlns="http://www.w3.org/2001/XMLSchema">
+    <element name="WayBillRuleInputs">
+        <complexType>
+            <sequence>
+                <element name="RailOwner_LocId" type="string"/>
+                <element name="HasSTCCFlag" type="boolean"/>
+                <element name="ShipmentType" type="string"/>
+                <element name="RailRampLocId" type="string"/>
+                <element name="QuoteNumber" type="string"/>
+                <element name="EquipTypeCode" type="string"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="WayBillRuleOutputs">
+        <complexType>
+            <sequence>
+                <element name="CommoditySTCCOverrideFlag" type="boolean"/>
+                <element name="CommoditySTCCOverrideValue" type="string"/>
+            </sequence>
+        </complexType>
+    </element>
+</schema>

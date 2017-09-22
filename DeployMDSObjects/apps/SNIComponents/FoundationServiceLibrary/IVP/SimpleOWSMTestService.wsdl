@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions
+     name="SimpleOWSMTestService"
+     targetNamespace="http://xmlns.oracle.com/TestApplication/OWSMServiceProject/SimpleOWSMTestService"
+     xmlns:ns1="http://xmlns.schneider.com/IVPObjects/V1"
+     xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:client="http://xmlns.oracle.com/TestApplication/OWSMServiceProject/SimpleOWSMTestService"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+	
+    <plnk:partnerLinkType name="SimpleOWSMTestService">
+        <plnk:role name="SimpleOWSMTestServiceProvider">
+            <plnk:portType name="client:SimpleOWSMTestService"/>
+        </plnk:role>
+    </plnk:partnerLinkType>
+	
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.schneider.com/IVPObjects/V1" schemaLocation="oramds:///apps/SNIComponents/FoundationObjectLibrary/IVP/schemas/FndIntgTestIVPObjectsWithSNIHeader.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="SimpleOWSMTestServiceRequestMessage">
+        <wsdl:part name="payload" element="ns1:FndIntgTest1IVPMessage"/>
+    </wsdl:message>
+    <wsdl:message name="SimpleOWSMTestServiceResponseMessage">
+        <wsdl:part name="payload" element="ns1:FndIntgTest1IVPMessage"/>
+    </wsdl:message>
+    <wsdl:portType name="SimpleOWSMTestService">
+        <wsdl:operation name="process">
+            <wsdl:input message="client:SimpleOWSMTestServiceRequestMessage"/>
+            <wsdl:output message="client:SimpleOWSMTestServiceResponseMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

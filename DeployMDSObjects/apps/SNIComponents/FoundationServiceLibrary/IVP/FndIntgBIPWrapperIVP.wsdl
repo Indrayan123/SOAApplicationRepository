@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="FndIntgBIPWrapperIVP"
+             targetNamespace="http://xmlns.schneider.com/SNIFndIntgIVPServices/FndIntgBIPWrapperIVP/FndIntgBIPWrapperIVP"
+             xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:client="http://xmlns.schneider.com/SNIFndIntgIVPServices/FndIntgBIPWrapperIVP/FndIntgBIPWrapperIVP"
+             xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/">
+
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	TYPE DEFINITION - List of services participating in this BPEL process
+	The default output of the BPEL designer uses strings as input and 
+	output to the BPEL Process. But you can define or import any XML 
+	Schema type and use them as part of the message types.
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->   
+	<wsdl:types>
+		<schema xmlns="http://www.w3.org/2001/XMLSchema">
+			<import namespace="http://xmlns.schneider.com/SNIFndIntgIVPServices/FndIntgBIPWrapperIVP/FndIntgBIPWrapperIVP" schemaLocation="oramds:/apps/SNIComponents/FoundationObjectLibrary/IVP/schemas/FndIntgBIPWrapperIVP.xsd" />
+		</schema>
+	</wsdl:types>
+
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	MESSAGE TYPE DEFINITION - Definition of the message types used as 
+	part of the port type defintions
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->      
+	<wsdl:message name="FndIntgBIPWrapperIVPRequestMessage">
+		<wsdl:part name="payload" element="client:process"/>
+	</wsdl:message>
+
+	<wsdl:message name="FndIntgBIPWrapperIVPResponseMessage">
+		<wsdl:part name="payload" element="client:processResponse"/>
+	</wsdl:message>
+
+
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	PORT TYPE DEFINITION - A port type groups a set of operations into
+	a logical service unit.
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<!-- portType implemented by the FndIntgBIPWrapperIVP BPEL process -->
+	<wsdl:portType name="FndIntgBIPWrapperIVP">
+		<wsdl:operation name="process">
+			<wsdl:input message="client:FndIntgBIPWrapperIVPRequestMessage"/>
+		</wsdl:operation>
+	</wsdl:portType>
+
+	<!-- portType implemented by the requester of FndIntgBIPWrapperIVP BPEL process
+	for asynchronous callback purposes
+	-->
+	<wsdl:portType name="FndIntgBIPWrapperIVPCallback">
+		<wsdl:operation name="processResponse">
+			<wsdl:input message="client:FndIntgBIPWrapperIVPResponseMessage"/>
+		</wsdl:operation>
+	</wsdl:portType>
+
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	PARTNER LINK TYPE DEFINITION
+	the FndIntgBIPWrapperIVP partnerLinkType binds the provider and
+	requester portType into an asynchronous conversation.
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<plnk:partnerLinkType name="FndIntgBIPWrapperIVP">
+		<plnk:role name="FndIntgBIPWrapperIVPProvider">
+			<plnk:portType name="client:FndIntgBIPWrapperIVP"/>
+		</plnk:role>
+		<plnk:role name="FndIntgBIPWrapperIVPRequester">
+			<plnk:portType name="client:FndIntgBIPWrapperIVPCallback"/>
+		</plnk:role>
+	</plnk:partnerLinkType>
+</wsdl:definitions>

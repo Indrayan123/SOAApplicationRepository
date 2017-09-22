@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='windows-1252'?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://xmlns.schneider.com/SNIFndIntgIVPServices/ChkAdapterIntgSOAIVP" targetNamespace="http://xmlns.schneider.com/SNIFndIntgIVPServices/ChkAdapterIntgSOAIVP" elementFormDefault="qualified">
+   <xsd:element name="Input">
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:element name="ValidateAdapterIntgReq" type="ValidateAdapterIntgReqType" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="Err_Msg_Length" type="xsd:double"/>
+         </xsd:sequence>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="Output">
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:element name="ValidateAdapterIntgRes" type="ValidateAdapterIntgResType" minOccurs="1" maxOccurs="1"/>
+         </xsd:sequence>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:complexType name="ValidateAdapterIntgReqType">
+      <xsd:sequence>
+         <xsd:element name="fndintgappsadapterivp" type="xsd:string"/>
+         <xsd:element name="fndintgaqenqivp" type="xsd:string"/>
+         <xsd:element name="fndintgdbadapterivp" type="xsd:string"/>
+         <xsd:element name="fndintgjmsrqenqueue" type="xsd:string"/>
+         <xsd:element name="fndintgtopicpublisherivp" type="xsd:string"/>
+         <xsd:element name="fndintguooqueuepublisher" type="xsd:string"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="ValidateAdapterIntgResType">
+      <xsd:sequence>
+         <xsd:element name="fndintgappsadapterivp" type="ResponseType"/>
+         <xsd:element name="fndintgaqenqivp" type="ResponseType"/>
+         <xsd:element name="fndintgdbadapterivp" type="ResponseType"/>
+         <xsd:element name="fndintgjmsrqenqueue" type="ResponseType"/>
+         <xsd:element name="fndintgtopicpublisherivp" type="ResponseType"/>
+         <xsd:element name="fndintguooqueuepublisher" type="ResponseType"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="ResponseType">
+      <xsd:sequence>
+         <xsd:element name="Status" type="xsd:string"/>
+         <xsd:element name="AdditionalNote" type="xsd:string" minOccurs="0"/>
+      </xsd:sequence>
+   </xsd:complexType>
+</xsd:schema>
