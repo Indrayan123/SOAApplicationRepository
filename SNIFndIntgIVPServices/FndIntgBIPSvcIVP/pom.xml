@@ -119,6 +119,21 @@
           </execution> 	 -->
         </executions>
     </plugin> 
+	    <plugin>
+  <groupId>org.apache.maven.plugins</groupId>
+  <artifactId>maven-clean-plugin</artifactId>
+  <version>2.5</version>
+  <configuration>
+    <filesets>
+      <fileset>
+        <directory>${project.basedir}/SCA-INF/</directory>
+        <includes>
+          <include>**/*</include>
+        </includes>
+      </fileset>
+    </filesets>
+  </configuration>
+</plugin>
       <plugin>
         <groupId>com.oracle.soa.plugin</groupId>
         <artifactId>oracle-soa-plugin</artifactId>
