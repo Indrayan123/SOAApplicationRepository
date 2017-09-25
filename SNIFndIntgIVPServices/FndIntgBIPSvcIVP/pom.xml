@@ -172,11 +172,9 @@
     </dependency>
     
 	  <dependency>
-    <groupId>..</groupId>
-    <artifactId>..</artifactId>
-    <version>..</version>
-    <scope>system</scope>
-    <systemPath>/opt/schneider/applications/SOAFoundation/lib/FndIntgSoaExtensions.jar</systemPath>
+    <groupId>SNIFndIntgIVPServices</groupId>
+    <artifactId>oracleexternaljar</artifactId>
+    <version>1.0</version>    
 </dependency>
 
   </dependencies> 
