@@ -172,7 +172,7 @@
     </dependency>
     
 	  <dependency>
-    <groupId>SNIFndIntgIVPServices</groupId>
+    <groupId>SNIFndIntgServices</groupId>
     <artifactId>oracleexternaljar</artifactId>
     <version>1.0</version>    
 </dependency>
