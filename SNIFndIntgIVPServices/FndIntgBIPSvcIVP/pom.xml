@@ -172,8 +172,8 @@
     </dependency>
     
 	  <dependency>
-    <groupId>SNIFndIntgExtServices</groupId>
-    <artifactId>oraclesniextjar</artifactId>
+    <groupId>SNIFndIntgExtjar</groupId>
+    <artifactId>customsniextjar</artifactId>
     <version>1.0</version>    
 </dependency>
 
