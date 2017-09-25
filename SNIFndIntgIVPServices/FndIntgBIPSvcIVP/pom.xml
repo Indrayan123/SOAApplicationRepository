@@ -172,11 +172,11 @@
     </dependency>
     
 	  <dependency>
-    <groupId>oracle.soa.ext</groupId>
-    <artifactId>oracle.soa.ext</artifactId>
-    <version>12.1.2.0.0</version>
+    <groupId>..</groupId>
+    <artifactId>..</artifactId>
+    
     <scope>system</scope>
-    <systemPath>/opt/oracle/middleware/soa/soa/modules/oracle.soa.ext_11.1.1/oracle.soa.ext.jar</systemPath>
+    <systemPath>/opt/schneider/applications/SOAFoundation/lib/FndIntgSoaExtensions.jar</systemPath>
 </dependency>
 
   </dependencies> 
