@@ -152,7 +152,7 @@
             ${input}
           </input>
 		<excludes>
-			<exclude>**/SCA-INF/bpel/</exclude>
+			<exclude>${project.basedir}/SCA-INF/bpel/</exclude>
 			</excludes>
         </configuration>
         <!-- extensions=true is needed to use the custom sar packaging type -->
