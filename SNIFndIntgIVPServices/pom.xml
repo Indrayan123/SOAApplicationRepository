@@ -19,9 +19,8 @@
    
   </parent>
   <modules>	   
-  	<module>BR_FndIntg_SimpleRuleIVP</module>
-	<module>Fndintg_largepayloadBRIVP</module>
-	<module>FndIntg_SimpleBRIVP</module>
+  	<module>FndIntgBIPSvcIVP</module>
+	
     </modules>
   <build>
   <resources>

@@ -1,0 +1,42 @@
+2017-09-25 02:58:39.371/2.277 Oracle Coherence 12.2.1.0.0 <Info> (thread=main, member=n/a): Loaded operational configuration from "jar:file:/C:/JDEV12R2V1SOA/coherence/lib/coherence.jar!/tangosol-coherence.xml"
+2017-09-25 02:58:39.401/2.307 Oracle Coherence 12.2.1.0.0 <Info> (thread=main, member=n/a): Loaded operational overrides from "jar:file:/C:/JDEV12R2V1SOA/coherence/lib/coherence.jar!/tangosol-coherence-override-dev.xml"
+2017-09-25 02:58:39.402/2.308 Oracle Coherence 12.2.1.0.0 <D5> (thread=main, member=n/a): Optional configuration override "/tangosol-coherence-override.xml" is not specified
+2017-09-25 02:58:39.404/2.310 Oracle Coherence 12.2.1.0.0 <D5> (thread=main, member=n/a): Optional configuration override "cache-factory-config.xml" is not specified
+2017-09-25 02:58:39.405/2.311 Oracle Coherence 12.2.1.0.0 <D5> (thread=main, member=n/a): Optional configuration override "cache-factory-builder-config.xml" is not specified
+2017-09-25 02:58:39.405/2.312 Oracle Coherence 12.2.1.0.0 <D5> (thread=main, member=n/a): Optional configuration override "/custom-mbeans.xml" is not specified
+
+Oracle Coherence Version 12.2.1.0.0 Build 60603
+ Grid Edition: Development mode
+Copyright (c) 2000, 2015, Oracle and/or its affiliates. All rights reserved.
+
+2017-09-25 02:58:39.471/2.377 Oracle Coherence GE 12.2.1.0.0 <Info> (thread=main, member=n/a): Loaded FMW commons version: 12.2.1-0-0-SNAPSHOT b60603
+2017-09-25 02:58:39.475/2.381 Oracle Coherence GE 12.2.1.0.0 <Info> (thread=main, member=n/a): Created cache factory com.tangosol.net.DefaultConfigurableCacheFactory
+2017-09-25 02:58:39.621/2.527 Oracle Coherence GE 12.2.1.0.0 <Info> (thread=main, member=n/a): The cluster name has not been configured, a value of "f23963's cluster" has been automatically generated
+Sep 25, 2017 2:58:39 AM oracle.soa.scac.ValidateComposite loadWSDLs
+WARNING: Validating WSDLs from WSDLManager....  with option UseSoaInfraMds:false
+Sep 25, 2017 2:58:40 AM oracle.fabric.common.wsdl.SchemaManager isIncrementalBuildSupported
+INFO: XMLSchema incremental build enabled.
+Sep 25, 2017 2:58:40 AM com.collaxa.cube.CubeLogger info
+INFO: validating "FndIntgBIPSvcIVPInit.bpel" ...
+Sep 25, 2017 2:58:40 AM oracle.integration.platform.blocks.PlatformConfigurationProvider getPlatformConfigurationProvider
+WARNING: JRF is unable to determine the current application server platform.
+Sep 25, 2017 2:58:40 AM com.collaxa.cube.CubeLogger info
+INFO: Composed "FndIntgBIPSvcIVPInit" in 48.4 milliseconds [nodes 27=0+27, 557.6 nodes/sec]
+Sep 25, 2017 2:58:41 AM com.collaxa.cube.CubeLogger info
+INFO: Compiled "FndIntgBIPSvcIVPInit" in 715.3 milliseconds
+Sep 25, 2017 2:58:41 AM com.collaxa.cube.CubeLogger info
+INFO: Gathered 4 files in 0.3 milliseconds
+Sep 25, 2017 2:58:41 AM com.collaxa.cube.CubeLogger info
+INFO: Packaged "FndIntgBIPSvcIVPInit" in 4.4 milliseconds
+Sep 25, 2017 2:58:41 AM com.collaxa.cube.CubeLogger info
+INFO: validating "FndIntgBIPWrapperIVP.bpel" ...
+Sep 25, 2017 2:58:41 AM com.collaxa.cube.CubeLogger info
+INFO: Composed "FndIntgBIPWrapperIVP" in 13.2 milliseconds [nodes 13=0+13, 984.9 nodes/sec]
+Sep 25, 2017 2:58:41 AM com.collaxa.cube.CubeLogger info
+INFO: Compiled "FndIntgBIPWrapperIVP" in 229.8 milliseconds
+Sep 25, 2017 2:58:41 AM com.collaxa.cube.CubeLogger info
+INFO: Gathered 4 files in 0.3 milliseconds
+Sep 25, 2017 2:58:41 AM com.collaxa.cube.CubeLogger info
+INFO: Packaged "FndIntgBIPWrapperIVP" in 3.2 milliseconds
+Java HotSpot(TM) 64-Bit Server VM warning: ignoring option PermSize=32m; support was removed in 8.0
+Java HotSpot(TM) 64-Bit Server VM warning: ignoring option MaxPermSize=256m; support was removed in 8.0
