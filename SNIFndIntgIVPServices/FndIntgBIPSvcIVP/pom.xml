@@ -151,7 +151,7 @@
           <input>
             ${input}
           </input>
-		<exludes>
+		<excludes>
 			<exclude>**/SCA-INF/bpel/</exclude>
 			</excludes>
         </configuration>
