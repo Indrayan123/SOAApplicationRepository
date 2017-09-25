@@ -126,7 +126,11 @@
   <configuration>
     <filesets>
       <fileset>
-        <directory>${project.basedir}/SCA-INF</directory>        
+	      <followSymlinks>false</followSymlinks>
+        <directory>${project.basedir}</directory> 
+	      <includes>
+		      <include>SCA-INF/**</include>
+		  </includes>    
       </fileset>
     </filesets>
   </configuration>
