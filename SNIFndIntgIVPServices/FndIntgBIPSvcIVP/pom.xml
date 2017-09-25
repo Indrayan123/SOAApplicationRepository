@@ -126,9 +126,9 @@
   <configuration>
     <filesets>
       <fileset>
-        <directory>${project.basedir}/SCA-INF/</directory>
+        <directory>SCA-INF</directory>
         <includes>
-          <include>**/*</include>
+          <include>**</include>
         </includes>
       </fileset>
     </filesets>
@@ -167,7 +167,7 @@
             ${input}
           </input>
 		<excludes>
-			<exclude>**/SCA-INF/</exclude>
+			<exclude>${project.basedir}/SCA-INF/</exclude>
 			</excludes>
         </configuration>
         <!-- extensions=true is needed to use the custom sar packaging type -->
