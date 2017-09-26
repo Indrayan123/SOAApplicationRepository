@@ -135,15 +135,7 @@
     </filesets>
   </configuration>
 </plugin>
-	    <plugin>
-  <groupId>org.apache.maven.plugins</groupId>
-  <artifactId>maven-compiler-plugin</artifactId>
-  <configuration>
-    <excludes>
-      <exclude>**/SCA-INF/*.*</exclude>
-    </excludes>
-  </configuration>
-</plugin>
+	    
       <plugin>
         <groupId>com.oracle.soa.plugin</groupId>
         <artifactId>oracle-soa-plugin</artifactId>
@@ -177,7 +169,7 @@
             ${input}
           </input>
 		<excludes>
-			<exclude>${project.basedir}/SCA-INF/</exclude>
+			<exclude>**/SCA-INF/</exclude>
 			</excludes>
         </configuration>
         <!-- extensions=true is needed to use the custom sar packaging type -->
