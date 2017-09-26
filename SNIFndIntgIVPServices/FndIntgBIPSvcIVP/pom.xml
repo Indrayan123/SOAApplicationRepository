@@ -134,7 +134,7 @@
     </executions>
     <configuration>
         <includes>
-            <include>FndIntgBIPSvcIVP/SCA-INF/bpel/FndIntgBIPSvcIVPInit/src/orabpel/fndintgbipsvcivpinit/L0.java</include>
+            <include>${project.basedir}/SCA-INF/bpel/FndIntgBIPSvcIVPInit/src/orabpel/fndintgbipsvcivpinit/L0.java</include>
         </includes>
         <replacements>
             <replacement>

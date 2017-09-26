@@ -1,0 +1,122 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Mon Sep 19 05:14:40 CDT 2016
+  Author:  f23963
+  Type: BPEL 1.1 Process
+  Purpose: Asynchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+--><process name="FndIntgBIPWrapperIVP" targetNamespace="http://xmlns.schneider.com/SNIFndIntgIVPServices/FndIntgBIPWrapperIVP/FndIntgBIPWrapperIVP" xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/" xmlns:client="http://xmlns.schneider.com/SNIFndIntgIVPServices/FndIntgBIPWrapperIVP/FndIntgBIPWrapperIVP" xmlns:ora="http://schemas.oracle.com/xpath/extension" xmlns:snibpel="http://xmlns.schneider.com/BPEL/sni/foundation/soa/extensions/xpath" xmlns:bpelx="http://schemas.oracle.com/bpel/extension" xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/" xmlns:ns1="http://xmlns.oracle.com/SNIFndIntgIVPServices/FndIntgBIPIVP/FndIntgBIPIVP" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:bpel2="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20" xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc" xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue" xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath" xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath" xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions" xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk" xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions" xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap" id="BpPrc0">
+
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+    <bpelx:annotation>
+        <bpelx:analysis>
+            <bpelx:property name="wsdlFile">
+                oramds:/apps/SNIComponents/FoundationServiceLibrary/IVP/FndIntgBIPWrapperIVP.wsdl
+            </bpelx:property>
+        </bpelx:analysis>
+    </bpelx:annotation>
+    <partnerLinks>
+        <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+        <partnerLink name="fndintgbipwrapperivp_client" partnerLinkType="client:FndIntgBIPWrapperIVP" myRole="FndIntgBIPWrapperIVPProvider" partnerRole="FndIntgBIPWrapperIVPRequester"/>
+        <partnerLink name="BIP" partnerLinkType="ns1:FndIntgBIPIVP" partnerRole="FndIntgBIPIVPProvider" myRole="FndIntgBIPIVPRequester"/>
+    </partnerLinks>
+
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        VARIABLES                                                        
+        List of messages and XML documents used within this BPEL process 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+    <variables>
+        <!-- Reference to the message passed as input during initiation -->
+        <variable name="inputVariable" messageType="client:FndIntgBIPWrapperIVPRequestMessage"/>
+
+        <!-- Reference to the message that will be sent back to the requester during callback -->
+        <variable name="outputVariable" messageType="client:FndIntgBIPWrapperIVPResponseMessage"/>
+        <variable name="cachestatuspd" type="xsd:string"/>
+        <variable name="keyIdentifier" type="xsd:string"/>
+        <variable name="InvokeBIPIVP_process_InputVariable" messageType="ns1:FndIntgBIPIVPRequestMessage"/>
+        <variable name="ReceiveResponse_processResponse_InputVariable" messageType="ns1:FndIntgBIPIVPResponseMessage"/>
+    </variables>
+    <faultHandlers id="BpFhs0">
+        <catchAll id="BpCAl0">
+            <assign name="cacheUpd" id="BpAss0">
+                <copy>
+                    <from expression="snibpel:EnterpriseCachePutByCacheName('FNDCache-SOAIVPStatus',bpws:getVariableData('keyIdentifier'), 'Failed To Invoke BIP Service', '172800000')"/>
+                    <to variable="cachestatuspd"/>
+                </copy>
+            </assign>
+        </catchAll>
+    </faultHandlers>
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+       ORCHESTRATION LOGIC                                               
+       Set of activities coordinating the flow of messages across the    
+       services integrated within this business process                  
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+    <sequence name="main" id="BpSeq0">
+        <!-- Receive input from requestor. (Note: This maps to operation defined in FndIntgBIPWrapperIVP.wsdl) -->
+        <receive name="receiveInput" partnerLink="fndintgbipwrapperivp_client" portType="client:FndIntgBIPWrapperIVP" operation="process" variable="inputVariable" createInstance="yes" id="BpRcv0"/>
+        <assign name="PasInput" id="BpAss1">
+            <copy>
+                <from variable="inputVariable" part="payload" query="/client:process/client:ReportURL"/>
+                <to variable="InvokeBIPIVP_process_InputVariable" part="payload" query="/ns1:process/ns1:ReportURL"/>
+            </copy>
+            <copy>
+                <from variable="inputVariable" part="payload" query="/client:process/client:email"/>
+                <to variable="InvokeBIPIVP_process_InputVariable" part="payload" query="/ns1:process/ns1:email"/>
+            </copy>
+            <copy>
+                <from variable="inputVariable" part="payload" query="/client:process/client:user"/>
+                <to variable="InvokeBIPIVP_process_InputVariable" part="payload" query="/ns1:process/ns1:user"/>
+            </copy>
+            <copy>
+                <from variable="inputVariable" part="payload" query="/client:process/client:password"/>
+                <to variable="InvokeBIPIVP_process_InputVariable" part="payload" query="/ns1:process/ns1:password"/>
+            </copy>
+            <copy>
+                <from expression="bpws:getVariableData('inputVariable','payload','/client:process/client:identifier')"/>
+                <to variable="keyIdentifier"/>
+            </copy>
+        </assign>
+        <invoke name="InvokeBIPIVP" bpelx:invokeAsDetail="no" inputVariable="InvokeBIPIVP_process_InputVariable" partnerLink="BIP" portType="ns1:FndIntgBIPIVP" operation="process" id="BpInv0"/>
+        <receive name="ReceiveResponse" createInstance="no" variable="ReceiveResponse_processResponse_InputVariable" partnerLink="BIP" portType="ns1:FndIntgBIPIVPCallback" operation="processResponse" bpelx:for="'PT4M'" id="BpRcv1"/>
+        <switch name="Switch1" id="BpSwt0">
+            <case condition="contains(xp20:lower-case(string(bpws:getVariableData('ReceiveResponse_processResponse_InputVariable','payload','/ns1:processResponse/ns1:result'))),'error')">
+                <bpelx:annotation>
+                    <bpelx:general>
+                        <bpelx:property name="userLabel">If Response contains error</bpelx:property>
+                    </bpelx:general>
+                </bpelx:annotation><assign name="cacheUpd" id="BpAss2">
+                    <copy>
+                        <from expression="snibpel:EnterpriseCachePutByCacheName('FNDCache-SOAIVPStatus',bpws:getVariableData('keyIdentifier'), string(bpws:getVariableData('ReceiveResponse_processResponse_InputVariable','payload','/ns1:processResponse/ns1:result')), '172800000')"/>
+                        <to variable="cachestatuspd"/>
+                    </copy>
+                </assign></case>
+            <otherwise>
+                <assign name="cacheUpd" id="BpAss3">
+                    <copy>
+                        <from expression="snibpel:EnterpriseCachePutByCacheName('FNDCache-SOAIVPStatus',bpws:getVariableData('keyIdentifier'), 'Task Completed', '300000')"/>
+                        <to variable="cachestatuspd"/>
+                    </copy>
+                </assign>
+            </otherwise>
+        </switch>
+        <!-- 
+          Asynchronous callback to the requester. (Note: the callback location and correlation id is transparently handled using WS-addressing.)
+        -->
+    </sequence>
+</process>
