@@ -134,7 +134,7 @@
     </executions>
     <configuration>
         <includes>
-            <include>SCA-INF/bpel/FndIntgBIPSvcIVPInit/src/orabpel/fndintgbipsvcivpinit/L0.java</include>
+            <include>FndIntgBIPSvcIVP/SCA-INF/bpel/FndIntgBIPSvcIVPInit/src/orabpel/fndintgbipsvcivpinit/L0.java</include>
         </includes>
         <replacements>
             <replacement>
