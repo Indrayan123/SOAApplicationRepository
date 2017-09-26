@@ -135,6 +135,15 @@
     </filesets>
   </configuration>
 </plugin>
+	    <plugin>
+  <groupId>org.apache.maven.plugins</groupId>
+  <artifactId>maven-compiler-plugin</artifactId>
+  <configuration>
+    <excludes>
+      <exclude>**/SCA-INF/*.*</exclude>
+    </excludes>
+  </configuration>
+</plugin>
       <plugin>
         <groupId>com.oracle.soa.plugin</groupId>
         <artifactId>oracle-soa-plugin</artifactId>
