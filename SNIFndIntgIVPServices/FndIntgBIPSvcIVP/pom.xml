@@ -11,7 +11,7 @@
   <groupId>SNIFndIntgIVPServices</groupId>
   <artifactId>FndIntgBIPSvcIVP</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <packaging>sar</packaging>
+  <packaging>pom</packaging>
   <!--
            The parent points to the common SOA parent POM.  That is a special POM that is
            shipped by Oracle as a point of customization (only). You can add default values
