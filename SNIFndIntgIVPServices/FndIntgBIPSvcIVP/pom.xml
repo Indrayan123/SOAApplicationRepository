@@ -118,6 +118,7 @@
 								<property name="build.compiler" value="extJavac"/>
 								<property name="compositeName" value="${project.artifactId}" />
 								<property name="compositeDir" value="${project.basedir}" />
+								<property name="sarLocation" value="${project.basedir}/deploy/sca_BIP.jar" />
 								<property name="revision" value="${project.version}" />
 								<ant antfile="/opt/oracle/middleware/soa/bin/ant-sca-package.xml"
 									dir="/opt/oracle/middleware/soa/bin"
