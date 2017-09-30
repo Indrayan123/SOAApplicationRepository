@@ -244,7 +244,7 @@
             ${input}
           </input>
 		<excludes>
-     <exclude>**/target/</exclude>
+     <exclude>${scac.input.dir}/SCA-INF/**</exclude>
      <exclude>**/pom.xml</exclude>
      <exclude>**/only4compile*.jar</exclude>
    </excludes>
