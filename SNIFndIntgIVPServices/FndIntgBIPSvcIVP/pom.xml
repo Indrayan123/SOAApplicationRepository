@@ -116,16 +116,16 @@
 								<property name="compositeDir" value="${project.basedir}" />							<property name="scac.tasks.class.path" value="/opt/oracle/middleware/soa/soa/modules/oracle.soa.ext_11.1.1/oracle.soa.ext.jar" />
 								<property name="revision" value="${project.version}" />
 								
-								<ant antfile="/opt/oracle/middleware/soa/bin/ant-sca-compile.xml"
+								<ant antfile="/opt/oracle/middleware/soa/bin/ant-sca-package.xml"
 									dir="/opt/oracle/middleware/soa/bin"
-									target="compile" />
+									target="package" />
 							</target>
 						</configuration>
 		   
 				<executions>
 					<execution>
 						<id>sca-package</id>
-						<phase>compile</phase>
+						<phase>package</phase>
 						
 						<goals>
 							<goal>run</goal>
