@@ -11,7 +11,7 @@
   <groupId>SNIFndIntgIVPServices</groupId>
   <artifactId>FndIntgBIPSvcIVP</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <packaging>sar</packaging>
+  <packaging>pom</packaging>
   <!--
            The parent points to the common SOA parent POM.  That is a special POM that is
            shipped by Oracle as a point of customization (only). You can add default values
@@ -98,169 +98,48 @@
           </resources>             
         </configuration>           
       </execution>  
-<!--  <execution>
-            <id>copy-jar-file</id>
-            <phase>package</phase>
-            <goals>
-              <goal>copy-resources</goal>
-            </goals>
-            <configuration>
-              <outputDirectory>${project.basedir}/../${env.buildlocation}/${project.artifactId}/</outputDirectory>
-              <resources>         
-                <resource>
-                  <directory>${scac.output.dir}</directory>
-                  <includes>
-                    <include>sca_${project.artifactId}_rev${version}.jar</include>					
-                  </includes>
-                  <filtering>false</filtering>
-                </resource>
-              </resources>             
-            </configuration>           
-          </execution> 	 -->
+
         </executions>
     </plugin> 
 	   
-	  <!--<plugin>
-    <groupId>com.google.code.maven-replacer-plugin</groupId>
-    <artifactId>replacer</artifactId>
-    <version>1.5.3</version>
-    <executions>
-        <execution>
-            <phase>generate-resources</phase>
-            <goals>
-                <goal>replace</goal>
-            </goals>
-        </execution>
-    </executions>
-    <configuration>
-        <includes>
-            <include>${project.basedir}/SCA-INF/bpel/FndIntgBIPSvcIVPInit/src/orabpel/fndintgbipsvcivpinit/L0.java</include>
-        </includes>
-        <replacements>
-            <replacement>
-                <token>\</token>
-                <value>\\</value>
-            </replacement>
-        </replacements>
-    </configuration>
-</plugin> --> 
+	  
+     
+	  <plugin>
+		   <groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.6</version>
+		  <configuration>
+							<target>
+								<property name="scac.application.home" value="${project.basedir}/.." />
+								<property name="build.compiler" value="extJavac"/>
+								<property name="compositeName" value="${project.artifactId}" />
+								<property name="compositeDir" value="${project.basedir}" />								
+								<property name="revision" value="${project.version}" />
+								<dependencyfilesets prefix="mydeps."/>
+                <mkdir dir="target/dependencies"/>
+                <copy todir="target/dependencies">
+                  <fileset refid="SNIFndIntgExtjar:customsniextjar:jar"/>                  
+                </copy>
 
-
- 
- <plugin>
-   <groupId>org.apache.maven.plugins</groupId>
-   <artifactId>maven-dependency-plugin</artifactId>
-   <version>2.8</version>
-   <executions>
-     <execution>
-       <id>copy</id>
-       <phase>validate</phase>
-       <goals>
-         <goal>copy</goal>
-       </goals>
-       <configuration>
-        <artifactItems>
-          <artifactItem>
-            <groupId>com.oracle.soa</groupId>
-            <artifactId>orabpel</artifactId>
-            <version>12.2.1-0-0</version>
-            <type>jar</type>
-            <overWrite>false</overWrite>
-            <outputDirectory>${scac.input.dir}/SCA-INF/lib</outputDirectory>
-            <destFileName>only4compile.jar</destFileName>
-         </artifactItem>
-       </artifactItems>
-     </configuration>
-   </execution>
-  </executions>
- </plugin>
- 
-
-<plugin>
-	<groupId>org.apache.maven.plugins</groupId>
-  <artifactId>maven-clean-plugin</artifactId>
-	<version>2.5</version>
-	<executions>
-	<execution>
-        <id>clean</id>
-        <phase>compile</phase>
-        <goals>
-          <goal>clean</goal>
-        </goals>
-  <configuration>
-    <filesets>
-      <fileset>
-        <directory>target</directory>
-        <followSymlinks>false</followSymlinks>
-      </fileset>
-      <fileset>
-       <directory>${scac.input.dir}/SCA-INF</directory>
-       <followSymlinks>false</followSymlinks>
-      </fileset>
-    </filesets>
-   </configuration>
-		</execution> 
-		</executions> 
- </plugin>
-<plugin>
-  <groupId>org.apache.maven.plugins</groupId>
-  <artifactId>maven-compiler-plugin</artifactId>
-  <version>3.1</version>
-  <executions>
-    <execution>
-      <id>compile-soa-java</id>
-      <phase>compile</phase>
-      <goals>
-        <goal>compile</goal>
-      </goals>
-    </execution>
-  </executions>       
-  <configuration>
-    <source>1.7</source>
-    <target>1.7</target>
-  </configuration>
-</plugin>
-      <plugin>
-        <groupId>com.oracle.soa.plugin</groupId>
-        <artifactId>oracle-soa-plugin</artifactId>
-        <version>12.2.1-0-0</version>
-        <configuration>
-		<target>
-		<property name="configPlan" values="${project.basedir}/Deployment_cfgplan.xml"/>
-		</target>		  
-          <compositeName>
-            ${project.artifactId}
-          </compositeName>
-          <composite>
-            ${scac.input}
-          </composite>
-          <sarLocation>
-            ${scac.output.dir}/sca_${project.artifactId}_rev${version}.jar
-          </sarLocation>
-          
-          <!-- Note: compositeRevision is needed to package, revision is needed to undeploy -->
-          <compositeRevision>
-            ${composite.revision}
-          </compositeRevision>
-          <revision>
-            ${composite.revision}
-          </revision>
-          <scacInputDir>
-            ${scac.input.dir}
-          </scacInputDir>
-		  <appHome>${project.basedir}/..</appHome>	
-          <input>
-            ${input}
-          </input>
-		<excludes>
-     <exclude>${scac.input.dir}/SCA-INF/**</exclude>
-     <exclude>**/pom.xml</exclude>
-     <exclude>**/only4compile*.jar</exclude>
-   </excludes>
-        </configuration>
-        <!-- extensions=true is needed to use the custom sar packaging type -->
-        <extensions>true</extensions>
-		<dependencies>
+								<ant antfile="/opt/oracle/middleware/soa/bin/ant-sca-compile.xml"
+									dir="/opt/oracle/middleware/soa/bin"
+									target="compile" />
+							</target>
+						</configuration>
+		   
+				<executions>
+					<execution>
+						<id>sca-package</id>
+						<phase>compile</phase>
+						
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+					
+					
+				</executions>
+		  <dependencies>
    <dependency>
     <groupId>javax.el</groupId>
     <artifactId>javax.el-api</artifactId>
@@ -276,11 +155,6 @@
       <artifactId>oracle.ucp</artifactId>
       <version>12.1.0-2-1</version>
     </dependency>
-			<dependency>
-    <groupId>com.oracle.soa</groupId>
-            <artifactId>orabpel</artifactId>
-            <version>12.2.1-0-0</version>   
-</dependency>
     
 	  <dependency>
     <groupId>SNIFndIntgExtjar</groupId>
@@ -288,8 +162,9 @@
     <version>1.0</version>    
 </dependency>
 
-  </dependencies> 
-      </plugin> 
+  </dependencies>
+			</plugin>
+
     </plugins>
 	
   </build>
