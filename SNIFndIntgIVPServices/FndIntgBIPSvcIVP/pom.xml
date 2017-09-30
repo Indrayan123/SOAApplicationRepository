@@ -276,6 +276,11 @@
       <artifactId>oracle.ucp</artifactId>
       <version>12.1.0-2-1</version>
     </dependency>
+			<dependency>
+    <groupId>com.oracle.soa</groupId>
+            <artifactId>orabpel</artifactId>
+            <version>12.2.1-0-0</version>   
+</dependency>
     
 	  <dependency>
     <groupId>SNIFndIntgExtjar</groupId>
