@@ -98,53 +98,12 @@
           </resources>             
         </configuration>           
       </execution>  
-<!--  <execution>
-            <id>copy-jar-file</id>
-            <phase>package</phase>
-            <goals>
-              <goal>copy-resources</goal>
-            </goals>
-            <configuration>
-              <outputDirectory>${project.basedir}/../${env.buildlocation}/${project.artifactId}/</outputDirectory>
-              <resources>         
-                <resource>
-                  <directory>${scac.output.dir}</directory>
-                  <includes>
-                    <include>sca_${project.artifactId}_rev${version}.jar</include>					
-                  </includes>
-                  <filtering>false</filtering>
-                </resource>
-              </resources>             
-            </configuration>           
-          </execution> 	 -->
+
         </executions>
     </plugin> 
 	   
-	  <plugin>
-    <groupId>com.google.code.maven-replacer-plugin</groupId>
-    <artifactId>replacer</artifactId>
-    <version>1.5.3</version>
-    <executions>
-        <execution>
-            <phase>generate-resources</phase>
-            <goals>
-                <goal>replace</goal>
-            </goals>
-        </execution>
-    </executions>
-    <configuration>
-        <includes>
-            <include>${project.basedir}/SCA-INF/bpel/FndIntgBIPSvcIVPInit/src/orabpel/fndintgbipsvcivpinit/L0.java</include>
-        </includes>
-        <replacements>
-            <replacement>
-                <token>\</token>
-                <value>\\</value>
-            </replacement>
-        </replacements>
-    </configuration>
-</plugin>  
-      <plugin>
+	  
+      <!--<plugin>
         <groupId>com.oracle.soa.plugin</groupId>
         <artifactId>oracle-soa-plugin</artifactId>
         <version>12.2.1-0-0</version>
@@ -206,7 +165,35 @@
 </dependency>
 
   </dependencies> 
-      </plugin> 
+      </plugin> -->
+	  <plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.6</version>
+				<executions>
+					<execution>
+						<id>sca-package</id>
+						<phase>package</phase>
+						<configuration>
+							<target>
+								<property name="scac.application.home" value="${project.basedir}/.." />
+								<property name="build.compiler" value="extJavac"/>
+								<property name="compositeName" value="${project.artifactId}" />
+								<property name="compositeDir" value="${project.basedir}" />
+								<property name="revision" value="${project.version}" />
+								<ant antfile="/opt/oracle/middleware/soa/bin/ant-sca-package.xml"
+									dir="/opt/oracle/middleware/soa/bin"
+									target="package" />
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+					
+					
+				</executions>
+			</plugin>
+
     </plugins>
 	
   </build>
