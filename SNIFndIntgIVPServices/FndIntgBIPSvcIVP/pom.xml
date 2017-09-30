@@ -120,6 +120,30 @@
 									target="package" />
 							</target>
 						</configuration>
+		  <dependencies>
+   <dependency>
+    <groupId>javax.el</groupId>
+    <artifactId>javax.el-api</artifactId>
+    <version>3.0.0</version>
+  </dependency>
+   <dependency>
+      <groupId>com.oracle.javavm.jrf</groupId>
+      <artifactId>ojdbc7_g</artifactId>
+      <version>12.1.0-2-1</version>
+    </dependency>
+  <dependency>
+      <groupId>com.oracle.javavm.jrf</groupId>
+      <artifactId>oracle.ucp</artifactId>
+      <version>12.1.0-2-1</version>
+    </dependency>
+    
+	  <dependency>
+    <groupId>SNIFndIntgExtjar</groupId>
+    <artifactId>customsniextjar</artifactId>
+    <version>1.0</version>    
+</dependency>
+
+  </dependencies> 
 				<executions>
 					<execution>
 						<id>sca-package</id>
