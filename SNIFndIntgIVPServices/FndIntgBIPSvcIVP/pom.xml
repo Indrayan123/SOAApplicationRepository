@@ -113,14 +113,9 @@
 								<property name="scac.application.home" value="${project.basedir}/.." />
 								<property name="build.compiler" value="extJavac"/>
 								<property name="compositeName" value="${project.artifactId}" />
-								<property name="compositeDir" value="${project.basedir}" />								
+								<property name="compositeDir" value="${project.basedir}" />							<property name="scac.tasks.class.path" value="/opt/oracle/middleware/soa/soa/modules/oracle.soa.ext_11.1.1/oracle.soa.ext.jar" />
 								<property name="revision" value="${project.version}" />
-								<dependencyfilesets prefix="mydeps."/>
-                <mkdir dir="target/dependencies"/>
-                <copy todir="target/dependencies">
-                  <fileset refid="SNIFndIntgExtjar:customsniextjar:jar"/>                  
-                </copy>
-
+								
 								<ant antfile="/opt/oracle/middleware/soa/bin/ant-sca-compile.xml"
 									dir="/opt/oracle/middleware/soa/bin"
 									target="compile" />
@@ -139,30 +134,7 @@
 					
 					
 				</executions>
-		  <dependencies>
-   <dependency>
-    <groupId>javax.el</groupId>
-    <artifactId>javax.el-api</artifactId>
-    <version>3.0.0</version>
-  </dependency>
-   <dependency>
-      <groupId>com.oracle.javavm.jrf</groupId>
-      <artifactId>ojdbc7_g</artifactId>
-      <version>12.1.0-2-1</version>
-    </dependency>
-  <dependency>
-      <groupId>com.oracle.javavm.jrf</groupId>
-      <artifactId>oracle.ucp</artifactId>
-      <version>12.1.0-2-1</version>
-    </dependency>
-    
-	  <dependency>
-    <groupId>SNIFndIntgExtjar</groupId>
-    <artifactId>customsniextjar</artifactId>
-    <version>1.0</version>    
-</dependency>
-
-  </dependencies>
+		 
 			</plugin>
 
     </plugins>
