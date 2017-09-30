@@ -183,7 +183,7 @@
 	<executions>
 	<execution>
         <id>clean</id>
-        <phase>process-sources</phase>
+        <phase>compile</phase>
         <goals>
           <goal>clean</goal>
         </goals>
