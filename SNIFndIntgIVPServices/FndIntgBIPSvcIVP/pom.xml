@@ -143,6 +143,20 @@
     <version>12.2.1-0-0</version>
 
   </dependency>
+			  <dependency>
+    <groupId>com.oracle.soa</groupId>
+    <artifactId>soa-infra-mgmt</artifactId>
+
+    <version>12.2.1-0-0</version>
+
+  </dependency>
+			  <dependency>
+    <groupId>com.oracle.soa</groupId>
+    <artifactId>fabric-runtime</artifactId>
+
+    <version>12.2.1-0-0</version>
+
+  </dependency>
 		</dependencies> 
 			</plugin>
 
