@@ -121,6 +121,7 @@
 									target="package" />
 							</target>
 						</configuration>
+		  
 		   
 				<executions>
 					<execution>
@@ -134,6 +135,14 @@
 					
 					
 				</executions>
+		  <dependencies>
+   <dependency>
+    <groupId>com.oracle.soa</groupId>
+    <artifactId>soa-infra-tools</artifactId>
+
+    <version>12.2.1-0-0</version>
+
+  </dependency>
 		 
 			</plugin>
 
