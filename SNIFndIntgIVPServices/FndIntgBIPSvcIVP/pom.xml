@@ -103,69 +103,7 @@
     </plugin> 
 	   
 	  
-      <!--<plugin>
-        <groupId>com.oracle.soa.plugin</groupId>
-        <artifactId>oracle-soa-plugin</artifactId>
-        <version>12.2.1-0-0</version>
-        <configuration>
-		<target>
-		<property name="configPlan" values="${project.basedir}/Deployment_cfgplan.xml"/>
-		</target>		  
-          <compositeName>
-            ${project.artifactId}
-          </compositeName>
-          <composite>
-            ${scac.input}
-          </composite>
-          <sarLocation>
-            ${scac.output.dir}/sca_${project.artifactId}_rev${version}.jar
-          </sarLocation>
-          
-          <!-- Note: compositeRevision is needed to package, revision is needed to undeploy -->
-          <compositeRevision>
-            ${composite.revision}
-          </compositeRevision>
-          <revision>
-            ${composite.revision}
-          </revision>
-          <scacInputDir>
-            ${scac.input.dir}
-          </scacInputDir>
-		  <appHome>${project.basedir}/..</appHome>	
-          <input>
-            ${input}
-          </input>
-		<excludes>
-			<exclude>**/SCA-INF/</exclude>
-			</excludes>
-        </configuration>
-        <!-- extensions=true is needed to use the custom sar packaging type -->
-        <extensions>true</extensions>
-		<dependencies>
-   <dependency>
-    <groupId>javax.el</groupId>
-    <artifactId>javax.el-api</artifactId>
-    <version>3.0.0</version>
-  </dependency>
-   <dependency>
-      <groupId>com.oracle.javavm.jrf</groupId>
-      <artifactId>ojdbc7_g</artifactId>
-      <version>12.1.0-2-1</version>
-    </dependency>
-  <dependency>
-      <groupId>com.oracle.javavm.jrf</groupId>
-      <artifactId>oracle.ucp</artifactId>
-      <version>12.1.0-2-1</version>
-    </dependency>
-    
-	  <dependency>
-    <groupId>SNIFndIntgExtjar</groupId>
-    <artifactId>customsniextjar</artifactId>
-    <version>1.0</version>    
-</dependency>
-
-  </dependencies> 
-      </plugin> -->
+     
 	  <plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
 				<version>1.6</version>
