@@ -163,7 +163,7 @@
           <artifactItem>
             <groupId>com.oracle.soa</groupId>
             <artifactId>orabpel</artifactId>
-            <version>12.2.1.0-0</version>
+            <version>12.2.1-0-0</version>
             <type>jar</type>
             <overWrite>false</overWrite>
             <outputDirectory>${scac.input.dir}/SCA-INF/lib</outputDirectory>
