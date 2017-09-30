@@ -116,9 +116,9 @@
 								<property name="compositeDir" value="${project.basedir}" />							<property name="scac.tasks.class.path" value="/opt/oracle/middleware/soa/soa/modules/oracle.soa.ext_11.1.1/oracle.soa.ext.jar" />
 								<property name="revision" value="${project.version}" />
 								
-								<ant antfile="/opt/oracle/middleware/soa/bin/ant-sca-package.xml"
+								<ant antfile="/opt/oracle/middleware/soa/bin/ant-sca-compile.xml"
 									dir="/opt/oracle/middleware/soa/bin"
-									target="package" />
+									target="compile"/>
 							</target>
 						</configuration>
 		  
@@ -126,7 +126,7 @@
 				<executions>
 					<execution>
 						<id>sca-package</id>
-						<phase>package</phase>
+						<phase>compile</phase>
 						
 						<goals>
 							<goal>run</goal>
@@ -136,6 +136,20 @@
 					
 				</executions>
 		  <dependencies>
+			   <dependency>
+    <groupId>com.oracle.soa</groupId>
+    <artifactId>fabric-runtime</artifactId>
+
+    <version>12.2.1-0-0</version>
+
+  </dependency>
+			   <dependency>
+    <groupId>com.oracle.soa</groupId>
+    <artifactId>soa-infra-mgmt</artifactId>
+
+    <version>12.2.1-0-0</version>
+
+  </dependency>
    <dependency>
     <groupId>com.oracle.soa</groupId>
     <artifactId>soa-infra-tools</artifactId>
@@ -143,20 +157,8 @@
     <version>12.2.1-0-0</version>
 
   </dependency>
-			  <dependency>
-    <groupId>com.oracle.soa</groupId>
-    <artifactId>soa-infra-mgmt</artifactId>
-
-    <version>12.2.1-0-0</version>
-
-  </dependency>
-			  <dependency>
-    <groupId>com.oracle.soa</groupId>
-    <artifactId>fabric-runtime</artifactId>
-
-    <version>12.2.1-0-0</version>
-
-  </dependency>
+			 
+			 
 		</dependencies> 
 			</plugin>
 
