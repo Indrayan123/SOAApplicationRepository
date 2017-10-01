@@ -64,8 +64,8 @@
  
  
  
-  <!--<scac.ant.buildfile>${env.MW_HOME}/soa/bin/ant-sca-compile.xml</scac.ant.buildfile>
-        <sca.ant.testfile>${env.MW_HOME}/soa/bin/ant-sca-test.xml</sca.ant.testfile>
+  <scac.ant.buildfile>/opt/oracle/middleware/soa/bin/ant-sca-compile.xml</scac.ant.buildfile>
+       <!-- <sca.ant.testfile>${env.MW_HOME}/soa/bin/ant-sca-test.xml</sca.ant.testfile>
         -->
  
  
@@ -107,7 +107,7 @@
 	  <plugin>
 		   <groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-antrun-plugin</artifactId>
-				<version>1.8</version>
+				<version>1.6</version>
 		  <configuration>
 							<target>
 								<property name="scac.application.home" value="${project.basedir}/.." />
