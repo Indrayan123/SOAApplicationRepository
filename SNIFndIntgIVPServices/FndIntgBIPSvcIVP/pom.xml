@@ -122,35 +122,6 @@
 									target="scac"/>
 							</target>
 						</configuration>
-		  
-		   
-				
-		  <dependencies>
-		  
-			   <dependency>
-    <groupId>com.oracle.soa</groupId>
-    <artifactId>fabric-runtime</artifactId>
-
-    <version>12.2.1-0-0</version>
-
-  </dependency>
-			   <dependency>
-    <groupId>com.oracle.soa</groupId>
-    <artifactId>soa-infra-mgmt</artifactId>
-
-    <version>12.2.1-0-0</version>
-
-  </dependency>
-   <dependency>
-    <groupId>com.oracle.soa</groupId>
-    <artifactId>soa-infra-tools</artifactId>
-
-    <version>12.2.1-0-0</version>
-
-  </dependency>
-			 
-			 
-		</dependencies> 
 		<executions>
 					<execution>
 						<id>sca-compile</id>
@@ -177,6 +148,37 @@
 					
 					
 				</executions>
+				<dependencies>
+		  <dependency>
+    <groupId>javax.el</groupId>
+    <artifactId>javax.el-api</artifactId>
+    <version>3.0.0</version>
+  </dependency>
+		  
+			   <dependency>
+    <groupId>com.oracle.soa</groupId>
+    <artifactId>fabric-runtime</artifactId>
+
+    <version>12.2.1-0-0</version>
+
+  </dependency>
+			   <dependency>
+    <groupId>com.oracle.soa</groupId>
+    <artifactId>soa-infra-mgmt</artifactId>
+
+    <version>12.2.1-0-0</version>
+
+  </dependency>
+   <dependency>
+    <groupId>com.oracle.soa</groupId>
+    <artifactId>soa-infra-tools</artifactId>
+
+    <version>12.2.1-0-0</version>
+
+  </dependency>
+			 
+			 
+		</dependencies> 
 			</plugin>
 
     </plugins>
