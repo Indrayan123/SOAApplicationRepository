@@ -112,7 +112,7 @@
 							<target>
 								<property name="scac.application.home" value="${project.basedir}/.." />
 								<property name="scac.input" value="${project.basedir}/composite.xml" />
-								<property name="build.compiler" value="extJavac"/>
+								<property name="build.compiler" value="/usr/java/jdk1.8.0_25/bin/javac"/>
 								<property name="compositeName" value="${project.artifactId}" />
 								<property name="compositeDir" value="${project.basedir}" />						
 								<property name="scac.tasks.class.path" value="/opt/oracle/middleware/soa/soa/modules/oracle.soa.ext_11.1.1/oracle.soa.ext.jar"/>
