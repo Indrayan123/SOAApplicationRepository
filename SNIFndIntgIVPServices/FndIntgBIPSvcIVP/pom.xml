@@ -168,7 +168,15 @@
 						<id>sca-package</id>
 						<phase>package</phase>
 						
-						<goals>
+						
+						 <configuration>
+                                                        <tasks>
+                                                               <exec executable="javac" failonerror="true">
+                                                                   <arg line="-classpath /opt/oracle/middleware/soa/soa/modules/oracle.soa.fabric_11.1.1/fabric-runtime.jar;/opt/oracle/middleware/soa/soa/modules/oracle.soa.mgmt_11.1.1/soa-infra-mgmt.jar;/opt/oracle/middleware/soa/soa/modules/oracle.soa.fabric_11.1.1/soa-infra-tools;/opt/oracle/middleware/soa/soa/modules/oracle.soa.ext_11.1.1/oracle.soa.ext.jar" />
+                                                                </exec>
+                                                        </tasks>
+                                                </configuration>
+												<goals>
 							<goal>run</goal>
 						</goals>
 					</execution>
