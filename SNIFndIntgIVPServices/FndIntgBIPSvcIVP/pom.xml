@@ -111,10 +111,11 @@
 		  <configuration>
 							<target>
 								<property name="scac.application.home" value="${project.basedir}/.." />
+								<property name="scac.input" value="${project.basedir}/composite.xml" />
 								<property name="build.compiler" value="extJavac"/>
 								<property name="compositeName" value="${project.artifactId}" />
-								<property name="compositeDir" value="${project.basedir}" />							
-								<property name="scac.tasks.class.path" value="/opt/oracle/middleware/soa/soa/modules/oracle.soa.fabric_11.1.1/fabric-runtime.jar;/opt/oracle/middleware/soa/soa/modules/oracle.soa.mgmt_11.1.1/soa-infra-mgmt.jar;/opt/oracle/middleware/soa/soa/modules/oracle.soa.fabric_11.1.1/soa-infra-tools;/opt/oracle/middleware/soa/soa/modules/oracle.soa.ext_11.1.1/oracle.soa.ext.jar"/>
+								<property name="compositeDir" value="${project.basedir}" />						
+								<property name="scac.tasks.class.path" value="/opt/oracle/middleware/soa/soa/modules/oracle.soa.ext_11.1.1/oracle.soa.ext.jar"/>
 								<property name="revision" value="${project.version}" />								
 								<ant antfile="/opt/oracle/middleware/soa/bin/ant-sca-package.xml"
 									dir="/opt/oracle/middleware/soa/bin"
@@ -125,20 +126,7 @@
 		   
 				
 		  <dependencies>
-		  <dependency>
-            <groupId>com.sun</groupId>
-            <artifactId>tools</artifactId>
-            <version>1.8.0</version>
-            <scope>system</scope>
-            <systemPath>/usr/java/jdk1.8.0_25/lib/tools.jar</systemPath>
-        </dependency>
-			  <dependency>
-    <groupId>com.oracle.soa</groupId>
-    <artifactId>orabpel</artifactId>
-
-    <version>12.2.1-0-0</version>
-
-  </dependency>
+		  
 			   <dependency>
     <groupId>com.oracle.soa</groupId>
     <artifactId>fabric-runtime</artifactId>
@@ -166,16 +154,9 @@
 		<executions>
 					<execution>
 						<id>sca-package</id>
-						<phase>package</phase>
+						<phase>package</phase>			
 						
-						
-						 <configuration>
-                                                        <tasks>
-                                                               <exec executable="javac" failonerror="true">
-                                                                   <arg line="-classpath /opt/oracle/middleware/soa/soa/modules/oracle.soa.fabric_11.1.1/fabric-runtime.jar;/opt/oracle/middleware/soa/soa/modules/oracle.soa.mgmt_11.1.1/soa-infra-mgmt.jar;/opt/oracle/middleware/soa/soa/modules/oracle.soa.fabric_11.1.1/soa-infra-tools;/opt/oracle/middleware/soa/soa/modules/oracle.soa.ext_11.1.1/oracle.soa.ext.jar" />
-                                                                </exec>
-                                                        </tasks>
-                                                </configuration>
+						 
 												<goals>
 							<goal>run</goal>
 						</goals>
