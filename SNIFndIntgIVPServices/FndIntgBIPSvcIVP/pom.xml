@@ -253,7 +253,7 @@
             ${input}
           </input>
 		<excludes>
-     <exclude>${scac.input.dir}/SCA-INF</exclude>
+     <exclude>/opt/jenkins/agentNew/workspace/SOAIVPDeployment/CompilationUsingAnt/SNIFndIntgIVPServices/FndIntgBIPSvcIVP/SCA-INF/bpel/FndIntgBIPSvcIVPInit/src/orabpel/fndintgbipsvcivpinit/L0.java</exclude>
  
    </excludes>
         </configuration>
