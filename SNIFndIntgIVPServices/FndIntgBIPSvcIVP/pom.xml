@@ -147,7 +147,7 @@
 
 
  
- <plugin>
+ <!--<plugin>
    <groupId>org.apache.maven.plugins</groupId>
    <artifactId>maven-dependency-plugin</artifactId>
    <version>2.8</version>
@@ -173,10 +173,10 @@
      </configuration>
    </execution>
   </executions>
- </plugin>
+ </plugin>-->
  
 
-<plugin>
+<!--<plugin>
 	<groupId>org.apache.maven.plugins</groupId>
   <artifactId>maven-clean-plugin</artifactId>
 	<version>2.5</version>
@@ -201,7 +201,7 @@
    </configuration>
 		</execution> 
 		</executions> 
- </plugin>
+ </plugin>-->
 <!--<plugin>
   <groupId>org.apache.maven.plugins</groupId>
   <artifactId>maven-compiler-plugin</artifactId>
@@ -252,10 +252,7 @@
           <input>
             ${input}
           </input>
-		<excludes>
-     <exclude>/opt/jenkins/agentNew/workspace/SOAIVPDeployment/CompilationUsingAnt/SNIFndIntgIVPServices/FndIntgBIPSvcIVP/SCA-INF/bpel/FndIntgBIPSvcIVPInit/src/orabpel/fndintgbipsvcivpinit/L0.java</exclude>
- 
-   </excludes>
+		
         </configuration>
         <!-- extensions=true is needed to use the custom sar packaging type -->
         <extensions>true</extensions>
