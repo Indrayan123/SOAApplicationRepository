@@ -276,11 +276,11 @@
       <version>12.1.0-2-1</version>
     </dependency>			
     
-	  <dependency>
+	 <!-- <dependency>
     <groupId>SNIFndIntgExtjar</groupId>
     <artifactId>customsniextjar</artifactId>
     <version>1.0</version>    
-</dependency>
+</dependency>-->
 
   </dependencies> 
       </plugin> 
