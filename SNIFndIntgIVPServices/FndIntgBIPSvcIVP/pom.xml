@@ -33,6 +33,7 @@
   <scac.output>${scac.output.dir}/out.xml</scac.output>
   <scac.error>${scac.output.dir}/error.txt</scac.error>
   <scac.displayLevel>1</scac.displayLevel>
+	  <scac.class.path>${scac.output.dir}/SCA-INF/libnew</scac.class.path>
   <!-- if you are using a config plan, uncomment the following line and update to point
              to your config plan -->
   <configplan>${project.basedir}/Deployment_cfgplan.xml</configplan>
@@ -249,6 +250,9 @@
             ${scac.input.dir}
           </scacInputDir>
 		  <appHome>${project.basedir}/..</appHome>	
+		<scacClassPath>
+            ${scac.class.path}
+          </scacClassPath>
           <input>
             ${input}
           </input>
