@@ -154,7 +154,7 @@
    <executions>
      <execution>
        <id>copy</id>
-       <phase>validate</phase>
+       <phase>compile</phase>
        <goals>
          <goal>copy</goal>
        </goals>
