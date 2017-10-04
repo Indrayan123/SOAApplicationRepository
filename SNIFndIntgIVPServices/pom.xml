@@ -8,9 +8,9 @@
   <packaging>pom</packaging>
   
   <properties>
-  <serverURL>http://uxlab017:8001</serverURL>
-  <user>weblogic</user>
-  <password>weblogic1</password>  
+  <serverURL>http://uxlab1312:8101</serverURL>
+  <user>wls_soa_admin</user>
+  <password>tssisfb13</password>  
   </properties>
   <parent>
     <groupId>com.oracle.adf</groupId>
