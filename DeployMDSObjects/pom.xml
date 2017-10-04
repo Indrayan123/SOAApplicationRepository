@@ -9,7 +9,7 @@
 <properties>
   <serverURL>${env.soaurl}</serverURL>
   <user>${env.soauser}</user>
-  <password>${env.soapass}</password>  
+  <password>tssisfb13</password>  
   </properties>
   <build>    
 	<plugins>

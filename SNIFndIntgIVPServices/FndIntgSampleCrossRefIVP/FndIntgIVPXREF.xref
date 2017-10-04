@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<xref xmlns="http://xmlns.oracle.com/xref">
+   <table name="FndIntgIVPXREF">
+      <description/>
+      <columns>
+         <column name="system1"/>
+         <column name="system2"/>
+      </columns>
+   </table>
+</xref>

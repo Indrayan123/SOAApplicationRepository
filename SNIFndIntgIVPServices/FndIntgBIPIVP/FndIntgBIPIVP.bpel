@@ -1,0 +1,554 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Thu Dec 29 14:53:19 CST 2011
+  Author:  c88525
+  Type: BPEL 1.1 Process
+  Purpose: Asynchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="FndIntgBIPIVP"
+         targetNamespace="http://xmlns.oracle.com/SNIFndIntgIVPServices/FndIntgBIPIVP/FndIntgBIPIVP"
+         xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:client="http://xmlns.oracle.com/SNIFndIntgIVPServices/FndIntgBIPIVP/FndIntgBIPIVP"
+         xmlns:ora="http://schemas.oracle.com/xpath/extension"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:ns1="http://xmlns.oracle.com/SNIFndIntgServices_jws/FndIntgBIPService/FndIntgBIPService"
+         xmlns:bpel2="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ns3="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1"
+         xmlns:ns2="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1/Services/FndBIPReportService"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:sniadf="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIADFExtensionFunctions"
+         xmlns:sniolock="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIOptimisticLockExtensionFunctions"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:snibpel="http://xmlns.schneider.com/BPEL/sni/foundation/soa/extensions/xpath"
+         xmlns:snifmt="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIFormatExtensionFunctions"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:snidttm="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIDateTimeExtensionFunctions"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:sniprop="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIPropertyFileExtensionFunctions"
+         xmlns:snidvm="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIDVMExtensionFunctions"
+         xmlns:sniutil="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.utils.SNIUtilityExtensionFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:snixref="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIXRefExtensionFunctions"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    --> 
+    <partnerLinks>
+        <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+        <partnerLink name="fndintgbipivp_client" partnerLinkType="client:FndIntgBIPIVP" myRole="FndIntgBIPIVPProvider" partnerRole="FndIntgBIPIVPRequester"/>
+        <partnerLink name="BIP" partnerLinkType="ns1:FndIntgBIPService"
+                     partnerRole="FndIntgBIPServiceProvider"
+                     myRole="FndIntgBIPServiceRequester"/>
+    </partnerLinks>
+
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        VARIABLES                                                        
+        List of messages and XML documents used within this BPEL process 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+    <variables>
+        <!-- Reference to the message passed as input during initiation -->
+        <variable name="inputVariable" messageType="client:FndIntgBIPIVPRequestMessage"/>
+
+        <!-- Reference to the message that will be sent back to the requester during callback -->
+        <variable name="outputVariable" messageType="client:FndIntgBIPIVPResponseMessage"/>
+        <variable name="Invoke_sample_process_InputVariable"
+                  messageType="ns1:FndIntgBIPServiceRequestMessage"/>
+        <variable name="Receive_sample_processResponse_InputVariable"
+                  messageType="ns1:FndIntgBIPServiceResponseMessage"/>
+        <variable name="Invoke_Priority_process_InputVariable"
+                  messageType="ns1:FndIntgBIPServiceRequestMessage"/>
+        <variable name="ReceivePriority_processResponse_InputVariable"
+                  messageType="ns1:FndIntgBIPServiceResponseMessage"/>
+        <variable name="Invoke_Email_process_InputVariable"
+                  messageType="ns1:FndIntgBIPServiceRequestMessage"/>
+        <variable name="Receive_Email_processResponse_InputVariable"
+                  messageType="ns1:FndIntgBIPServiceResponseMessage"/>
+        <variable name="Invoke_Delete_process_InputVariable"
+                  messageType="ns1:FndIntgBIPServiceRequestMessage"/>
+        <variable name="Receive_Delete_processResponse_InputVariable"
+                  messageType="ns1:FndIntgBIPServiceResponseMessage"/>
+        <variable name="userID" type="xsd:string"/>
+    </variables>
+
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+       ORCHESTRATION LOGIC                                               
+       Set of activities coordinating the flow of messages across the    
+       services integrated within this business process                  
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+    <sequence name="main">
+        <!-- Receive input from requestor. (Note: This maps to operation defined in FndIntgBIPIVP.wsdl) -->
+        <receive name="receiveInput" partnerLink="fndintgbipivp_client" portType="client:FndIntgBIPIVP" operation="process" variable="inputVariable" createInstance="yes"/>
+
+        <!-- 
+          Asynchronous callback to the requester. (Note: the callback location and correlation id is transparently handled using WS-addressing.)
+        -->
+         <assign name="AssignSampleRequest">
+            <copy>
+                <from expression="bpws:getVariableData('inputVariable','payload','/client:process/client:ReportURL')"/>
+                <to variable="Invoke_sample_process_InputVariable"
+                    part="payload"
+                    query="/ns2:ScheduleReport/ns2:BIPScheduleReport/ns2:reportRequest/ns2:reportAbsolutePath"/>
+            </copy>
+            <copy>
+                <from expression="'IVPBIPJOB'"/>
+                <to variable="Invoke_sample_process_InputVariable"
+                    part="payload"
+                    query="/ns2:ScheduleReport/ns2:BIPScheduleReport/ns2:userJobName"/>
+            </copy>
+            <copy>
+                <from expression="'123452'"/>
+                <to variable="Invoke_sample_process_InputVariable"
+                    part="payload"
+                    query="/ns2:ScheduleReport/ns3:SNIHeader/ns3:MessageID"/>
+            </copy>
+            <copy>
+                <from expression="'true'"/>
+                <to variable="Invoke_sample_process_InputVariable"
+                    part="payload"
+                    query="/ns2:ScheduleReport/ns2:BIPScheduleReport/ns2:schedulePublicOption"/>
+            </copy>
+            <copy>
+                <from expression="'2'"/>
+                <to variable="Invoke_sample_process_InputVariable"
+                    part="payload" query="/ns2:ScheduleReport/ns2:priority"/>
+            </copy>
+            <copy>
+                <from expression="bpws:getVariableData('inputVariable','payload','/client:process/client:user')"/>
+                <to variable="Invoke_sample_process_InputVariable"
+                    part="payload" query="/ns2:ScheduleReport/ns2:userID"/>
+            </copy>
+            <copy>
+                <from expression="bpws:getVariableData('inputVariable','payload','/client:process/client:password')"/>
+                <to variable="Invoke_sample_process_InputVariable"
+                    part="payload" query="/ns2:ScheduleReport/ns2:password"/>
+            </copy>
+        </assign>
+        <invoke name="Invoke_sample"
+                inputVariable="Invoke_sample_process_InputVariable"
+                partnerLink="BIP" portType="ns1:FndIntgBIPService"
+                operation="process" bpelx:invokeAsDetail="no"/>
+        <receive name="Receive_sample" createInstance="no"
+                 variable="Receive_sample_processResponse_InputVariable"
+                 partnerLink="BIP" portType="ns1:FndIntgBIPServiceCallback"
+                 operation="processResponse"/>
+        <switch name="Switch1">
+            <case condition="string-length(bpws:getVariableData('Receive_sample_processResponse_InputVariable','payload','/ns2:ScheduleReportResponse/ns2:BIPJobID'))!=0 and contains(xp20:lower-case(string(bpws:getVariableData('Receive_sample_processResponse_InputVariable','payload','/ns2:ScheduleReportResponse/ns2:BIPJobStatus'))),'error')">
+                <bpelx:annotation>
+                    <bpelx:general>
+                        <bpelx:property name="userLabel">If Job Id Exists but with Error Status</bpelx:property>
+                    </bpelx:general>
+                </bpelx:annotation><sequence name="Sequence4"><assign name="AssignOutput"
+                                                                      xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+      
+   <copy>
+         <from expression="'Success'"/>
+         <to variable="outputVariable" part="payload"
+             query="/client:processResponse/client:result"/>
+      </copy></assign><invoke name="CallbackClient"
+                    inputVariable="outputVariable"
+                    partnerLink="fndintgbipivp_client"
+                    portType="client:FndIntgBIPIVPCallback"
+                    operation="processResponse"
+                    xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                    xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+                              bpelx:invokeAsDetail="no"/>
+                    <terminate name="Terminate"/>
+                </sequence></case>
+            <otherwise>
+                <switch name="Switch_simple">
+                    <case condition="contains(xp20:lower-case(string(bpws:getVariableData('Receive_sample_processResponse_InputVariable','payload','/ns2:ScheduleReportResponse/ns2:BIPJobStatus'))),'error')">
+                        <sequence name="Sequence2">
+                            <assign name="AssignOutput">
+                                <copy>
+                                    <from expression="'Error job status for simple request'"/>
+                                    <to variable="outputVariable" part="payload"
+                                        query="/client:processResponse/client:result"/>
+                                </copy>
+                            </assign>
+                            <invoke name="CallbackClient"
+                                    bpelx:invokeAsDetail="no"
+                                    inputVariable="outputVariable"
+                                    partnerLink="fndintgbipivp_client"
+                                    portType="client:FndIntgBIPIVPCallback"
+                                    operation="processResponse"/>
+                            <terminate name="Terminate"/>
+                        </sequence>
+                    </case>
+                    <otherwise>
+                        <empty name="NoAction"/>
+                    </otherwise>
+                </switch>
+            </otherwise>
+        </switch>
+        <assign name="AssignPriority">
+            <copy>
+                <from expression="bpws:getVariableData('inputVariable','payload','/client:process/client:ReportURL')"/>
+                <to variable="Invoke_Priority_process_InputVariable"
+                    part="payload"
+                    query="/ns2:ScheduleReport/ns2:BIPScheduleReport/ns2:reportRequest/ns2:reportAbsolutePath"/>
+            </copy>
+            <copy>
+                <from expression="'IVPBIPPriorityJOB'"/>
+                <to variable="Invoke_Priority_process_InputVariable"
+                    part="payload"
+                    query="/ns2:ScheduleReport/ns2:BIPScheduleReport/ns2:userJobName"/>
+            </copy>
+            <copy>
+                <from expression="'123452'"/>
+                <to variable="Invoke_Priority_process_InputVariable"
+                    part="payload"
+                    query="/ns2:ScheduleReport/ns3:SNIHeader/ns3:MessageID"/>
+            </copy>
+            <copy>
+                <from expression="'true'"/>
+                <to variable="Invoke_Priority_process_InputVariable"
+                    part="payload"
+                    query="/ns2:ScheduleReport/ns2:BIPScheduleReport/ns2:schedulePublicOption"/>
+            </copy>
+            <copy>
+                <from expression="'8'"/>
+                <to variable="Invoke_Priority_process_InputVariable"
+                    part="payload" query="/ns2:ScheduleReport/ns2:priority"/>
+            </copy>
+            <copy>
+                <from expression="'Please do not reply to this email, As this report has been sent automatically by the system. This is a PRIORITY BIP'"/>
+                <to variable="Invoke_Priority_process_InputVariable"
+                    part="payload"
+                    query="/ns2:ScheduleReport/ns2:BIPScheduleReport/ns2:deliveryRequest/ns2:emailOption/ns2:emailBody"/>
+            </copy>
+            <copy>
+                <from expression="'sysadmin@schneider.com'"/>
+                <to variable="Invoke_Priority_process_InputVariable"
+                    part="payload"
+                    query="/ns2:ScheduleReport/ns2:BIPScheduleReport/ns2:deliveryRequest/ns2:emailOption/ns2:emailFrom"/>
+            </copy>
+            <copy>
+                <from expression="'FndIntgBIPIVP PRIORITY'"/>
+                <to variable="Invoke_Priority_process_InputVariable"
+                    part="payload"
+                    query="/ns2:ScheduleReport/ns2:BIPScheduleReport/ns2:deliveryRequest/ns2:emailOption/ns2:emailSubject"/>
+            </copy>
+            <copy>
+                <from expression="bpws:getVariableData('inputVariable','payload','/client:process/client:email')"/>
+                <to variable="Invoke_Priority_process_InputVariable"
+                    part="payload"
+                    query="/ns2:ScheduleReport/ns2:BIPScheduleReport/ns2:deliveryRequest/ns2:emailOption/ns2:emailTo"/>
+            </copy>
+            <copy>
+                <from expression="bpws:getVariableData('inputVariable','payload','/client:process/client:user')"/>
+                <to variable="Invoke_Priority_process_InputVariable"
+                    part="payload" query="/ns2:ScheduleReport/ns2:userID"/>
+            </copy>
+            <copy>
+                <from expression="bpws:getVariableData('inputVariable','payload','/client:process/client:password')"/>
+                <to variable="Invoke_Priority_process_InputVariable"
+                    part="payload" query="/ns2:ScheduleReport/ns2:password"/>
+            </copy>
+        </assign>
+        <invoke name="Invoke_Priority"
+                inputVariable="Invoke_Priority_process_InputVariable"
+                partnerLink="BIP" portType="ns1:FndIntgBIPService"
+                operation="process" bpelx:invokeAsDetail="no"/>
+        <receive name="ReceivePriority" createInstance="no"
+                 variable="ReceivePriority_processResponse_InputVariable"
+                 partnerLink="BIP" portType="ns1:FndIntgBIPServiceCallback"
+                 operation="processResponse"/>
+        <switch name="Switch2">
+            <case condition="string-length(bpws:getVariableData('ReceivePriority_processResponse_InputVariable','payload','/ns2:ScheduleReportResponse/ns2:BIPJobID'))!=0 and contains(xp20:lower-case(string(bpws:getVariableData('ReceivePriority_processResponse_InputVariable','payload','/ns2:ScheduleReportResponse/ns2:BIPJobStatus'))),'error')">
+                <bpelx:annotation>
+                    <bpelx:general>
+                        <bpelx:property name="userLabel">If Job ID Exists but with Error</bpelx:property>
+                    </bpelx:general>
+                </bpelx:annotation><sequence name="Sequence7"><assign name="AssignOutput"
+                                                                      xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+      
+   <copy>
+         <from expression="'Success'"/>
+         <to variable="outputVariable" part="payload"
+             query="/client:processResponse/client:result"/>
+      </copy></assign><invoke name="CallbackClient" bpelx:invokeAsDetail="no"
+                    inputVariable="outputVariable"
+                    partnerLink="fndintgbipivp_client"
+                    portType="client:FndIntgBIPIVPCallback"
+                    operation="processResponse"
+                    xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                    xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/"/>
+                    <terminate name="Terminate"/>
+                </sequence></case>
+            <otherwise>
+                <switch name="Switch_priority">
+                    <case condition="contains(xp20:lower-case(string(bpws:getVariableData('ReceivePriority_processResponse_InputVariable','payload','/ns2:ScheduleReportResponse/ns2:BIPJobStatus'))),'error')">
+                        <sequence name="Sequence3">
+                            <assign name="AssignOutput">
+                                <copy>
+                                    <from expression="'Error job status for priority request'"/>
+                                    <to variable="outputVariable" part="payload"
+                                        query="/client:processResponse/client:result"/>
+                                </copy>
+                            </assign>
+                            <invoke name="CallbackClient"
+                                    bpelx:invokeAsDetail="no"
+                                    inputVariable="outputVariable"
+                                    partnerLink="fndintgbipivp_client"
+                                    portType="client:FndIntgBIPIVPCallback"
+                                    operation="processResponse"/>
+                            <terminate name="Terminate"/>
+                        </sequence>
+                    </case>
+                    <otherwise>
+                        <empty name="NoAction"/>
+                    </otherwise>
+                </switch>
+            </otherwise>
+        </switch>
+        <assign name="AssignEmail">
+            <copy>
+                <from expression="bpws:getVariableData('inputVariable','payload','/client:process/client:ReportURL')"/>
+                <to variable="Invoke_Email_process_InputVariable" part="payload"
+                    query="/ns2:ScheduleReport/ns2:BIPScheduleReport/ns2:reportRequest/ns2:reportAbsolutePath"/>
+            </copy>
+            <copy>
+                <from expression="'IVPBIPEmailJOB'"/>
+                <to variable="Invoke_Email_process_InputVariable" part="payload"
+                    query="/ns2:ScheduleReport/ns2:BIPScheduleReport/ns2:userJobName"/>
+            </copy>
+            <copy>
+                <from expression="'Please do not reply to this email, As this report has been sent automatically by the system.'"/>
+                <to variable="Invoke_Email_process_InputVariable" part="payload"
+                    query="/ns2:ScheduleReport/ns2:BIPScheduleReport/ns2:deliveryRequest/ns2:emailOption/ns2:emailBody"/>
+            </copy>
+            <copy>
+                <from expression="'sysadmin@schneider.com'"/>
+                <to variable="Invoke_Email_process_InputVariable" part="payload"
+                    query="/ns2:ScheduleReport/ns2:BIPScheduleReport/ns2:deliveryRequest/ns2:emailOption/ns2:emailFrom"/>
+            </copy>
+            <copy>
+                <from expression="'FndIntgBIPIVP EMAIL'"/>
+                <to variable="Invoke_Email_process_InputVariable" part="payload"
+                    query="/ns2:ScheduleReport/ns2:BIPScheduleReport/ns2:deliveryRequest/ns2:emailOption/ns2:emailSubject"/>
+            </copy>
+            <copy>
+                <from expression="bpws:getVariableData('inputVariable','payload','/client:process/client:email')"/>
+                <to variable="Invoke_Email_process_InputVariable" part="payload"
+                    query="/ns2:ScheduleReport/ns2:BIPScheduleReport/ns2:deliveryRequest/ns2:emailOption/ns2:emailTo"/>
+            </copy>
+            <copy>
+                <from expression="'123452'"/>
+                <to variable="Invoke_Email_process_InputVariable" part="payload"
+                    query="/ns2:ScheduleReport/ns3:SNIHeader/ns3:MessageID"/>
+            </copy>
+            <copy>
+                <from expression="'true'"/>
+                <to variable="Invoke_Email_process_InputVariable" part="payload"
+                    query="/ns2:ScheduleReport/ns2:BIPScheduleReport/ns2:schedulePublicOption"/>
+            </copy>
+            <copy>
+                <from expression="'2'"/>
+                <to variable="Invoke_Email_process_InputVariable" part="payload"
+                    query="/ns2:ScheduleReport/ns2:priority"/>
+            </copy>
+            <copy>
+                <from expression="bpws:getVariableData('inputVariable','payload','/client:process/client:user')"/>
+                <to variable="Invoke_Email_process_InputVariable" part="payload"
+                    query="/ns2:ScheduleReport/ns2:userID"/>
+            </copy>
+            <copy>
+                <from expression="bpws:getVariableData('inputVariable','payload','/client:process/client:password')"/>
+                <to variable="Invoke_Email_process_InputVariable" part="payload"
+                    query="/ns2:ScheduleReport/ns2:password"/>
+            </copy>
+        </assign>
+        <invoke name="Invoke_Email"
+                inputVariable="Invoke_Email_process_InputVariable"
+                partnerLink="BIP" portType="ns1:FndIntgBIPService"
+                operation="process" bpelx:invokeAsDetail="no"/>
+        <receive name="Receive_Email" createInstance="no"
+                 variable="Receive_Email_processResponse_InputVariable"
+                 partnerLink="BIP" portType="ns1:FndIntgBIPServiceCallback"
+                 operation="processResponse"/>
+        <switch name="Switch3">
+            <case condition="string-length(bpws:getVariableData('Receive_Email_processResponse_InputVariable','payload','/ns2:ScheduleReportResponse/ns2:BIPJobID'))!=0 and contains(xp20:lower-case(string(bpws:getVariableData('Receive_Email_processResponse_InputVariable','payload','/ns2:ScheduleReportResponse/ns2:BIPJobStatus'))),'error')">
+                <bpelx:annotation>
+                    <bpelx:general>
+                        <bpelx:property name="userLabel">If Job Id exists but with Error</bpelx:property>
+                    </bpelx:general>
+                </bpelx:annotation><sequence name="Sequence6"><assign name="AssignOutput"
+                                                                      xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+      
+   <copy>
+         <from expression="'Success'"/>
+         <to variable="outputVariable" part="payload"
+             query="/client:processResponse/client:result"/>
+      </copy></assign><invoke name="CallbackClient" bpelx:invokeAsDetail="no"
+                    inputVariable="outputVariable"
+                    partnerLink="fndintgbipivp_client"
+                    portType="client:FndIntgBIPIVPCallback"
+                    operation="processResponse"
+                    xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                    xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/"/>
+                    <terminate name="Terminate"/>
+                </sequence></case>
+            <otherwise>
+                <switch name="Switch_email">
+                    <case condition="contains(xp20:lower-case(string(bpws:getVariableData('Receive_Email_processResponse_InputVariable','payload','/ns2:ScheduleReportResponse/ns2:BIPJobStatus'))),'error')">
+                        <sequence name="Sequence1">
+                            <assign name="AssignOutput">
+                                <copy>
+                                    <from expression="'Error job status for email request'"/>
+                                    <to variable="outputVariable" part="payload"
+                                        query="/client:processResponse/client:result"/>
+                                </copy>
+                            </assign>
+                            <invoke name="CallbackClient"
+                                    bpelx:invokeAsDetail="no"
+                                    inputVariable="outputVariable"
+                                    partnerLink="fndintgbipivp_client"
+                                    portType="client:FndIntgBIPIVPCallback"
+                                    operation="processResponse"/>
+                            <terminate name="Terminate"/>
+                        </sequence>
+                    </case>
+                    <otherwise>
+                        <empty name="NoAction"/>
+                    </otherwise>
+                </switch>
+            </otherwise>
+        </switch>
+        <assign name="AssignDelete">
+            <copy>
+                <from expression="bpws:getVariableData('inputVariable','payload','/client:process/client:ReportURL')"/>
+                <to variable="Invoke_Delete_process_InputVariable"
+                    part="payload"
+                    query="/ns2:ScheduleReport/ns2:BIPScheduleReport/ns2:reportRequest/ns2:reportAbsolutePath"/>
+            </copy>
+            <copy>
+                <from expression="'IVPBIPDeleteJob'"/>
+                <to variable="Invoke_Delete_process_InputVariable"
+                    part="payload"
+                    query="/ns2:ScheduleReport/ns2:BIPScheduleReport/ns2:userJobName"/>
+            </copy>
+            <copy>
+                <from expression="'true'"/>
+                <to variable="Invoke_Delete_process_InputVariable"
+                    part="payload"
+                    query="/ns2:ScheduleReport/ns2:BIPScheduleReport/ns2:deleteJob"/>
+            </copy>
+            <copy>
+                <from expression="'123452'"/>
+                <to variable="Invoke_Delete_process_InputVariable"
+                    part="payload"
+                    query="/ns2:ScheduleReport/ns3:SNIHeader/ns3:MessageID"/>
+            </copy>
+            <copy>
+                <from expression="'true'"/>
+                <to variable="Invoke_Delete_process_InputVariable"
+                    part="payload"
+                    query="/ns2:ScheduleReport/ns2:BIPScheduleReport/ns2:schedulePublicOption"/>
+            </copy>
+            <copy>
+                <from expression="'2'"/>
+                <to variable="Invoke_Delete_process_InputVariable"
+                    part="payload" query="/ns2:ScheduleReport/ns2:priority"/>
+            </copy>
+            <copy>
+                <from expression="bpws:getVariableData('inputVariable','payload','/client:process/client:user')"/>
+                <to variable="Invoke_Delete_process_InputVariable"
+                    part="payload" query="/ns2:ScheduleReport/ns2:userID"/>
+            </copy>
+            <copy>
+                <from expression="bpws:getVariableData('inputVariable','payload','/client:process/client:password')"/>
+                <to variable="Invoke_Delete_process_InputVariable"
+                    part="payload" query="/ns2:ScheduleReport/ns2:password"/>
+            </copy>
+        </assign>
+        <invoke name="Invoke_Delete"
+                inputVariable="Invoke_Delete_process_InputVariable"
+                partnerLink="BIP" portType="ns1:FndIntgBIPService"
+                operation="process" bpelx:invokeAsDetail="no"/>
+        <receive name="Receive_Delete" createInstance="no"
+                 variable="Receive_Delete_processResponse_InputVariable"
+                 partnerLink="BIP" portType="ns1:FndIntgBIPServiceCallback"
+                 operation="processResponse"/>
+        <switch name="Switch4">
+            <case condition="string-length(bpws:getVariableData('Receive_Delete_processResponse_InputVariable','payload','/ns2:ScheduleReportResponse/ns2:BIPJobID'))!=0 and contains(xp20:lower-case(string(bpws:getVariableData('Receive_Delete_processResponse_InputVariable','payload','/ns2:ScheduleReportResponse/ns2:BIPJobStatus'))),'error')">
+                <bpelx:annotation>
+                    <bpelx:general>
+                        <bpelx:property name="userLabel">If JobID Exists but with Error</bpelx:property>
+                    </bpelx:general>
+                </bpelx:annotation>
+                <sequence>
+                    <assign name="AssignOutput">
+                        <copy>
+                            <from expression="'Success'"/>
+                            <to variable="outputVariable" part="payload"
+                                query="/client:processResponse/client:result"/>
+                        </copy>
+                    </assign>
+                    <invoke name="CallbackClient" bpelx:invokeAsDetail="no"
+                            inputVariable="outputVariable"
+                            partnerLink="fndintgbipivp_client"
+                            portType="client:FndIntgBIPIVPCallback"
+                            operation="processResponse"/>
+                    <terminate name="Terminate"/>
+                </sequence>
+            </case>
+            <otherwise>
+                <switch name="Switch_delete">
+                    <case condition="contains(xp20:lower-case(string(bpws:getVariableData('Receive_Delete_processResponse_InputVariable','payload','/ns2:ScheduleReportResponse/ns2:BIPJobStatus'))),'error')">
+                        <sequence>
+                            <assign name="AssignOutput"
+                                    xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+      <copy>
+         <from expression="'Error job status for DeleteJob request'"/>
+         <to variable="outputVariable" part="payload"
+             query="/client:processResponse/client:result"/>
+      </copy>
+   </assign>
+                            <invoke name="CallbackClient"
+                                          bpelx:invokeAsDetail="no"
+                                          inputVariable="outputVariable"
+                                          partnerLink="fndintgbipivp_client"
+                                          portType="client:FndIntgBIPIVPCallback"
+                                          operation="processResponse"
+                                          xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                                          xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/"/><terminate name="Terminate"
+                                                                                                                      xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/"/></sequence>
+                    </case>
+                    <otherwise>
+                        <assign name="AssignFinalOutput">
+                            <copy>
+                                <from expression="'Success'"/>
+                                <to variable="outputVariable" part="payload"
+                                    query="/client:processResponse/client:result"/>
+                            </copy>
+                        </assign>
+                    </otherwise>
+                </switch>
+            </otherwise>
+        </switch>
+        <invoke name="callbackClient" partnerLink="fndintgbipivp_client" portType="client:FndIntgBIPIVPCallback" operation="processResponse" inputVariable="outputVariable"
+                bpelx:invokeAsDetail="no"/>
+    </sequence>
+</process>

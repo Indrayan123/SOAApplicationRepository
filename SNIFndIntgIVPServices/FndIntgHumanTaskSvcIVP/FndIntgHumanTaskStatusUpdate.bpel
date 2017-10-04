@@ -1,0 +1,144 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Wed Aug 10 06:12:42 CDT 2016
+  Author:  a46475
+  Type: BPEL 1.1 Process
+  Purpose: One Way BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="FndIntgHumanTaskStatusUpdate"
+               targetNamespace="http://xmlns.oracle.com/SOA_Application1/FndIntgHumanTaskIVP/FndIntgHumanTaskStatusUpdate"
+               xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+               xmlns:client="http://xmlns.oracle.com/SOA_Application1/FndIntgHumanTaskIVP/FndIntgHumanTaskStatusUpdate"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:snibpel="http://xmlns.schneider.com/BPEL/sni/foundation/soa/extensions/xpath"
+         xmlns:ns1="http://xmlns.oracle.com/SNIFndIntgServices/FndIntgManageHumanTaskService/FndIntgManageHumanTaskService"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpel2="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+         xmlns:ns2="http://xmlns.schneider.com/EnterpriseObjects/Common/HumanTask/V1"
+         xmlns:ns3="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap">
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      PARTNERLINKS                                                      
+      List of services participating in this BPEL process               
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  --> 
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="fndintghumantaskstatusupdate_client" partnerLinkType="client:FndIntgHumanTaskStatusUpdate" myRole="FndIntgHumanTaskStatusUpdateProvider"/>
+    <partnerLink name="ManageHumanTaskService"
+                 partnerLinkType="ns1:FndIntgManageHumanTaskService"
+                 partnerRole="FndIntgManageHumanTaskServiceProvider"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:FndIntgHumanTaskStatusUpdateRequestMessage"/>
+    <variable name="Invoke_ManageHumanTask_InputVariable"
+              messageType="ns1:FndIntgManageHumanTaskServiceRequestMessage"/>
+    <variable name="Invoke_ManageHumanTask_OutputVariable"
+              messageType="ns1:FndIntgManageHumanTaskServiceResponseMessage"/>
+    <variable name="cacheStatus" type="xsd:string"/>
+    <variable name="keyIdentifier" type="xsd:string"/>
+  </variables>
+  <faultHandlers>
+    <catchAll><assign name="Update_In_Cache"
+                      xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+      
+      
+   <copy>
+         <from variable="inputVariable" part="payload"
+               query="/ns2:ManageHumanTaskRequest/ns3:SNIHeader/ns3:RequestMessageID"/>
+         <to variable="keyIdentifier"/>
+      </copy><copy>
+         <from expression="snibpel:EnterpriseCachePutByCacheName('FNDCache-SOAIVPStatus',bpws:getVariableData('keyIdentifier'), 'Task Completion Failed', '172800000')"/>
+         <to variable="cacheStatus"/>
+      </copy></assign></catchAll>
+  </faultHandlers>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in FndIntgHumanTaskStatusUpdate.wsdl) -->
+    <receive name="receiveInput" partnerLink="fndintghumantaskstatusupdate_client" portType="client:FndIntgHumanTaskStatusUpdate" operation="process" variable="inputVariable" createInstance="yes"/>
+    <assign name="Transform_ManageSvcInput">
+      <bpelx:annotation>
+        <bpelx:pattern>transformation</bpelx:pattern>
+      </bpelx:annotation>
+      <copy>
+        <from expression="ora:doXSLTransformForDoc('xsl/Transformation_Input_To_ManageHumanTask.xsl', $inputVariable.payload)"/>
+        <to variable="Invoke_ManageHumanTask_InputVariable" part="payload"/>
+      </copy>
+    </assign>
+    <invoke name="Invoke_ManageHumanTask"
+            inputVariable="Invoke_ManageHumanTask_InputVariable"
+            outputVariable="Invoke_ManageHumanTask_OutputVariable"
+            partnerLink="ManageHumanTaskService"
+            portType="ns1:FndIntgManageHumanTaskService" operation="process"
+            bpelx:invokeAsDetail="no"/><switch name="Switch1"
+                                               xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+      <case condition="bpws:getVariableData('Invoke_ManageHumanTask_OutputVariable','payload','/payload/ns2:status')='COMPLETED'">
+         <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+            <bpelx:general>
+               <bpelx:property name="userLabel">If Completed</bpelx:property>
+            </bpelx:general>
+         </bpelx:annotation>
+         <assign name="Update_In_Cache">
+          <copy>
+            <from variable="inputVariable" part="payload"
+                  query="/ns2:ManageHumanTaskRequest/ns3:SNIHeader/ns3:RequestMessageID"/>
+            <to variable="keyIdentifier"/>
+          </copy>
+          <copy>
+            <from expression="snibpel:EnterpriseCachePutByCacheName('FNDCache-SOAIVPStatus',bpws:getVariableData('keyIdentifier'), 'Task Completed', '300000')"/>
+            <to variable="cacheStatus"/>
+          </copy>
+        </assign>
+      </case>
+      <otherwise>
+         <assign name="Update_In_Cache"
+                 xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+          <copy>
+            <from variable="inputVariable" part="payload"
+                  query="/ns2:ManageHumanTaskRequest/ns3:SNIHeader/ns3:RequestMessageID"/>
+            <to variable="keyIdentifier"/>
+          </copy>
+          <copy>
+            <from expression="snibpel:EnterpriseCachePutByCacheName('FNDCache-SOAIVPStatus',bpws:getVariableData('keyIdentifier'), 'Task Completion Failed', '172800000')"/>
+            <to variable="cacheStatus"/>
+          </copy>
+        </assign>
+      </otherwise>
+   </switch>
+  </sequence>
+</process>

@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions name="FndIntgJMSRQEnqueue" targetNamespace="http://xmlns.oracle.com/SNIFndIntgIVPServices/FndIntgJMSRQEnqueue/FndIntgJMSRQEnqueue" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:client="http://xmlns.oracle.com/SNIFndIntgIVPServices/FndIntgJMSRQEnqueue/FndIntgJMSRQEnqueue" xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/">
+   <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema">
+         <import namespace="http://xmlns.oracle.com/SNIFndIntgIVPServices/FndIntgJMSRQEnqueue/FndIntgJMSRQEnqueue" schemaLocation="xsd/FndIntgJMSRQEnqueue.xsd"/>
+      </schema>
+   </wsdl:types>
+   <wsdl:message name="FndIntgJMSRQEnqueueRequestMessage">
+      <wsdl:part name="payload" element="client:process"/>
+   </wsdl:message>
+   <wsdl:message name="FndIntgJMSRQEnqueueResponseMessage">
+      <wsdl:part name="payload" element="client:processResponse"/>
+   </wsdl:message>
+   <wsdl:portType name="FndIntgJMSRQEnqueue">
+      <wsdl:operation name="process">
+         <wsdl:input message="client:FndIntgJMSRQEnqueueRequestMessage"/>
+         <wsdl:output message="client:FndIntgJMSRQEnqueueResponseMessage"/>
+      </wsdl:operation>
+   </wsdl:portType>
+   <plnk:partnerLinkType name="FndIntgJMSRQEnqueue">
+      <plnk:role name="FndIntgJMSRQEnqueueProvider">
+         <plnk:portType name="client:FndIntgJMSRQEnqueue"/>
+      </plnk:role>
+   </plnk:partnerLinkType>
+</wsdl:definitions>

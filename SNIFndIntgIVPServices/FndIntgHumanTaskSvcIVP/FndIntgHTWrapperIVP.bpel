@@ -1,0 +1,182 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Mon Sep 19 07:44:09 CDT 2016
+  Author:  f23963
+  Type: BPEL 1.1 Process
+  Purpose: Asynchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="FndIntgHTWrapperIVP"
+         targetNamespace="http://xmlns.schneider.com/SNIFndIntgIVPServices/FndIntgHumanTaskSvcIVP/FndIntgHTWrapperIVP"
+         xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:client="http://xmlns.schneider.com/SNIFndIntgIVPServices/FndIntgHumanTaskSvcIVP/FndIntgHTWrapperIVP"
+         xmlns:ora="http://schemas.oracle.com/xpath/extension"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:snibpel="http://xmlns.schneider.com/BPEL/sni/foundation/soa/extensions/xpath"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:ns1="http://xmlns.oracle.com/SNIFndIntgIVPServices/FndIntgHumanTaskIVP/FndIntgHumanTaskIVP"
+         xmlns:bpel2="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+         xmlns:ns2="http://xmlns.schneider.com/EnterpriseObjects/Common/HumanTask/V1"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap">
+
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    --> 
+    <partnerLinks>
+        <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+        <partnerLink name="fndintghtwrapperivp_client" partnerLinkType="client:FndIntgHTWrapperIVP" myRole="FndIntgHTWrapperIVPProvider" partnerRole="FndIntgHTWrapperIVPRequester"/>
+        <partnerLink name="FndInthHumanTaskIVP"
+                     partnerLinkType="ns1:FndIntgHumanTaskIVP"
+                     partnerRole="FndIntgHumanTaskIVPProvider"
+                     myRole="FndIntgHumanTaskIVPRequester"/>
+    </partnerLinks>
+
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        VARIABLES                                                        
+        List of messages and XML documents used within this BPEL process 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+    <variables>
+        <!-- Reference to the message passed as input during initiation -->
+        <variable name="inputVariable" messageType="client:FndIntgHTWrapperIVPRequestMessage"/>
+
+        <!-- Reference to the message that will be sent back to the requester during callback -->
+        <variable name="outputVariable" messageType="client:FndIntgHTWrapperIVPResponseMessage"/>
+        <variable name="InvokeHumanTaskIVP_process_InputVariable"
+                  messageType="ns1:FndIntgHumanTaskIVPRequestMessage"/>
+        <variable name="ReceiveResfromHTIVP_processResponse_InputVariable"
+                  messageType="ns1:FndIntgHumanTaskIVPResponseMessage"/>
+        <variable name="cachestatus" type="xsd:string"/>
+        <variable name="keyIdentifier" type="xsd:string"/>
+    </variables>
+    <faultHandlers>
+        <catchAll>
+            <assign name="Assign2">
+                <copy>
+                    <from expression="snibpel:EnterpriseCachePutByCacheName('FNDCache-SOAIVPStatus',bpws:getVariableData('keyIdentifier'), 'Failed To Invoke FndIntgHumanTaskIVP', '172800000')"/>
+                    <to variable="cachestatus"/>
+                </copy>
+            </assign>
+        </catchAll>
+    </faultHandlers>
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+       ORCHESTRATION LOGIC                                               
+       Set of activities coordinating the flow of messages across the    
+       services integrated within this business process                  
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+    <sequence name="main">
+        <!-- Receive input from requestor. (Note: This maps to operation defined in FndIntgHTWrapperIVP.wsdl) -->
+        <receive name="receiveInput" partnerLink="fndintghtwrapperivp_client" portType="client:FndIntgHTWrapperIVP" operation="process" variable="inputVariable" createInstance="yes"/>
+        <assign name="PassInput">
+            <copy>
+                <from variable="inputVariable" part="payload"
+                      query="/client:HumanTaskRequest/client:Initiator"/>
+                <to variable="InvokeHumanTaskIVP_process_InputVariable"
+                    part="payload" query="/ns2:HumanTaskRequest/ns2:Initiator"/>
+            </copy>
+            <copy>
+                <from variable="inputVariable" part="payload"
+                      query="/client:HumanTaskRequest/client:Assignee"/>
+                <to variable="InvokeHumanTaskIVP_process_InputVariable"
+                    part="payload" query="/ns2:HumanTaskRequest/ns2:Assignee"/>
+            </copy>
+            <copy>
+                <from variable="inputVariable" part="payload"
+                      query="/client:HumanTaskRequest/client:AssigneeFilter"/>
+                <to variable="InvokeHumanTaskIVP_process_InputVariable"
+                    part="payload"
+                    query="/ns2:HumanTaskRequest/ns2:AssigneeFilter"/>
+            </copy>
+            <copy>
+                <from variable="inputVariable" part="payload"
+                      query="/client:HumanTaskRequest/client:Owner"/>
+                <to variable="InvokeHumanTaskIVP_process_InputVariable"
+                    part="payload" query="/ns2:HumanTaskRequest/ns2:Owner"/>
+            </copy>
+            <copy>
+                <from variable="inputVariable" part="payload"
+                      query="/client:HumanTaskRequest/client:Title"/>
+                <to variable="InvokeHumanTaskIVP_process_InputVariable"
+                    part="payload" query="/ns2:HumanTaskRequest/ns2:Title"/>
+            </copy>
+            <copy>
+                <from variable="inputVariable" part="payload"
+                      query="/client:HumanTaskRequest/client:CompletionDttm"/>
+                <to variable="InvokeHumanTaskIVP_process_InputVariable"
+                    part="payload"
+                    query="/ns2:HumanTaskRequest/ns2:CompletionDttm"/>
+            </copy>
+            <copy>
+                <from variable="inputVariable" part="payload"
+                      query="/client:HumanTaskRequest/client:Category"/>
+                <to variable="InvokeHumanTaskIVP_process_InputVariable"
+                    part="payload" query="/ns2:HumanTaskRequest/ns2:Category"/>
+            </copy>
+            <copy>
+                <from variable="inputVariable" part="payload"
+                      query="/client:HumanTaskRequest/client:KeyData1"/>
+                <to variable="InvokeHumanTaskIVP_process_InputVariable"
+                    part="payload" query="/ns2:HumanTaskRequest/ns2:KeyData1"/>
+            </copy>
+            <copy>
+                <from variable="inputVariable" part="payload"
+                      query="/client:HumanTaskRequest/client:KeyData2"/>
+                <to variable="InvokeHumanTaskIVP_process_InputVariable"
+                    part="payload" query="/ns2:HumanTaskRequest/ns2:KeyData2"/>
+            </copy>
+            <copy>
+                <from variable="inputVariable" part="payload"
+                      query="/client:HumanTaskRequest/client:KeyData3"/>
+                <to variable="InvokeHumanTaskIVP_process_InputVariable"
+                    part="payload" query="/ns2:HumanTaskRequest/ns2:KeyData3"/>
+            </copy>
+            <copy>
+                <from variable="inputVariable" part="payload"
+                      query="/client:HumanTaskRequest/client:OccurrenceCount"/>
+                <to variable="InvokeHumanTaskIVP_process_InputVariable"
+                    part="payload"
+                    query="/ns2:HumanTaskRequest/ns2:OccurrenceCount"/>
+            </copy>
+            <copy>
+                <from variable="inputVariable" part="payload"
+                      query="/client:HumanTaskRequest/client:keyIdentifier"/>
+                <to variable="keyIdentifier"/>
+            </copy>
+        </assign>
+        <invoke name="InvokeHumanTaskIVP"
+                inputVariable="InvokeHumanTaskIVP_process_InputVariable"
+                partnerLink="FndInthHumanTaskIVP"
+                portType="ns1:FndIntgHumanTaskIVP" operation="process"
+                bpelx:invokeAsDetail="no"/>
+        <receive name="ReceiveResfromHTIVP" createInstance="no"
+                 variable="ReceiveResfromHTIVP_processResponse_InputVariable"
+                 partnerLink="FndInthHumanTaskIVP"
+                 portType="ns1:FndIntgHumanTaskIVPCallback"
+                 operation="processResponse" bpelx:for="'PT4M'"/>
+        <!-- 
+          Asynchronous callback to the requester. (Note: the callback location and correlation id is transparently handled using WS-addressing.)
+        -->
+    </sequence>
+</process>

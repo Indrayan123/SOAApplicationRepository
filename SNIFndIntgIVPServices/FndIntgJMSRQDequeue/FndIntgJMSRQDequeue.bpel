@@ -1,0 +1,110 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Thu Sep 08 17:32:00 CDT 2011
+  Author:  c88525
+  Type: BPEL 1.1 Process
+  Purpose: Empty BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="FndIntgJMSRQDequeue"
+               targetNamespace="http://xmlns.oracle.com/SNIFndIntgIVPServices/FndIntgJMSRQDequeue/FndIntgJMSRQDequeue"
+               xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+               xmlns:client="http://xmlns.oracle.com/SNIFndIntgIVPServices/FndIntgJMSRQDequeue/FndIntgJMSRQDequeue"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/jms/SNIFndIntgIVPServices/FndIntgJMSRQDequeue/Dequeue"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+         xmlns:bpel2="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:snibpel="http://xmlns.schneider.com/BPEL/sni/foundation/soa/extensions/xpath"
+         xmlns:ns2="http://www.example.org"
+         xmlns:ns3="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap">
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <bpelx:annotation>
+    <bpelx:analysis>
+      <bpelx:property name="wsdlFile">
+        <![CDATA[Dequeue.wsdl]]>
+      </bpelx:property>
+    </bpelx:analysis>
+  </bpelx:annotation>
+  <partnerLinks>
+    <partnerLink name="Dequeue" partnerLinkType="ns1:Consume_Message_plt"
+                 myRole="Consume_Message_role"/>
+  </partnerLinks>
+  <variables>
+    <variable name="Receive1_Consume_Message_InputVariable"
+              messageType="ns1:Consume_Message_msg"/>
+    <variable name="temp" type="xsd:string"/>
+    <variable name="SNIHeader" element="ns3:SNIHeader"/>
+    <variable name="logMessage" type="xsd:string"/>
+    <variable name="KeyIdentifier" type="xsd:string"/>
+    <variable name="CacheValue" type="xsd:string"/>
+  </variables>
+  <sequence name="main">
+    <receive name="Receive1" createInstance="yes"
+             variable="Receive1_Consume_Message_InputVariable"
+             partnerLink="Dequeue" portType="ns1:Consume_Message_ptt"
+             operation="Consume_Message">
+      <bpelx:property name="jca.jms.JMSCorrelationID" variable="KeyIdentifier"/>
+    </receive><assign name="AssignCacheUpdate"
+                                                  xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+      <copy>
+         <from expression="snibpel:EnterpriseCachePutByCacheName('FNDCache-SOAIVPStatus',bpws:getVariableData('KeyIdentifier'), 'DEQUEUED', '300000')"/>
+         <to variable="CacheValue"/>
+      </copy>
+   </assign><assign name="AssignInput">
+      <copy>
+        <from expression="bpws:getVariableData('Receive1_Consume_Message_InputVariable','body','/ns2:exampleElement/ns2:data')"/>
+        <to variable="temp"/>
+      </copy>
+      <copy>
+        <from expression="ora:getComponentInstanceId()"/>
+        <to variable="SNIHeader" query="/ns3:SNIHeader/ns3:MessageID"/>
+      </copy>
+      <copy>
+        <from expression="'JMSRQIVP'"/>
+        <to variable="SNIHeader" query="/ns3:SNIHeader/ns3:MessageName"/>
+      </copy>
+      <copy>
+        <from expression="ora:getComponentInstanceId()"/>
+        <to variable="SNIHeader" query="/ns3:SNIHeader/ns3:SessionID"/>
+      </copy>
+      <copy>
+        <from expression="xp20:current-dateTime()"/>
+        <to variable="SNIHeader" query="/ns3:SNIHeader/ns3:CreatedDateTime"/>
+      </copy>
+      <copy>
+        <from expression="ora:getComponentInstanceId()"/>
+        <to variable="SNIHeader"
+            query="/ns3:SNIHeader/ns3:Sender/ns3:InstanceID"/>
+      </copy>
+      <copy>
+        <from expression="'JMSRQIVP'"/>
+        <to variable="SNIHeader" query="/ns3:SNIHeader/ns3:Sender/ns3:Name"/>
+      </copy>
+      <copy>
+        <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'), concat('##This is a Test Message Dequeued from JMS RQ FNDSOATest10Q : ',bpws:getVariableData('Receive1_Consume_Message_InputVariable','body','/ns2:exampleElement/ns2:data'),' ##'), string('INFO'))"/>
+        <to variable="logMessage"/>
+      </copy>
+    </assign>
+  </sequence>
+</process>

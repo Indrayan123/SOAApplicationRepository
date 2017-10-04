@@ -1,0 +1,113 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Thu Sep 23 14:25:42 CDT 2010
+  Author:  c88525
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="FndIntgSecurityIVP"
+               targetNamespace="http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/FndIntgSecurityIVP/FndIntgSecurityIVP"
+               xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+               xmlns:client="http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/FndIntgSecurityIVP/FndIntgSecurityIVP"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+               xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:sniadf="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIADFExtensionFunctions"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpel2="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:sniolock="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIOptimisticLockExtensionFunctions"
+         xmlns:snidttm="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIDateTimeExtensionFunctions"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:snifmt="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIFormatExtensionFunctions"
+         xmlns:snibpel="http://xmlns.schneider.com/BPEL/sni/foundation/soa/extensions/xpath"
+         xmlns:sniprop="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIPropertyFileExtensionFunctions"
+         xmlns:snidvm="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIDVMExtensionFunctions"
+         xmlns:sniutil="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.utils.SNIUtilityExtensionFunctions"
+         xmlns:snixref="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIXRefExtensionFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:snibam="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIBAMExtensionFunctions"
+         xmlns:snixml="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIXMLDiffExtensionFunctions"
+         xmlns:snisec="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIEncryptDecryptUtilityExtensionFunctions"
+         xmlns:ess="http://xmlns.oracle.com/scheduler"
+         xmlns:snidb="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIDBExtensionFunctions">
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      PARTNERLINKS                                                      
+      List of services participating in this BPEL process               
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <bpelx:annotation>
+    <bpelx:analysis>
+      <bpelx:property name="wsdlFile">
+        <![CDATA[oramds:/apps/SNIComponents/FoundationServiceLibrary/IVP/FndIntgSecurityIVP.wsdl]]>
+      </bpelx:property>
+    </bpelx:analysis>
+  </bpelx:annotation>
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="fndintgsecurityivp_client" partnerLinkType="client:FndIntgSecurityIVP" myRole="FndIntgSecurityIVPProvider"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:FndIntgSecurityIVPRequestMessage"/>
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="outputVariable" messageType="client:FndIntgSecurityIVPResponseMessage"/>
+    <variable name="property" type="xsd:string"/>
+    <variable name="temp" type="xsd:string"/>
+  </variables>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in FndIntgSecurityIVP.wsdl) -->
+    <receive name="receiveInput" partnerLink="fndintgsecurityivp_client" portType="client:FndIntgSecurityIVP" operation="process" variable="inputVariable" createInstance="yes"/>
+
+    <!-- Generate reply to synchronous request -->
+    <assign name="Assign_1">
+      <copy>
+        <from expression="sniprop:getEncryptedValueFromPropertyFile('hwfb2badmin','/opt/schneider/applications/config/FNDINTG/IVP/SOA/PROPERTY/SOAIVPSecurity.properties')"
+              bpelx:language="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"/>
+        <to variable="property"/>
+      </copy>
+      <copy>
+        <from expression="sniutil:xorEncryptDecrypt(string(bpws:getVariableData('inputVariable','payload','/client:process/client:input')),'FILE','/opt/schneider/applications/config/FNDINTG/IVP/SOA/PROPERTY/SOAIVPSecurity.properties','UTF-8')"
+              bpelx:language="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"/>
+        <to variable="temp"/>
+      </copy>
+      <copy>
+        <from expression="'success'"/>
+        <to variable="outputVariable" part="payload" query="/client:processResponse/client:result"/>
+      </copy>
+    </assign>
+    <reply name="replyOutput" partnerLink="fndintgsecurityivp_client" portType="client:FndIntgSecurityIVP" operation="process" variable="outputVariable"/>
+  </sequence>
+</process>

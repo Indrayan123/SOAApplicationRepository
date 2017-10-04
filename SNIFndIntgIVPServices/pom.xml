@@ -8,9 +8,9 @@
   <packaging>pom</packaging>
   
   <properties>
-  <serverURL>http://uxlab017:8001</serverURL>
-  <user>weblogic</user>
-  <password>weblogic1</password>  
+  <serverURL>http://uxlab1312:8101</serverURL>
+  <user>wls_soa_admin</user>
+  <password>tssisfb13</password>  
   </properties>
   <parent>
     <groupId>com.oracle.adf</groupId>
@@ -18,14 +18,31 @@
     <version>12.2.1-0-0</version>   
   </parent>
   <modules>	   
-  	<!--<module>Fndintg_largepayloadBRIVP</module>
-	<module>FndIntgBCSLookupIVP</module>-->
+  	<module>BR_FndIntg_SimpleRuleIVP</module>
+	<module>Fndintg_largepayloadBRIVP</module>
+	<module>FndIntg_SimpleBRIVP</module>
+	<module>FndIntgBCSLookupIVP</module>
 	<module>FndIntgBIPSvcIVP</module>
-	<!--<module>FndIntgCompareXMLIVP</module>
+	<module>FndIntgCompareXMLIVP</module>
 	<module>FndIntgDateXpathIVP</module>
 	<module>FndIntgHandleSNIFaultIVP</module>
+	<module>FndIntgHeaderXPath</module>
+	<module>FndIntgHumanTaskSvcIVP</module>
+	<module>FndIntgJMSRQDequeue</module>
+	<module>FndIntgJMSRQEnqueue</module>
+	<module>FndIntgLogSNIMessageIVP</module>
+	<module>FndIntgLookupDVMIVP</module>
+	<module>FndIntgMiscellaneousIVP</module>
+	<module>FndIntgOptimisticLockIVP</module>
+	<module>FndIntgSampleCrossRefIVP</module>
+	<module>FndIntgSampleDVMIVP</module>
+	<module>FndIntgSecurityIVP</module>
 	<module>FndIntgSendEmailIVP</module>
-	<module>FndIntgSNIConfigTableIVP</module>-->
+	<module>FndIntgSNIConfigTableIVP</module>
+	<module>FndIntgSNICreateXRefRowIVP</module>
+	<module>FndIntgVisibiltyDataLookupIVP</module>
+	<module>FndIntgXrefLookupIVP</module>
+	<module>FndIntgXrefPopulateIVP</module>
     </modules>
   <build>
   <resources>
@@ -37,29 +54,7 @@
       </resource>
     </resources>       
     </build>
-  <dependencies>   
-   <dependency>
-    <groupId>com.oracle.soa</groupId>
-    <artifactId>orabpel</artifactId>
-    <version>12.2.1-0-0</version>      
-	<scope>system</scope>
-	<systemPath>${oracle_home}/soa/soa/modules/oracle.soa.bpel_11.1.1/orabpel.jar</systemPath>
-</dependency>
-<dependency>
-    <groupId>com.oracle.fmwshare</groupId>
-    <artifactId>com.oracle.webservices.fabric-common-api</artifactId>
-    <version>12.2.1-0-0</version>      
-	<scope>system</scope>
-	<systemPath>${oracle_home}/oracle_common/modules/com.oracle.webservices.fabric-common-api.jar</systemPath>
-</dependency>
-<dependency>
-    <groupId>SNIFndIntgExtjar</groupId>
-    <artifactId>customsniextjar</artifactId>
-    <version>1.0</version>    
-</dependency>
-
-
-  </dependencies> 
+  <dependencies/>
 	  
 
 </project>

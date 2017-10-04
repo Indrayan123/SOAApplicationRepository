@@ -9,7 +9,7 @@
         -->
   <modelVersion>4.0.0</modelVersion>
   <groupId>SNIFndIntgIVPServices</groupId>
-  <artifactId>FndIntgBIPSvcIVP</artifactId>
+  <artifactId>FndIntg_SimpleBRIVP</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>sar</packaging>
   <!--
@@ -87,7 +87,7 @@
           <goal>copy-resources</goal>
         </goals>
         <configuration>
-          <outputDirectory>${project.basedir}/../${env.buildlocation}/${project.artifactId}/</outputDirectory>
+          <outputDirectory>${project.basedir}/</outputDirectory>
           <resources>         
             <resource>
               <directory>${project.basedir}</directory>
@@ -99,25 +99,7 @@
           </resources>             
         </configuration>           
       </execution>  
-<!--  <execution>
-            <id>copy-jar-file</id>
-            <phase>package</phase>
-            <goals>
-              <goal>copy-resources</goal>
-            </goals>
-            <configuration>
-              <outputDirectory>${project.basedir}/../${env.buildlocation}/${project.artifactId}/</outputDirectory>
-              <resources>         
-                <resource>
-                  <directory>${scac.output.dir}</directory>
-                  <includes>
-                    <include>sca_${project.artifactId}_rev${version}.jar</include>					
-                  </includes>
-                  <filtering>false</filtering>
-                </resource>
-              </resources>             
-            </configuration>           
-          </execution> 	 -->
+
         </executions>
     </plugin> 
 	   
@@ -197,8 +179,6 @@
     <artifactId>customsniextjar</artifactId>
     <version>1.0</version>    
 </dependency>
-
-
   </dependencies> 
       </plugin> 
     </plugins>
