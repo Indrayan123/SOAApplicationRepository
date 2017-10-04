@@ -185,7 +185,7 @@
     <artifactId>orabpel</artifactId>
     <version>12.2.1-0-0</version>      
 	<scope>system</scope>
-	<systemPath>/opt/schneider/applications/SOAFoundation/lib/orabpel.jar</systemPath>
+	<systemPath>/opt/oracle/middleware/soa/soa/modules/oracle.soa.bpel_11.1.1/orabpel.jar</systemPath>
 </dependency>
 <dependency>
     <groupId>com.oracle.fmwshare</groupId>
