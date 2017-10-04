@@ -162,7 +162,7 @@
         </configuration>
         <!-- extensions=true is needed to use the custom sar packaging type -->
         <extensions>true</extensions>
-		<dependencies>   
+		<!--<dependencies>   
    <dependency>
     <groupId>com.oracle.soa</groupId>
     <artifactId>orabpel</artifactId>
@@ -199,7 +199,7 @@
 </dependency>
 
 
-  </dependencies> 
+  </dependencies> -->
       </plugin> 
     </plugins>
 	

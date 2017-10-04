@@ -8,25 +8,24 @@
   <packaging>pom</packaging>
   
   <properties>
-  <serverURL>http://uxlab1312:8101</serverURL>
-  <user>wls_soa_admin</user>
-  <password>tssisfb13</password>  
+  <serverURL>http://uxlab017:8001</serverURL>
+  <user>weblogic</user>
+  <password>weblogic1</password>  
   </properties>
   <parent>
     <groupId>com.oracle.adf</groupId>
     <artifactId>adf-parent</artifactId>
-    <version>12.2.1-0-0</version>
-   
+    <version>12.2.1-0-0</version>   
   </parent>
   <modules>	   
   	<!--<module>Fndintg_largepayloadBRIVP</module>
-	<module>FndIntgBCSLookupIVP</module>
-	<module>FndIntgBIPSvcIVP</module>-->
-	<module>FndIntgCompareXMLIVP</module>
+	<module>FndIntgBCSLookupIVP</module>-->
+	<module>FndIntgBIPSvcIVP</module>
+	<!--<module>FndIntgCompareXMLIVP</module>
 	<module>FndIntgDateXpathIVP</module>
 	<module>FndIntgHandleSNIFaultIVP</module>
 	<module>FndIntgSendEmailIVP</module>
-	<module>FndIntgSNIConfigTableIVP</module>
+	<module>FndIntgSNIConfigTableIVP</module>-->
     </modules>
   <build>
   <resources>
@@ -38,7 +37,44 @@
       </resource>
     </resources>       
     </build>
-  <dependencies/>
+  <dependencies>   
+   <dependency>
+    <groupId>com.oracle.soa</groupId>
+    <artifactId>orabpel</artifactId>
+    <version>12.2.1-0-0</version>      
+	<scope>system</scope>
+	<systemPath>${oracle_home}/soa/soa/modules/oracle.soa.bpel_11.1.1/orabpel.jar</systemPath>
+</dependency>
+<dependency>
+    <groupId>com.oracle.fmwshare</groupId>
+    <artifactId>com.oracle.webservices.fabric-common-api</artifactId>
+    <version>12.2.1-0-0</version>      
+	<scope>system</scope>
+	<systemPath>${oracle_home}/oracle_common/modules/com.oracle.webservices.fabric-common-api.jar</systemPath>
+</dependency>
+<dependency>
+    <groupId>javax.el</groupId>
+    <artifactId>javax.el-api</artifactId>
+    <version>3.0.0</version>
+  </dependency>
+   <dependency>
+      <groupId>com.oracle.javavm.jrf</groupId>
+      <artifactId>ojdbc7_g</artifactId>
+      <version>12.1.0-2-1</version>
+    </dependency>
+  <dependency>
+      <groupId>com.oracle.javavm.jrf</groupId>
+      <artifactId>oracle.ucp</artifactId>
+      <version>12.1.0-2-1</version>
+    </dependency>	    
+	  <dependency>
+    <groupId>SNIFndIntgExtjar</groupId>
+    <artifactId>customsniextjar</artifactId>
+    <version>1.0</version>    
+</dependency>
+
+
+  </dependencies> 
 	  
 
 </project>
