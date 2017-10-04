@@ -260,8 +260,15 @@
         </configuration>
         <!-- extensions=true is needed to use the custom sar packaging type -->
         <extensions>true</extensions>
-		<dependencies>
+		<dependencies>   
    <dependency>
+    <groupId>com.oracle.soa</groupId>
+    <artifactId>orabpel</artifactId>
+    <version>12.2.1-0-0</version>      
+	<scope>system</scope>
+	<systemPath>/opt/schneider/applications/SOAFoundation/lib/orabpel.jar</systemPath>
+</dependency>
+<dependency>
     <groupId>javax.el</groupId>
     <artifactId>javax.el-api</artifactId>
     <version>3.0.0</version>
@@ -275,13 +282,13 @@
       <groupId>com.oracle.javavm.jrf</groupId>
       <artifactId>oracle.ucp</artifactId>
       <version>12.1.0-2-1</version>
-    </dependency>			
-    
+    </dependency>	    
 	  <dependency>
     <groupId>SNIFndIntgExtjar</groupId>
     <artifactId>customsniextjar</artifactId>
     <version>1.0</version>    
 </dependency>
+
 
   </dependencies> 
       </plugin> 
