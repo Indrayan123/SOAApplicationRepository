@@ -1,0 +1,105 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Tue Sep 03 16:26:28 CDT 2013
+  Author:  j08811
+  Type: BPEL 1.1 Process
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="FndIntgSendEmailIVP"
+               targetNamespace="http://xmlns.oracle.com/SNIFndIntgIVPServices/FndIntgSendEmailIVP/FndIntgSendEmailIVP"
+               xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+               xmlns:client="http://xmlns.oracle.com/SNIFndIntgIVPServices/FndIntgSendEmailIVP/FndIntgSendEmailIVP"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:sniadf="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIADFExtensionFunctions"
+         xmlns:bpel2="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:sniolock="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIOptimisticLockExtensionFunctions"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:snibpel="http://xmlns.schneider.com/BPEL/sni/foundation/soa/extensions/xpath"
+         xmlns:snifmt="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIFormatExtensionFunctions"
+         xmlns:snidb="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIDBExtensionFunctions"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:snidttm="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIDateTimeExtensionFunctions"
+         xmlns:snibam="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIBAMExtensionFunctions"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:sniprop="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIPropertyFileExtensionFunctions"
+         xmlns:snidvm="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIDVMExtensionFunctions"
+         xmlns:sniutil="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.utils.SNIUtilityExtensionFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:snixref="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIXRefExtensionFunctions">
+
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+  <bpelx:annotation>
+    <bpelx:analysis>
+      <bpelx:property name="wsdlFile">
+        <![CDATA[oramds:/apps/SNIComponents/FoundationServiceLibrary/IVP/FndIntgSendEmailIVP.wsdl]]>
+      </bpelx:property>
+    </bpelx:analysis>
+  </bpelx:annotation>
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="fndintgsendemailivp_client" partnerLinkType="client:FndIntgSendEmailIVP" myRole="FndIntgSendEmailIVPProvider"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:FndIntgSendEmailIVPRequestMessage"/>
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="outputVariable" messageType="client:FndIntgSendEmailIVPResponseMessage"/>
+  </variables>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in FndIntgSendEmailIVP.wsdl) -->
+    <receive name="receiveInput" partnerLink="fndintgsendemailivp_client" portType="client:FndIntgSendEmailIVP" operation="process" variable="inputVariable" createInstance="yes"/>
+
+    <!-- Generate reply to synchronous request -->
+    <assign name="CallSendEmailXPath">
+      <copy>
+        <from expression="sniadf:sendEmail('REPORT_SERVICE_EMAIL_SOAIVP_SET')"
+              bpelx:language="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"/>
+        <to variable="outputVariable" part="payload"
+            query="/client:processResponse/client:result"/>
+      </copy>
+      <copy>
+        <from expression="sniadf:sendEmail('','ITFoundationArchitectureA2AOn-CallGroup@schneider.com','ITFoundationArchitectureA2AOn-CallGroup@schneider.com',concat('Report service IVP for SOA XPath for Env: ',ora:getPreference('EnvName')),'This is a IVP message for the content. Its from direct XPath Call sendEmail','text/plain','ITFoundationArchitectureA2AOn-CallGroup@schneider.com','senguptaD@schneider.com','ITFoundationArchitectureA2AOn-CallGroup@schneider.com')"/>
+        <to variable="outputVariable" part="payload"
+            query="/client:processResponse/client:result"/>
+      </copy>
+    </assign>
+    <reply name="replyOutput" partnerLink="fndintgsendemailivp_client" portType="client:FndIntgSendEmailIVP" operation="process" variable="outputVariable"/>
+  </sequence>
+</process>

@@ -19,8 +19,14 @@
    
   </parent>
   <modules>	   
-  	<module>FndIntgBIPSvcIVP</module>
-	
+  	<module>Fndintg_largepayloadBRIVP</module>
+	<module>FndIntgBCSLookupIVP</module>
+	<module>FndIntgBIPSvcIVP</module>
+	<module>FndIntgCompareXMLIVP</module>
+	<module>FndIntgDateXpathIVP</module>
+	<module>FndIntgHandleSNIFaultIVP</module>
+	<module>FndIntgSendEmailIVP</module>
+	<module>FndIntgSNIConfigTableIVP</module>
     </modules>
   <build>
   <resources>
