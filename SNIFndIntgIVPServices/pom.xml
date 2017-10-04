@@ -19,9 +19,9 @@
    
   </parent>
   <modules>	   
-  	<module>Fndintg_largepayloadBRIVP</module>
+  	<!--<module>Fndintg_largepayloadBRIVP</module>
 	<module>FndIntgBCSLookupIVP</module>
-	<module>FndIntgBIPSvcIVP</module>
+	<module>FndIntgBIPSvcIVP</module>-->
 	<module>FndIntgCompareXMLIVP</module>
 	<module>FndIntgDateXpathIVP</module>
 	<module>FndIntgHandleSNIFaultIVP</module>
