@@ -185,14 +185,14 @@
     <artifactId>orabpel</artifactId>
     <version>12.2.1-0-0</version>      
 	<scope>system</scope>
-	<systemPath>/opt/oracle/middleware/soa/soa/modules/oracle.soa.bpel_11.1.1/orabpel.jar</systemPath>
+	<systemPath>${oracle_home}/soa/soa/modules/oracle.soa.bpel_11.1.1/orabpel.jar</systemPath>
 </dependency>
 <dependency>
     <groupId>com.oracle.fmwshare</groupId>
     <artifactId>com.oracle.webservices.fabric-common-api</artifactId>
     <version>12.2.1-0-0</version>      
 	<scope>system</scope>
-	<systemPath>/opt/schneider/applications/SOAFoundation/lib/com.oracle.webservices.fabric-common-api.jar</systemPath>
+	<systemPath>${oracle_home}/oracle_common/modules/com.oracle.webservices.fabric-common-api.jar</systemPath>
 </dependency>
 <dependency>
     <groupId>javax.el</groupId>
