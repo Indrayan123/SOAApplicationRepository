@@ -31,12 +31,12 @@
 	<module>FndIntgSyncToOneWayIVP</module>
 	<module>FndIntgValidateServiceInteractionIVP</module>
 	
-	<module>FndIntgAppsAdapterIVP</module>-->
+	<module>FndIntgAppsAdapterIVP</module>
 	<module>FndIntgAQDeQIVP</module>
 	<module>FndIntgAQEnQIVP</module>
 	<module>FndIntgDBAdapterIVP</module>
 	<module>FndIntgJMSRQDequeue</module>
-	<module>FndIntgJMSRQEnqueue</module>
+	<module>FndIntgJMSRQEnqueue</module>-->
 	<module>FndIntgUOOQueueConsumerIVP</module>
 	<module>FndIntgUOOQueuePublisherIVP</module>
 	<module>FndIntgTopicPublisherIVP</module>

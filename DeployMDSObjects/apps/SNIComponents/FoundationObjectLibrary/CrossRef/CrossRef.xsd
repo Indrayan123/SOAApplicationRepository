@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='windows-1252'?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://xmlns.schneider.com/FoundationObjects/CrossRef/V1" targetNamespace="http://xmlns.schneider.com/FoundationObjects/CrossRef/V1" elementFormDefault="qualified">
+<xsd:element name="LookupXrefRequest" type="LookupXrefRequestType"/>
+<xsd:element name="LookupXrefResponse" type="LookupXrefResponseType"/>
+<xsd:element name="LookupXrefMultiRequest" type="LookupXrefMultiRequestType"/>
+<xsd:element name="LookupXrefMultiResponse" type="LookupXrefMultiResponseType"/>
+<xsd:element name="XrefFault" type="XrefFaultType"/>
+<xsd:complexType name="LookupXrefRequestType">
+<xsd:sequence>
+<xsd:element name="TableName" type="xsd:string" minOccurs="1"/>
+<xsd:element name="Revision" type="xsd:float" minOccurs="0"/>
+<xsd:element name="SourceColumnName" type="xsd:string" minOccurs="1"/>
+<xsd:element name="SourceValue" type="xsd:string" minOccurs="1"/>
+<xsd:element name="ReferenceColumnName" type="xsd:string" minOccurs="1"/>
+<xsd:element name="NeedException" type="xsd:boolean" minOccurs="1"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="LookupXrefResponseType">
+<xsd:sequence>
+<xsd:element name="ReferenceValue" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="LookupXrefMultiRequestType">
+<xsd:sequence>
+<xsd:element name="TableName" type="xsd:string" minOccurs="1"/>
+<xsd:element name="Revision" type="xsd:float" minOccurs="0"/>
+<xsd:element name="SourceColumnName" type="xsd:string" minOccurs="1"/>
+<xsd:element name="SourceValues" type="XrefSourceValuesType" minOccurs="1"/>
+<xsd:element name="ReferenceColumnName" type="xsd:string" minOccurs="1"/>
+<xsd:element name="NeedException" type="xsd:boolean" minOccurs="1"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="LookupXrefMultiResponseType">
+<xsd:sequence>
+<xsd:element name="XrefValues" type="XrefValuesType" minOccurs="1"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="XrefValuesType">
+<xsd:sequence>
+<xsd:element name="XrefValue" type="XrefValueType" minOccurs="0" maxOccurs="unbounded"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="XrefValueType">
+<xsd:sequence>
+<xsd:element name="SourceValue" type="xsd:string" minOccurs="0"/>
+<xsd:element name="ReferenceValue" type="xsd:string" minOccurs="0"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="XrefSourceValuesType">
+<xsd:sequence>
+<xsd:element name="SourceValue" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="XrefFaultType">
+<xsd:sequence>
+<xsd:element name="FaultCode" type="xsd:string" minOccurs="0"/>
+<xsd:element name="FaultString" type="xsd:string" minOccurs="0"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:schema>
