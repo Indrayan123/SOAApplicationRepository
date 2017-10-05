@@ -36,7 +36,7 @@
 	<module>FndIntgAQEnQIVP</module>
 	<module>FndIntgDBAdapterIVP</module>
 	<module>FndIntgJMSRQDequeue</module>
-	<module>FndIntgJMSRQEnqueue</module>-->
+	<module>FndIntgJMSRQEnqueue</module>
 	<module>FndIntgUOOQueueConsumerIVP</module>
 	<module>FndIntgUOOQueuePublisherIVP</module>
 	<module>FndIntgTopicPublisherIVP</module>
@@ -76,7 +76,7 @@
 	<module>FndIntgLogSNIMessageIVP</module>
 	<module>FndIntgValidateFaultHandlingIVP</module>
 
-	<module>FndIntgUPGCheckDynamicPatnerlinkFaultIVP</module>
+	<module>FndIntgUPGCheckDynamicPatnerlinkFaultIVP</module>-->
 	<module>FndIntgUPGCheckNamespaceConsumerIVP</module>
 	<module>FndIntgUPGCheckNamespaceIVP</module>
 	<module>FndIntgUPGCheckXSlEmptyValueIVP</module>
