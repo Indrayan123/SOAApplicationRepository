@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<composite xmlns="http://xmlns.oracle.com/sca/1.0" xmlns:orawsp="http://schemas.oracle.com/ws/2006/01/policy" xmlns:ui="http://xmlns.oracle.com/soa/designer/" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:xs="http://www.w3.org/2001/XMLSchema" label="2016-05-10_05-34-07_874" mode="active" name="FndIntgAQDeQIVP" revision="1.0" state="on">
+   <import importType="wsdl" location="DequeueMessage.wsdl" namespace="http://xmlns.oracle.com/pcbpel/adapter/AQ/SNIFndIntgIVPServices/FndIntgAQDeQIVP/DequeueMessage"/>
+   <service name="DequeueMessage" ui:wsdlLocation="DequeueMessage.wsdl">
+      <interface.wsdl interface="http://xmlns.oracle.com/pcbpel/adapter/AQ/SNIFndIntgIVPServices/FndIntgAQDeQIVP/DequeueMessage#wsdl.interface(Dequeue_ptt)"/>
+      <binding.jca config="DequeueMessage_aq.jca">
+         <property many="false" name="jca.retry.count" override="may" type="xs:integer">2</property>
+         <property many="false" name="jca.retry.interval" override="may" type="xs:integer">10</property>
+      </binding.jca>
+   </service>
+   <component name="FndIntgAQDeQIVP" version="1.1">
+      <implementation.bpel src="FndIntgAQDeQIVP.bpel"/>
+      <componentType xmlns="http://xmlns.oracle.com/sca/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                     xmlns:ui="http://xmlns.oracle.com/soa/designer/">
+         <service name="DequeueMessage" ui:wsdlLocation="DequeueMessage.wsdl">
+            <interface.wsdl interface="http://xmlns.oracle.com/pcbpel/adapter/AQ/SNIFndIntgIVPServices/FndIntgAQDeQIVP/DequeueMessage#wsdl.interface(Dequeue_ptt)"/>
+         </service>
+      </componentType>
+      <property many="false" name="bpel.config.transaction" type="xs:string">required</property>
+      <property many="false" name="bpel.config.oneWayDeliveryPolicy" type="xs:string">sync</property>
+   </component>
+   <wire>
+      <source.uri>DequeueMessage</source.uri>
+      <target.uri>FndIntgAQDeQIVP/DequeueMessage</target.uri>
+   </wire>
+</composite>

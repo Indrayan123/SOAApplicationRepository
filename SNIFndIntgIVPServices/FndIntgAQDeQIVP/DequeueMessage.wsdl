@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions name="DequeueMessage" targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/AQ/SNIFndIntgIVPServices/FndIntgAQDeQIVP/DequeueMessage" xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/" xmlns:ns1="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/AQ/SNIFndIntgIVPServices/FndIntgAQDeQIVP/DequeueMessage" xmlns:obj1="http://xmlns.oracle.com/xdb/SOA5_SOAINFRA" xmlns:pc="http://xmlns.oracle.com/pcbpel/" xmlns:msg_out="http://www.globalcompany.com/ns/sales" xmlns:ph="http://xmlns.oracle.com/pcbpel/adapter/aq/headers/payloadheaders/" xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/">
+   <plt:partnerLinkType name="Dequeue_plt">
+      <plt:role name="Dequeue_role">
+         <plt:portType name="tns:Dequeue_ptt"/>
+      </plt:role>
+   </plt:partnerLinkType>
+   <wsdl:types>
+      <schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/aq/headers/payloadheaders/" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:obj1="http://xmlns.oracle.com/xdb/SOA5_SOAINFRA">
+         <import namespace="http://xmlns.oracle.com/xdb/SOA5_SOAINFRA" schemaLocation="xsd/SOA5_SOAINFRA_IP_MESSAGE_TYPE.xsd"/>
+         <complexType name="HeaderCType">
+            <sequence>
+               <element name="PayloadHeader" type="obj1:IP_MESSAGE_TYPE"/>
+            </sequence>
+         </complexType>
+         <element name="Header" type="ph:HeaderCType"/>
+      </schema>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema">
+         <import namespace="http://www.globalcompany.com/ns/sales" schemaLocation="xsd/test.xsd"/>
+      </schema>
+      <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+         <xsd:import namespace="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1" schemaLocation="oramds:/apps/SNIComponents/EnterpriseObjectLibrary/Core/Common/V1/SNICore.xsd"/>
+      </xsd:schema>
+   </wsdl:types>
+   <wsdl:message name="test_msg">
+      <wsdl:part name="test" element="msg_out:test"/>
+   </wsdl:message>
+   <wsdl:message name="Header_msg">
+      <wsdl:part name="Header" element="ph:Header"/>
+   </wsdl:message>
+   <wsdl:portType name="Dequeue_ptt">
+      <wsdl:operation name="Dequeue">
+         <wsdl:input message="tns:test_msg"/>
+      </wsdl:operation>
+   </wsdl:portType>
+</wsdl:definitions>

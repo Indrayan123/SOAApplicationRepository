@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions name="EnqueueMessage" targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/AQ/SNIFndIntgIVPServices/FndIntgAQEnQIVP/EnqueueMessage" xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/" xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/AQ/SNIFndIntgIVPServices/FndIntgAQEnQIVP/EnqueueMessage" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:obj1="http://xmlns.oracle.com/xdb/SOA5_SOAINFRA" xmlns:msg_out="http://www.globalcompany.com/ns/sales" xmlns:ph="http://xmlns.oracle.com/pcbpel/adapter/aq/headers/payloadheaders/" xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/">
+   <plt:partnerLinkType name="Enqueue_plt">
+      <plt:role name="Enqueue_role">
+         <plt:portType name="tns:Enqueue_ptt"/>
+      </plt:role>
+   </plt:partnerLinkType>
+   <wsdl:types>
+      <schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/aq/headers/payloadheaders/" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:obj1="http://xmlns.oracle.com/xdb/SOA5_SOAINFRA">
+         <import namespace="http://xmlns.oracle.com/xdb/SOA5_SOAINFRA" schemaLocation="xsd/SOA5_SOAINFRA_IP_MESSAGE_TYPE.xsd"/>
+         <complexType name="EnqueueMessageHeaderCType">
+            <sequence>
+               <element name="PayloadHeader" type="obj1:IP_MESSAGE_TYPE"/>
+            </sequence>
+         </complexType>
+         <element name="EnqueueMessageHeader" type="ph:EnqueueMessageHeaderCType"/>
+      </schema>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema">
+         <import namespace="http://www.globalcompany.com/ns/sales" schemaLocation="oramds:/apps/SNIComponents/FoundationObjectLibrary/IVP/schemas/test.xsd"/>
+      </schema>
+   </wsdl:types>
+   <wsdl:message name="test_msg">
+      <wsdl:part name="test" element="msg_out:test"/>
+   </wsdl:message>
+   <wsdl:message name="Header_msg">
+      <wsdl:part name="Header" element="ph:EnqueueMessageHeader"/>
+   </wsdl:message>
+   <wsdl:portType name="Enqueue_ptt">
+      <wsdl:operation name="Enqueue">
+         <wsdl:input message="tns:test_msg"/>
+      </wsdl:operation>
+   </wsdl:portType>
+</wsdl:definitions>

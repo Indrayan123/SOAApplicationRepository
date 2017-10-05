@@ -1,0 +1,25 @@
+<?binding.jca AppsAdapter_apps.jca?>
+<wsdl:definitions name="AppsAdapter" targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/apps/SNIFndIntgIVPServices/FndIntgAppsAdapterIVP/AppsAdapter" xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/apps/SNIFndIntgIVPServices/FndIntgAppsAdapterIVP/AppsAdapter" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:top="http://xmlns.oracle.com/pcbpel/adapter/db/top/AppsAdapter">
+    <plt:partnerLinkType name="AppsAdapter_plt">
+        <plt:role name="AppsAdapter_role">
+            <plt:portType name="tns:AppsAdapter_ptt"/>
+        </plt:role>
+    </plt:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/AppsAdapter" schemaLocation="xsd/AppsAdapter_table.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="AppsAdapterSelect_inputParameters">
+        <wsdl:part name="AppsAdapterSelect_inputParameters" element="top:AppsAdapterSelect_param1InputParameters"/>
+    </wsdl:message>
+    <wsdl:message name="FndintgsoaivpCollection_msg">
+        <wsdl:part name="FndintgsoaivpCollection" element="top:FndintgsoaivpCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="AppsAdapter_ptt">
+        <wsdl:operation name="AppsAdapterSelect">
+            <wsdl:input message="tns:AppsAdapterSelect_inputParameters"/>
+            <wsdl:output message="tns:FndintgsoaivpCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

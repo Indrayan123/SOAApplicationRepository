@@ -1,0 +1,502 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Tue Jul 12 05:26:25 CDT 2016
+  Author:  f23963
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="FndIntgValidateSecurityIVP"
+               targetNamespace="http://xmlns.schneider.com/SNIFndIntgIVPServices/FndIntgValidateSecurityIVP/FndIntgValidateSecurityIVP"
+               xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+               xmlns:client="http://xmlns.schneider.com/SNIFndIntgIVPServices/FndIntgValidateSecurityIVP/FndIntgValidateSecurityIVP"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+               xmlns:ns1="http://xmlns.schneider.com/SNIFndIntgIVPServices/ChkSecuritySOAIVPSvc"
+               xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+               xmlns:snibpel="http://xmlns.schneider.com/BPEL/sni/foundation/soa/extensions/xpath"
+         xmlns:ns2="http://xmlns.schneider.com/SNIFndIntgIVPServices/FndIntgContExecutorIVP/FndIntgContExecutorIVP"
+         xmlns:ns3="http://xmlns.schneider.com/SNIFndIntgIVPServices/FndIntgOWSMServerIVP/FndIntgOWSMServerIVP"
+         xmlns:ns4="http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/FndIntgSecurityIVP/FndIntgSecurityIVP"
+         xmlns:ns5="http://xmlns.schneider.com/SNIFndIntgIVPServices/FndIntgSiebelSecIVP/FndIntgSiebelSecIVP"
+         xmlns:bpel2="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ns6="http://xmlns.schneider.com/SNIFndIntgIVPServices/ChkSecuritySOAIVP"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+         xmlns:sniutil="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.utils.SNIUtilityExtensionFunctions"
+         xmlns:ns7="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"
+         xmlns:ns8="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+         xmlns:ns9="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1">
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      PARTNERLINKS                                                      
+      List of services participating in this BPEL process               
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  --> 
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="fndintgvalidatesecurityivp_client" partnerLinkType="ns1:FndIntgValidateSecurityIVP" myRole="ChkSecuritySOAIVPPortType"/>
+    <partnerLink name="FndIntgContexecutorIVP"
+                 partnerLinkType="ns2:FndIntgContExecutorIVP"
+                 partnerRole="FndIntgContExecutorIVPProvider"/>
+    <partnerLink name="FndIntgOWSMServerIVP"
+                 partnerLinkType="ns3:FndIntgOWSMServerIVP"
+                 partnerRole="FndIntgOWSMServerIVPProvider"/>
+    <partnerLink name="FndIntgSecurityIVP"
+                 partnerLinkType="ns4:FndIntgSecurityIVP"
+                 partnerRole="FndIntgSecurityIVPProvider"/>
+    <partnerLink name="FndIntgSiebelSecIVP"
+                 partnerLinkType="ns5:FndIntgSiebelSecIVP"
+                 partnerRole="FndIntgSiebelSecIVPProvider"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="ns1:InputMessage"/>
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="outputVariable" messageType="ns1:OuputMessage"/>
+    <variable name="Err_msg_length" type="xsd:double"/>
+    <variable name="InvokeFndIntgSecurityIVP_InputVariable"
+              messageType="ns4:FndIntgSecurityIVPRequestMessage"/>
+    <variable name="InvokeFndIntgSecurityIVP_OutputVariable"
+              messageType="ns4:FndIntgSecurityIVPResponseMessage"/>
+    <variable name="InvokeFndIntgContexecutorIVP_InputVariable"
+              messageType="ns2:FndIntgContExecutorIVPRequestMessage"/>
+    <variable name="InvokeFndIntgContexecutorIVP_OutputVariable"
+              messageType="ns2:FndIntgContExecutorIVPResponseMessage"/>    
+    <variable name="InvokeOWSMServerIVP_InputVariable"
+              messageType="ns3:FndIntgOWSMServerIVPRequestMessage"/>
+    <variable name="InvokeOWSMServerIVP_OutputVariable"
+              messageType="ns3:FndIntgOWSMServerIVPResponseMessage"/>
+    <variable name="username" type="xsd:string"/>
+    <variable name="password" type="xsd:string"/>
+    <variable name="InvokeFndIntgSiebelSecIVP_InputVariable"
+              messageType="ns5:FndIntgSiebelSecIVPRequestMessage"/>
+    <variable name="InvokeFndIntgSiebelSecIVP_OutputVariable"
+              messageType="ns5:FndIntgSiebelSecIVPResponseMessage"/>
+    <variable name="SNIHeader" element="ns9:SNIHeader"/>
+    <variable name="SNIFault" messageType="ns1:SNIFaultMessage"/>
+    <variable name="logStatus" type="xsd:string"/>
+  </variables>
+  <faultHandlers>
+    <catchAll>
+      <sequence name="Sequence7">
+        <assign name="createFault">
+          <copy>
+            <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','ValidateSecurity Flt',string(ora:getFaultAsString()),string('3'),'FndIntgValidateSecurityIVP')"/>
+            <to variable="SNIFault" part="payload" query="/ns9:SNIFault"/>
+          </copy>
+          <copy>
+            <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateSecurityIVP-Fault Occurred at CATCHALL',bpws:getVariableData('SNIHeader','/ns9:SNIHeader/ns9:BusinessKey')),string('SEVERE'))"/>
+            <to variable="logStatus"/>
+          </copy>
+        </assign>
+        <reply name="ReplywithFault" faultName="ns1:SNIFault"
+               variable="SNIFault"
+               partnerLink="fndintgvalidatesecurityivp_client"
+               portType="ns1:ChkSecuritySOAIVPPortType"
+               operation="ChkSecuritySOAIVP"/>
+      </sequence>
+    </catchAll>
+  </faultHandlers>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in FndIntgValidateSecurityIVP.wsdl) -->
+    <receive name="receiveInput" partnerLink="fndintgvalidatesecurityivp_client" portType="ns1:ChkSecuritySOAIVPPortType" operation="ChkSecuritySOAIVP" variable="inputVariable" createInstance="yes"/>
+    <assign name="createHeader">
+      <copy>
+        <from expression="snibpel:createSNIHeader('SOA-FndIntgValidateSecurityIVP','IVP-Security','FndIntgValidateSecurityIVP','SOAIVP','SOA','')"/>
+        <to variable="SNIHeader" query="/ns9:SNIHeader"/>
+      </copy>
+      <copy>
+        <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateSecurityIVP-Enter',bpws:getVariableData('SNIHeader','/ns9:SNIHeader/ns9:BusinessKey')),string('INFO'))"/>
+        <to variable="logStatus"/>
+      </copy>
+    </assign>
+    <!--<assign name="AssignStartTime">
+      <copy>
+        <from expression="xp20:current-dateTime()"/>
+        <to variable="outputVariable" part="part"
+            query="/ns6:Output/ns6:ValidateSecurityRes/ns6:OtherDetails/ns6:StartTime"/>
+      </copy>
+    </assign>-->
+    <switch name="Switch1">
+      <case condition="string-length(string(bpws:getVariableData('inputVariable','part','/ns6:Input/ns6:Err_Msg_Length')))!='0.0'">
+        <bpelx:annotation>
+          <bpelx:general>
+            <bpelx:property name="userLabel">Is Error Length?</bpelx:property>
+          </bpelx:general>
+        </bpelx:annotation>
+        <assign name="AssignErrorLength">
+          <copy>
+            <from variable="inputVariable" part="part"
+                  query="/ns6:Input/ns6:Err_Msg_Length"/>
+            <to variable="Err_msg_length"/>
+          </copy>
+        </assign>
+      </case>
+      <otherwise>
+        <assign name="AssignErrorLength">
+          <copy>
+            <from expression="number('200')"/>
+            <to variable="Err_msg_length"/>
+          </copy>
+        </assign>
+      </otherwise>
+    </switch>
+    <scope name="FndIntgSecurityIVP" variableAccessSerializable="no">
+      <faultHandlers>
+        <catchAll><assign name="AssignErrorResponse"
+                          xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+            <copy>
+              <from expression="'Failure'"/>
+              <to variable="outputVariable" part="part"
+                  query="/ns6:Output/ns6:ValidateSecurityRes/ns6:fndintgSecurityivp/ns6:Status"/>
+            </copy>
+            <copy>
+              <from expression="concat('FAILED in FndIntgSecurityIVP with the error: ',substring(ora:getFaultAsString(),1,bpws:getVariableData('Err_msg_length')))"/>
+              <to variable="outputVariable" part="part"
+                  query="/ns6:Output/ns6:ValidateSecurityRes/ns6:fndintgSecurityivp/ns6:AdditionalNote"/>
+            </copy>
+            <copy>
+              <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','FndIntgSecurityIVP Flt',string(bpws:getVariableData('outputVariable','part','/ns6:Output/ns6:ValidateSecurityRes/ns6:fndintgSecurityivp/ns6:AdditionalNote')),string('3'),'FndIntgValidateSecurityIVP')"/>
+              <to variable="SNIFault" part="payload" query="/ns9:SNIFault"/>
+            </copy>
+            <copy>
+              <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateSecurityIVP-Fault Occurred at the scope FndIntgSecurityIVP',bpws:getVariableData('SNIHeader','/ns9:SNIHeader/ns9:BusinessKey')),string('SEVERE'))"/>
+              <to variable="logStatus"/>
+            </copy>
+          </assign></catchAll>
+      </faultHandlers>
+      <sequence name="Sequence1">
+        <!--<invoke name="InvokeFndIntgSecurityIVP" bpelx:invokeAsDetail="no"
+                inputVariable="InvokeFndIntgSecurityIVP_InputVariable"
+                outputVariable="InvokeFndIntgSecurityIVP_OutputVariable"
+                partnerLink="FndIntgSecurityIVP"
+                portType="ns4:FndIntgSecurityIVP" operation="process"/>-->
+        <switch name="Switch5">
+          <case condition="xp20:upper-case(string(bpws:getVariableData('inputVariable','part','/ns6:Input/ns6:ValidateSecurityReq/ns6:fndintgSecurityivp')))='TRUE'">
+            <bpelx:annotation>
+              <bpelx:general>
+                <bpelx:property name="userLabel">If fndintgSecurityivp is true</bpelx:property>
+              </bpelx:general>
+            </bpelx:annotation>
+            <sequence name="Sequence6">
+              <assign name="AssignInput">
+                <copy>
+                  <from expression="'IVPSec'"/>
+                  <to variable="InvokeFndIntgSecurityIVP_InputVariable"
+                      part="payload" query="/ns4:process/ns4:input"/>
+                </copy>
+              </assign>
+              <invoke name="InvokeFndIntgSecurityIVP" bpelx:invokeAsDetail="no"
+                      inputVariable="InvokeFndIntgSecurityIVP_InputVariable"
+                      outputVariable="InvokeFndIntgSecurityIVP_OutputVariable"
+                      partnerLink="FndIntgSecurityIVP"
+                      portType="ns4:FndIntgSecurityIVP" operation="process"/>
+              <assign name="AssignResponse">
+                <copy>
+                  <from expression="'Success'"/>
+                  <to variable="outputVariable" part="part"
+                      query="/ns6:Output/ns6:ValidateSecurityRes/ns6:fndintgSecurityivp/ns6:Status"/>
+                </copy>
+              </assign>
+            </sequence>
+          </case>
+          <otherwise>
+            <assign name="NoInvocation">
+              <copy>
+                <from expression="'Skipped'"/>
+                <to variable="outputVariable" part="part"
+                    query="/ns6:Output/ns6:ValidateSecurityRes/ns6:fndintgSecurityivp/ns6:Status"/>
+              </copy>
+            </assign>
+          </otherwise>
+        </switch>
+      </sequence>
+    </scope>
+    <scope name="FndIntgConExecutorIVP" variableAccessSerializable="no">
+      <faultHandlers>
+        <catchAll>
+          <assign name="AssignErrorResponse">
+            <copy>
+              <from expression="'Failure'"/>
+              <to variable="outputVariable" part="part"
+                  query="/ns6:Output/ns6:ValidateSecurityRes/ns6:fndintgContExecutorivp/ns6:Status"/>
+            </copy>
+            <copy>
+              <from expression="concat('FAILED in FndIntgContExecutorIVP with the error: ',substring(ora:getFaultAsString(),1,bpws:getVariableData('Err_msg_length')))"/>
+              <to variable="outputVariable" part="part"
+                  query="/ns6:Output/ns6:ValidateSecurityRes/ns6:fndintgContExecutorivp/ns6:AdditionalNote"/>
+            </copy>
+            <copy>
+              <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','FndIntgContExecutorIVP Flt',string(bpws:getVariableData('outputVariable','part','/ns6:Output/ns6:ValidateSecurityRes/ns6:fndintgContExecutorivp/ns6:AdditionalNote')),string('3'),'FndIntgValidateSecurityIVP')"/>
+              <to variable="SNIFault" part="payload" query="/ns9:SNIFault"/>
+            </copy>
+            <copy>
+              <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateSecurityIVP-Fault Occurred at the scope FndIntgContExecutorIVP',bpws:getVariableData('SNIHeader','/ns9:SNIHeader/ns9:BusinessKey')),string('SEVERE'))"/>
+              <to variable="logStatus"/>
+            </copy>
+          </assign>
+        </catchAll>
+      </faultHandlers>
+      <sequence name="Sequence2">
+        <switch name="Switch2">
+          <case condition="xp20:upper-case(string(bpws:getVariableData('inputVariable','part','/ns6:Input/ns6:ValidateSecurityReq/ns6:fndintgContExecutorivp')))='TRUE'">
+            <bpelx:annotation>
+              <bpelx:general>
+                <bpelx:property name="userLabel">If FndIntgContExecutorIVP true</bpelx:property>
+              </bpelx:general>
+            </bpelx:annotation>
+            <sequence>
+              <assign name="AssignInput">
+                <copy>
+                  <from expression="'SecIVP'"/>
+                  <to variable="InvokeFndIntgContexecutorIVP_InputVariable"
+                      part="payload" query="/ns2:process/ns2:input"/>
+                </copy>
+              </assign>
+              <invoke name="InvokeFndIntgContexecutorIVP"
+                      bpelx:invokeAsDetail="no"
+                      inputVariable="InvokeFndIntgContexecutorIVP_InputVariable"
+                      outputVariable="InvokeFndIntgContexecutorIVP_OutputVariable"
+                      partnerLink="FndIntgContexecutorIVP"
+                      portType="ns2:FndIntgContExecutorIVP"
+                      operation="process"/>
+              <assign name="AssignResponse">
+                <copy>
+                  <from expression="'Success'"/>
+                  <to variable="outputVariable" part="part"
+                      query="/ns6:Output/ns6:ValidateSecurityRes/ns6:fndintgContExecutorivp/ns6:Status"/>
+                </copy>
+              </assign>
+            </sequence>
+          </case>
+          <otherwise>
+            <assign name="NoInvocation">
+              <copy>
+                <from expression="'Skipped'"/>
+                <to variable="outputVariable" part="part"
+                    query="/ns6:Output/ns6:ValidateSecurityRes/ns6:fndintgContExecutorivp/ns6:Status"/>
+              </copy>
+            </assign>
+          </otherwise>
+        </switch>
+      </sequence>
+    </scope>
+    <scope name="FndIntgOWSMServerIVP" variableAccessSerializable="no">
+      <faultHandlers>
+        <catchAll>
+          <assign name="AssignErrorResponse">
+            <copy>
+              <from expression="'Failure'"/>
+              <to variable="outputVariable" part="part"
+                  query="/ns6:Output/ns6:ValidateSecurityRes/ns6:fndintgOWSMivpAuthResult/ns6:Status"/>
+            </copy>
+            <copy>
+              <from expression="concat('FAILED in FndIntgOWSMServerIVP with the error: ',substring(ora:getFaultAsString(),1,bpws:getVariableData('Err_msg_length')))"/>
+              <to variable="outputVariable" part="part"
+                  query="/ns6:Output/ns6:ValidateSecurityRes/ns6:fndintgOWSMivpAuthResult/ns6:AdditionalNote"/>
+            </copy>
+            <copy>
+              <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','FndIntgOWSMServerIVP Flt',string(bpws:getVariableData('outputVariable','part','/ns6:Output/ns6:ValidateSecurityRes/ns6:fndintgOWSMivpAuthResult/ns6:AdditionalNote')),string('3'),'FndIntgValidateSecurityIVP')"/>
+              <to variable="SNIFault" part="payload" query="/ns9:SNIFault"/>
+            </copy>
+            <copy>
+              <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateSecurityIVP-Fault Occurred at the scope FndIntgOWSMServerIVP',bpws:getVariableData('SNIHeader','/ns9:SNIHeader/ns9:BusinessKey')),string('SEVERE'))"/>
+              <to variable="logStatus"/>
+            </copy>
+          </assign>
+        </catchAll>
+      </faultHandlers>
+      <switch name="Switch3">
+        <case condition="(string-length(bpws:getVariableData('inputVariable','part','/ns6:Input/ns6:ValidateSecurityReq/ns6:fndintgOWSMivp/ns6:username'))!='0.0')and(string-length(bpws:getVariableData('inputVariable','part','/ns6:Input/ns6:ValidateSecurityReq/ns6:fndintgOWSMivp/ns6:password'))!='0.0')">
+          <bpelx:annotation>
+            <bpelx:general>
+              <bpelx:property name="userLabel">Username/Password Provided</bpelx:property>
+            </bpelx:general>
+          </bpelx:annotation>
+          <sequence name="Sequence3">
+            <assign name="AssignInput">
+              <copy>
+                <from expression="'SecurityIVP'"/>
+                <to variable="InvokeOWSMServerIVP_InputVariable" part="payload"
+                    query="/ns3:process/ns3:input"/>
+              </copy>
+              <copy>
+                <from variable="inputVariable" part="part"
+                      query="/ns6:Input/ns6:ValidateSecurityReq/ns6:fndintgOWSMivp/ns6:username"/>
+                <to variable="username"/>
+              </copy>
+              <copy>
+                <from variable="inputVariable" part="part"
+                      query="/ns6:Input/ns6:ValidateSecurityReq/ns6:fndintgOWSMivp/ns6:password"/>
+                <to variable="password"/>
+              </copy>
+            </assign>
+            <invoke name="InvokeOWSMServerIVP"
+                    inputVariable="InvokeOWSMServerIVP_InputVariable"
+                    outputVariable="InvokeOWSMServerIVP_OutputVariable"
+                    partnerLink="FndIntgOWSMServerIVP"
+                    portType="ns3:FndIntgOWSMServerIVP" operation="process"
+                    bpelx:invokeAsDetail="no">
+                    
+             <!--<bpelx:inputProperty name="oracle.webservices.auth.username"
+                                   variable="username"/>
+            <bpelx:inputProperty name="oracle.webservices.auth.password"
+                                   variable="password"/>-->
+              <bpelx:inputProperty name="javax.xml.ws.security.auth.username"
+                                   variable="username"/>
+                                   <bpelx:inputProperty name="javax.xml.ws.security.auth.password"
+                                   variable="password"/>
+            </invoke>
+            <assign name="AssignResponse">
+              <copy>
+                <from expression="'Success'"/>
+                <to variable="outputVariable" part="part"
+                    query="/ns6:Output/ns6:ValidateSecurityRes/ns6:fndintgOWSMivpAuthResult/ns6:Status"/>
+              </copy>
+              <copy>
+                <from expression="'User Authenticated Successfully'"/>
+                <to variable="outputVariable" part="part"
+                    query="/ns6:Output/ns6:ValidateSecurityRes/ns6:fndintgOWSMivpAuthResult/ns6:AdditionalNote"/>
+              </copy>
+            </assign>
+          </sequence>
+        </case>
+        <otherwise>
+          <assign name="NoInvocation">
+            <copy>
+              <from expression="'Skipped'"/>
+              <to variable="outputVariable" part="part"
+                  query="/ns6:Output/ns6:ValidateSecurityRes/ns6:fndintgOWSMivpAuthResult/ns6:Status"/>
+            </copy>
+          </assign>
+        </otherwise>
+      </switch>
+    </scope>
+    <scope name="FndIntgSiebelSecIVP" variableAccessSerializable="no">
+      <faultHandlers>
+        <catchAll>
+          <assign name="AssignErrorResponse">
+            <copy>
+              <from expression="'Failure'"/>
+              <to variable="outputVariable" part="part"
+                  query="/ns6:Output/ns6:ValidateSecurityRes/ns6:fndintgSiebelSecivp/ns6:Status"/>
+            </copy>
+            <copy>
+              <from expression="concat('FAILED in FndIntgSiebelSecIVP with the error: ',substring(ora:getFaultAsString(),1,bpws:getVariableData('Err_msg_length')))"/>
+              <to variable="outputVariable" part="part"
+                  query="/ns6:Output/ns6:ValidateSecurityRes/ns6:fndintgSiebelSecivp/ns6:AdditionalNote"/>
+            </copy>
+            <copy>
+              <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','FndIntgSiebelSecIVP Flt',string(bpws:getVariableData('outputVariable','part','/ns6:Output/ns6:ValidateSecurityRes/ns6:fndintgSiebelSecivp/ns6:AdditionalNote')),string('3'),'FndIntgValidateSecurityIVP')"/>
+              <to variable="SNIFault" part="payload" query="/ns9:SNIFault"/>
+            </copy>
+            <copy>
+              <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateSecurityIVP-Fault Occurred at the scope FndIntgSiebelSecIVP',bpws:getVariableData('SNIHeader','/ns9:SNIHeader/ns9:BusinessKey')),string('SEVERE'))"/>
+              <to variable="logStatus"/>
+            </copy>
+          </assign>
+        </catchAll>
+      </faultHandlers>
+      <sequence name="Sequence4">
+        <switch name="Switch4">
+          <case condition="xp20:upper-case(string(bpws:getVariableData('inputVariable','part','/ns6:Input/ns6:ValidateSecurityReq/ns6:fndintgSiebelSecivp')))='TRUE'">
+            <bpelx:annotation>
+              <bpelx:general>
+                <bpelx:property name="userLabel">If fndintgSiebelSecivp is True</bpelx:property>
+              </bpelx:general>
+            </bpelx:annotation>
+            <sequence name="Sequence5">
+              <assign name="AssignInput">
+                <copy>
+                  <from expression="'10'"/>
+                  <to variable="InvokeFndIntgSiebelSecIVP_InputVariable"
+                      part="payload"
+                      query="/ns5:Revisions_Input/ns5:ListOfSniOrderRevisions/ns5:SniOrderLineItem-Billing/ns5:SNIBatchNum"/>
+                </copy>
+                <copy>
+                  <from expression="'1-1RC-122241-5QDHG2Y09/25/2009EDI'"/>
+                  <to variable="InvokeFndIntgSiebelSecIVP_InputVariable"
+                      part="payload"
+                      query="/ns5:Revisions_Input/ns5:ListOfSniOrderRevisions/ns5:SniOrderLineItem-Billing/ns5:SNIInvoiceGroupKey"/>
+                </copy>
+              </assign>
+              <invoke name="InvokeFndIntgSiebelSecIVP" bpelx:invokeAsDetail="no"
+                      inputVariable="InvokeFndIntgSiebelSecIVP_InputVariable"
+                      outputVariable="InvokeFndIntgSiebelSecIVP_OutputVariable"
+                      partnerLink="FndIntgSiebelSecIVP"
+                      portType="ns5:FndIntgSiebelSecIVP" operation="process"/>
+              <assign name="AssignResponse">
+                <copy>
+                  <from expression="'Success'"/>
+                  <to variable="outputVariable" part="part"
+                      query="/ns6:Output/ns6:ValidateSecurityRes/ns6:fndintgSiebelSecivp/ns6:Status"/>
+                </copy>
+              </assign>
+            </sequence>
+          </case>
+          <otherwise>
+            <assign name="NoInvocation">
+              <copy>
+                <from expression="'Skipped'"/>
+                <to variable="outputVariable" part="part"
+                    query="/ns6:Output/ns6:ValidateSecurityRes/ns6:fndintgSiebelSecivp/ns6:Status"/>
+              </copy>
+            </assign>
+          </otherwise>
+        </switch>
+      </sequence>
+    </scope>
+    <assign name="LogMessage">
+      <copy>
+        <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateSecurityIVP-Exit',bpws:getVariableData('SNIHeader','/ns9:SNIHeader/ns9:BusinessKey')),string('INFO'))"/>
+        <to variable="logStatus"/>
+      </copy>
+    </assign>
+    <!--<assign name="FinalResponse">
+      <copy>
+        <from expression="xp20:current-dateTime()"/>
+        <to variable="outputVariable" part="part"
+            query="/ns6:Output/ns6:ValidateSecurityRes/ns6:OtherDetails/ns6:EndTime"/>
+      </copy>
+      <copy>
+        <from expression="sniutil:getHostName()"/>
+        <to variable="outputVariable" part="part"
+            query="/ns6:Output/ns6:ValidateSecurityRes/ns6:OtherDetails/ns6:HostName"/>
+      </copy>
+    </assign>-->
+    <!-- Generate reply to synchronous request -->
+    <reply name="replyOutput" partnerLink="fndintgvalidatesecurityivp_client" portType="ns1:ChkSecuritySOAIVPPortType" operation="ChkSecuritySOAIVP" variable="outputVariable"/>
+  </sequence>
+</process>

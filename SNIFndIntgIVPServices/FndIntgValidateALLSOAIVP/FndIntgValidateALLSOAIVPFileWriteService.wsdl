@@ -1,0 +1,37 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="FndIntgValidateALLSOAIVPFileWriteService"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/file/SOAApplication/FndIntgValidateALLSOAIVP/FndIntgValidateALLSOAIVPFileWriteService"
+     xmlns:ns2="http://schemas.oracle.com/bpel/extension"
+     xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/"
+     xmlns:ns1="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/file/SOAApplication/FndIntgValidateALLSOAIVP/FndIntgValidateALLSOAIVPFileWriteService"
+     xmlns:imp1="http://xmlns.schneider.com/SNIFndIntgIVPServices/Output/ValidateALLSOAIVP"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+    >
+    <plt:partnerLinkType name="Write_plt">
+        <plt:role name="Write_role">
+            <plt:portType name="tns:Write_ptt"/>
+        </plt:role>
+    </plt:partnerLinkType>
+    <wsdl:import namespace="http://schemas.oracle.com/bpel/extension" location="oramds:/soa/shared/bpel/RuntimeFault.wsdl"/>
+    <wsdl:types>
+        <schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/file/SOAApplication/FndIntgValidateALLSOAIVP/FndIntgValidateALLSOAIVPFileWriteService"
+             xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.schneider.com/SNIFndIntgIVPServices/Output/ValidateALLSOAIVP"
+                 schemaLocation="xsd/ValidateALLSOAIVP.xsd"/>
+        </schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1" schemaLocation="oramds:/apps/SNIComponents/EnterpriseObjectLibrary/Core/Common/V1/SNICore.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="Write_msg">
+        <wsdl:part name="body" element="imp1:Output"/>
+    </wsdl:message>
+    <wsdl:portType name="Write_ptt">
+        <wsdl:operation name="Write">
+            <wsdl:input message="tns:Write_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

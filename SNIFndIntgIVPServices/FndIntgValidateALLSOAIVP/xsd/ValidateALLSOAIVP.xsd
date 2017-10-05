@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns="http://xmlns.schneider.com/SNIFndIntgIVPServices/Output/ValidateALLSOAIVP"
+            targetNamespace="http://xmlns.schneider.com/SNIFndIntgIVPServices/Output/ValidateALLSOAIVP"
+            elementFormDefault="qualified">
+ <xsd:element name="Input">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element name="ValidateAdapterIntegrationIVPReq"
+                 type="ValidateAdapterIntegrationIVPReqType" minOccurs="1"
+                 maxOccurs="1"/>
+    <xsd:element name="ValidateFaultHandlingIVPReq"
+                 type="ValidateFaultHandlingIVPReqType" minOccurs="1"
+                 maxOccurs="1"/>
+    <xsd:element name="ValidateLookupFunctionIVPReq"
+                 type="ValidateLookupFunctionIVPReqType" minOccurs="1"
+                 maxOccurs="1"/>
+    <xsd:element name="ValidateSecurityIVPReq" type="ValidateSecurityIVPReqType"
+                 minOccurs="1" maxOccurs="1"/>
+    <xsd:element name="ValidateServiceInteractionIVPReq"
+                 type="ValidateServiceInteractionIVPReqType" minOccurs="1"
+                 maxOccurs="1"/>
+    <xsd:element name="ValidateXpathFunctionIVPReq"
+                 type="ValidateXpathFunctionIVPReqType" minOccurs="1"
+                 maxOccurs="1"/>
+    <xsd:element name="Err_Msg_Length" type="xsd:double"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+ <xsd:element name="Output">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element name="ValidateAdapterIntegrationIVPRes"
+                 type="ValidateAdapterIntegrationIVPResType" minOccurs="1"
+                 maxOccurs="1"/>
+    <xsd:element name="ValidateFaultHandlingIVPRes"
+                 type="ValidateFaultHandlingIVPResType" minOccurs="1"
+                 maxOccurs="1"/>
+    <xsd:element name="ValidateLookupFunctionIVPRes"
+                 type="ValidateLookupFunctionIVPResType" minOccurs="1"
+                 maxOccurs="1"/>
+    <xsd:element name="ValidateSecurityIVPRes" type="ValidateSecurityIVPResType"
+                 minOccurs="1" maxOccurs="1"/>
+    <xsd:element name="ValidateServiceInteractionIVPRes"
+                 type="ValidateServiceInteractionIVPResType" minOccurs="1"
+                 maxOccurs="1"/>
+    <xsd:element name="ValidateXpathFunctionIVPRes"
+                 type="ValidateXpathFunctionIVPResType" minOccurs="1"
+                 maxOccurs="1"/>
+    <xsd:element name="OtherDetails" type="OtherDetailsType" minOccurs="1"
+                 maxOccurs="1"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+ <xsd:complexType name="ValidateAdapterIntegrationIVPReqType">
+  <xsd:sequence>
+   <xsd:element name="fndintgappsadapterivp" type="xsd:string"/>
+   <xsd:element name="fndintgaqenqivp" type="xsd:string"/>
+   <xsd:element name="fndintgdbadapterivp" type="xsd:string"/>
+   <xsd:element name="fndintgjmsrqenqueue" type="xsd:string"/>
+   <xsd:element name="fndintgtopicpublisherivp" type="xsd:string"/>
+   <xsd:element name="fndintguooqueuepublisher" type="xsd:string"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ValidateAdapterIntegrationIVPResType">
+  <xsd:sequence>
+   <xsd:element name="fndintgappsadapterivp" type="ResponseType"/>
+   <xsd:element name="fndintgaqenqivp" type="ResponseType"/>
+   <xsd:element name="fndintgdbadapterivp" type="ResponseType"/>
+   <xsd:element name="fndintgjmsrqenqueue" type="ResponseType"/>
+   <xsd:element name="fndintgtopicpublisherivp" type="ResponseType"/>
+   <xsd:element name="fndintguooqueuepublisher" type="ResponseType"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ValidateFaultHandlingIVPReqType">
+  <xsd:sequence>
+   <xsd:element name="fndintgfaulthandlingivp" type="xsd:string"/>
+   <xsd:element name="fndintghandlesnifaultivp" type="xsd:string"/>
+   <xsd:element name="fndintgheaderxpath" type="xsd:string"/>
+   <xsd:element name="fndintglogsnimessageivp" type="xsd:string"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ValidateFaultHandlingIVPResType">
+  <xsd:sequence>
+   <xsd:element name="fndintgfaulthandlingivp" type="ResponseType"/>
+   <xsd:element name="fndintghandlesnifaultivp" type="ResponseType"/>
+   <xsd:element name="fndintgheaderxpath" type="ResponseType"/>
+   <xsd:element name="fndintglogsnimessageivp" type="ResponseType"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ValidateLookupFunctionIVPReqType">
+  <xsd:sequence>
+   <xsd:element name="fndintglookupxrefivp" type="xsd:string"/>
+   <xsd:element name="fndintgPopulatexrefivp" type="xsd:string"/>
+   <xsd:element name="fndintgSNICreatexrefrowivp" type="xsd:string"/>
+   <xsd:element name="fndintgBCSlookupivp" type="xsd:string"/>
+   <xsd:element name="fndintgLookupDVMivp" type="xsd:string"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ValidateLookupFunctionIVPResType">
+  <xsd:sequence>
+   <xsd:element name="fndintglookupxrefivp" type="ResponseType"/>
+   <xsd:element name="fndintgPopulatexrefivp" type="ResponseType"/>
+   <xsd:element name="fndintgSNICreatexrefrowivp" type="ResponseType"/>
+   <xsd:element name="fndintgBCSlookupivp" type="ResponseType"/>
+   <xsd:element name="fndintgLookupDVMivp" type="ResponseType"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ValidateSecurityIVPReqType">
+  <xsd:sequence>
+   <xsd:element name="fndintgSecurityivp" type="xsd:string"/>
+   <xsd:element name="fndintgContExecutorivp" type="xsd:string"/>
+   <xsd:element name="fndintgSiebelSecivp" type="xsd:string"/>
+   <xsd:element name="fndintgOWSMivp">
+    <xsd:complexType>
+     <xsd:sequence>
+      <xsd:element name="username" type="xsd:string"/>
+      <xsd:element name="password" type="xsd:string"/>
+     </xsd:sequence>
+    </xsd:complexType>
+   </xsd:element>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ValidateSecurityIVPResType">
+  <xsd:sequence>
+   <xsd:element name="fndintgSecurityivp" type="ResponseType"/>
+   <xsd:element name="fndintgContExecutorivp" type="ResponseType"/>
+   <xsd:element name="fndintgSiebelSecivp" type="ResponseType"/>
+   <xsd:element name="fndintgOWSMivpAuthResult" type="ResponseType"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ValidateServiceInteractionIVPReqType">
+  <xsd:sequence>
+   <xsd:element name="fndintglargepayloadBRivp" type="xsd:string"/>
+   <xsd:element name="fndintgsimpleBRivp" type="xsd:string"/>
+   <xsd:element name="fndintgbipivp" type="xsd:string"/>
+   <xsd:element name="fndintgbpelmediatorcompositeivp" type="xsd:string"/>
+   <xsd:element name="fndintgmediatortoexternalbpelivp" type="xsd:string"/>   
+   <xsd:element name="fndintgsynctToonewayivp" type="xsd:string"/>  
+   <xsd:element name="fndintgsoatoosbintivp" type="xsd:string"/>
+   <xsd:element name="fndintgumsmailprocessivp" type="xsd:string"/>
+   <xsd:element name="fndintgodiivp" type="xsd:string"/>
+   <xsd:element name="fndintghumantaskivp" type="xsd:string"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ValidateServiceInteractionIVPResType">
+  <xsd:sequence>
+   <xsd:element name="fndintglargepayloadBRivp" type="ResponseType"/>
+   <xsd:element name="fndintgsimpleBRivp" type="ResponseType"/>
+   <xsd:element name="fndintgbipivp" type="ResponseType"/>
+   <xsd:element name="fndintgbpelmediatorcompositeivp" type="ResponseType"/>
+   <xsd:element name="fndintgmediatortoexternalbpelivp" type="ResponseType"/>   
+   <xsd:element name="fndintgsynctToonewayivp" type="ResponseType"/>   
+   <xsd:element name="fndintgsoatoosbintivp" type="ResponseType"/>
+   <xsd:element name="fndintgumsmailprocessivp" type="ResponseType"/>
+   <xsd:element name="fndintgodiivp" type="ResponseType"/>
+   <xsd:element name="fndintghumantaskivp" type="ResponseType"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ValidateXpathFunctionIVPReqType">
+  <xsd:sequence>
+   <xsd:element name="fndintgmiscellaneousivp" type="xsd:string"/>
+   <xsd:element name="fndintgsniconfigtableivp" type="xsd:string"/>
+   <xsd:element name="fndintgenterprisecacheivp" type="xsd:string"/>
+   <xsd:element name="fndintgvisibiltydatalookupivp" type="xsd:string"/>
+   <xsd:element name="fndintgcomparexmlivp" type="xsd:string"/>
+   <xsd:element name="fndintgdatexpathivp" type="xsd:string"/>
+   <xsd:element name="fndintgsendemailivp" type="xsd:string"/>
+   <xsd:element name="fndintgoptimisticlockivp" type="xsd:string"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ValidateXpathFunctionIVPResType">
+  <xsd:sequence>
+   <xsd:element name="fndintgmiscellaneousivp" type="ResponseType"/>
+   <xsd:element name="fndintgsniconfigtableivp" type="ResponseType"/>
+   <xsd:element name="fndintgenterprisecacheivp" type="ResponseType"/>
+   <xsd:element name="fndintgvisibiltydatalookupivp" type="ResponseType"/>
+   <xsd:element name="fndintgcomparexmlivp" type="ResponseType"/>
+   <xsd:element name="fndintgdatexpathivp" type="ResponseType"/>
+   <xsd:element name="fndintgsendemailivp" type="ResponseType"/>
+   <xsd:element name="fndintgoptimisticlockivp" type="ResponseType"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ResponseType">
+  <xsd:sequence>
+   <xsd:element name="Status" type="xsd:string"/>
+   <xsd:element name="AdditionalNote" type="xsd:string" minOccurs="0"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="OtherDetailsType">
+  <xsd:sequence>
+   <xsd:element name="ExecutionStartTime" type="xsd:string"/>
+    <xsd:element name="ExecutionEndTime" type="xsd:string"/>
+    <xsd:element name="ServerName" type="xsd:string"/>
+  </xsd:sequence>
+ </xsd:complexType>
+</xsd:schema>

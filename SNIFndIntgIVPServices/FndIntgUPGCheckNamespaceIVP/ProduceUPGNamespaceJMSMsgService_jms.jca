@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<adapter-config name="ProduceUPGNamespaceJMSMsgService" adapter="jms" wsdlLocation="ProduceUPGNamespaceJMSMsgService.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+   <connection-factory UIJmsProvider="THIRDPARTY" location="eis/fndsoa/ivp/FNDIntgSOAIVPXACF"/>
+   <endpoint-interaction portType="Produce_Message_ptt" operation="Produce_Message">
+      <interaction-spec className="oracle.tip.adapter.jms.outbound.JmsProduceInteractionSpec">
+         <property name="TimeToLive" value="0"/>
+         <property name="PayloadType" value="TextMessage"/>
+         <property name="DeliveryMode" value="Persistent"/>
+         <property name="DestinationName" value="jms/sni/fndsoa/ivp/FNDIntgSOAIVPQ"/>
+      </interaction-spec>
+   </endpoint-interaction>
+</adapter-config>

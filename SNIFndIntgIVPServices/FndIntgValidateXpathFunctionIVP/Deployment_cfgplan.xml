@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAConfigPlan xmlns:jca="http://platform.integration.oracle/blocks/adapter/fw/metadata" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:orawsp="http://schemas.oracle.com/ws/2006/01/policy" xmlns:edl="http://schemas.oracle.com/events/edl" xmlns="http://schemas.oracle.com/soa/configplan">
+   <composite name="FndIntgValidateXpathFunctionIVP">
+      <!--Add search and replace rules for the import section of a composite
+	Example:
+	<searchReplace>
+		<search>http://my-dev-server</search>
+		<replace>http://my-test-server</replace>
+	<searchReplace>
+	<searchReplace>
+		<search>8888</search>
+		<replace>8889</replace>
+	<searchReplace>-->
+      <import>
+         <searchReplace>
+            <search/>
+            <replace/>
+         </searchReplace>
+      </import>
+      <service name="FndIntgValidateXpathFunctionIVP_client_ep">
+         <binding type="ws">
+            <attribute name="port">
+               <replace>http://xmlns.schneider.com/SNIFndIntgIVPServices/ChkXpathSOAIVPSvc#wsdl.endpoint(FndIntgValidateXpathFunctionIVP_client_ep/ChkXpathSOAIVPPort)</replace>
+            </attribute>
+         </binding>
+      </service>
+      <!--Add search and replace rules for the component properties
+	For components and service/reference bindings, you can add policy references.
+	Example:
+	<component name="*">
+		<wsp:PolicyReference orawsp:category="management" orawsp:status="enabled" URI="oracle/log_policy"/>
+	</component>-->
+      <component name="FndIntgValidateXpathFunctionIVP">
+         <property name="bpel.config.transaction">
+            <replace>required</replace>
+         </property>
+      </component>
+      <reference name="FndIntgMiscellaneousIVPSvc">
+         <!--Add search and replace rules for the binding properties-->
+         <binding type="ws">
+            <attribute name="port">
+               <replace>http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/FndIntgMiscellaneousIVP/FndIntgMiscellaneousIVP#wsdl.endpoint(fndintgmiscellaneousivp_client_ep/FndIntgMiscellaneousIVP_pt)</replace>
+            </attribute>
+            <attribute name="location">
+               <replace>${foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgMiscellaneousIVP/fndintgmiscellaneousivp_client_ep?WSDL</replace>
+            </attribute>
+            <property name="weblogic.wsee.wsat.transaction.flowOption">
+               <replace>WSDLDriven</replace>
+            </property>
+         </binding>
+      </reference>
+      <reference name="FndIntgSNIConfigTableIVPSvc">
+         <!--Add search and replace rules for the binding properties-->
+         <binding type="ws">
+            <attribute name="port">
+               <replace>http://xmlns.oracle.com/SNIFndIntgIVPServices/FndIntgSNIConfigTableIVP/FndIntgSNIConfigTableIVP#wsdl.endpoint(fndintgsniconfigtableivp_client_ep/FndIntgSNIConfigTableIVP_pt)</replace>
+            </attribute>
+            <attribute name="location">
+               <replace>${foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgSNIConfigTableIVP/fndintgsniconfigtableivp_client_ep?WSDL</replace>
+            </attribute>
+            <property name="weblogic.wsee.wsat.transaction.flowOption">
+               <replace>WSDLDriven</replace>
+            </property>
+         </binding>
+      </reference>
+      <reference name="FndIntgEnterpriseCacheIVPSvc">
+         <!--Add search and replace rules for the binding properties-->
+         <binding type="ws">
+            <attribute name="port">
+               <replace>http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/FndIntgEnterpriseCacheIVP/FndIntgEnterpriseCacheIVP#wsdl.endpoint(fndintgenterprisecacheivp_client_ep/FndIntgEnterpriseCacheIVP_pt)</replace>
+            </attribute>
+            <attribute name="location">
+               <replace>${foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgEnterpriseCacheIVP/fndintgenterprisecacheivp_client_ep?WSDL</replace>
+            </attribute>
+            <property name="weblogic.wsee.wsat.transaction.flowOption">
+               <replace>WSDLDriven</replace>
+            </property>
+         </binding>
+      </reference>
+      <reference name="FndIntgVisibiltydatalookupIVPSvc">
+         <!--Add search and replace rules for the binding properties-->
+         <binding type="ws">
+            <attribute name="port">
+               <replace>http://xmlns.oracle.com/SNIFndIntgIVPServices/FndIntgVisibiltyDataLookupIVP/FndIntgVisibiltyDataLookupIVP#wsdl.endpoint(fndintgvisibiltydatalookupivp_client_ep/FndIntgVisibiltyDataLookupIVP_pt)</replace>
+            </attribute>
+            <attribute name="location">
+               <replace>${foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgVisibiltyDataLookupIVP/fndintgvisibiltydatalookupivp_client_ep?WSDL</replace>
+            </attribute>
+            <property name="weblogic.wsee.wsat.transaction.flowOption">
+               <replace>WSDLDriven</replace>
+            </property>
+         </binding>
+      </reference>
+      <reference name="FndIntgComparexmlIVPSvc">
+         <!--Add search and replace rules for the binding properties-->
+         <binding type="ws">
+            <attribute name="port">
+               <replace>http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/FndIntgCompareXMLIVP/FndIntgCompareXMLIVP#wsdl.endpoint(fndintgcomparexmlivp_client_ep/FndIntgCompareXMLIVP_pt)</replace>
+            </attribute>
+            <attribute name="location">
+               <replace>${foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgCompareXMLIVP/fndintgcomparexmlivp_client_ep?WSDL</replace>
+            </attribute>
+            <property name="weblogic.wsee.wsat.transaction.flowOption">
+               <replace>WSDLDriven</replace>
+            </property>
+         </binding>
+      </reference>
+      <reference name="FndIntgDateXpathIVPSvc">
+         <!--Add search and replace rules for the binding properties-->
+         <binding type="ws">
+            <attribute name="port">
+               <replace>http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/FndIntgDateXpathIVP/FndIntgDateXpathIVP#wsdl.endpoint(fndintgdatexpathivp_client_ep/FndIntgDateXpathIVP_pt)</replace>
+            </attribute>
+            <attribute name="location">
+               <replace>${foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgDateXpathIVP/fndintgdatexpathivp_client_ep?WSDL</replace>
+            </attribute>
+            <property name="weblogic.wsee.wsat.transaction.flowOption">
+               <replace>WSDLDriven</replace>
+            </property>
+         </binding>
+      </reference>
+      <reference name="FndIntgOptimisticlockIVPSvc">
+         <!--Add search and replace rules for the binding properties-->
+         <binding type="ws">
+            <attribute name="port">
+               <replace>http://xmlns.oracle.com/SNIFndIntgIVPServices/FndIntgOptimisticLockIVP/FndIntgOptimisticLockIVP#wsdl.endpoint(fndintgoptimisticlockivp_client_ep/FndIntgOptimisticLockIVP_pt)</replace>
+            </attribute>
+            <attribute name="location">
+               <replace>${foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgOptimisticLockIVP/fndintgoptimisticlockivp_client_ep?WSDL</replace>
+            </attribute>
+            <property name="weblogic.wsee.wsat.transaction.flowOption">
+               <replace>WSDLDriven</replace>
+            </property>
+         </binding>
+      </reference>
+      <reference name="FndIntgSendEmailIVPSvc">
+         <!--Add search and replace rules for the binding properties-->
+         <binding type="ws">
+            <attribute name="port">
+               <replace>http://xmlns.oracle.com/SNIFndIntgIVPServices/FndIntgSendEmailIVP/FndIntgSendEmailIVP#wsdl.endpoint(fndintgsendemailivp_client_ep/FndIntgSendEmailIVP_pt)</replace>
+            </attribute>
+            <attribute name="location">
+               <replace>${foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgSendEmailIVP/fndintgsendemailivp_client_ep?WSDL</replace>
+            </attribute>
+            <property name="weblogic.wsee.wsat.transaction.flowOption">
+               <replace>WSDLDriven</replace>
+            </property>
+         </binding>
+      </reference>
+   </composite>
+   <!--To configure monitor.config: 
+	<property name="enabled"><replace>true</replace></property>
+	<property name="dataObjectsFolder"><searchReplace><search>mydev</search><replace>myproduction</replace></searchReplace></property>
+	
+	sample properties to configure for adapter: 
+	<jca:property name="QueueName"><replace>medmq1</replace></jca:property>
+	
+	To add search and replace rules for wsdls, xsd and jca files
+	Example:
+	<searchReplace>
+		<search>http://my-dev-server</search>
+		<replace>http://my-test-server</replace>
+	<searchReplace>
+	<searchReplace>
+		<search>8888</search>
+		<replace>8889</replace>
+	<searchReplace>
+	-->
+   <wsdlAndSchema name="ChkXpathSOAIVPWrapper.wsdl">
+      <searchReplace>
+         <search/>
+         <replace/>
+      </searchReplace>
+   </wsdlAndSchema>
+</SOAConfigPlan>

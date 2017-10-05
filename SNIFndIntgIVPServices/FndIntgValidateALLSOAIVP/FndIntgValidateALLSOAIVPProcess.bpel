@@ -1,0 +1,942 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Wed Aug 24 13:06:33 IST 2016
+  Author:  t15581
+  Type: BPEL 1.1 Process
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="FndIntgValidateALLSOAIVPProcess"
+               targetNamespace="http://xmlns.oracle.com/SOAApplication/FndIntgValidateALLSOAIVP/FndIntgValidateALLSOAIVPProcess"
+               xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+               xmlns:client="http://xmlns.oracle.com/SOAApplication/FndIntgValidateALLSOAIVP/FndIntgValidateALLSOAIVPProcess"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+               xmlns:snibpel="http://xmlns.schneider.com/BPEL/sni/foundation/soa/extensions/xpath"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:ns1="http://xmlns.schneider.com/SNIFndIntgIVPServices/ValidateALLSOAIVP/SVC"
+         xmlns:bpel2="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:sniutil="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.utils.SNIUtilityExtensionFunctions"
+         xmlns:ns2="http://xmlns.schneider.com/SNIFndIntgIVPServices/ChkAdapterIntgSOAIVPSvc"
+         xmlns:ns3="http://xmlns.schneider.com/SNIFndIntgIVPServices/ChkFaultSOAIVPSvc"
+         xmlns:ns4="http://xmlns.schneider.com/SNIFndIntgIVPServices/ChkLookupSOAIVPSvc"
+         xmlns:ns5="http://xmlns.schneider.com/SNIFndIntgIVPServices/ChkSecuritySOAIVPSvc"
+         xmlns:ns6="http://xmlns.schneider.com/SNIFndIntgIVPServices/ChkServiceIntSOAIVPSvc"
+         xmlns:ns7="http://xmlns.schneider.com/SNIFndIntgIVPServices/ChkXpathSOAIVPSvc"
+         xmlns:ns9="http://xmlns.schneider.com/SNIFndIntgIVPServices/ValidateALLSOAIVP"
+         xmlns:ns17="http://xmlns.schneider.com/SNIFndIntgIVPServices/Output/ValidateALLSOAIVP"
+         xmlns:ns8="http://xmlns.schneider.com/SNIFndIntgIVPServices/ChkAdapterIntgSOAIVP"
+         xmlns:ns10="http://xmlns.schneider.com/SNIFndIntgIVPServices/ChkFaultSOAIVP"
+         xmlns:ns11="http://xmlns.schneider.com/SNIFndIntgIVPServices/ChkLookupSOAIVP"
+         xmlns:ns12="http://xmlns.schneider.com/SNIFndIntgIVPServices/ChkSecuritySOAIVP"
+         xmlns:ns13="http://xmlns.schneider.com/SNIFndIntgIVPServices/ChkServiceIntSOAIVP"
+         xmlns:ns14="http://xmlns.schneider.com/SNIFndIntgIVPServices/ChkXpathSOAIVP"
+         xmlns:ns15="http://xmlns.oracle.com/pcbpel/adapter/file/SOAApplication/FndIntgValidateALLSOAIVP/FndIntgValidateALLSOAIVPFileWriteService"
+         xmlns:ns16="http://xmlns.schneider.com/SNIFndIntgIVPServices/Output/ValidateALLSOAIVP"
+         xmlns:ns18="http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/FndIntgValidateSOAUPGIVP/FndIntgValidateSOAUPGIVP"
+         xmlns:ns19="http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/UPG/FndIntgValidateSOAUPGIVP"
+         xmlns:ns20="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1">
+
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    --> 
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="FndIntgValidateALLSOAIVPsvc"
+                 partnerLinkType="ns1:FndIntgValidateALLSOAIVPsvc"
+                 myRole="ValidateALLSOAIVP_ptt"/>
+    <partnerLink name="FndIntgValidateAdapterIntegrationIVP"
+                 partnerLinkType="ns2:fndintgvalidateadapterintgivp_client_ep"
+                 partnerRole="ChkAdapterIntgSOAIVPPortType"/>
+    <partnerLink name="FndIntgValidateFaultHandlingIVP"
+                 partnerLinkType="ns3:FndIntgValidateFaultHandlingIVP"
+                 partnerRole="ChkFaultSOAIVPPortType"/>
+    <partnerLink name="FndIntgValidateLookupFunctionIVP"
+                 partnerLinkType="ns4:FndIntgValidateLookupFunctionIVP"
+                 partnerRole="ChkLookupSOAIVPPortType"/>
+    <partnerLink name="FndIntgValidateSecurityIVP"
+                 partnerLinkType="ns5:FndIntgValidateSecurityIVP"
+                 partnerRole="ChkSecuritySOAIVPPortType"/>
+    <partnerLink name="FndIntgValidateServiceInteractionIVP"
+                 partnerLinkType="ns6:FndIntgValidateServiceInteractionIVP"
+                 partnerRole="ChkServiceIntSOAIVPPortType"/>
+    <partnerLink name="FndIntgValidateXpathFunctionIVP"
+                 partnerLinkType="ns7:FndIntgValidateXpathFunctionIVP"
+                 partnerRole="ChkXpathSOAIVPPortType"/>
+    <partnerLink name="FndIntgValidateALLSOAIVPFileWriteService"
+                 partnerLinkType="ns15:Write_plt" partnerRole="Write_role"/>
+    <partnerLink name="FndIntgValidateSOAUPGIVP"
+                 partnerLinkType="ns18:FndIntgValidateSOAUPGIVP"
+                 partnerRole="FndIntgValidateSOAUPGIVPPortType"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    
+
+    <!-- Reference to the message that will be returned to the requester-->
+   
+    <variable name="ValidateALLSOAIVPReqMsg" messageType="ns1:requestMessage"/>
+    <variable name="ValidateALLSOAIVPResMsg" messageType="ns1:replyMessage"/>
+    <variable name="ExecutionStartTime" type="xsd:string"/>
+    <variable name="ExecutionEndTime" type="xsd:string"/>
+    <variable name="ValidateAdapterIntegrationIVPReqMsg"
+              messageType="ns2:InputMessage"/>
+    <variable name="ValidateAdapterIntegrationIVPResMsg"
+              messageType="ns2:OutputMessage"/>
+    <variable name="ValidateFaultHandlingIVPReqMsg"
+              messageType="ns3:InputMessage"/>
+    <variable name="ValidateFaultHandlingIVPResMsg"
+              messageType="ns3:OuputMessage"/>
+    <variable name="ValidateLookupFunctionIVPReqMsg"
+              messageType="ns4:InputMessage"/>
+    <variable name="ValidateLookupFunctionIVPResMsg"
+              messageType="ns4:OuputMessage"/>
+    <variable name="ValidateSecurityIVPReqMsg" messageType="ns5:InputMessage"/>
+    <variable name="ValidateSecurityIVPResMsg" messageType="ns5:OuputMessage"/>
+    <variable name="ValidateServiceInteractionIVPReqMsg"
+              messageType="ns6:InputMessage"/>
+    <variable name="ValidateServiceInteractionIVPResMsg"
+              messageType="ns6:OuputMessage"/>
+    <variable name="ValidateXpathFunctionIVPReqMsg"
+              messageType="ns7:InputMessage"/>
+    <variable name="ValidateXpathFunctionIVPResMsg"
+              messageType="ns7:OuputMessage"/>
+    <variable name="ValidateALLSOAIVPFileWriteReqMsg"
+              messageType="ns15:Write_msg"/>
+    <variable name="ValidateALLFileWritePath" type="xsd:string"/>
+    <variable name="InvokeFndIntgValidateSOAUPGIVP_InputVariable"
+              messageType="ns18:InputMessage"/>
+    <variable name="InvokeFndIntgValidateSOAUPGIVP_OutputVariable"
+              messageType="ns18:OutputMessage"/>
+    <variable name="Filename" type="xsd:string"/>
+    <variable name="SNIHeader" element="ns20:SNIHeader"/>
+    <variable name="SNIFault" messageType="ns1:SNIFaultMessage"/>
+    <variable name="RuntimeFaultVar" messageType="bpelx:RuntimeFaultMessage"/>
+    <variable name="logStatus" type="xsd:string"/>
+  </variables>
+  <faultHandlers>
+    <catch faultName="ns1:SNIFault" faultVariable="SNIFault">
+      <sequence name="Sequence12">
+        <assign name="LogMessage">
+          <copy>
+            <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateALLSOAIVP-Fault Occurred While Calling Webservices',bpws:getVariableData('SNIHeader','/ns20:SNIHeader/ns20:BusinessKey')),string('SEVERE'))"/>
+            <to variable="logStatus"/>
+          </copy>
+        </assign>
+        <reply name="ReplyWithFault" faultName="ns1:SNIFault"
+               variable="SNIFault" partnerLink="FndIntgValidateALLSOAIVPsvc"
+               portType="ns1:ValidateALLSOAIVP_ptt"
+               operation="ValidateALLSOAIVP"
+               xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/"/>
+      </sequence>
+    </catch>
+    <catchAll>
+      <sequence name="Sequence11">
+        <assign name="AssignFault">
+          <copy>
+            <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','ValidateAllSOAIVP-Generic Flt',string(ora:getFaultAsString()),string('3'),'FndIntgValidateALLSOAIVP')"/>
+            <to variable="SNIFault" part="payload" query="/ns20:SNIFault"/>
+          </copy>
+          <copy>
+            <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateALLSOAIVP-Fault Occurred',bpws:getVariableData('SNIHeader','/ns20:SNIHeader/ns20:BusinessKey')),string('SEVERE'))"/>
+            <to variable="logStatus"/>
+          </copy>
+        </assign>
+        <reply name="ReplyWithFault" faultName="ns1:SNIFault"
+               variable="SNIFault" partnerLink="FndIntgValidateALLSOAIVPsvc"
+               portType="ns1:ValidateALLSOAIVP_ptt"
+               operation="ValidateALLSOAIVP"/>
+      </sequence>
+    </catchAll>
+  </faultHandlers>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in FndIntgValidateALLSOAIVPProcess.wsdl) -->
+    <receive name="receiveInput" partnerLink="FndIntgValidateALLSOAIVPsvc"
+             portType="ns1:ValidateALLSOAIVP_ptt" operation="ValidateALLSOAIVP"
+             variable="ValidateALLSOAIVPReqMsg" createInstance="yes"/>
+    <assign name="createSNIHeader">
+      <copy>
+        <from expression="snibpel:createSNIHeader('SOA-FndIntgValidateALLSOAIVP','IVP-ValidateAll','FndIntgValidateALLSOAIVP','SOAIVP','SOA','')"/>
+        <to variable="SNIHeader" query="/ns20:SNIHeader"/>
+      </copy>
+      <copy>
+        <from expression="xp20:current-dateTime()"/>
+        <to variable="ExecutionStartTime"/>
+      </copy>
+      <copy>
+        <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateALLSOAIVP-Enter',bpws:getVariableData('SNIHeader','/ns20:SNIHeader/ns20:BusinessKey')),string('INFO'))"/>
+        <to variable="logStatus"/>
+      </copy>
+    </assign>
+    <flow name="CheckIVPFLOW">
+      <sequence name="Sequence1">
+        <scope name="Scope7">
+          <faultHandlers>
+            <catchAll>
+              <sequence name="Sequence10">
+                <switch name="Switch7">
+                  <case condition="contains(ora:getFaultAsString(),'javax.xml.soap.SOAPException: Message send failed: Read timed out')">
+                    <bpelx:annotation>
+                      <bpelx:general>
+                        <bpelx:property name="userLabel">Read Timed Out</bpelx:property>
+                      </bpelx:general>
+                    </bpelx:annotation>
+                    <assign name="AssignFault"
+                                xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+      
+   <copy>
+         <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','ValidateAllSOAIVP-Upgrade Flt','Timeout Error Occurred-Please check the available thread details of the server',string('3'),'FndIntgValidateALLSOAIVP')"/>
+         <to variable="SNIFault" part="payload" query="/ns20:SNIFault"/>
+      </copy></assign></case>
+                  <otherwise>
+                    <assign name="AssignFault"
+                            xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+                      <copy>
+                        <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','ValidateAllSOAIVP-Upgrade Flt',string(ora:getFaultAsString()),string('3'),'FndIntgValidateALLSOAIVP')"/>
+                        <to variable="SNIFault" part="payload"
+                            query="/ns20:SNIFault"/>
+                      </copy>
+                    </assign>
+                  </otherwise>
+                </switch><throw name="ThrowSNIFault" faultName="ns1:SNIFault"
+                   faultVariable="SNIFault"
+                   xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/"/></sequence>
+            </catchAll>
+          </faultHandlers>
+          <sequence>
+            <assign name="AssignRequestMessage">
+              <copy>
+                <from variable="ValidateALLSOAIVPReqMsg" part="part"
+                      query="/ns9:Input/ns9:ValidateSOAUPGIVPReq/ns9:FndIntgUPGCheckDynamicPatnerlinkFaultIVP"/>
+                <to variable="InvokeFndIntgValidateSOAUPGIVP_InputVariable"
+                    part="part"
+                    query="/ns19:Input/ns19:ValidateSOAUPGIVPReq/ns19:FndIntgUPGCheckDynamicPatnerlinkFaultIVP"/>
+              </copy>
+              <copy>
+                <from variable="ValidateALLSOAIVPReqMsg" part="part"
+                      query="/ns9:Input/ns9:ValidateSOAUPGIVPReq/ns9:FndIntgUPGCheckNamespaceIVP"/>
+                <to variable="InvokeFndIntgValidateSOAUPGIVP_InputVariable"
+                    part="part"
+                    query="/ns19:Input/ns19:ValidateSOAUPGIVPReq/ns19:FndIntgUPGCheckNamespaceIVP"/>
+              </copy>
+              <copy>
+                <from variable="ValidateALLSOAIVPReqMsg" part="part"
+                      query="/ns9:Input/ns9:ValidateSOAUPGIVPReq/ns9:FndIntgUPGCheckXSlEmptyValueIVP"/>
+                <to variable="InvokeFndIntgValidateSOAUPGIVP_InputVariable"
+                    part="part"
+                    query="/ns19:Input/ns19:ValidateSOAUPGIVPReq/ns19:FndIntgUPGCheckXSlEmptyValueIVP"/>
+              </copy>
+            </assign>
+            <invoke name="InvokeFndIntgValidateSOAUPGIVP"
+                    bpelx:invokeAsDetail="no"
+                    inputVariable="InvokeFndIntgValidateSOAUPGIVP_InputVariable"
+                    outputVariable="InvokeFndIntgValidateSOAUPGIVP_OutputVariable"
+                    partnerLink="FndIntgValidateSOAUPGIVP"
+                    portType="ns18:FndIntgValidateSOAUPGIVPPortType"
+                    operation="FndIntgValidateSOAUPGIVP"/>
+          </sequence>
+        </scope>
+      </sequence>
+      <sequence name="ValidateXpathFunctionIVPSequence">
+        <scope name="Scope6">
+         <faultHandlers>
+            <catchAll>
+              <sequence name="Sequence9">
+                <switch name="Switch6">
+                  <case condition="contains(ora:getFaultAsString(),'javax.xml.soap.SOAPException: Message send failed: Read timed out')">
+                    <bpelx:annotation>
+                      <bpelx:general>
+                        <bpelx:property name="userLabel">Read Timed Out</bpelx:property>
+                      </bpelx:general>
+                    </bpelx:annotation>
+                    <assign name="AssignFault"
+                                xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+      
+   <copy>
+         <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','ValidateAllSOAIVP-XPath Flt','Timeout Error Occurred-Please check the available thread details of the server',string('3'),'FndIntgValidateALLSOAIVP')"/>
+         <to variable="SNIFault" part="payload" query="/ns20:SNIFault"/>
+      </copy></assign></case>
+                  <otherwise>
+                    <assign name="AssignFault"
+                            xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+                      <copy>
+                        <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','ValidateAllSOAIVP-XPath Flt',string(ora:getFaultAsString()),string('3'),'FndIntgValidateALLSOAIVP')"/>
+                        <to variable="SNIFault" part="payload"
+                            query="/ns20:SNIFault"/>
+                      </copy>
+                    </assign>
+                  </otherwise>
+                </switch><throw name="ThrowSNIFault" faultName="ns1:SNIFault"
+                   faultVariable="SNIFault"
+                   xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/"/></sequence>
+            </catchAll>
+          </faultHandlers>
+          <sequence>
+            <assign name="AssignRequestMessage">
+              <copy bpelx:ignoreMissingFromData="yes"
+                    bpelx:insertMissingToData="yes">
+                <from variable="ValidateALLSOAIVPReqMsg" part="part"
+                      query="/ns9:Input/ns9:ValidateXpathFunctionIVPReq/ns9:fndintgmiscellaneousivp"/>
+                <to variable="ValidateXpathFunctionIVPReqMsg" part="part"
+                    query="/ns14:Input/ns14:ValidateXpathFunctionReq/ns14:fndintgmiscellaneousivp"/>
+              </copy>
+              <copy bpelx:ignoreMissingFromData="yes"
+                    bpelx:insertMissingToData="yes">
+                <from variable="ValidateALLSOAIVPReqMsg" part="part"
+                      query="/ns9:Input/ns9:ValidateXpathFunctionIVPReq/ns9:fndintgsniconfigtableivp"/>
+                <to variable="ValidateXpathFunctionIVPReqMsg" part="part"
+                    query="/ns14:Input/ns14:ValidateXpathFunctionReq/ns14:fndintgsniconfigtableivp"/>
+              </copy>
+              <copy bpelx:ignoreMissingFromData="yes"
+                    bpelx:insertMissingToData="yes">
+                <from variable="ValidateALLSOAIVPReqMsg" part="part"
+                      query="/ns9:Input/ns9:ValidateXpathFunctionIVPReq/ns9:fndintgenterprisecacheivp"/>
+                <to variable="ValidateXpathFunctionIVPReqMsg" part="part"
+                    query="/ns14:Input/ns14:ValidateXpathFunctionReq/ns14:fndintgenterprisecacheivp"/>
+              </copy>
+              <copy bpelx:ignoreMissingFromData="yes"
+                    bpelx:insertMissingToData="yes">
+                <from variable="ValidateALLSOAIVPReqMsg" part="part"
+                      query="/ns9:Input/ns9:ValidateXpathFunctionIVPReq/ns9:fndintgvisibiltydatalookupivp"/>
+                <to variable="ValidateXpathFunctionIVPReqMsg" part="part"
+                    query="/ns14:Input/ns14:ValidateXpathFunctionReq/ns14:fndintgvisibiltydatalookupivp"/>
+              </copy>
+              <copy bpelx:ignoreMissingFromData="yes"
+                    bpelx:insertMissingToData="yes">
+                <from variable="ValidateALLSOAIVPReqMsg" part="part"
+                      query="/ns9:Input/ns9:ValidateXpathFunctionIVPReq/ns9:fndintgcomparexmlivp"/>
+                <to variable="ValidateXpathFunctionIVPReqMsg" part="part"
+                    query="/ns14:Input/ns14:ValidateXpathFunctionReq/ns14:fndintgcomparexmlivp"/>
+              </copy>
+              <copy bpelx:ignoreMissingFromData="yes"
+                    bpelx:insertMissingToData="yes">
+                <from variable="ValidateALLSOAIVPReqMsg" part="part"
+                      query="/ns9:Input/ns9:ValidateXpathFunctionIVPReq/ns9:fndintgdatexpathivp"/>
+                <to variable="ValidateXpathFunctionIVPReqMsg" part="part"
+                    query="/ns14:Input/ns14:ValidateXpathFunctionReq/ns14:fndintgdatexpathivp"/>
+              </copy>
+              <copy bpelx:ignoreMissingFromData="yes"
+                    bpelx:insertMissingToData="yes">
+                <from variable="ValidateALLSOAIVPReqMsg" part="part"
+                      query="/ns9:Input/ns9:ValidateXpathFunctionIVPReq/ns9:fndintgsendemailivp"/>
+                <to variable="ValidateXpathFunctionIVPReqMsg" part="part"
+                    query="/ns14:Input/ns14:ValidateXpathFunctionReq/ns14:fndintgsendemailivp"/>
+              </copy>
+              <copy bpelx:ignoreMissingFromData="yes"
+                    bpelx:insertMissingToData="yes">
+                <from variable="ValidateALLSOAIVPReqMsg" part="part"
+                      query="/ns9:Input/ns9:ValidateXpathFunctionIVPReq/ns9:fndintgoptimisticlockivp"/>
+                <to variable="ValidateXpathFunctionIVPReqMsg" part="part"
+                    query="/ns14:Input/ns14:ValidateXpathFunctionReq/ns14:fndintgoptimisticlockivp"/>
+              </copy>
+              <copy bpelx:ignoreMissingFromData="yes"
+                    bpelx:insertMissingToData="yes">
+                <from variable="ValidateALLSOAIVPReqMsg" part="part"
+                      query="/ns9:Input/ns9:Err_Msg_Length"/>
+                <to variable="ValidateXpathFunctionIVPReqMsg" part="part"
+                    query="/ns14:Input/ns14:Err_Msg_Length"/>
+              </copy>
+            </assign>
+            <invoke name="InvokeValidateXpathFunctionIVP"
+                    inputVariable="ValidateXpathFunctionIVPReqMsg"
+                    outputVariable="ValidateXpathFunctionIVPResMsg"
+                    partnerLink="FndIntgValidateXpathFunctionIVP"
+                    portType="ns7:ChkXpathSOAIVPPortType"
+                    operation="ChkXpathSOAIVP" bpelx:invokeAsDetail="no"/>
+          </sequence>
+        </scope>
+      </sequence>
+      <sequence name="ValidateServiceInteractionIVPSequence">
+        <scope name="Scope1">
+          <faultHandlers>
+            <catchAll>
+              <sequence name="Sequence5">
+                <switch name="Switch5">
+                  <case condition="contains(ora:getFaultAsString(),'javax.xml.soap.SOAPException: Message send failed: Read timed out')">
+                    <bpelx:annotation>
+                      <bpelx:general>
+                        <bpelx:property name="userLabel">Read Timed Out</bpelx:property>
+                      </bpelx:general>
+                    </bpelx:annotation>
+                    <assign name="AssignFault"
+                                xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+                      <copy>
+                        <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','ValidateAllSOAIVP-SvcInt Flt','Timeout Error Occurred-Please check the available thread details of the server',string('3'),'FndIntgValidateALLSOAIVP')"/>
+                        <to variable="SNIFault" part="payload"
+                            query="/ns20:SNIFault"/>
+                      </copy>
+                    </assign></case>
+                  <otherwise>
+                    <assign name="AssignFault">
+                      <copy>
+                        <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','ValidateAllSOAIVP-SvcInt Flt',string(ora:getFaultAsString()),string('3'),'FndIntgValidateALLSOAIVP')"/>
+                        <to variable="SNIFault" part="payload"
+                            query="/ns20:SNIFault"/>
+                      </copy>
+                    </assign>
+                  </otherwise>
+                </switch>
+                <throw name="ThrowSNIFault" faultName="ns1:SNIFault"
+                       faultVariable="SNIFault"/>
+              </sequence>
+            </catchAll>
+          </faultHandlers>
+          <sequence>
+            <assign name="AssignValidateServiceInteractionIVP">
+              <!-- <copy bpelx:ignoreMissingFromData="yes"
+                bpelx:insertMissingToData="yes">
+            <from variable="ValidateALLSOAIVPReqMsg" part="part"
+                  query="/ns9:Input/ns9:ValidateServiceInteractionIVPReq/ns9:fndintgasyncTosyncivp"/>
+            <to variable="ValidateServiceInteractionIVPReqMsg" part="part"
+                query="/ns13:Input/ns13:ValidateServiceIntReq/ns13:fndintgasyncTosyncivp"/>
+          </copy>-->
+              <copy bpelx:ignoreMissingFromData="yes"
+                    bpelx:insertMissingToData="yes">
+                <from variable="ValidateALLSOAIVPReqMsg" part="part"
+                      query="/ns9:Input/ns9:ValidateServiceInteractionIVPReq/ns9:fndintglargepayloadBRivp"/>
+                <to variable="ValidateServiceInteractionIVPReqMsg" part="part"
+                    query="/ns13:Input/ns13:ValidateServiceIntReq/ns13:fndintglargepayloadBRivp"/>
+              </copy>
+              <copy bpelx:ignoreMissingFromData="yes"
+                    bpelx:insertMissingToData="yes">
+                <from variable="ValidateALLSOAIVPReqMsg" part="part"
+                      query="/ns9:Input/ns9:ValidateServiceInteractionIVPReq/ns9:fndintgsimpleBRivp"/>
+                <to variable="ValidateServiceInteractionIVPReqMsg" part="part"
+                    query="/ns13:Input/ns13:ValidateServiceIntReq/ns13:fndintgsimpleBRivp"/>
+              </copy>
+              <copy bpelx:ignoreMissingFromData="yes"
+                    bpelx:insertMissingToData="yes">
+                <from variable="ValidateALLSOAIVPReqMsg" part="part"
+                      query="/ns9:Input/ns9:ValidateServiceInteractionIVPReq/ns9:fndintgbipivp"/>
+                <to variable="ValidateServiceInteractionIVPReqMsg" part="part"
+                    query="/ns13:Input/ns13:ValidateServiceIntReq/ns13:fndintgbipivp"/>
+              </copy>
+              <copy bpelx:ignoreMissingFromData="yes"
+                    bpelx:insertMissingToData="yes">
+                <from variable="ValidateALLSOAIVPReqMsg" part="part"
+                      query="/ns9:Input/ns9:ValidateServiceInteractionIVPReq/ns9:fndintgbpelmediatorcompositeivp"/>
+                <to variable="ValidateServiceInteractionIVPReqMsg" part="part"
+                    query="/ns13:Input/ns13:ValidateServiceIntReq/ns13:fndintgbpelmediatorcompositeivp"/>
+              </copy>
+              <copy bpelx:ignoreMissingFromData="yes"
+                    bpelx:insertMissingToData="yes">
+                <from variable="ValidateALLSOAIVPReqMsg" part="part"
+                      query="/ns9:Input/ns9:ValidateServiceInteractionIVPReq/ns9:fndintgmediatortoexternalbpelivp"/>
+                <to variable="ValidateServiceInteractionIVPReqMsg" part="part"
+                    query="/ns13:Input/ns13:ValidateServiceIntReq/ns13:fndintgmediatortoexternalbpelivp"/>
+              </copy>
+              <copy bpelx:ignoreMissingFromData="yes"
+                    bpelx:insertMissingToData="yes">
+                <from variable="ValidateALLSOAIVPReqMsg" part="part"
+                      query="/ns9:Input/ns9:ValidateServiceInteractionIVPReq/ns9:fndintgsynctToonewayivp"/>
+                <to variable="ValidateServiceInteractionIVPReqMsg" part="part"
+                    query="/ns13:Input/ns13:ValidateServiceIntReq/ns13:fndintgsynctToonewayivp"/>
+              </copy>
+              <copy bpelx:ignoreMissingFromData="yes"
+                    bpelx:insertMissingToData="yes">
+                <from variable="ValidateALLSOAIVPReqMsg" part="part"
+                      query="/ns9:Input/ns9:ValidateServiceInteractionIVPReq/ns9:fndintgumsmailprocessivp"/>
+                <to variable="ValidateServiceInteractionIVPReqMsg" part="part"
+                    query="/ns13:Input/ns13:ValidateServiceIntReq/ns13:fndintgumsmailprocessivp"/>
+              </copy>
+              <copy bpelx:ignoreMissingFromData="yes"
+                    bpelx:insertMissingToData="yes">
+                <from variable="ValidateALLSOAIVPReqMsg" part="part"
+                      query="/ns9:Input/ns9:ValidateServiceInteractionIVPReq/ns9:fndintgodiivp"/>
+                <to variable="ValidateServiceInteractionIVPReqMsg" part="part"
+                    query="/ns13:Input/ns13:ValidateServiceIntReq/ns13:fndintgodiivp"/>
+              </copy>
+              <copy bpelx:ignoreMissingFromData="yes"
+                    bpelx:insertMissingToData="yes">
+                <from variable="ValidateALLSOAIVPReqMsg" part="part"
+                      query="/ns9:Input/ns9:ValidateServiceInteractionIVPReq/ns9:fndintghumantaskivp"/>
+                <to variable="ValidateServiceInteractionIVPReqMsg" part="part"
+                    query="/ns13:Input/ns13:ValidateServiceIntReq/ns13:fndintghumantaskivp"/>
+              </copy>
+              <copy>
+                <from variable="ValidateALLSOAIVPReqMsg" part="part"
+                      query="/ns9:Input/ns9:ValidateServiceInteractionIVPReq/ns9:fndintgsoatoosbintgivp"/>
+                <to variable="ValidateServiceInteractionIVPReqMsg" part="part"
+                    query="/ns13:Input/ns13:ValidateServiceIntReq/ns13:fndintgsoatoosbintgivp"/>
+              </copy>
+              <copy bpelx:ignoreMissingFromData="yes"
+                    bpelx:insertMissingToData="yes">
+                <from variable="ValidateALLSOAIVPReqMsg" part="part"
+                      query="/ns9:Input/ns9:Err_Msg_Length"/>
+                <to variable="ValidateServiceInteractionIVPReqMsg" part="part"
+                    query="/ns13:Input/ns13:Err_Msg_Length"/>
+              </copy>
+            </assign>
+            <invoke name="InvokeValidateServiceInteractionIVP"
+                    inputVariable="ValidateServiceInteractionIVPReqMsg"
+                    outputVariable="ValidateServiceInteractionIVPResMsg"
+                    partnerLink="FndIntgValidateServiceInteractionIVP"
+                    portType="ns6:ChkServiceIntSOAIVPPortType"
+                    operation="ChkServiceIntSOAIVP" bpelx:invokeAsDetail="no"/>
+          </sequence>
+        </scope>
+      </sequence>
+      <sequence name="ValidateSecurityIVPSequence">
+        <scope name="Scope5">
+          <faultHandlers>
+            <catchAll>
+              <sequence name="Sequence8">
+                <switch name="Switch4">
+                  <case condition="contains(ora:getFaultAsString(),'javax.xml.soap.SOAPException: Message send failed: Read timed out')">
+                    <bpelx:annotation>
+                      <bpelx:general>
+                        <bpelx:property name="userLabel">Read Timed Out</bpelx:property>
+                      </bpelx:general>
+                    </bpelx:annotation>
+                    <assign name="AssignFault"
+                                xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+      
+   <copy>
+         <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','ValidateAllSOAIVP-Security Flt','Timeout Error Occurred-Please check the available thread details of the server',string('3'),'FndIntgValidateALLSOAIVP')"/>
+         <to variable="SNIFault" part="payload" query="/ns20:SNIFault"/>
+      </copy></assign></case>
+                  <otherwise>
+                    <assign name="AssignFault"
+                            xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+                      <copy>
+                        <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','ValidateAllSOAIVP-Security Flt',string(ora:getFaultAsString()),string('3'),'FndIntgValidateALLSOAIVP')"/>
+                        <to variable="SNIFault" part="payload"
+                            query="/ns20:SNIFault"/>
+                      </copy>
+                    </assign>
+                  </otherwise>
+                </switch><throw name="ThrowSNIFault" faultName="ns1:SNIFault"
+                   faultVariable="SNIFault"
+                   xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/"/></sequence>
+            </catchAll>
+          </faultHandlers>
+          <sequence>
+            <assign name="AssignRequestMessage">
+              <copy bpelx:ignoreMissingFromData="yes"
+                    bpelx:insertMissingToData="yes">
+                <from variable="ValidateALLSOAIVPReqMsg" part="part"
+                      query="/ns9:Input/ns9:ValidateSecurityIVPReq/ns9:fndintgSecurityivp"/>
+                <to variable="ValidateSecurityIVPReqMsg" part="part"
+                    query="/ns12:Input/ns12:ValidateSecurityReq/ns12:fndintgSecurityivp"/>
+              </copy>
+              <copy bpelx:ignoreMissingFromData="yes"
+                    bpelx:insertMissingToData="yes">
+                <from variable="ValidateALLSOAIVPReqMsg" part="part"
+                      query="/ns9:Input/ns9:ValidateSecurityIVPReq/ns9:fndintgContExecutorivp"/>
+                <to variable="ValidateSecurityIVPReqMsg" part="part"
+                    query="/ns12:Input/ns12:ValidateSecurityReq/ns12:fndintgContExecutorivp"/>
+              </copy>
+              <copy bpelx:ignoreMissingFromData="yes"
+                    bpelx:insertMissingToData="yes">
+                <from variable="ValidateALLSOAIVPReqMsg" part="part"
+                      query="/ns9:Input/ns9:ValidateSecurityIVPReq/ns9:fndintgSiebelSecivp"/>
+                <to variable="ValidateSecurityIVPReqMsg" part="part"
+                    query="/ns12:Input/ns12:ValidateSecurityReq/ns12:fndintgSiebelSecivp"/>
+              </copy>
+              <copy bpelx:ignoreMissingFromData="yes"
+                    bpelx:insertMissingToData="yes">
+                <from variable="ValidateALLSOAIVPReqMsg" part="part"
+                      query="/ns9:Input/ns9:ValidateSecurityIVPReq/ns9:fndintgOWSMivp/ns9:username"/>
+                <to variable="ValidateSecurityIVPReqMsg" part="part"
+                    query="/ns12:Input/ns12:ValidateSecurityReq/ns12:fndintgOWSMivp/ns12:username"/>
+              </copy>
+              <copy bpelx:ignoreMissingFromData="yes"
+                    bpelx:insertMissingToData="yes">
+                <from variable="ValidateALLSOAIVPReqMsg" part="part"
+                      query="/ns9:Input/ns9:ValidateSecurityIVPReq/ns9:fndintgOWSMivp/ns9:password"/>
+                <to variable="ValidateSecurityIVPReqMsg" part="part"
+                    query="/ns12:Input/ns12:ValidateSecurityReq/ns12:fndintgOWSMivp/ns12:password"/>
+              </copy>
+              <copy bpelx:ignoreMissingFromData="yes"
+                    bpelx:insertMissingToData="yes">
+                <from variable="ValidateALLSOAIVPReqMsg" part="part"
+                      query="/ns9:Input/ns9:Err_Msg_Length"/>
+                <to variable="ValidateSecurityIVPReqMsg" part="part"
+                    query="/ns12:Input/ns12:Err_Msg_Length"/>
+              </copy>
+            </assign>
+            <invoke name="InvokeValidateSecurityIVP"
+                    inputVariable="ValidateSecurityIVPReqMsg"
+                    outputVariable="ValidateSecurityIVPResMsg"
+                    partnerLink="FndIntgValidateSecurityIVP"
+                    portType="ns5:ChkSecuritySOAIVPPortType"
+                    operation="ChkSecuritySOAIVP" bpelx:invokeAsDetail="no"/>
+          </sequence>
+        </scope>
+      </sequence>
+      <sequence name="ValidateLookupFunctionIVPSequence">
+        <scope name="Scope4">
+          <faultHandlers>
+            <catchAll>
+              <sequence name="Sequence7">
+                <switch name="Switch3">
+                  <case condition="contains(ora:getFaultAsString(),'javax.xml.soap.SOAPException: Message send failed: Read timed out')">
+                    <bpelx:annotation>
+                      <bpelx:general>
+                        <bpelx:property name="userLabel">Read Timed Out</bpelx:property>
+                      </bpelx:general>
+                    </bpelx:annotation>
+                    <assign name="AssignFault"
+                                xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+      
+   <copy>
+         <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','ValidateAllSOAIVP-Lookup Flt','Timeout Error Occurred-Please check the available thread details of the server',string('3'),'FndIntgValidateALLSOAIVP')"/>
+         <to variable="SNIFault" part="payload" query="/ns20:SNIFault"/>
+      </copy></assign></case>
+                  <otherwise>
+                    <assign name="AssignFault"
+                            xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+                      <copy>
+                        <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','ValidateAllSOAIVP-Lookup Flt',string(ora:getFaultAsString()),string('3'),'FndIntgValidateALLSOAIVP')"/>
+                        <to variable="SNIFault" part="payload"
+                            query="/ns20:SNIFault"/>
+                      </copy>
+                    </assign>
+                  </otherwise>
+                </switch><throw name="ThrowSNIFault" faultName="ns1:SNIFault"
+                   faultVariable="SNIFault"
+                   xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/"/></sequence>
+            </catchAll>
+          </faultHandlers>
+          <sequence>
+            <assign name="AssignRequestMessage">
+              <copy bpelx:ignoreMissingFromData="yes"
+                    bpelx:insertMissingToData="yes">
+                <from variable="ValidateALLSOAIVPReqMsg" part="part"
+                      query="/ns9:Input/ns9:ValidateLookupFunctionIVPReq/ns9:fndintglookupxrefivp"/>
+                <to variable="ValidateLookupFunctionIVPReqMsg" part="part"
+                    query="/ns11:Input/ns11:ValidateLookupFunctionReq/ns11:fndintglookupxrefivp"/>
+              </copy>
+              <copy bpelx:ignoreMissingFromData="yes"
+                    bpelx:insertMissingToData="yes">
+                <from variable="ValidateALLSOAIVPReqMsg" part="part"
+                      query="/ns9:Input/ns9:ValidateLookupFunctionIVPReq/ns9:fndintgPopulatexrefivp"/>
+                <to variable="ValidateLookupFunctionIVPReqMsg" part="part"
+                    query="/ns11:Input/ns11:ValidateLookupFunctionReq/ns11:fndintgPopulatexrefivp"/>
+              </copy>
+              <copy bpelx:ignoreMissingFromData="yes"
+                    bpelx:insertMissingToData="yes">
+                <from variable="ValidateALLSOAIVPReqMsg" part="part"
+                      query="/ns9:Input/ns9:ValidateLookupFunctionIVPReq/ns9:fndintgSNICreatexrefrowivp"/>
+                <to variable="ValidateLookupFunctionIVPReqMsg" part="part"
+                    query="/ns11:Input/ns11:ValidateLookupFunctionReq/ns11:fndintgSNICreatexrefrowivp"/>
+              </copy>
+              <copy bpelx:ignoreMissingFromData="yes"
+                    bpelx:insertMissingToData="yes">
+                <from variable="ValidateALLSOAIVPReqMsg" part="part"
+                      query="/ns9:Input/ns9:ValidateLookupFunctionIVPReq/ns9:fndintgBCSlookupivp"/>
+                <to variable="ValidateLookupFunctionIVPReqMsg" part="part"
+                    query="/ns11:Input/ns11:ValidateLookupFunctionReq/ns11:fndintgBCSlookupivp"/>
+              </copy>
+              <copy bpelx:ignoreMissingFromData="yes"
+                    bpelx:insertMissingToData="yes">
+                <from variable="ValidateALLSOAIVPReqMsg" part="part"
+                      query="/ns9:Input/ns9:ValidateLookupFunctionIVPReq/ns9:fndintgLookupDVMivp"/>
+                <to variable="ValidateLookupFunctionIVPReqMsg" part="part"
+                    query="/ns11:Input/ns11:ValidateLookupFunctionReq/ns11:fndintgLookupDVMivp"/>
+              </copy>
+              <copy bpelx:ignoreMissingFromData="yes"
+                    bpelx:insertMissingToData="yes">
+                <from variable="ValidateALLSOAIVPReqMsg" part="part"
+                      query="/ns9:Input/ns9:Err_Msg_Length"/>
+                <to variable="ValidateLookupFunctionIVPReqMsg" part="part"
+                    query="/ns11:Input/ns11:Err_Msg_Length"/>
+              </copy>
+            </assign>
+            <invoke name="InvokeValidateLookupFunctionIVP"
+                    inputVariable="ValidateLookupFunctionIVPReqMsg"
+                    outputVariable="ValidateLookupFunctionIVPResMsg"
+                    partnerLink="FndIntgValidateLookupFunctionIVP"
+                    portType="ns4:ChkLookupSOAIVPPortType"
+                    operation="ChkLookupSOAIVP" bpelx:invokeAsDetail="no"/>
+          </sequence>
+        </scope>
+      </sequence>
+      <sequence name="ValidateAdapterIntegrationIVPSequence">
+        <scope name="Scope2">
+          <faultHandlers>
+            <catchAll>
+              <sequence name="Sequence4">
+                <switch name="Switch2">
+                  <case condition="contains(ora:getFaultAsString(),'javax.xml.soap.SOAPException: Message send failed: Read timed out')">
+                    <bpelx:annotation>
+                      <bpelx:general>
+                        <bpelx:property name="userLabel">Read Timed Out</bpelx:property>
+                      </bpelx:general>
+                    </bpelx:annotation>
+                    <assign name="AssignFault"
+                                xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+      
+   <copy>
+         <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','ValidateAllSOAIVP-Adapter Flt','Timeout Error Occurred-Please check the available thread details of the server',string('3'),'FndIntgValidateALLSOAIVP')"/>
+         <to variable="SNIFault" part="payload" query="/ns20:SNIFault"/>
+      </copy></assign></case>
+                  <otherwise>
+                    <assign name="AssignFault"
+                            xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+                      <copy>
+                        <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','ValidateAllSOAIVP-Adapter Flt',string(ora:getFaultAsString()),string('3'),'FndIntgValidateALLSOAIVP')"/>
+                        <to variable="SNIFault" part="payload"
+                            query="/ns20:SNIFault"/>
+                      </copy>
+                    </assign>
+                  </otherwise>
+                </switch><throw name="ThrowSNIFault" faultName="ns1:SNIFault"
+                   faultVariable="SNIFault"
+                   xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/"/></sequence>
+            </catchAll>
+          </faultHandlers>
+          <sequence>
+            <assign name="AssignRequestMessage">
+              <copy bpelx:ignoreMissingFromData="yes"
+                    bpelx:insertMissingToData="yes">
+                <from variable="ValidateALLSOAIVPReqMsg" part="part"
+                      query="/ns9:Input/ns9:ValidateAdapterIntegrationIVPReq/ns9:fndintgappsadapterivp"/>
+                <to variable="ValidateAdapterIntegrationIVPReqMsg" part="part"
+                    query="/ns8:Input/ns8:ValidateAdapterIntgReq/ns8:fndintgappsadapterivp"/>
+              </copy>
+              <copy bpelx:ignoreMissingFromData="yes"
+                    bpelx:insertMissingToData="yes">
+                <from variable="ValidateALLSOAIVPReqMsg" part="part"
+                      query="/ns9:Input/ns9:ValidateAdapterIntegrationIVPReq/ns9:fndintgaqenqivp"/>
+                <to variable="ValidateAdapterIntegrationIVPReqMsg" part="part"
+                    query="/ns8:Input/ns8:ValidateAdapterIntgReq/ns8:fndintgaqenqivp"/>
+              </copy>
+              <copy bpelx:ignoreMissingFromData="yes"
+                    bpelx:insertMissingToData="yes">
+                <from variable="ValidateALLSOAIVPReqMsg" part="part"
+                      query="/ns9:Input/ns9:ValidateAdapterIntegrationIVPReq/ns9:fndintgdbadapterivp"/>
+                <to variable="ValidateAdapterIntegrationIVPReqMsg" part="part"
+                    query="/ns8:Input/ns8:ValidateAdapterIntgReq/ns8:fndintgdbadapterivp"/>
+              </copy>
+              <copy bpelx:ignoreMissingFromData="yes"
+                    bpelx:insertMissingToData="yes">
+                <from variable="ValidateALLSOAIVPReqMsg" part="part"
+                      query="/ns9:Input/ns9:ValidateAdapterIntegrationIVPReq/ns9:fndintgjmsrqenqueue"/>
+                <to variable="ValidateAdapterIntegrationIVPReqMsg" part="part"
+                    query="/ns8:Input/ns8:ValidateAdapterIntgReq/ns8:fndintgjmsrqenqueue"/>
+              </copy>
+              <copy bpelx:ignoreMissingFromData="yes"
+                    bpelx:insertMissingToData="yes">
+                <from variable="ValidateALLSOAIVPReqMsg" part="part"
+                      query="/ns9:Input/ns9:ValidateAdapterIntegrationIVPReq/ns9:fndintgtopicpublisherivp"/>
+                <to variable="ValidateAdapterIntegrationIVPReqMsg" part="part"
+                    query="/ns8:Input/ns8:ValidateAdapterIntgReq/ns8:fndintgtopicpublisherivp"/>
+              </copy>
+              <copy bpelx:ignoreMissingFromData="yes"
+                    bpelx:insertMissingToData="yes">
+                <from variable="ValidateALLSOAIVPReqMsg" part="part"
+                      query="/ns9:Input/ns9:ValidateAdapterIntegrationIVPReq/ns9:fndintguooqueuepublisher"/>
+                <to variable="ValidateAdapterIntegrationIVPReqMsg" part="part"
+                    query="/ns8:Input/ns8:ValidateAdapterIntgReq/ns8:fndintguooqueuepublisher"/>
+              </copy>
+              <copy bpelx:ignoreMissingFromData="yes"
+                    bpelx:insertMissingToData="yes">
+                <from variable="ValidateALLSOAIVPReqMsg" part="part"
+                      query="/ns9:Input/ns9:Err_Msg_Length"/>
+                <to variable="ValidateAdapterIntegrationIVPReqMsg" part="part"
+                    query="/ns8:Input/ns8:Err_Msg_Length"/>
+              </copy>
+            </assign>
+            <invoke name="InvokeValidateAdapterIntegrationIVP"
+                    inputVariable="ValidateAdapterIntegrationIVPReqMsg"
+                    outputVariable="ValidateAdapterIntegrationIVPResMsg"
+                    partnerLink="FndIntgValidateAdapterIntegrationIVP"
+                    portType="ns2:ChkAdapterIntgSOAIVPPortType"
+                    operation="ChkAdapterIntgSOAIVP" bpelx:invokeAsDetail="no"/>
+          </sequence>
+        </scope>
+      </sequence>
+      <sequence name="ValidateFaultHandlingIVPSequence">
+        <scope name="Scope3">
+          <faultHandlers>
+            <catchAll>
+              <sequence name="Sequence6">
+                <switch name="Switch1">
+                  <case condition="contains(ora:getFaultAsString(),'javax.xml.soap.SOAPException: Message send failed: Read timed out')">
+                    <bpelx:annotation>
+                      <bpelx:general>
+                        <bpelx:property name="userLabel">Read Timed Out</bpelx:property>
+                      </bpelx:general>
+                    </bpelx:annotation>
+                    <assign name="AssignFault"
+                                xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+      
+   <copy>
+         <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','ValidateAllSOAIVP-FaultHandling Flt','Timeout Error Occurred-Please check the available thread details of the server',string('3'),'FndIntgValidateALLSOAIVP')"/>
+         <to variable="SNIFault" part="payload" query="/ns20:SNIFault"/>
+      </copy></assign></case>
+                  <otherwise>
+                    <assign name="AssignFault"
+                            xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+                      <copy>
+                        <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','ValidateAllSOAIVP-FaultHandling Flt',string(ora:getFaultAsString()),string('3'),'FndIntgValidateALLSOAIVP')"/>
+                        <to variable="SNIFault" part="payload"
+                            query="/ns20:SNIFault"/>
+                      </copy>
+                    </assign>
+                  </otherwise>
+                </switch><throw name="ThrowSNIFault" faultName="ns1:SNIFault"
+                   faultVariable="SNIFault"
+                   xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/"/></sequence>
+            </catchAll>
+          </faultHandlers>
+          <sequence>
+            <assign name="AssignRequestMessage">
+              <copy bpelx:ignoreMissingFromData="yes"
+                    bpelx:insertMissingToData="yes">
+                <from variable="ValidateALLSOAIVPReqMsg" part="part"
+                      query="/ns9:Input/ns9:ValidateFaultHandlingIVPReq/ns9:fndintgfaulthandlingivp"/>
+                <to variable="ValidateFaultHandlingIVPReqMsg" part="part"
+                    query="/ns10:Input/ns10:ValidateFaultHandlingReq/ns10:fndintgfaulthandlingivp"/>
+              </copy>
+              <copy bpelx:ignoreMissingFromData="yes"
+                    bpelx:insertMissingToData="yes">
+                <from variable="ValidateALLSOAIVPReqMsg" part="part"
+                      query="/ns9:Input/ns9:ValidateFaultHandlingIVPReq/ns9:fndintghandlesnifaultivp"/>
+                <to variable="ValidateFaultHandlingIVPReqMsg" part="part"
+                    query="/ns10:Input/ns10:ValidateFaultHandlingReq/ns10:fndintghandlesnifaultivp"/>
+              </copy>
+              <copy bpelx:ignoreMissingFromData="yes"
+                    bpelx:insertMissingToData="yes">
+                <from variable="ValidateALLSOAIVPReqMsg" part="part"
+                      query="/ns9:Input/ns9:ValidateFaultHandlingIVPReq/ns9:fndintgheaderxpath"/>
+                <to variable="ValidateFaultHandlingIVPReqMsg" part="part"
+                    query="/ns10:Input/ns10:ValidateFaultHandlingReq/ns10:fndintgheaderxpath"/>
+              </copy>
+              <copy bpelx:ignoreMissingFromData="yes"
+                    bpelx:insertMissingToData="yes">
+                <from variable="ValidateALLSOAIVPReqMsg" part="part"
+                      query="/ns9:Input/ns9:ValidateFaultHandlingIVPReq/ns9:fndintglogsnimessageivp"/>
+                <to variable="ValidateFaultHandlingIVPReqMsg" part="part"
+                    query="/ns10:Input/ns10:ValidateFaultHandlingReq/ns10:fndintglogsnimessageivp"/>
+              </copy>
+              <copy bpelx:ignoreMissingFromData="yes"
+                    bpelx:insertMissingToData="yes">
+                <from variable="ValidateALLSOAIVPReqMsg" part="part"
+                      query="/ns9:Input/ns9:Err_Msg_Length"/>
+                <to variable="ValidateFaultHandlingIVPReqMsg" part="part"
+                    query="/ns10:Input/ns10:Err_Msg_Length"/>
+              </copy>
+            </assign>
+            <invoke name="InvokeValidateFaultHandlingIVP"
+                    inputVariable="ValidateFaultHandlingIVPReqMsg"
+                    outputVariable="ValidateFaultHandlingIVPResMsg"
+                    partnerLink="FndIntgValidateFaultHandlingIVP"
+                    portType="ns3:ChkFaultSOAIVPPortType"
+                    operation="ChkFaultSOAIVP" bpelx:invokeAsDetail="no"/>
+          </sequence>
+        </scope>
+      </sequence>
+    </flow>
+    <assign name="XForm_ValidateIVP_To_ValidateALLIVP">
+      <bpelx:annotation>
+        <bpelx:pattern>transformation</bpelx:pattern>
+      </bpelx:annotation>
+      <copy>
+        <from expression="ora:doXSLTransformForDoc('xsl/XForm_ValidateIVP_To_ValidateALLIVP.xsl', $ValidateAdapterIntegrationIVPResMsg.part, 'ValidateFaultHandlingIVPResMsg.part', $ValidateFaultHandlingIVPResMsg.part, 'ValidateLookupFunctionIVPResMsg.part', $ValidateLookupFunctionIVPResMsg.part, 'ValidateSecurityIVPResMsg.part', $ValidateSecurityIVPResMsg.part, 'ValidateServiceInteractionIVPResMsg.part', $ValidateServiceInteractionIVPResMsg.part, 'ValidateXpathFunctionIVPResMsg.part', $ValidateXpathFunctionIVPResMsg.part, 'InvokeFndIntgValidateSOAUPGIVP_OutputVariable.part', $InvokeFndIntgValidateSOAUPGIVP_OutputVariable.part)"/>
+        <to variable="ValidateALLSOAIVPResMsg" part="part"/>
+      </copy>
+    </assign>
+    <assign name="AssignExecutionEndTime">
+      <copy>
+        <from expression="xp20:current-dateTime()"/>
+        <to variable="ExecutionEndTime"/>
+      </copy>
+    </assign>
+    <assign name="AssignFinalOutput">
+      <copy bpelx:insertMissingToData="yes" bpelx:ignoreMissingFromData="yes">
+        <from expression="bpws:getVariableData('ExecutionStartTime')"/>
+        <to variable="ValidateALLSOAIVPResMsg" part="part"
+            query="/ns9:Output/ns9:OtherDetails/ns9:ExecutionStartTime"/>
+      </copy>
+      <copy bpelx:ignoreMissingFromData="yes" bpelx:insertMissingToData="yes">
+        <from expression="bpws:getVariableData('ExecutionEndTime')"/>
+        <to variable="ValidateALLSOAIVPResMsg" part="part"
+            query="/ns9:Output/ns9:OtherDetails/ns9:ExecutionEndTime"/>
+      </copy>
+      <copy bpelx:ignoreMissingFromData="yes" bpelx:insertMissingToData="yes">
+        <from expression="sniutil:getHostName()"/>
+        <to variable="ValidateALLSOAIVPResMsg" part="part"
+            query="/ns9:Output/ns9:OtherDetails/ns9:ServerName"/>
+      </copy>
+    </assign>
+    <assign name="Xform_TrimEmptyElements_Output">
+      <bpelx:annotation>
+        <bpelx:pattern>transformation</bpelx:pattern>
+      </bpelx:annotation>
+      <copy>
+        <from expression="ora:doXSLTransformForDoc('xsl/Xform_TrimEmptyElements_Output.xsl', $ValidateALLSOAIVPResMsg.part)"/>
+        <to variable="ValidateALLSOAIVPResMsg" part="part"/>
+      </copy>
+    </assign>
+    <!-- Generate reply to synchronous request -->
+    <reply name="replyOutput" partnerLink="FndIntgValidateALLSOAIVPsvc"
+           portType="ns1:ValidateALLSOAIVP_ptt" operation="ValidateALLSOAIVP"
+           variable="ValidateALLSOAIVPResMsg"/>
+    <assign name="AssignFileWriteReqMsg">
+      <copy bpelx:insertMissingToData="yes" bpelx:ignoreMissingFromData="yes">
+        <from variable="ValidateALLSOAIVPResMsg" part="part"
+              query="/ns9:Output"/>
+        <to variable="ValidateALLSOAIVPFileWriteReqMsg" part="body"
+            query="/ns17:Output"/>
+      </copy>
+      <copy bpelx:ignoreMissingFromData="yes" bpelx:insertMissingToData="yes">
+        <from expression='ora:getPreference("FileWriteDirectory")'/>
+        <to variable="ValidateALLFileWritePath"/>
+      </copy>
+      <copy>
+        <from expression="concat('ValidateALLSOAIVPOutput_',ora:getPreference('FileName'),'.xml')"/>
+        <to variable="Filename"/>
+      </copy>
+      <copy>
+        <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateALLSOAIVP-Exit',bpws:getVariableData('SNIHeader','/ns20:SNIHeader/ns20:BusinessKey')),string('INFO'))"/>
+        <to variable="logStatus"/>
+      </copy>
+    </assign>
+    <invoke name="InvokeValidateALLSOAIVPFileWrite"
+            inputVariable="ValidateALLSOAIVPFileWriteReqMsg"
+            partnerLink="FndIntgValidateALLSOAIVPFileWriteService"
+            portType="ns15:Write_ptt" operation="Write"
+            bpelx:invokeAsDetail="no">
+      <bpelx:inputProperty name="jca.file.FileName" variable="Filename"/>
+      <bpelx:inputProperty name="jca.file.Directory"
+                           variable="ValidateALLFileWritePath"/>
+    </invoke>
+  </sequence>
+</process>

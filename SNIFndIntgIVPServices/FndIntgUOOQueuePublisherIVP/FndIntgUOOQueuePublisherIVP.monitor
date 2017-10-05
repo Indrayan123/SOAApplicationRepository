@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<MonitorModel id="1" xmlns="http://www.oracle.com/bpel/monitor">
+   <MonitorObjects id="2">
+      <ComponentPath name="ComponentPath_1" enabled="true" id="3"/>
+      <Indicators id="4">
+         <Indicator id="10" name="RAMA_Test" enabled="true">
+            <ActivityUsages id="13">
+               <ActivityUsage id="14" activityName="main">
+                  <EvaluationEvent>activate</EvaluationEvent>
+                  <EvaluationEvent>complete</EvaluationEvent>
+               </ActivityUsage>
+            </ActivityUsages>
+            <MetricElements id="11">
+               <MetricElement id="12" name="Metric_1" dataType="string" xpath="ora:getECID()"/>
+            </MetricElements>
+         </Indicator>
+      </Indicators>
+      <Paths id="5"/>
+      <ActivityPath mode="all" enabled="true" id="6"/>
+      <Counters id="7"/>
+   </MonitorObjects>
+   <Config id="8">
+      <FeatureSwitches enabled="true" id="9"/>
+   </Config>
+</MonitorModel>

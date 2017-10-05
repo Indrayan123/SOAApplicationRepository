@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions
+    
+     targetNamespace="http://siebel.com/asi/"
+     xmlns="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+     xmlns:seblService="http://siebel.com/webservices"
+     xmlns:tns="http://siebel.com/asi/"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+     xmlns:xsdLocal1="http://www.siebel.com/xml/SNI%20Order%20Revisions/Data"
+     xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    >
+    <types>
+        <xsd:schema elementFormDefault="qualified" attributeFormDefault="unqualified" targetNamespace="http://siebel.com/webservices"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://siebel.com/webservices">
+            <xsd:element name="UsernameToken" type="xsd:string"/>
+            <xsd:element name="PasswordText" type="xsd:string"/>
+        </xsd:schema>
+        <xsd:schema elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:xsdLocal1="http://www.siebel.com/xml/SNI%20Order%20Revisions/Data"
+             targetNamespace="http://www.siebel.com/xml/SNI%20Order%20Revisions/Data" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:annotation>
+                <xsd:documentation>Copyright (C) 2001-2004 Siebel Systems, Inc. All
+                               rights reserved. Siebel XSD Generation</xsd:documentation>
+            </xsd:annotation>
+            <xsd:element name="ListOfSniOrderRevisions" type="xsdLocal1:ListOfSniOrderRevisionsData"/>
+            <xsd:complexType name="ListOfSniOrderRevisionsTopElmtData">
+                <xsd:sequence>
+                    <xsd:element name="ListOfSniOrderRevisions" maxOccurs="1" minOccurs="1" type="xsdLocal1:ListOfSniOrderRevisionsData"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="ListOfSniOrderRevisionsData">
+                <xsd:sequence>
+                    <xsd:element name="SniOrderLineItem-Billing" maxOccurs="unbounded" minOccurs="1" type="xsdLocal1:SniOrderLineItem-BillingData"/>
+                </xsd:sequence>
+                <xsd:attribute name="lastpage" type="xsd:boolean"/>
+                <xsd:attribute name="recordcount" type="xsd:integer"/>
+            </xsd:complexType>
+            <xsd:complexType name="SniOrderLineItem-BillingData">
+                <xsd:sequence>
+                    <xsd:element name="SNIBatchNum" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+                    <xsd:element name="SNIInvoiceGroupKey" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+                    <xsd:element name="SNIOrderActiveStatus" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+                    <xsd:element name="SNIOrderHeaderId" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:schema>
+        <xsd:schema elementFormDefault="qualified" attributeFormDefault="unqualified" targetNamespace="http://siebel.com/asi/"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://www.siebel.com/xml/SNI%20Order%20Revisions/Data"/>
+            <xsd:element name="Revisions_Input">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element ref="xsdLocal1:ListOfSniOrderRevisions"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="Revisions_Output">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="ErrorMessage" type="xsd:string"/>
+                        <xsd:element ref="xsdLocal1:ListOfSniOrderRevisions"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:schema>
+    </types>
+    <message name="Revisions_Input">
+        <part name="Revisions_Input" element="tns:Revisions_Input"/>
+    </message>
+    <message name="Revisions_Output">
+        <part name="Revisions_Output" element="tns:Revisions_Output"/>
+    </message>
+    <message name="SiebelInputHeaderMessage">
+        <part name="userName" element="seblService:UsernameToken"/>
+        <part name="passWord" element="seblService:PasswordText"/>
+    </message>
+    <portType name="SNI_spcOrder_spcRevisions">
+        <operation name="Revisions">
+            <input message="tns:Revisions_Input"/>
+            <output message="tns:Revisions_Output"/>
+        </operation>
+    </portType>
+    <binding name="SNI_spcOrder_spcRevisions" type="tns:SNI_spcOrder_spcRevisions">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="Revisions">
+            <soap:operation soapAction="document/http://siebel.com/asi/:Revisions"/>
+            <soap:header message="tns:SiebelInputHeaderMessage" part="userName" use="literal"/>
+            <soap:header message="tns:SiebelInputHeaderMessage" part="passWord" use="literal"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+    </binding>
+    <service name="SNI_spcOrder_spcRevisions">
+        <port name="SNI_spcOrder_spcRevisions" binding="tns:SNI_spcOrder_spcRevisions">
+            <soap:address location="http://anyhost.anyport/eai_enu/start.swe?SWEExtSource=WebService&amp;SWEExtCmd=Execute&amp;WSSOAP=1"/>
+        </port>
+    </service>
+</definitions>

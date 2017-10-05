@@ -1,0 +1,969 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Wed Jun 22 03:54:21 CDT 2016
+  Author:  f23963
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="FndIntgValidateXpathFunctionIVP"
+               targetNamespace="http://xmlns.schneider.com/SNIFndIntgIVPServices/ChkXpathSOAIVPSvc"
+               xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+               xmlns:client="http://xmlns.schneider.com/SNIFndIntgIVPServices/ChkXpathSOAIVPSvc"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+               xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+               xmlns:snibpel="http://xmlns.schneider.com/BPEL/sni/foundation/soa/extensions/xpath"
+         xmlns:ns1="http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/FndIntgMiscellaneousIVP/FndIntgMiscellaneousIVP"
+         xmlns:ns2="http://xmlns.oracle.com/SNIFndIntgIVPServices/FndIntgSNIConfigTableIVP/FndIntgSNIConfigTableIVP"
+         xmlns:ns3="http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/FndIntgEnterpriseCacheIVP/FndIntgEnterpriseCacheIVP"
+         xmlns:ns4="http://xmlns.oracle.com/SNIFndIntgIVPServices/FndIntgVisibiltyDataLookupIVP/FndIntgVisibiltyDataLookupIVP"
+         xmlns:ns5="http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/FndIntgCompareXMLIVP/FndIntgCompareXMLIVP"
+         xmlns:ns6="http://xmlns.oracle.com/SNIFndIntgIVPServices/FndIntgSendEmailIVP/FndIntgSendEmailIVP"
+         xmlns:ns7="http://xmlns.oracle.com/SNIFndIntgIVPServices/FndIntgOptimisticLockIVP/FndIntgOptimisticLockIVP"
+         xmlns:ns8="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpel2="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+         xmlns:ns9="http://xmlns.schneider.com/SNIFndIntgIVPServices/ChkXpathSOAIVP"
+         xmlns:ns10="http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/FndIntgDateXpathIVP/FndIntgDateXpathIVP">
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      PARTNERLINKS                                                      
+      List of services participating in this BPEL process               
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  --> 
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="FndIntgValidateXpathFunctionIVP_client" partnerLinkType="client:FndIntgValidateXpathFunctionIVP" myRole="ChkXpathSOAIVPPortType"/>
+    <partnerLink name="FndIntgMiscellaneousIVPSvc"
+                 partnerLinkType="ns1:FndIntgMiscellaneousIVP"
+                 partnerRole="FndIntgMiscellaneousIVPProvider"/>
+    <partnerLink name="FndIntgSNIConfigTableIVPSvc"
+                 partnerLinkType="ns2:FndIntgSNIConfigTableIVP"
+                 partnerRole="FndIntgSNIConfigTableIVPProvider"/>
+    <partnerLink name="FndIntgEnterpriseCacheIVPSvc"
+                 partnerLinkType="ns3:FndIntgEnterpriseCacheIVP"
+                 partnerRole="FndIntgEnterpriseCacheIVPProvider"/>
+    <partnerLink name="FndIntgVisibiltydatalookupIVPSvc"
+                 partnerLinkType="ns4:FndIntgVisibiltyDataLookupIVP"
+                 partnerRole="FndIntgVisibiltyDataLookupIVPProvider"/>
+    <partnerLink name="FndIntgComparexmlIVPSvc"
+                 partnerLinkType="ns5:FndIntgCompareXMLIVP"
+                 partnerRole="FndIntgCompareXMLIVPProvider"/>
+    <partnerLink name="FndIntgOptimisticlockIVPSvc"
+                 partnerLinkType="ns7:FndIntgOptimisticLockIVP"
+                 partnerRole="FndIntgOptimisticLockIVPProvider"/>
+    <partnerLink name="FndIntgSendEmailIVPSvc"
+                 partnerLinkType="ns6:FndIntgSendEmailIVP"
+                 partnerRole="FndIntgSendEmailIVPProvider"/>
+    <partnerLink name="FndIntgDateXpathIVPSvc"
+                 partnerLinkType="ns10:FndIntgDateXpathIVP"
+                 partnerRole="FndIntgDateXpathIVPProvider"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:InputMessage"/>
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="outputVariable" messageType="client:OuputMessage"/>
+    <variable name="SNIHeader" element="ns8:SNIHeader"/>
+    <variable name="LogMessage" type="xsd:string"/>
+    <variable name="InvokeFndIntgMiscellaneousIVP_InputVariable"
+              messageType="ns1:FndIntgMiscellaneousIVPRequestMessage"/>
+    <variable name="InvokeFndIntgMiscellaneousIVP_OutputVariable"
+              messageType="ns1:FndIntgMiscellaneousIVPResponseMessage"/>
+    <variable name="InvokefndIntgSNIConfigTableIVP_InputVariable"
+              messageType="ns2:FndIntgSNIConfigTableIVPRequestMessage"/>
+    <variable name="InvokefndIntgSNIConfigTableIVP_OutputVariable"
+              messageType="ns2:FndIntgSNIConfigTableIVPResponseMessage"/>
+    <variable name="Err_msg_length" type="xsd:double"/>
+    <variable name="InvokeEnterPriseCacheIVP_InputVariable"
+              messageType="ns3:FndIntgEnterpriseCacheIVPRequestMessage"/>
+    <variable name="InvokeEnterPriseCacheIVP_OutputVariable"
+              messageType="ns3:FndIntgEnterpriseCacheIVPResponseMessage"/>
+    <variable name="InvokefndIntgVisibilityDataLookupIVP_InputVariable"
+              messageType="ns4:FndIntgVisibiltyDataLookupIVPRequestMessage"/>
+    <variable name="InvokefndIntgVisibilityDataLookupIVP_OutputVariable"
+              messageType="ns4:FndIntgVisibiltyDataLookupIVPResponseMessage"/>
+    <variable name="InvokeFndIntgCompareXMLIVP_InputVariable"
+              messageType="ns5:FndIntgCompareXMLIVPRequestMessage"/>
+    <variable name="InvokeFndIntgCompareXMLIVP_OutputVariable"
+              messageType="ns5:FndIntgCompareXMLIVPResponseMessage"/>
+    <variable name="InvokeDateXpathIVP_InputVariable"
+              messageType="ns10:FndIntgDateXpathIVPRequestMessage"/>
+    <variable name="InvokeDateXpathIV_OutputVariable"
+              messageType="ns10:FndIntgDateXpathIVPResponseMessage"/>
+    <variable name="InvokefndIntgSendEmailIVP_InputVariable"
+              messageType="ns6:FndIntgSendEmailIVPRequestMessage"/>
+    <variable name="InvokefndIntgSendEmailIVP_OutputVariable"
+              messageType="ns6:FndIntgSendEmailIVPResponseMessage"/>
+    <variable name="InvokeFndIntgOptimisticLockIVP_InputVariable"
+              messageType="ns7:FndIntgOptimisticLockIVPRequestMessage"/>
+    <variable name="InvokeFndIntgOptimisticLockIVP_OutputVariable"
+              messageType="ns7:FndIntgOptimisticLockIVPResponseMessage"/>
+    <variable name="SNIFault" messageType="client:SNIFaultMessage"/>
+    <variable name="logStatus" type="xsd:string"/>
+  </variables>
+  <faultHandlers>
+    <catchAll>
+      <sequence name="Sequence9">
+        <assign name="createFault">
+          <copy>
+            <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','ValidateXPath Function Flt',string(ora:getFaultAsString()),string('3'),'FndIntgValidateXpathFunctionIVP')"/>
+            <to variable="SNIFault" part="payload" query="/ns8:SNIFault"/>
+          </copy>
+          <copy>
+            <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateXpathFunctionIVP-Fault Occurred at CATCHALL',bpws:getVariableData('SNIHeader','/ns8:SNIHeader/ns8:BusinessKey')),string('SEVERE'))"/>
+            <to variable="logStatus"/>
+          </copy>
+        </assign>
+        <reply name="ReplywithFault" faultName="client:SNIFault"
+               variable="SNIFault"
+               partnerLink="FndIntgValidateXpathFunctionIVP_client"
+               portType="client:ChkXpathSOAIVPPortType"
+               operation="ChkXpathSOAIVP"/>
+      </sequence>
+    </catchAll>
+  </faultHandlers>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in FndIntgValidateXpathFunctionIVP.wsdl) -->
+    <receive name="receiveInput" partnerLink="FndIntgValidateXpathFunctionIVP_client" portType="client:ChkXpathSOAIVPPortType" operation="ChkXpathSOAIVP" variable="inputVariable" createInstance="yes"/>
+    <assign name="createHeader">
+      <copy>
+        <from expression="snibpel:createSNIHeader('SOA-FndIntgValidateXpathFunctionIVP','IVP-Xpath','FndIntgValidateXpathFunctionIVP','SOAIVP','SOA','')"/>
+        <to variable="SNIHeader" query="/ns8:SNIHeader"/>
+      </copy>
+      <copy>
+        <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateXpathFunctionIVP-Enter',bpws:getVariableData('SNIHeader','/ns8:SNIHeader/ns8:BusinessKey')),string('INFO'))"/>
+        <to variable="logStatus"/>
+      </copy>
+    </assign>
+    <switch name="Switch2">
+      <case condition="string-length(string(bpws:getVariableData('inputVariable','part','/ns9:Input/ns9:Err_Msg_Length')))!='0.0'">
+        <bpelx:annotation>
+          <bpelx:general>
+            <bpelx:property name="userLabel">If Err Length Present</bpelx:property>
+          </bpelx:general>
+        </bpelx:annotation>
+        <assign name="AssignErrorLength">
+          <copy>
+            <from variable="inputVariable" part="part"
+                  query="/ns9:Input/ns9:Err_Msg_Length"/>
+            <to variable="Err_msg_length"/>
+          </copy>
+        </assign>
+      </case>
+      <otherwise>
+        <assign name="AssignErrorLength">
+          <copy>
+            <from expression="number('200')"/>
+            <to variable="Err_msg_length"/>
+          </copy>
+        </assign>
+      </otherwise>
+    </switch>
+    <scope name="InvokeFndintgmiscellaneousIVP" variableAccessSerializable="no">
+      <faultHandlers>
+        <catchAll>
+          <assign name="AssignErrorResponse">
+            <copy>
+              <from expression="'Failure'"/>
+              <to variable="outputVariable" part="part"
+                  query="/ns9:Output/ns9:ValidateXpathFunctionRes/ns9:fndintgmiscellaneousivp/ns9:Status"/>
+            </copy>
+            <copy>
+              <from expression="concat('FAILED in FndIntgMiscellaneousIVP with the error: ',substring(ora:getFaultAsString(),1,bpws:getVariableData('Err_msg_length')))"/>
+              <to variable="outputVariable" part="part"
+                  query="/ns9:Output/ns9:ValidateXpathFunctionRes/ns9:fndintgmiscellaneousivp/ns9:AdditionalNote"/>
+            </copy>
+            <copy>
+              <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','FndIntgMiscellaneousIVP Flt',string(bpws:getVariableData('outputVariable','part','/ns9:Output/ns9:ValidateXpathFunctionRes/ns9:fndintgmiscellaneousivp/ns9:AdditionalNote')),string('3'),'FndIntgValidateXpathFunctionIVP')"/>
+              <to variable="SNIFault" part="payload" query="/ns8:SNIFault"/>
+            </copy>
+            <copy>
+              <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateXpathFunctionIVP-Fault Occurred at the scope FndIntgMiscellaneousIVP',bpws:getVariableData('SNIHeader','/ns8:SNIHeader/ns8:BusinessKey')),string('SEVERE'))"/>
+              <to variable="logStatus"/>
+            </copy>
+          </assign>
+        </catchAll>
+      </faultHandlers>
+      <switch name="Switch6">
+        <case condition="xp20:upper-case(string(bpws:getVariableData('inputVariable','part','/ns9:Input/ns9:ValidateXpathFunctionReq/ns9:fndintgmiscellaneousivp')))='TRUE'">
+          <bpelx:annotation>
+            <bpelx:general>
+              <bpelx:property name="userLabel">If fndintgmiscellaneousivp is TRUE</bpelx:property>
+            </bpelx:general>
+          </bpelx:annotation>
+          <sequence name="Sequence1">
+            <assign name="AssignInput">
+              <copy>
+                <from expression="'FNDINTG_IVP_DEF'"/>
+                <to variable="InvokeFndIntgMiscellaneousIVP_InputVariable"
+                    part="payload" query="/ns1:process/ns1:SetDefinitionName"/>
+              </copy>
+              <copy>
+                <from expression="'FNDINTG_SOAIVP_CONFIG'"/>
+                <to variable="InvokeFndIntgMiscellaneousIVP_InputVariable"
+                    part="payload" query="/ns1:process/ns1:SetName"/>
+              </copy>
+              <copy>
+                <from expression="'FndIntgMiscellaneousIVP'"/>
+                <to variable="InvokeFndIntgMiscellaneousIVP_InputVariable"
+                    part="payload" query="/ns1:process/ns1:Key"/>
+              </copy>
+            </assign>
+            <invoke name="InvokeFndIntgMiscellaneousIVP"
+                    inputVariable="InvokeFndIntgMiscellaneousIVP_InputVariable"
+                    outputVariable="InvokeFndIntgMiscellaneousIVP_OutputVariable"
+                    partnerLink="FndIntgMiscellaneousIVPSvc"
+                    portType="ns1:FndIntgMiscellaneousIVP" operation="process"
+                    bpelx:invokeAsDetail="no"/>
+            <switch name="Switch1">
+              <case condition="string-length(bpws:getVariableData('InvokeFndIntgMiscellaneousIVP_OutputVariable','payload','/ns1:processResponse/ns1:result'))!='0.0'">
+                <bpelx:annotation>
+                  <bpelx:general>
+                    <bpelx:property name="userLabel">If Data Found</bpelx:property>
+                  </bpelx:general>
+                </bpelx:annotation>
+                <assign name="AssignResponse">
+                  <copy>
+                    <from expression="'Success'"/>
+                    <to variable="outputVariable" part="part"
+                        query="/ns9:Output/ns9:ValidateXpathFunctionRes/ns9:fndintgmiscellaneousivp/ns9:Status"/>
+                  </copy>
+                </assign>
+              </case>
+              <otherwise>
+                <assign name="AssignResponse">
+                  <copy>
+                    <from expression="'Failure'"/>
+                    <to variable="outputVariable" part="part"
+                        query="/ns9:Output/ns9:ValidateXpathFunctionRes/ns9:fndintgmiscellaneousivp/ns9:Status"/>
+                  </copy>
+                  <copy>
+                    <from expression="'No Data Found'"/>
+                    <to variable="outputVariable" part="part"
+                        query="/ns9:Output/ns9:ValidateXpathFunctionRes/ns9:fndintgmiscellaneousivp/ns9:AdditionalNote"/>
+                  </copy>
+                  <copy>
+                    <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','FndIntgMiscellaneousIVP Flt',string(bpws:getVariableData('outputVariable','part','/ns9:Output/ns9:ValidateXpathFunctionRes/ns9:fndintgmiscellaneousivp/ns9:AdditionalNote')),string('3'),'FndIntgValidateXpathFunctionIVP')"/>
+                    <to variable="SNIFault" part="payload"
+                        query="/ns8:SNIFault"/>
+                  </copy>
+                  <copy>
+                    <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateXpathFunctionIVP-Fault Occurred at the scope FndIntgMiscellaneousIVP',bpws:getVariableData('SNIHeader','/ns8:SNIHeader/ns8:BusinessKey')),string('SEVERE'))"/>
+                    <to variable="logStatus"/>
+                  </copy>
+                </assign>
+              </otherwise>
+            </switch>
+          </sequence>
+        </case>
+        <otherwise>
+          <assign name="NoInvocation">
+            <copy>
+              <from expression="'Skipped'"/>
+              <to variable="outputVariable" part="part"
+                  query="/ns9:Output/ns9:ValidateXpathFunctionRes/ns9:fndintgmiscellaneousivp/ns9:Status"/>
+            </copy>
+          </assign>
+        </otherwise>
+      </switch>
+    </scope>
+    <!--assign name="AssignSNIHeaderandLog">
+      <copy>
+        <from expression="ora:getComponentInstanceId()"/>
+        <to variable="SNIHeader" query="/ns8:SNIHeader/ns8:MessageID"/>
+      </copy>
+      <copy>
+        <from expression="ora:getComponentInstanceId()"/>
+        <to variable="SNIHeader" query="/ns8:SNIHeader/ns8:SessionID"/>
+      </copy>
+      <copy>
+        <from expression="xp20:current-dateTime()"/>
+        <to variable="SNIHeader" query="/ns8:SNIHeader/ns8:CreatedDateTime"/>
+      </copy>
+      <copy>
+        <from expression="'FndIntgValidateXpathFunctionIVP'"/>
+        <to variable="SNIHeader" query="/ns8:SNIHeader/ns8:MessageName"/>
+      </copy>
+      <copy>
+        <from expression="'FndIntgValidateXpathFunctionIVP'"/>
+        <to variable="SNIHeader" query="/ns8:SNIHeader/ns8:Sender/ns8:Name"/>
+      </copy>
+      <copy>
+        <from expression="'IVP'"/>
+        <to variable="SNIHeader"
+            query="/ns8:SNIHeader/ns8:Sender/ns8:ApplicationName"/>
+      </copy>
+      <copy>
+        <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),string('FndIntgValidateXpathFunctionIVP'),string('INFO'))"/>
+        <to variable="LogMessage"/>
+      </copy>
+    </assign-->
+    <scope name="InvokeFndIntgSNIConfigTable" variableAccessSerializable="no">
+      <faultHandlers>
+        <catchAll><assign name="AssignErrorResponse"
+                          xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+            <copy>
+              <from expression="'Failure'"/>
+              <to variable="outputVariable" part="part"
+                  query="/ns9:Output/ns9:ValidateXpathFunctionRes/ns9:fndintgsniconfigtableivp/ns9:Status"/>
+            </copy>
+            <copy>
+              <from expression="concat('FAILED in FndIntgSNIConfigTableIVP with the error: ',substring(ora:getFaultAsString(),1,bpws:getVariableData('Err_msg_length')))"/>
+              <to variable="outputVariable" part="part"
+                  query="/ns9:Output/ns9:ValidateXpathFunctionRes/ns9:fndintgsniconfigtableivp/ns9:AdditionalNote"/>
+            </copy>
+            <copy>
+              <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','FndIntgSNIConfigTableIVP Flt',string(bpws:getVariableData('outputVariable','part','/ns9:Output/ns9:ValidateXpathFunctionRes/ns9:fndintgsniconfigtableivp/ns9:AdditionalNote')),string('3'),'FndIntgValidateXpathFunctionIVP')"/>
+              <to variable="SNIFault" part="payload" query="/ns8:SNIFault"/>
+            </copy>
+            <copy>
+              <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateXpathFunctionIVP-Fault Occurred at the scope FndIntgSNIConfigTableIVP',bpws:getVariableData('SNIHeader','/ns8:SNIHeader/ns8:BusinessKey')),string('SEVERE'))"/>
+              <to variable="logStatus"/>
+            </copy>
+          </assign></catchAll>
+      </faultHandlers>
+      <sequence name="Sequence2">
+        <switch name="Switch7">
+          <case condition="xp20:upper-case(string(bpws:getVariableData('inputVariable','part','/ns9:Input/ns9:ValidateXpathFunctionReq/ns9:fndintgsniconfigtableivp')))='TRUE'">
+            <bpelx:annotation>
+              <bpelx:general>
+                <bpelx:property name="userLabel">If fndintgsniconfigtableivp is true</bpelx:property>
+              </bpelx:general>
+            </bpelx:annotation>
+            <sequence>
+              <assign name="AssignInput">
+                <copy>
+                  <from expression="'FND'"/>
+                  <to variable="InvokefndIntgSNIConfigTableIVP_InputVariable"
+                      part="payload" query="/ns2:process/ns2:appCode"/>
+                </copy>
+                <copy>
+                  <from expression="'B2B_OUTBOUND_CONFIG'"/>
+                  <to variable="InvokefndIntgSNIConfigTableIVP_InputVariable"
+                      part="payload" query="/ns2:process/ns2:configTableName"/>
+                </copy>
+                <copy>
+                  <from expression="'DOC_TYPE'"/>
+                  <to variable="InvokefndIntgSNIConfigTableIVP_InputVariable"
+                      part="payload"
+                      query="/ns2:process/ns2:inputs/ns8:SNIMapItem/ns8:key"/>
+                </copy>
+                <copy>
+                  <from expression="'214'"/>
+                  <to variable="InvokefndIntgSNIConfigTableIVP_InputVariable"
+                      part="payload"
+                      query="/ns2:process/ns2:inputs/ns8:SNIMapItem/ns8:value"/>
+                </copy>
+              </assign>
+              <invoke name="InvokefndIntgSNIConfigTableIVP"
+                      bpelx:invokeAsDetail="no"
+                      inputVariable="InvokefndIntgSNIConfigTableIVP_InputVariable"
+                      outputVariable="InvokefndIntgSNIConfigTableIVP_OutputVariable"
+                      partnerLink="FndIntgSNIConfigTableIVPSvc"
+                      portType="ns2:FndIntgSNIConfigTableIVP"
+                      operation="process"/>
+              <switch name="Switch3">
+                <case condition="ora:countNodes('InvokefndIntgSNIConfigTableIVP_OutputVariable','payload','/ns8:SNIMap/ns8:SNIMapItem')>0">
+                  <bpelx:annotation>
+                    <bpelx:general>
+                      <bpelx:property name="userLabel">If Data Found</bpelx:property>
+                    </bpelx:general>
+                  </bpelx:annotation>
+                  <assign name="AssignResponse">
+                    <copy>
+                      <from expression="'Success'"/>
+                      <to variable="outputVariable" part="part"
+                          query="/ns9:Output/ns9:ValidateXpathFunctionRes/ns9:fndintgsniconfigtableivp/ns9:Status"/>
+                    </copy>
+                  </assign>
+                </case>
+                <otherwise>
+                  <assign name="AssignResponse">
+                    <copy>
+                      <from expression="'Failure'"/>
+                      <to variable="outputVariable" part="part"
+                          query="/ns9:Output/ns9:ValidateXpathFunctionRes/ns9:fndintgsniconfigtableivp/ns9:Status"/>
+                    </copy>
+                    <copy>
+                      <from expression="'No Data Found'"/>
+                      <to variable="outputVariable" part="part"
+                          query="/ns9:Output/ns9:ValidateXpathFunctionRes/ns9:fndintgsniconfigtableivp/ns9:AdditionalNote"/>
+                    </copy>
+                    <copy>
+                      <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','FndIntgSNIConfigTableIVP Flt',string(bpws:getVariableData('outputVariable','part','/ns9:Output/ns9:ValidateXpathFunctionRes/ns9:fndintgsniconfigtableivp/ns9:AdditionalNote')),string('3'),'FndIntgValidateXpathFunctionIVP')"/>
+                      <to variable="SNIFault" part="payload"
+                          query="/ns8:SNIFault"/>
+                    </copy>
+                    <copy>
+                      <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateXpathFunctionIVP-Fault Occurred at the scope FndIntgSNIConfigTableIVP',bpws:getVariableData('SNIHeader','/ns8:SNIHeader/ns8:BusinessKey')),string('SEVERE'))"/>
+                      <to variable="logStatus"/>
+                    </copy>
+                  </assign>
+                </otherwise>
+              </switch>
+            </sequence>
+          </case>
+          <otherwise>
+            <assign name="NoInvocation">
+              <copy>
+                <from expression="'Skipped'"/>
+                <to variable="outputVariable" part="part"
+                    query="/ns9:Output/ns9:ValidateXpathFunctionRes/ns9:fndintgsniconfigtableivp/ns9:Status"/>
+              </copy>
+            </assign>
+          </otherwise>
+        </switch>
+      </sequence>
+    </scope>
+    <scope name="InvokeFndIntgEnterpriseCacheIVP"
+           variableAccessSerializable="no">
+      <faultHandlers>
+        <catchAll>
+          <assign name="AssignerrorResponse">
+            <copy>
+              <from expression="'Failure'"/>
+              <to variable="outputVariable" part="part"
+                  query="/ns9:Output/ns9:ValidateXpathFunctionRes/ns9:fndintgenterprisecacheivp/ns9:Status"/>
+            </copy>
+            <copy>
+              <from expression="concat('FAILED in FndIntgEnterpriseCacheIVP with the error: ',substring(ora:getFaultAsString(),1,bpws:getVariableData('Err_msg_length')))"/>
+              <to variable="outputVariable" part="part"
+                  query="/ns9:Output/ns9:ValidateXpathFunctionRes/ns9:fndintgenterprisecacheivp/ns9:AdditionalNote"/>
+            </copy>
+            <copy>
+              <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','FndIntgEnterpriseCacheIVP Flt',string(bpws:getVariableData('outputVariable','part','/ns9:Output/ns9:ValidateXpathFunctionRes/ns9:fndintgenterprisecacheivp/ns9:AdditionalNote')),string('3'),'FndIntgValidateXpathFunctionIVP')"/>
+              <to variable="SNIFault" part="payload" query="/ns8:SNIFault"/>
+            </copy>
+            <copy>
+              <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateXpathFunctionIVP-Fault Occurred at the scope FndIntgEnterpriseCacheIVP',bpws:getVariableData('SNIHeader','/ns8:SNIHeader/ns8:BusinessKey')),string('SEVERE'))"/>
+              <to variable="logStatus"/>
+            </copy>
+          </assign>
+        </catchAll>
+      </faultHandlers>
+      <sequence name="Sequence3">
+        <switch name="Switch8">
+          <case condition="xp20:upper-case(string(bpws:getVariableData('inputVariable','part','/ns9:Input/ns9:ValidateXpathFunctionReq/ns9:fndintgenterprisecacheivp')))='TRUE'">
+            <bpelx:annotation>
+              <bpelx:general>
+                <bpelx:property name="userLabel">if fndintgenterprisecacheivp is true</bpelx:property>
+              </bpelx:general>
+            </bpelx:annotation>
+            <sequence>
+              <invoke name="InvokeEnterpriseCacheIVP"
+                      inputVariable="InvokeEnterPriseCacheIVP_InputVariable"
+                      outputVariable="InvokeEnterPriseCacheIVP_OutputVariable"
+                      partnerLink="FndIntgEnterpriseCacheIVPSvc"
+                      portType="ns3:FndIntgEnterpriseCacheIVP"
+                      operation="process" bpelx:invokeAsDetail="no"/>
+              <switch name="Switch4">
+                <case condition="string-length(bpws:getVariableData('InvokeEnterPriseCacheIVP_OutputVariable','payload','/ns3:processResponse/ns3:result'))!='0.0'">
+                  <bpelx:annotation>
+                    <bpelx:general>
+                      <bpelx:property name="userLabel">If Data Found</bpelx:property>
+                    </bpelx:general>
+                  </bpelx:annotation>
+                  <assign name="AssignResponse">
+                    <copy>
+                      <from expression="'Success'"/>
+                      <to variable="outputVariable" part="part"
+                          query="/ns9:Output/ns9:ValidateXpathFunctionRes/ns9:fndintgenterprisecacheivp/ns9:Status"/>
+                    </copy>
+                  </assign>
+                </case>
+                <otherwise><assign name="AssignResponse"
+                                   xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+                    <copy>
+                      <from expression="'Failure'"/>
+                      <to variable="outputVariable" part="part"
+                          query="/ns9:Output/ns9:ValidateXpathFunctionRes/ns9:fndintgenterprisecacheivp/ns9:Status"/>
+                    </copy>
+                    <copy>
+                      <from expression="'No Data Found'"/>
+                      <to variable="outputVariable" part="part"
+                          query="/ns9:Output/ns9:ValidateXpathFunctionRes/ns9:fndintgenterprisecacheivp/ns9:AdditionalNote"/>
+                    </copy>
+                    <copy>
+                      <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','FndIntgEnterpriseCacheIVP Flt',string(bpws:getVariableData('outputVariable','part','/ns9:Output/ns9:ValidateXpathFunctionRes/ns9:fndintgenterprisecacheivp/ns9:AdditionalNote')),string('3'),'FndIntgValidateXpathFunctionIVP')"/>
+                      <to variable="SNIFault" part="payload"
+                          query="/ns8:SNIFault"/>
+                    </copy>
+                    <copy>
+                      <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateXpathFunctionIVP-Fault Occurred at the scope FndIntgEnterpriseCacheIVP',bpws:getVariableData('SNIHeader','/ns8:SNIHeader/ns8:BusinessKey')),string('SEVERE'))"/>
+                      <to variable="logStatus"/>
+                    </copy>
+                  </assign></otherwise>
+              </switch>
+            </sequence>
+          </case>
+          <otherwise>
+            <assign name="NoInvocation">
+              <copy>
+                <from expression="'Skipped'"/>
+                <to variable="outputVariable" part="part"
+                    query="/ns9:Output/ns9:ValidateXpathFunctionRes/ns9:fndintgenterprisecacheivp/ns9:Status"/>
+              </copy>
+            </assign>
+          </otherwise>
+        </switch>
+      </sequence>
+    </scope>
+    <scope name="InvokeFndIntgVisibiltydatalookupIVP"
+           variableAccessSerializable="no">
+      <faultHandlers>
+        <catchAll>
+          <assign name="AssignerrorResponse">
+            <copy>
+              <from expression="'Failure'"/>
+              <to variable="outputVariable" part="part"
+                  query="/ns9:Output/ns9:ValidateXpathFunctionRes/ns9:fndintgvisibiltydatalookupivp/ns9:Status"/>
+            </copy>
+            <copy>
+              <from expression="concat('FAILED in FndIntgVisibilityDataLookupIVP with the error: ',substring(ora:getFaultAsString(),1,bpws:getVariableData('Err_msg_length')))"/>
+              <to variable="outputVariable" part="part"
+                  query="/ns9:Output/ns9:ValidateXpathFunctionRes/ns9:fndintgvisibiltydatalookupivp/ns9:AdditionalNote"/>
+            </copy>
+            <copy>
+              <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','FndIntgVisibilityDataLookupIVP Flt',string(bpws:getVariableData('outputVariable','part','/ns9:Output/ns9:ValidateXpathFunctionRes/ns9:fndintgvisibiltydatalookupivp/ns9:AdditionalNote')),string('3'),'FndIntgValidateXpathFunctionIVP')"/>
+              <to variable="SNIFault" part="payload" query="/ns8:SNIFault"/>
+            </copy>
+            <copy>
+              <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateXpathFunctionIVP-Fault Occurred at the scope FndIntgVisibilityDataLookupIVP',bpws:getVariableData('SNIHeader','/ns8:SNIHeader/ns8:BusinessKey')),string('SEVERE'))"/>
+              <to variable="logStatus"/>
+            </copy>
+          </assign>
+        </catchAll>
+      </faultHandlers>
+      <sequence name="Sequence4">
+        <switch name="Switch9">
+          <case condition="xp20:upper-case(string(bpws:getVariableData('inputVariable','part','/ns9:Input/ns9:ValidateXpathFunctionReq/ns9:fndintgvisibiltydatalookupivp')))='TRUE'">
+            <bpelx:annotation>
+              <bpelx:general>
+                <bpelx:property name="userLabel">If fndintgvisibiltydatalookupivp is true</bpelx:property>
+              </bpelx:general>
+            </bpelx:annotation>
+            <sequence>
+              <assign name="AssignVisibilitDataInput">
+                <bpelx:annotation>
+                  <bpelx:pattern>transformation</bpelx:pattern>
+                </bpelx:annotation>
+                <copy>
+                  <from expression="ora:doXSLTransformForDoc('xsl/Transformation_VisibilityData.xsl', $inputVariable.part)"/>
+                  <to variable="InvokefndIntgVisibilityDataLookupIVP_InputVariable"
+                      part="payload"/>
+                </copy>
+              </assign>
+              <invoke name="InvokefndIntgVisibilityDataLookupIVP"
+                      bpelx:invokeAsDetail="no"
+                      inputVariable="InvokefndIntgVisibilityDataLookupIVP_InputVariable"
+                      outputVariable="InvokefndIntgVisibilityDataLookupIVP_OutputVariable"
+                      partnerLink="FndIntgVisibiltydatalookupIVPSvc"
+                      portType="ns4:FndIntgVisibiltyDataLookupIVP"
+                      operation="process"/>
+              <switch name="Switch5">
+                <case condition="string-length(bpws:getVariableData('InvokefndIntgVisibilityDataLookupIVP_OutputVariable','payload','/ns4:processResponse/ns4:result'))!='0.0'">
+                  <bpelx:annotation>
+                    <bpelx:general>
+                      <bpelx:property name="userLabel">If Data Found</bpelx:property>
+                    </bpelx:general>
+                  </bpelx:annotation>
+                  <sequence name="Sequence10">
+                    <switch name="Switch14">
+                      <case condition="contains(oraext:get-content-as-string(bpws:getVariableData('InvokefndIntgVisibilityDataLookupIVP_OutputVariable','payload','/ns4:processResponse/ns4:result')),' &lt;executionStatus>true&lt;/executionStatus>')">
+                        <bpelx:annotation>
+                          <bpelx:general>
+                            <bpelx:property name="userLabel">If Execution Status is True</bpelx:property>
+                          </bpelx:general>
+                        </bpelx:annotation>
+                        <assign name="AssignResponse">
+                          <copy>
+                            <from expression="'Success'"/>
+                            <to variable="outputVariable" part="part"
+                                query="/ns9:Output/ns9:ValidateXpathFunctionRes/ns9:fndintgvisibiltydatalookupivp/ns9:Status"/>
+                          </copy>
+                        </assign>
+                      </case>
+                      <otherwise><assign name="AssignResponse"
+                                         xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+      
+      
+      
+      
+   <copy>
+         <from expression="'Failure'"/>
+         <to variable="outputVariable" part="part"
+             query="/ns9:Output/ns9:ValidateXpathFunctionRes/ns9:fndintgvisibiltydatalookupivp/ns9:Status"/>
+      </copy><copy>
+         <from expression="'ExecutionStatus is not True'"/>
+         <to variable="outputVariable" part="part"
+             query="/ns9:Output/ns9:ValidateXpathFunctionRes/ns9:fndintgvisibiltydatalookupivp/ns9:AdditionalNote"/>
+      </copy><copy>
+         <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','FndIntgVisibilityDataLookupIVP Flt',string(bpws:getVariableData('outputVariable','part','/ns9:Output/ns9:ValidateXpathFunctionRes/ns9:fndintgvisibiltydatalookupivp/ns9:AdditionalNote')),string('3'),'FndIntgValidateXpathFunctionIVP')"/>
+         <to variable="SNIFault" part="payload" query="/ns8:SNIFault"/>
+      </copy><copy>
+         <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateXpathFunctionIVP-Fault Occurred at the scope FndIntgVisibilityDataLookupIVP',bpws:getVariableData('SNIHeader','/ns8:SNIHeader/ns8:BusinessKey')),string('SEVERE'))"/>
+         <to variable="logStatus"/>
+      </copy></assign></otherwise>
+                    </switch>
+                  </sequence>
+                </case>
+                <otherwise>
+                  <assign name="AssignResponse">
+                    <copy>
+                      <from expression="'Failure'"/>
+                      <to variable="outputVariable" part="part"
+                          query="/ns9:Output/ns9:ValidateXpathFunctionRes/ns9:fndintgvisibiltydatalookupivp/ns9:Status"/>
+                    </copy>
+                    <copy>
+                      <from expression="'No Data Found'"/>
+                      <to variable="outputVariable" part="part"
+                          query="/ns9:Output/ns9:ValidateXpathFunctionRes/ns9:fndintgvisibiltydatalookupivp/ns9:AdditionalNote"/>
+                    </copy>
+                    <copy>
+                      <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','FndIntgVisibilityDataLookupIVP Flt',string(bpws:getVariableData('outputVariable','part','/ns9:Output/ns9:ValidateXpathFunctionRes/ns9:fndintgvisibiltydatalookupivp/ns9:AdditionalNote')),string('3'),'FndIntgValidateXpathFunctionIVP')"/>
+                      <to variable="SNIFault" part="payload"
+                          query="/ns8:SNIFault"/>
+                    </copy>
+                    <copy>
+                      <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateXpathFunctionIVP-Fault Occurred at the scope FndIntgVisibilityDataLookupIVP',bpws:getVariableData('SNIHeader','/ns8:SNIHeader/ns8:BusinessKey')),string('SEVERE'))"/>
+                      <to variable="logStatus"/>
+                    </copy>
+                  </assign>
+                </otherwise>
+              </switch>
+            </sequence>
+          </case>
+          <otherwise>
+            <assign name="NoInvocation">
+              <copy>
+                <from expression="'Skipped'"/>
+                <to variable="outputVariable" part="part"
+                    query="/ns9:Output/ns9:ValidateXpathFunctionRes/ns9:fndintgvisibiltydatalookupivp/ns9:Status"/>
+              </copy>
+            </assign>
+          </otherwise>
+        </switch>
+      </sequence>
+    </scope>
+    <scope name="FndIntgCompareXMLIVP" variableAccessSerializable="no">
+      <faultHandlers>
+        <catchAll>
+          <assign name="AssignerrorResponse">
+            <copy>
+              <from expression="'Failure'"/>
+              <to variable="outputVariable" part="part"
+                  query="/ns9:Output/ns9:ValidateXpathFunctionRes/ns9:fndintgcomparexmlivp/ns9:Status"/>
+            </copy>
+            <copy>
+              <from expression="concat('FAILED in FndIntgCompareXMLIVP with the error: ',substring(ora:getFaultAsString(),1,bpws:getVariableData('Err_msg_length')))"/>
+              <to variable="outputVariable" part="part"
+                  query="/ns9:Output/ns9:ValidateXpathFunctionRes/ns9:fndintgcomparexmlivp/ns9:AdditionalNote"/>
+            </copy>
+            <copy>
+              <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','FndIntgCompareXMLIVP Flt',string(bpws:getVariableData('outputVariable','part','/ns9:Output/ns9:ValidateXpathFunctionRes/ns9:fndintgcomparexmlivp/ns9:AdditionalNote')),string('3'),'FndIntgValidateXpathFunctionIVP')"/>
+              <to variable="SNIFault" part="payload" query="/ns8:SNIFault"/>
+            </copy>
+            <copy>
+              <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateXpathFunctionIVP-Fault Occurred at the scope FndIntgCompareXMLIVP',bpws:getVariableData('SNIHeader','/ns8:SNIHeader/ns8:BusinessKey')),string('SEVERE'))"/>
+              <to variable="logStatus"/>
+            </copy>
+          </assign>
+        </catchAll>
+      </faultHandlers>
+      <sequence name="Sequence5">
+        <switch name="Switch10">
+          <case condition="xp20:upper-case(string(bpws:getVariableData('inputVariable','part','/ns9:Input/ns9:ValidateXpathFunctionReq/ns9:fndintgcomparexmlivp')))='TRUE'">
+            <bpelx:annotation>
+              <bpelx:general>
+                <bpelx:property name="userLabel">If fndintgcomparexmlivp is true</bpelx:property>
+              </bpelx:general>
+            </bpelx:annotation>
+            <sequence>
+              <assign name="AssignInput">
+                <copy>
+                  <from expression="'&lt;names>&lt;/names>'"/>
+                  <to variable="InvokeFndIntgCompareXMLIVP_InputVariable"
+                      part="payload" query="/ns5:process/ns5:input1"/>
+                </copy>
+                <copy>
+                  <from expression="'&lt;names>IVP&lt;/names>'"/>
+                  <to variable="InvokeFndIntgCompareXMLIVP_InputVariable"
+                      part="payload" query="/ns5:process/ns5:input2"/>
+                </copy>
+              </assign>
+              <invoke name="InvokeFndIntgCompareXMLIVP"
+                      bpelx:invokeAsDetail="no"
+                      inputVariable="InvokeFndIntgCompareXMLIVP_InputVariable"
+                      outputVariable="InvokeFndIntgCompareXMLIVP_OutputVariable"
+                      partnerLink="FndIntgComparexmlIVPSvc"
+                      portType="ns5:FndIntgCompareXMLIVP" operation="process"/>
+              <assign name="AssignResponse">
+                <copy>
+                  <from expression="'Success'"/>
+                  <to variable="outputVariable" part="part"
+                      query="/ns9:Output/ns9:ValidateXpathFunctionRes/ns9:fndintgcomparexmlivp/ns9:Status"/>
+                </copy>
+              </assign>
+            </sequence>
+          </case>
+          <otherwise>
+            <assign name="NoInvocation">
+              <copy>
+                <from expression="'Skipped'"/>
+                <to variable="outputVariable" part="part"
+                    query="/ns9:Output/ns9:ValidateXpathFunctionRes/ns9:fndintgcomparexmlivp/ns9:Status"/>
+              </copy>
+            </assign>
+          </otherwise>
+        </switch>
+      </sequence>
+    </scope>
+    <scope name="InvokeFndIntgDateXpathIVP" variableAccessSerializable="no">
+      <faultHandlers>
+        <catchAll>
+          <assign name="AssignerrorResponse">
+            <copy>
+              <from expression="'Failure'"/>
+              <to variable="outputVariable" part="part"
+                  query="/ns9:Output/ns9:ValidateXpathFunctionRes/ns9:fndintgdatexpathivp/ns9:Status"/>
+            </copy>
+            <copy>
+              <from expression="concat('FAILED in FndIntgDateXpathIVP with the error: ',substring(ora:getFaultAsString(),1,bpws:getVariableData('Err_msg_length')))"/>
+              <to variable="outputVariable" part="part"
+                  query="/ns9:Output/ns9:ValidateXpathFunctionRes/ns9:fndintgdatexpathivp/ns9:AdditionalNote"/>
+            </copy>
+            <copy>
+              <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','FndIntgDateXPathIVP Flt',string(bpws:getVariableData('outputVariable','part','/ns9:Output/ns9:ValidateXpathFunctionRes/ns9:fndintgdatexpathivp/ns9:AdditionalNote')),string('3'),'FndIntgValidateXpathFunctionIVP')"/>
+              <to variable="SNIFault" part="payload" query="/ns8:SNIFault"/>
+            </copy>
+            <copy>
+              <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateXpathFunctionIVP-Fault Occurred at the scope FndIntgDateXPathIVP',bpws:getVariableData('SNIHeader','/ns8:SNIHeader/ns8:BusinessKey')),string('SEVERE'))"/>
+              <to variable="logStatus"/>
+            </copy>
+          </assign>
+        </catchAll>
+      </faultHandlers>
+      <sequence name="Sequence6">
+        <switch name="Switch11">
+          <case condition="xp20:upper-case(string(bpws:getVariableData('inputVariable','part','/ns9:Input/ns9:ValidateXpathFunctionReq/ns9:fndintgdatexpathivp')))='TRUE'">
+            <bpelx:annotation>
+              <bpelx:general>
+                <bpelx:property name="userLabel">if fndintgdatexpathivp is true</bpelx:property>
+              </bpelx:general>
+            </bpelx:annotation>
+            <sequence>
+              <invoke name="InvokeDateXpathIVP"
+                      inputVariable="InvokeDateXpathIVP_InputVariable"
+                      outputVariable="InvokeDateXpathIV_OutputVariable"
+                      partnerLink="FndIntgDateXpathIVPSvc"
+                      portType="ns10:FndIntgDateXpathIVP" operation="process"
+                      bpelx:invokeAsDetail="no"/>
+              <assign name="AssignResponse">
+                <copy>
+                  <from expression="'Success'"/>
+                  <to variable="outputVariable" part="part"
+                      query="/ns9:Output/ns9:ValidateXpathFunctionRes/ns9:fndintgdatexpathivp/ns9:Status"/>
+                </copy>
+              </assign>
+            </sequence>
+          </case>
+          <otherwise>
+            <assign name="NoInvocation">
+              <copy>
+                <from expression="'Skipped'"/>
+                <to variable="outputVariable" part="part"
+                    query="/ns9:Output/ns9:ValidateXpathFunctionRes/ns9:fndintgdatexpathivp/ns9:Status"/>
+              </copy>
+            </assign>
+          </otherwise>
+        </switch>
+      </sequence>
+    </scope>
+    <scope name="InvokeFndIntgSendEmailIVP" variableAccessSerializable="no">
+      <faultHandlers>
+        <catchAll>
+          <assign name="AssignerrorResponse">
+            <copy>
+              <from expression="'Failure'"/>
+              <to variable="outputVariable" part="part"
+                  query="/ns9:Output/ns9:ValidateXpathFunctionRes/ns9:fndintgsendemailivp/ns9:Status"/>
+            </copy>
+            <copy>
+              <from expression="concat('FAILED in FndIntgSendEmailIVP with the error: ',substring(ora:getFaultAsString(),1,bpws:getVariableData('Err_msg_length')))"/>
+              <to variable="outputVariable" part="part"
+                  query="/ns9:Output/ns9:ValidateXpathFunctionRes/ns9:fndintgsendemailivp/ns9:AdditionalNote"/>
+            </copy>
+            <copy>
+              <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','FndIntgSendEmailIVP Flt',string(bpws:getVariableData('outputVariable','part','/ns9:Output/ns9:ValidateXpathFunctionRes/ns9:fndintgsendemailivp/ns9:AdditionalNote')),string('3'),'FndIntgValidateXpathFunctionIVP')"/>
+              <to variable="SNIFault" part="payload" query="/ns8:SNIFault"/>
+            </copy>
+            <copy>
+              <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateXpathFunctionIVP-Fault Occurred at the scope FndIntgSendEmailIVP',bpws:getVariableData('SNIHeader','/ns8:SNIHeader/ns8:BusinessKey')),string('SEVERE'))"/>
+              <to variable="logStatus"/>
+            </copy>
+          </assign>
+        </catchAll>
+      </faultHandlers>
+      <sequence name="Sequence7">
+        <switch name="Switch12">
+          <case condition="xp20:upper-case(string(bpws:getVariableData('inputVariable','part','/ns9:Input/ns9:ValidateXpathFunctionReq/ns9:fndintgsendemailivp')))='TRUE'">
+            <bpelx:annotation>
+              <bpelx:general>
+                <bpelx:property name="userLabel">If fndintgsendemailivp is true</bpelx:property>
+              </bpelx:general>
+            </bpelx:annotation>
+            <sequence>
+              <invoke name="InvokefndIntgSendEmailIVP" bpelx:invokeAsDetail="no"
+                      inputVariable="InvokefndIntgSendEmailIVP_InputVariable"
+                      outputVariable="InvokefndIntgSendEmailIVP_OutputVariable"
+                      partnerLink="FndIntgSendEmailIVPSvc"
+                      portType="ns6:FndIntgSendEmailIVP" operation="process"/>
+              <assign name="AssignResponse">
+                <copy>
+                  <from expression="'Success'"/>
+                  <to variable="outputVariable" part="part"
+                      query="/ns9:Output/ns9:ValidateXpathFunctionRes/ns9:fndintgsendemailivp/ns9:Status"/>
+                </copy>
+              </assign>
+            </sequence>
+          </case>
+          <otherwise>
+            <assign name="NoInvocation">
+              <copy>
+                <from expression="'Skipped'"/>
+                <to variable="outputVariable" part="part"
+                    query="/ns9:Output/ns9:ValidateXpathFunctionRes/ns9:fndintgsendemailivp/ns9:Status"/>
+              </copy>
+            </assign>
+          </otherwise>
+        </switch>
+      </sequence>
+    </scope>
+    <scope name="FndIntgOptimisticLockIVP" variableAccessSerializable="no">
+      <faultHandlers>
+        <catchAll>
+          <assign name="AssignerrorResponse">
+            <copy>
+              <from expression="'Failure'"/>
+              <to variable="outputVariable" part="part"
+                  query="/ns9:Output/ns9:ValidateXpathFunctionRes/ns9:fndintgoptimisticlockivp/ns9:Status"/>
+            </copy>
+            <copy>
+              <from expression="concat('FAILED in FndIntgOptmisticLocklIVP with the error: ',substring(ora:getFaultAsString(),1,bpws:getVariableData('Err_msg_length')))"/>
+              <to variable="outputVariable" part="part"
+                  query="/ns9:Output/ns9:ValidateXpathFunctionRes/ns9:fndintgoptimisticlockivp/ns9:AdditionalNote"/>
+            </copy>
+            <copy>
+              <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','FndIntgOptimisticLockIVP Flt',string(bpws:getVariableData('outputVariable','part','/ns9:Output/ns9:ValidateXpathFunctionRes/ns9:fndintgoptimisticlockivp/ns9:AdditionalNote')),string('3'),'FndIntgValidateXpathFunctionIVP')"/>
+              <to variable="SNIFault" part="payload" query="/ns8:SNIFault"/>
+            </copy>
+            <copy>
+              <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateXpathFunctionIVP-Fault Occurred at the scope FndIntgOptimisticLocklIVP',bpws:getVariableData('SNIHeader','/ns8:SNIHeader/ns8:BusinessKey')),string('SEVERE'))"/>
+              <to variable="logStatus"/>
+            </copy>
+          </assign>
+        </catchAll>
+      </faultHandlers>
+      <sequence name="Sequence8">
+        <switch name="Switch13">
+          <case condition="xp20:upper-case(string(bpws:getVariableData('inputVariable','part','/ns9:Input/ns9:ValidateXpathFunctionReq/ns9:fndintgoptimisticlockivp')))='TRUE'">
+            <bpelx:annotation>
+              <bpelx:general>
+                <bpelx:property name="userLabel">If fndintgoptimisticlockivp is true</bpelx:property>
+              </bpelx:general>
+            </bpelx:annotation>
+            <sequence>
+              <assign name="AssignInput">
+                <copy>
+                  <from expression="'FndCache-SOAOptimisticLock'"/>
+                  <to variable="InvokeFndIntgOptimisticLockIVP_InputVariable"
+                      part="payload" query="/ns7:process/ns7:cacheName"/>
+                </copy>
+                <copy>
+                  <from expression="ora:getComponentInstanceId()"/>
+                  <to variable="InvokeFndIntgOptimisticLockIVP_InputVariable"
+                      part="payload" query="/ns7:process/ns7:key"/>
+                </copy>
+                <copy>
+                  <from expression="xp20:seconds-from-dateTime(xp20:current-dateTime())"/>
+                  <to variable="InvokeFndIntgOptimisticLockIVP_InputVariable"
+                      part="payload" query="/ns7:process/ns7:newValue"/>
+                </copy>
+                <copy>
+                  <from expression="'true'"/>
+                  <to variable="InvokeFndIntgOptimisticLockIVP_InputVariable"
+                      part="payload" query="/ns7:process/ns7:enableSequencing"/>
+                </copy>
+              </assign>
+              <invoke name="InvokeFndIntgOptimisticLockIVP"
+                      bpelx:invokeAsDetail="no"
+                      inputVariable="InvokeFndIntgOptimisticLockIVP_InputVariable"
+                      outputVariable="InvokeFndIntgOptimisticLockIVP_OutputVariable"
+                      partnerLink="FndIntgOptimisticlockIVPSvc"
+                      portType="ns7:FndIntgOptimisticLockIVP"
+                      operation="process"/>
+              <assign name="AssignResponse">
+                <copy>
+                  <from expression="'Success'"/>
+                  <to variable="outputVariable" part="part"
+                      query="/ns9:Output/ns9:ValidateXpathFunctionRes/ns9:fndintgoptimisticlockivp/ns9:Status"/>
+                </copy>
+              </assign>
+            </sequence>
+          </case>
+          <otherwise>
+            <assign name="NoInvocation">
+              <copy>
+                <from expression="'Skipped'"/>
+                <to variable="outputVariable" part="part"
+                    query="/ns9:Output/ns9:ValidateXpathFunctionRes/ns9:fndintgoptimisticlockivp/ns9:Status"/>
+              </copy>
+            </assign>
+          </otherwise>
+        </switch>
+      </sequence>
+    </scope>
+    <assign name="LogMessage">
+      <copy>
+        <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateXpathFunctionIVP-Exit',bpws:getVariableData('SNIHeader','/ns8:SNIHeader/ns8:BusinessKey')),string('INFO'))"/>
+        <to variable="logStatus"/>
+      </copy>
+    </assign>
+    <!-- Generate reply to synchronous request -->
+    <reply name="replyOutput" partnerLink="FndIntgValidateXpathFunctionIVP_client" portType="client:ChkXpathSOAIVPPortType" operation="ChkXpathSOAIVP" variable="outputVariable"/>
+  </sequence>
+</process>

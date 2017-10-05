@@ -1,0 +1,181 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1" xmlns:tns="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1/Services/FndBIPReportService" targetNamespace="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1/Services/FndBIPReportService" elementFormDefault="qualified" attributeFormDefault="unqualified">
+<xs:import namespace="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1" schemaLocation="oramds:/apps/SNIComponents/EnterpriseObjectLibrary/Core/Common/V1/SNICore.xsd"/>
+<xs:element name="ScheduleReport">
+<xs:complexType>
+<xs:sequence>
+<xs:element ref="ns1:SNIHeader"/>
+<xs:element ref="tns:BIPScheduleReport"/>
+<xs:element name="ExtCorrelationKey" type="xs:string"/>
+<xs:element name="IntCorrelationKey" type="xs:string"/>
+<xs:element name="priority" type="xs:string"/>
+<xs:element name="userID" type="xs:string"/>
+<xs:element name="password" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="SyncScheduleReportResponse">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="FndSOAJobID" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="BIPStatusRequest">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="FndSOAJobID" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="BIPStatusResponse">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="FndSOAJobID" type="xs:string"/>
+<xs:element name="FndBIPJobID" type="xs:string"/>
+<xs:element name="BIPJobStatus" type="xs:string"/>
+<xs:element name="JobName" type="xs:string"/>
+<xs:element name="JobScheduledDateTime" type="xs:string"/>
+<xs:element name="Other1" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="ScheduleReportResponse">
+<xs:complexType>
+<xs:sequence>
+<xs:element ref="ns1:SNIHeader"/>
+<xs:element name="ExtCorrelationKey" type="xs:string"/>
+<xs:element name="IntCorrelationKey" type="xs:string"/>
+<xs:element name="BIPJobID" type="xs:string"/>
+<xs:element name="BIPJobStatus" type="xs:string"/>
+<xs:element name="BIPJobMessage" type="xs:string"/>
+<xs:element name="SOAInstanceID" type="xs:string"/>
+<xs:element name="userID" type="xs:string"/>
+<xs:element name="password" type="xs:string"/>
+<xs:element name="isFault" type="xs:boolean"/>
+<xs:element name="FaultInfo">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="BIPfaultcode" type="xs:string"/>
+<xs:element name="BIPfaultString" type="xs:string"/>
+<xs:element name="BIPfaultDetail" type="xs:string"/>
+<xs:element name="SNIFault" type="ns1:SNIFaultType"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:complexType name="BIPScheduleReportType">
+<xs:sequence>
+<xs:element name="cronExpression" type="xs:string" minOccurs="0"/>
+<xs:element name="deliveryRequest" type="tns:deliveryRequest"/>
+<xs:element name="deleteJob" type="xs:boolean"/>
+<xs:element name="endDate" type="xs:date" minOccurs="0"/>
+<xs:element name="httpNotificationPassword" type="xs:string" minOccurs="0"/>
+<xs:element name="httpNotificationServer" type="xs:string" minOccurs="0"/>
+<xs:element name="httpNotificationUserName" type="xs:string" minOccurs="0"/>
+<xs:element name="jobCalendar" type="xs:string" minOccurs="0"/>
+<xs:element name="jobLocale" type="xs:string" minOccurs="0"/>
+<xs:element name="jobTZ" type="xs:string" minOccurs="0"/>
+<xs:element name="notificationTo" type="xs:string" minOccurs="0"/>
+<xs:element name="notifyWhenFailed" type="xs:boolean"/>
+<xs:element name="notifyWhenSuccess" type="xs:boolean"/>
+<xs:element name="notifyWhenWarning" type="xs:boolean"/>
+<xs:element name="repeatCount" type="xs:int"/>
+<xs:element name="repeatInterval" type="xs:int"/>
+<xs:element name="reportRequest" type="tns:reportRequest" minOccurs="0"/>
+<xs:element name="saveDataOption" type="xs:boolean"/>
+<xs:element name="saveOutputOption" type="xs:boolean"/>
+<xs:element name="scheduleBurstringOption" type="xs:boolean"/>
+<xs:element name="schedulePublicOption" type="xs:boolean"/>
+<xs:element name="startDate" type="xs:anySimpleType" minOccurs="0"/>
+<xs:element name="useUTF8Option" type="xs:boolean"/>
+<xs:element name="userJobName" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deliveryRequest">
+<xs:sequence>
+<xs:element name="emailOption" type="tns:eMailDeliveryOption" minOccurs="0"/>
+<xs:element name="faxOption" type="tns:faxDeliveryOption" minOccurs="0"/>
+<xs:element name="ftpOption" type="tns:ftpDeliveryOption" minOccurs="0"/>
+<xs:element name="localOption" type="tns:localDeliveryOption" minOccurs="0"/>
+<xs:element name="printOption" type="tns:printDeliveryOption" minOccurs="0"/>
+<xs:element name="webDAVOption" type="tns:webDAVDeliveryOption" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="eMailDeliveryOption">
+<xs:sequence>
+<xs:element name="emailBCC" type="xs:string" minOccurs="0"/>
+<xs:element name="emailBody" type="xs:string" minOccurs="0"/>
+<xs:element name="emailCC" type="xs:string" minOccurs="0"/>
+<xs:element name="emailFrom" type="xs:string" minOccurs="0"/>
+<xs:element name="emailReplyTo" type="xs:string" minOccurs="0"/>
+<xs:element name="emailSubject" type="xs:string" minOccurs="0"/>
+<xs:element name="emailTo" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="faxDeliveryOption">
+<xs:sequence>
+<xs:element name="faxNumber" type="xs:string" minOccurs="0"/>
+<xs:element name="faxServer" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ftpDeliveryOption">
+<xs:sequence>
+<xs:element name="ftpServerName" type="xs:string" minOccurs="0"/>
+<xs:element name="ftpUserName" type="xs:string" minOccurs="0"/>
+<xs:element name="ftpUserPassword" type="xs:string" minOccurs="0"/>
+<xs:element name="remoteFile" type="xs:string" minOccurs="0"/>
+<xs:element name="sftpOption" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="localDeliveryOption">
+<xs:sequence>
+<xs:element name="destination" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="printDeliveryOption">
+<xs:sequence>
+<xs:element name="printNumberOfCopy" type="xs:string" minOccurs="0"/>
+<xs:element name="printRange" type="xs:string" minOccurs="0"/>
+<xs:element name="printSide" type="xs:string" minOccurs="0"/>
+<xs:element name="printTray" type="xs:string" minOccurs="0"/>
+<xs:element name="printerName" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="webDAVDeliveryOption">
+<xs:sequence>
+<xs:element name="deliveryAuthType" type="xs:string" minOccurs="0"/>
+<xs:element name="password" type="xs:string" minOccurs="0"/>
+<xs:element name="remoteFilePath" type="xs:string" minOccurs="0"/>
+<xs:element name="server" type="xs:string" minOccurs="0"/>
+<xs:element name="userName" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="reportRequest">
+<xs:sequence>
+<xs:element name="attributeFormat" type="xs:string" minOccurs="0"/>
+<xs:element name="attributeLocale" type="xs:string" minOccurs="0"/>
+<xs:element name="attributeTemplate" type="xs:string" minOccurs="0"/>
+<xs:element name="flattenXML" type="xs:boolean"/>
+<xs:element name="parameterNameValues" type="tns:paramNameValue" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="reportAbsolutePath" type="xs:string" minOccurs="0"/>
+<xs:element name="reportData" type="xs:base64Binary" minOccurs="0"/>
+<xs:element name="reportDataFileName" type="xs:string" minOccurs="0"/>
+<xs:element name="sizeOfDataChunkDownload" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="paramNameValue">
+<xs:sequence>
+<xs:element name="multiValuesAllowed" type="xs:boolean"/>
+<xs:element name="name" type="xs:string" minOccurs="0"/>
+<xs:element name="values" type="xs:string" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="BIPScheduleReport" type="tns:BIPScheduleReportType">
+<xs:annotation>
+<xs:documentation>Comment describing your root element</xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:schema>

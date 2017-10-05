@@ -1,0 +1,132 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Fri May 27 06:56:14 CDT 2016
+  Author:  f23963
+  Type: BPEL 1.1 Process
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="FndIntgSiebelSecIVP"
+               targetNamespace="http://xmlns.schneider.com/SNIFndIntgIVPServices/FndIntgSiebelSecIVP/FndIntgSiebelSecIVP"
+               xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+               xmlns:client="http://xmlns.schneider.com/SNIFndIntgIVPServices/FndIntgSiebelSecIVP/FndIntgSiebelSecIVP"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:ns1="http://siebel.com/asi/"
+         xmlns:bpel2="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns2="http://www.siebel.com/xml/SNI%20Order%20Revisions/Data"
+         xmlns:ns3="http://xmlns.oracle.com/pcbpel/adapter/file/SNIFndIntgIVPServices/FndIntgSiebelSecIVP/d"
+         xmlns:ns4="http://xmlns.schneider.com/SNIFndIntgIVPServices/FndIntgSiebelSecIVP/FndIntgSiebelSecIVP"
+         xmlns:ns5="http://siebel.com/webservices"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap">
+
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    --> 
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="fndintgsiebelsecivp_client" partnerLinkType="client:FndIntgSiebelSecIVP" myRole="FndIntgSiebelSecIVPProvider"/>
+    <partnerLink name="CheckSiebelOrderOpenRevisions"
+                 partnerLinkType="ns1:SNI_spcOrder_spcRevisions_PL"
+                 partnerRole="SNI_spcOrder_spcRevisions_Role"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="InvokeSiebelService_Revisions_InputVariable"
+              messageType="ns1:Revisions_Input"/>
+    <variable name="InvokeSiebelService_Revisions_OutputVariable"
+              messageType="ns1:Revisions_Output"/>
+    <variable name="FndIntgOutputVar"
+              messageType="ns4:FndIntgSiebelSecIVPResponseMessage"/>
+    <variable name="FndIntgInputVar"
+              messageType="ns4:FndIntgSiebelSecIVPRequestMessage"/>
+    <variable name="SiebelInputHeader"
+              messageType="ns1:SiebelInputHeaderMessage"/>
+    <variable name="Invoke1_Revisions_InputVariable"
+              messageType="ns1:Revisions_Input"/>
+    <variable name="Invoke1_Revisions_OutputVariable"
+              messageType="ns1:Revisions_Output"/>
+  </variables>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in FndIntgSiebelSecIVP.wsdl) -->
+    <receive name="receiveInput" partnerLink="fndintgsiebelsecivp_client"
+             portType="ns4:FndIntgSiebelSecIVP" operation="process" createInstance="yes"
+             variable="FndIntgInputVar"/>
+    <assign name="AssignSiebelInputHeader">
+      <copy>
+        <from expression="'SEBLINTG'"/>
+        <to variable="SiebelInputHeader" part="userName"
+            query="/ns5:UsernameToken"/>
+      </copy>
+      <copy>
+        <from expression="'sbjc0817'"/>
+        <to variable="SiebelInputHeader" part="passWord"
+            query="/ns5:PasswordText"/>
+      </copy>
+    </assign>
+    <assign name="XformFetchBillingData">
+      <bpelx:annotation>
+        <bpelx:pattern>transformation</bpelx:pattern>
+      </bpelx:annotation>
+      <copy>
+        <from expression="ora:doXSLTransformForDoc('xsl/Transformation_GetData.xsl', $FndIntgInputVar.payload)"/>
+        <to variable="InvokeSiebelService_Revisions_InputVariable"
+            part="Revisions_Input"/>
+      </copy>
+    </assign>
+    <invoke name="InvokeSiebelService"
+            inputVariable="InvokeSiebelService_Revisions_InputVariable"
+            outputVariable="InvokeSiebelService_Revisions_OutputVariable"
+            partnerLink="CheckSiebelOrderOpenRevisions"
+            portType="ns1:SNI_spcOrder_spcRevisions" operation="Revisions"
+            bpelx:invokeAsDetail="no"
+            bpelx:inputHeaderVariable="SiebelInputHeader"/>
+    <assign name="AssignSuccessResponse">
+      <copy>
+        <from expression="'Siebel Integration Verified successfully'"/>
+        <to variable="FndIntgOutputVar" part="payload"
+            query="/client:ProcessResponse"/>
+      </copy>
+    </assign>
+    <!-- Generate reply to synchronous request -->
+    <reply name="replyOutput" partnerLink="fndintgsiebelsecivp_client"
+           portType="ns4:FndIntgSiebelSecIVP" operation="process"
+           variable="FndIntgOutputVar"/>
+  </sequence>
+</process>

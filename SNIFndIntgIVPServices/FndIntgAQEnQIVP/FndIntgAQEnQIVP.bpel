@@ -1,0 +1,168 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Tue May 10 05:21:03 CDT 2016
+  Author:  f23963
+  Type: BPEL 1.1 Process
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="FndIntgAQEnQIVP"
+               targetNamespace="http://xmlns.schneider.com/SNIFndIntgIVPServices/FndIntgAQEnQIVP/FndIntgAQEnQIVP"
+               xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+               xmlns:client="http://xmlns.schneider.com/SNIFndIntgIVPServices/FndIntgAQEnQIVP/FndIntgAQEnQIVP"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/AQ/SNIFndIntgIVPServices/FndIntgAQEnQIVP/EnqueueMessage"
+         xmlns:bpel2="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns2="http://www.globalcompany.com/ns/sales"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:snibpel="http://xmlns.schneider.com/BPEL/sni/foundation/soa/extensions/xpath"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    --> 
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="fndintgaqenqivp_client" partnerLinkType="client:FndIntgAQEnQIVP" myRole="FndIntgAQEnQIVPProvider"/>
+    <partnerLink name="EnqueueMessage" partnerLinkType="ns1:Enqueue_plt"
+                 partnerRole="Enqueue_role"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:FndIntgAQEnQIVPRequestMessage"/>
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="outputVariable" messageType="client:FndIntgAQEnQIVPResponseMessage"/>
+    <variable name="InvokeEnQMsg_InputVariable" messageType="ns1:test_msg"/>
+    <variable name="KeyIdentifier" type="xsd:string"/>
+    <variable name="CacheStatus" type="xsd:string"/>
+    <variable name="LoopCounter" type="xsd:int"/>
+    <variable name="TotalLoopCounts" type="xsd:int"/>
+  </variables>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in FndIntgAQEnQIVP.wsdl) -->
+    <receive name="receiveInput" partnerLink="fndintgaqenqivp_client" portType="client:FndIntgAQEnQIVP" operation="process" variable="inputVariable" createInstance="yes"/>
+    <assign name="AssignKeyIdentifier">
+      <copy bpelx:ignoreMissingFromData="yes" bpelx:insertMissingToData="yes">
+        <from expression="concat('SOA-AQ-',xp20:current-dateTime())"/>
+        <to variable="KeyIdentifier"/>
+      </copy>
+    </assign>
+    <assign name="AssignInsertIntoCache">
+      <copy bpelx:insertMissingToData="yes" bpelx:ignoreMissingFromData="yes">
+        <from expression="snibpel:EnterpriseCachePutByCacheName('FNDCache-SOAIVPStatus',bpws:getVariableData('KeyIdentifier'), 'ENQUEUED', '172800000')"/>
+        <to variable="CacheStatus"/>
+      </copy>
+    </assign>
+    <assign name="AssignEnqMsg">
+      <copy>
+        <from variable="inputVariable" part="payload" query="/ns2:test"/>
+        <to variable="InvokeEnQMsg_InputVariable" part="test"
+            query="/ns2:test"/>
+      </copy>
+    </assign>
+    <invoke name="InvokeEnQMsg"
+            inputVariable="InvokeEnQMsg_InputVariable"
+            partnerLink="EnqueueMessage" portType="ns1:Enqueue_ptt"
+            operation="Enqueue" bpelx:invokeAsDetail="no">
+      <bpelx:inputProperty name="jca.aq.Correlation" variable="KeyIdentifier"/>
+    </invoke>
+    <assign name="AssignCounterValues">
+      <copy>
+        <from expression="6"/>
+        <to variable="TotalLoopCounts"/>
+      </copy>
+      <copy>
+        <from expression="1"/>
+        <to variable="LoopCounter"/>
+      </copy>
+    </assign>
+    <while name="WhileLoopForTotalSeconds"
+           condition="bpws:getVariableData('LoopCounter')&lt;=bpws:getVariableData('TotalLoopCounts')">
+      <sequence name="CacheWaitSequence">
+        <wait name="WaitForCacheUpdate" for="'PT10S'"/>
+        <assign name="AssignGetCacheUpdatedStatus">
+          <copy>
+            <from expression="snibpel:EnterpriseCacheGetByCacheName('FNDCache-SOAIVPStatus',bpws:getVariableData('KeyIdentifier'))"/>
+            <to variable="CacheStatus"/>
+          </copy>
+        </assign>
+        <switch name="IfCacheIsUpdated">
+          <case condition="xp20:compare(bpws:getVariableData('CacheStatus'),'DEQUEUED')=0">
+            <bpelx:annotation>
+              <bpelx:general>
+                <bpelx:property name="userLabel">Updated</bpelx:property>
+              </bpelx:general>
+            </bpelx:annotation>
+            <sequence name="ResponseSuccessStatusSequence">
+              <assign name="AssignStopLoopCounter">
+                <copy>
+                  <from expression="bpws:getVariableData('TotalLoopCounts')+1"/>
+                  <to variable="LoopCounter"/>
+                </copy>
+              </assign>
+              <assign name="AssignResponseStatus">
+                <copy>
+                  <from expression="'Success'"/>
+                  <to variable="outputVariable" part="payload"
+                      query="/client:processResponse/client:result"/>
+                </copy>
+              </assign>
+            </sequence>
+          </case>
+          <otherwise>
+            <assign name="AssignFailureResponseStatus">
+              <copy>
+                <from expression="bpws:getVariableData('LoopCounter')+1"/>
+                <to variable="LoopCounter"/>
+              </copy>
+              <copy>
+                <from expression="'Failure'"/>
+                <to variable="outputVariable" part="payload"
+                    query="/client:processResponse/client:result"/>
+              </copy>
+            </assign>
+          </otherwise>
+        </switch>
+      </sequence>
+    </while>
+    <!-- Generate reply to synchronous request -->
+    <reply name="replyOutput" partnerLink="fndintgaqenqivp_client" portType="client:FndIntgAQEnQIVP" operation="process" variable="outputVariable"/>
+  </sequence>
+</process>

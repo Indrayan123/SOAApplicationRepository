@@ -1,0 +1,119 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Tue Nov 15 08:44:08 CST 2016
+  Author:  t15581
+  Type: BPEL 1.1 Process
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="FndIntgUPGCheckXSlEmptyValueIVPImpl"
+               targetNamespace="http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/FndIntgUPGCheckXSlEmptyValueIVP/CheckUPGXSlEmptyValueSOAIVPSvc"
+               xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+               xmlns:client="http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/FndIntgUPGCheckXSlEmptyValueIVP/CheckUPGXSlEmptyValueSOAIVPSvc"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:ns1="http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/FndIntgUPGCheckXSlEmptyValueIVP/CheckUPGXSlEmptyValueSOAIVPSvc"
+         xmlns:bpel2="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ns2="http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/UPG/CheckUPGXSlEmptyValueSOAIVP"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap">
+
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    --> 
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="CheckUPGXSlEmptyValueSOAIVPSvc"
+                 partnerLinkType="ns1:CheckUPGXSlEmptyValueSOAIVPSvc"
+                 myRole="execute_ptt"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+   
+
+    <!-- Reference to the message that will be returned to the requester-->
+   
+    <variable name="receiveInputReqMsg" messageType="ns1:requestMessage"/>
+    <variable name="replyOutputResMsg" messageType="ns1:replyMessage"/>
+  </variables>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in FndIntgUPGCheckXSlEmptyValueIVPImpl.wsdl) -->
+    <receive name="receiveInput" partnerLink="CheckUPGXSlEmptyValueSOAIVPSvc"
+             portType="ns1:execute_ptt" operation="execute"
+             variable="receiveInputReqMsg" createInstance="yes"/>
+    <assign name="TransformToCheckEmptyElementMapping">
+      <bpelx:annotation>
+        <bpelx:pattern>transformation</bpelx:pattern>
+      </bpelx:annotation>
+      <copy>
+        <from expression="ora:doXSLTransformForDoc('xsl/CheckEmptyXSLNode.xsl', $receiveInputReqMsg.part)"/>
+        <to variable="replyOutputResMsg" part="part"/>
+      </copy>
+    </assign>
+    <switch name="Switch1">
+      <case condition="ora:countNodes('replyOutputResMsg','part','/ns2:processResponse/ns2:result') >0">
+        <bpelx:annotation>
+          <bpelx:general>
+            <bpelx:property name="userLabel">Result is Not Null</bpelx:property>
+          </bpelx:general>
+        </bpelx:annotation>
+        <assign name="AssignSuccess">
+          <bpelx:annotation>
+            <bpelx:pattern>transformation</bpelx:pattern>
+          </bpelx:annotation>
+          <copy>
+            <from expression="ora:doXSLTransformForDoc('xsl/Transformation_SuccessResponse.xsl', $receiveInputReqMsg.part)"/>
+            <to variable="replyOutputResMsg" part="part"/>
+          </copy>
+        </assign>
+      </case>
+      <otherwise>
+        <assign name="AssignFailure">
+          <copy bpelx:insertMissingToData="yes">
+            <from expression="'Failure'"/>
+            <to variable="replyOutputResMsg" part="part"
+                query="/ns2:processResponse/ns2:result"/>
+          </copy>
+        </assign>
+      </otherwise>
+    </switch>
+    <!-- Generate reply to synchronous request -->
+    <reply name="replyOutput" partnerLink="CheckUPGXSlEmptyValueSOAIVPSvc"
+           portType="ns1:execute_ptt" operation="execute"
+           variable="replyOutputResMsg"/>
+  </sequence>
+</process>

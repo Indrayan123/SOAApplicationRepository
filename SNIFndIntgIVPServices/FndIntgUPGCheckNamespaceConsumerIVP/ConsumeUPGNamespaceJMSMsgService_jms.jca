@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<adapter-config name="ConsumeUPGNamespaceJMSMsgService" adapter="jms" wsdlLocation="ConsumeUPGNamespaceJMSMsgService.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+   <connection-factory UIJmsProvider="THIRDPARTY" location="eis/fndsoa/ivp/FNDIntgSOAIVPXACF"/>
+   <endpoint-activation portType="Consume_Message_ptt" operation="Consume_Message">
+      <activation-spec className="oracle.tip.adapter.jms.inbound.JmsConsumeActivationSpec">
+         <property name="PayloadType" value="TextMessage"/>
+         <property name="MessageSelector" value="Id ='UPG_IVP_ChkNamespace'"/>
+         <property name="UseMessageListener" value="false"/>
+         <property name="DestinationName" value="jms/sni/fndsoa/ivp/FNDIntgSOAIVPQ"/>
+      </activation-spec>
+   </endpoint-activation>
+</adapter-config>

@@ -1,0 +1,668 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Wed Nov 16 06:30:08 CST 2016
+  Author:  f23963
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="FndIntgValidateSOAUPGIVP"
+               targetNamespace="http://xmlns.oracle.com/SNIFndIntgUPGIVPServices/FndIntgValidateSOAUPGIVP/FndIntgValidateSOAUPGIVP"
+               xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+               xmlns:client="http://xmlns.oracle.com/SNIFndIntgUPGIVPServices/FndIntgValidateSOAUPGIVP/FndIntgValidateSOAUPGIVP"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+               xmlns:snibpel="http://xmlns.schneider.com/BPEL/sni/foundation/soa/extensions/xpath"
+               xmlns:ns1="http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/FndIntgValidateSOAUPGIVP/FndIntgValidateSOAUPGIVP"
+               xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:ns2="http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/FndIntgUPGCheckXSlEmptyValueIVP/CheckUPGXSlEmptyValueSOAIVPSvc"
+         xmlns:ns3="http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/FndIntgUPGCheckNamespaceIVP/CheckUPGNamespaceSOAIVPSvc"
+         xmlns:ns4="http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/FndIntgUPGCheckDynamicPatnerlinkFaultIVP/CheckUPGDynamicPatnerlinkFaultSOAIVPSvc"
+         xmlns:bpel2="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:sniutil="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.utils.SNIUtilityExtensionFunctions"
+         xmlns:ns5="http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/UPG/FndIntgValidateSOAUPGIVP"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+         xmlns:ns6="http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/UPG/CheckUPGXSlEmptyValueSOAIVP"
+         xmlns:ns7="http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/UPG/CheckUPGNamespaceSOAIVP/V1"
+         xmlns:ns8="http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/UPG/CheckUPGNamespaceSOAIVP/V2"
+         xmlns:ns9="http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/UPG/CheckUPGDynamicPatnerlinkFaultSOAIVP"
+         xmlns:ns10="http://xmlns.oracle.com/pcbpel/adapter/file/SNIFndIntgUPGIVPServices/FndIntgValidateSOAUPGIVP/WriteOutputFile"
+         xmlns:ns11="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1">
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      PARTNERLINKS                                                      
+      List of services participating in this BPEL process               
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  --> 
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="fndintgvalidatesoaupgivp_client" partnerLinkType="ns1:FndIntgValidateSOAUPGIVP" myRole="FndIntgValidateSOAUPGIVPPortType"/>
+    <partnerLink name="CheckUPGXSlEmptyValueSOAIVPSvc"
+                 partnerLinkType="ns2:CheckUPGXSlEmptyValueSOAIVPSvc"
+                 partnerRole="execute_ptt"/>
+    <partnerLink name="CheckUPGNamespaceSOAIVPSvc"
+                 partnerLinkType="ns3:CheckUPGNamespaceSOAIVPSvc"
+                 partnerRole="CheckUPGNamespace_ptt"/>
+    <partnerLink name="CheckUPGDynamicPartnerlinkFaultSOAIVPSvc"
+                 partnerLinkType="ns4:CheckUPGDynamicPatnerlinkFaultSOAIVPSvc"
+                 partnerRole="CheckUPGDynamicPatnerlinkFaultSOAIVPSvcProvider"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="ns1:InputMessage"/>
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="outputVariable" messageType="ns1:OutputMessage"/>
+    <variable name="InvokeCheckUPGXSlEmptyValueSOAIVPSvc_InputVariable"
+              messageType="ns2:requestMessage"/>
+    <variable name="InvokeCheckUPGXSlEmptyValueSOAIVPSvc_OutputVariable"
+              messageType="ns2:replyMessage"/>
+    <variable name="InvokeCheckUPGNamespaceSOAIVPSvc_InputVariable"
+              messageType="ns3:requestMessage"/>
+    <variable name="InvokeCheckUPGNamespaceSOAIVPSvc_OutputVariable"
+              messageType="ns3:replyMessage"/>
+    <variable name="InvokeCheckUPGDynamicPartnerlinkFaultSOAIVPSvc_InputVariable"
+              messageType="ns4:CheckUPGDynamicPatnerlinkFaultSOAIVPSvcRequestMessage"/>
+    <variable name="InvokeCheckUPGDynamicPartnerlinkFaultSOAIVPSvc_OutputVariable"
+              messageType="ns4:CheckUPGDynamicPatnerlinkFaultSOAIVPSvcResponseMessage"/>
+    <variable name="Err_msg_length" type="xsd:double"/>
+    <variable name="FilePath" type="xsd:string"/>
+    <variable name="SNIHeader" element="ns11:SNIHeader"/>
+    <variable name="SNIFault" messageType="ns1:SNIFaultMessage"/>
+    <variable name="logStatus" type="xsd:string"/>
+  </variables>
+  <faultHandlers>
+    <catchAll>
+      <sequence name="Sequence7">
+        <assign name="AssignFault">
+          <copy>
+            <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','ValidateSOAUpgrade Flt',string(ora:getFaultAsString()),string('3'),'FndIntgValidateSOAUPGIVP')"/>
+            <to variable="SNIFault" part="payload" query="/ns11:SNIFault"/>
+          </copy>
+          <copy>
+            <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateSOAUPGIVP-Fault Occurred at CATCHALL',bpws:getVariableData('SNIHeader','/ns11:SNIHeader/ns11:BusinessKey')),string('SEVERE'))"/>
+            <to variable="logStatus"/>
+          </copy>
+        </assign>
+        <reply name="ReplyFault" faultName="ns1:SNIFault"
+               variable="SNIFault"
+               partnerLink="fndintgvalidatesoaupgivp_client"
+               portType="ns1:FndIntgValidateSOAUPGIVPPortType"
+               operation="FndIntgValidateSOAUPGIVP"/>
+      </sequence>
+    </catchAll>
+  </faultHandlers>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in FndIntgValidateSOAUPGIVP.wsdl) -->
+    <receive name="receiveInput" partnerLink="fndintgvalidatesoaupgivp_client" portType="ns1:FndIntgValidateSOAUPGIVPPortType" operation="FndIntgValidateSOAUPGIVP" variable="inputVariable" createInstance="yes"/>
+    <assign name="createHeader">
+      <copy>
+        <from expression="snibpel:createSNIHeader('SOA-FndIntgValidateSOAUPGIVP','IVP-Upgrade','FndIntgValidateSOAUPGIVP','SOAIVP','SOA','')"/>
+        <to variable="SNIHeader" query="/ns11:SNIHeader"/>
+      </copy>
+      <copy>
+        <from expression="xp20:current-dateTime()"/>
+        <to variable="outputVariable" part="part"
+            query="/ns5:Output/ns5:ValidateSOAUPGIVPRes/ns5:OtherDetails/ns5:ExecutionStartTime"/>
+      </copy>
+      <copy>
+        <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateSOAUPGIVP-Enter',bpws:getVariableData('SNIHeader','/ns11:SNIHeader/ns11:BusinessKey')),string('INFO'))"/>
+        <to variable="logStatus"/>
+      </copy>
+    </assign>
+    <switch name="Switch1">
+      <case condition="string-length(string(bpws:getVariableData('inputVariable','part','/ns5:Input/ns5:Err_Msg_Length')))!='0.0'">
+        <bpelx:annotation>
+          <bpelx:general>
+            <bpelx:property name="userLabel">Is Error Length </bpelx:property>
+          </bpelx:general>
+        </bpelx:annotation>
+        <assign name="AssignErrorLength">
+          <copy>
+            <from variable="inputVariable" part="part"
+                  query="/ns5:Input/ns5:Err_Msg_Length"/>
+            <to variable="Err_msg_length"/>
+          </copy>
+        </assign>
+      </case>
+      <otherwise>
+        <assign name="AssignErrorLength">
+          <copy>
+            <from expression="number('200')"/>
+            <to variable="Err_msg_length"/>
+          </copy>
+        </assign>
+      </otherwise>
+    </switch>
+    <scope name="FndIntgUPGCheckXSlEmptyValueIVP"
+           variableAccessSerializable="no">
+      <faultHandlers>
+        <catchAll>
+          <assign name="AssignFailure">
+            <copy>
+              <from expression="'Failure'"/>
+              <to variable="outputVariable" part="part"
+                  query="/ns5:Output/ns5:ValidateSOAUPGIVPRes/ns5:FndIntgUPGCheckXSlEmptyValueIVP/ns5:Status"/>
+            </copy>
+            <copy>
+              <from expression="concat('FAILED in FndIntgUPGCheckXSlEmptyValueIVP with the error: ',substring(ora:getFaultAsString(),1,bpws:getVariableData('Err_msg_length')))"/>
+              <to variable="outputVariable" part="part"
+                  query="/ns5:Output/ns5:ValidateSOAUPGIVPRes/ns5:FndIntgUPGCheckXSlEmptyValueIVP/ns5:AdditionalNote"/>
+            </copy>
+            <copy>
+              <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','FndIntgUPGCheckXSLEmptyValueIVP Flt',string(bpws:getVariableData('outputVariable','part','/ns5:Output/ns5:ValidateSOAUPGIVPRes/ns5:FndIntgUPGCheckXSlEmptyValueIVP/ns5:AdditionalNote')),string('3'),'FndIntgValidateSOAUPGIVP')"/>
+              <to variable="SNIFault" part="payload" query="/ns11:SNIFault"/>
+            </copy>
+            <copy>
+              <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateSOAUPGIVP-Fault Occurred at the scope FndIntgUPGCheckXSlEmptyValueIVP ',bpws:getVariableData('SNIHeader','/ns11:SNIHeader/ns11:BusinessKey')),string('SEVERE'))"/>
+              <to variable="logStatus"/>
+            </copy>
+          </assign>
+        </catchAll>
+      </faultHandlers>
+      <sequence name="Sequence1">
+        <switch name="Switch2">
+          <case condition="xp20:upper-case(string(bpws:getVariableData('inputVariable','part','/ns5:Input/ns5:ValidateSOAUPGIVPReq/ns5:FndIntgUPGCheckXSlEmptyValueIVP')))='TRUE'">
+            <bpelx:annotation>
+              <bpelx:general>
+                <bpelx:property name="userLabel">If FndIntgUPGCheckXSlEmptyValueIVP</bpelx:property>
+              </bpelx:general>
+            </bpelx:annotation>
+            <sequence name="Sequence2">
+              <assign name="AssignInput">
+                <copy>
+                  <from><inp1:process xmlns:inp1="http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/UPG/CheckUPGXSlEmptyValueSOAIVP">
+   <inp1:Rows>
+      <inp1:Row>
+         <inp1:Columns>
+            <inp1:Column>
+               <inp1:Name>ACTION_VALUE2</inp1:Name>
+               <inp1:Value/>
+            </inp1:Column>
+            <inp1:Column>
+               <inp1:Name>SEQUENCE</inp1:Name>
+               <inp1:Value>IVPSeQ</inp1:Value>
+            </inp1:Column>
+            <inp1:Column>
+               <inp1:Name>ACTION_VALUE1</inp1:Name>
+               <inp1:Value>SNI.SNI-SHIPMENT-FIX DUPE EX TP SS</inp1:Value>
+            </inp1:Column>
+            <inp1:Column>
+               <inp1:Name>ADDITIONAL_ERROR_TEXT</inp1:Name>
+               <inp1:Value/>
+            </inp1:Column>
+            <inp1:Column>
+               <inp1:Name>DELAYSEC</inp1:Name>
+               <inp1:Value>0</inp1:Value>
+            </inp1:Column>
+            <inp1:Column>
+               <inp1:Name>MAX_RETRY</inp1:Name>
+               <inp1:Value>2</inp1:Value>
+            </inp1:Column>
+            <inp1:Column>
+               <inp1:Name>SENDER_PROCESS_NAME</inp1:Name>
+               <inp1:Value/>
+            </inp1:Column>
+            <inp1:Column>
+               <inp1:Name>SEQ_NUMBER</inp1:Name>
+               <inp1:Value>1</inp1:Value>
+            </inp1:Column>
+            <inp1:Column>
+               <inp1:Name>PAGE_OVER_MAX_RETRY</inp1:Name>
+               <inp1:Value>Y</inp1:Value>
+            </inp1:Column>
+            <inp1:Column>
+               <inp1:Name>LOOKBACK_SEC</inp1:Name>
+               <inp1:Value>300</inp1:Value>
+            </inp1:Column>
+            <inp1:Column>
+               <inp1:Name>RETRY_OBJECT_LOOKUP_ID</inp1:Name>
+               <inp1:Value>401</inp1:Value>
+            </inp1:Column>
+            <inp1:Column>
+               <inp1:Name>ACTION</inp1:Name>
+               <inp1:Value>RAISE_EVENT</inp1:Value>
+            </inp1:Column>
+            <inp1:Column>
+               <inp1:Name>ACTIVE</inp1:Name>
+               <inp1:Value>Y</inp1:Value>
+            </inp1:Column>
+            <inp1:Column>
+               <inp1:Name>ACTION_ID</inp1:Name>
+               <inp1:Value>7011</inp1:Value>
+            </inp1:Column>
+            <inp1:Column>
+               <inp1:Name>CONTROL_ID</inp1:Name>
+               <inp1:Value>6896</inp1:Value>
+            </inp1:Column>
+         </inp1:Columns>
+      </inp1:Row>
+      <inp1:Row>
+         <inp1:Columns>
+            <inp1:Column>
+               <inp1:Name>ACTION_VALUE2</inp1:Name>
+               <inp1:Value/>
+            </inp1:Column>
+            <inp1:Column>
+               <inp1:Name>SEQUENCE</inp1:Name>
+               <inp1:Value>IVPSeQ</inp1:Value>
+            </inp1:Column>
+            <inp1:Column>
+               <inp1:Name>ACTION_VALUE1</inp1:Name>
+               <inp1:Value>SNI.SNI-SHIPMENT-EXTERNAL WORKFLOW REPROCESS</inp1:Value>
+            </inp1:Column>
+            <inp1:Column>
+               <inp1:Name>ADDITIONAL_ERROR_TEXT</inp1:Name>
+               <inp1:Value/>
+            </inp1:Column>
+            <inp1:Column>
+               <inp1:Name>DELAYSEC</inp1:Name>
+               <inp1:Value>0</inp1:Value>
+            </inp1:Column>
+            <inp1:Column>
+               <inp1:Name>MAX_RETRY</inp1:Name>
+               <inp1:Value>2</inp1:Value>
+            </inp1:Column>
+            <inp1:Column>
+               <inp1:Name>SENDER_PROCESS_NAME</inp1:Name>
+               <inp1:Value/>
+            </inp1:Column>
+            <inp1:Column>
+               <inp1:Name>SEQ_NUMBER</inp1:Name>
+               <inp1:Value>2</inp1:Value>
+            </inp1:Column>
+            <inp1:Column>
+               <inp1:Name>PAGE_OVER_MAX_RETRY</inp1:Name>
+               <inp1:Value>Y</inp1:Value>
+            </inp1:Column>
+            <inp1:Column>
+               <inp1:Name>LOOKBACK_SEC</inp1:Name>
+               <inp1:Value>300</inp1:Value>
+            </inp1:Column>
+            <inp1:Column>
+               <inp1:Name>RETRY_OBJECT_LOOKUP_ID</inp1:Name>
+               <inp1:Value>401</inp1:Value>
+            </inp1:Column>
+            <inp1:Column>
+               <inp1:Name>ACTION</inp1:Name>
+               <inp1:Value>RAISE_EVENT</inp1:Value>
+            </inp1:Column>
+            <inp1:Column>
+               <inp1:Name>ACTIVE</inp1:Name>
+               <inp1:Value>Y</inp1:Value>
+            </inp1:Column>
+            <inp1:Column>
+               <inp1:Name>ACTION_ID</inp1:Name>
+               <inp1:Value>8222</inp1:Value>
+            </inp1:Column>
+            <inp1:Column>
+               <inp1:Name>CONTROL_ID</inp1:Name>
+               <inp1:Value>6896</inp1:Value>
+            </inp1:Column>
+         </inp1:Columns>
+      </inp1:Row>
+   </inp1:Rows>
+</inp1:process></from>
+                  <to variable="InvokeCheckUPGXSlEmptyValueSOAIVPSvc_InputVariable"
+                      part="part" query="/ns6:process"/>
+                </copy>
+              </assign>
+              <invoke name="InvokeCheckUPGXSlEmptyValueSOAIVPSvc"
+                      bpelx:invokeAsDetail="no"
+                      inputVariable="InvokeCheckUPGXSlEmptyValueSOAIVPSvc_InputVariable"
+                      outputVariable="InvokeCheckUPGXSlEmptyValueSOAIVPSvc_OutputVariable"
+                      partnerLink="CheckUPGXSlEmptyValueSOAIVPSvc"
+                      portType="ns2:execute_ptt" operation="execute"/>
+              <switch name="Switch3">
+                <case condition="bpws:getVariableData('InvokeCheckUPGXSlEmptyValueSOAIVPSvc_OutputVariable','part','/ns6:processResponse/ns6:result')='Success'">
+                  <bpelx:annotation>
+                    <bpelx:general>
+                      <bpelx:property name="userLabel">If Success</bpelx:property>
+                    </bpelx:general>
+                  </bpelx:annotation>
+                  <assign name="AssignSuccess">
+                    <copy>
+                      <from expression="'Success'"/>
+                      <to variable="outputVariable" part="part"
+                          query="/ns5:Output/ns5:ValidateSOAUPGIVPRes/ns5:FndIntgUPGCheckXSlEmptyValueIVP/ns5:Status"/>
+                    </copy>
+                  </assign>
+                </case>
+                <otherwise>
+                  <assign name="AssignNotSuccess">
+                    <copy>
+                      <from variable="InvokeCheckUPGXSlEmptyValueSOAIVPSvc_OutputVariable"
+                            part="part"
+                            query="/ns6:processResponse/ns6:result"/>
+                      <to variable="outputVariable" part="part"
+                          query="/ns5:Output/ns5:ValidateSOAUPGIVPRes/ns5:FndIntgUPGCheckXSlEmptyValueIVP/ns5:Status"/>
+                    </copy>
+                    <copy>
+                      <from expression="'Transformation in FndIntgUPGCheckXSlEmptyValueIVP returned empty node/s'"/>
+                      <to variable="outputVariable" part="part"
+                          query="/ns5:Output/ns5:ValidateSOAUPGIVPRes/ns5:FndIntgUPGCheckXSlEmptyValueIVP/ns5:AdditionalNote"/>
+                    </copy>
+                    <copy>
+                      <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','FndIntgUPGCheckXSLEmptyValueIVP Flt',string(bpws:getVariableData('outputVariable','part','/ns5:Output/ns5:ValidateSOAUPGIVPRes/ns5:FndIntgUPGCheckXSlEmptyValueIVP/ns5:AdditionalNote')),string('3'),'FndIntgValidateSOAUPGIVP')"/>
+                      <to variable="SNIFault" part="payload"
+                          query="/ns11:SNIFault"/>
+                    </copy>
+                    <copy>
+                      <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateSOAUPGIVP-Fault Occurred at the scope FndIntgUPGCheckXSlEmptyValueIVP ',bpws:getVariableData('SNIHeader','/ns11:SNIHeader/ns11:BusinessKey')),string('SEVERE'))"/>
+                      <to variable="logStatus"/>
+                    </copy>
+                  </assign>
+                </otherwise>
+              </switch>
+            </sequence>
+          </case>
+          <otherwise>
+            <assign name="NoInvocation">
+              <copy>
+                <from expression="'Skipped'"/>
+                <to variable="outputVariable" part="part"
+                    query="/ns5:Output/ns5:ValidateSOAUPGIVPRes/ns5:FndIntgUPGCheckXSlEmptyValueIVP/ns5:Status"/>
+              </copy>
+            </assign>
+          </otherwise>
+        </switch>
+      </sequence>
+    </scope>
+    <scope name="FndIntgUPGCheckNamespaceIVP" variableAccessSerializable="no">
+      <faultHandlers>
+        <catchAll>
+          <assign name="AssignFailure">
+            <copy>
+              <from expression="'Failure'"/>
+              <to variable="outputVariable" part="part"
+                  query="/ns5:Output/ns5:ValidateSOAUPGIVPRes/ns5:FndIntgUPGCheckNamespaceIVP/ns5:Status"/>
+            </copy>
+            <copy>
+              <from expression="concat('FAILED in FndIntgUPGCheckNamespaceIVP with the error: ',substring(ora:getFaultAsString(),1,bpws:getVariableData('Err_msg_length')))"/>
+              <to variable="outputVariable" part="part"
+                  query="/ns5:Output/ns5:ValidateSOAUPGIVPRes/ns5:FndIntgUPGCheckNamespaceIVP/ns5:AdditionalNote"/>
+            </copy>
+            <copy>
+              <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','FndIntgUPGCheckNamespaceIVP Flt',string(bpws:getVariableData('outputVariable','part','/ns5:Output/ns5:ValidateSOAUPGIVPRes/ns5:FndIntgUPGCheckNamespaceIVP/ns5:AdditionalNote')),string('3'),'FndIntgValidateSOAUPGIVP')"/>
+              <to variable="SNIFault" part="payload" query="/ns11:SNIFault"/>
+            </copy>
+            <copy>
+              <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateSOAUPGIVP-Fault Occurred at the scope FndIntgUPGCheckNamespaceIVP ',bpws:getVariableData('SNIHeader','/ns11:SNIHeader/ns11:BusinessKey')),string('SEVERE'))"/>
+              <to variable="logStatus"/>
+            </copy>
+          </assign>
+        </catchAll>
+      </faultHandlers>
+      <sequence name="Sequence3">
+        <switch name="Switch4">
+          <case condition="xp20:upper-case(string(bpws:getVariableData('inputVariable','part','/ns5:Input/ns5:ValidateSOAUPGIVPReq/ns5:FndIntgUPGCheckNamespaceIVP')))='TRUE'">
+            <bpelx:annotation>
+              <bpelx:general>
+                <bpelx:property name="userLabel">If FndIntgUPGCheckNamespaceIVP</bpelx:property>
+              </bpelx:general>
+            </bpelx:annotation>
+            <sequence name="Sequence4">
+              <assign name="AssignInput">
+                <copy>
+                  <from expression="'UPGIVP1'"/>
+                  <to variable="InvokeCheckUPGNamespaceSOAIVPSvc_InputVariable"
+                      part="part"
+                      query="/ns7:Input/ns7:Request/ns8:InputParam1"/>
+                </copy>
+                <copy>
+                  <from expression="'UPGIVP2'"/>
+                  <to variable="InvokeCheckUPGNamespaceSOAIVPSvc_InputVariable"
+                      part="part"
+                      query="/ns7:Input/ns7:Request/ns8:InputParam2"/>
+                </copy>
+                <copy>
+                  <from expression="'UPGIVP3'"/>
+                  <to variable="InvokeCheckUPGNamespaceSOAIVPSvc_InputVariable"
+                      part="part"
+                      query="/ns7:Input/ns7:Request/ns8:InputParam3"/>
+                </copy>
+              </assign>
+              <invoke name="InvokeCheckUPGNamespaceSOAIVPSvc"
+                      bpelx:invokeAsDetail="no"
+                      inputVariable="InvokeCheckUPGNamespaceSOAIVPSvc_InputVariable"
+                      outputVariable="InvokeCheckUPGNamespaceSOAIVPSvc_OutputVariable"
+                      partnerLink="CheckUPGNamespaceSOAIVPSvc"
+                      portType="ns3:CheckUPGNamespace_ptt"
+                      operation="CheckUPGNamespace"/>
+              <switch name="Switch5">
+                <case condition="bpws:getVariableData('InvokeCheckUPGNamespaceSOAIVPSvc_OutputVariable','part','/ns7:Output/ns7:Response/ns8:OutputResponse')='Success'">
+                  <bpelx:annotation>
+                    <bpelx:general>
+                      <bpelx:property name="userLabel">If Success</bpelx:property>
+                    </bpelx:general>
+                  </bpelx:annotation>
+                  <assign name="AssignSuccess">
+                    <copy>
+                      <from expression="'Success'"/>
+                      <to variable="outputVariable" part="part"
+                          query="/ns5:Output/ns5:ValidateSOAUPGIVPRes/ns5:FndIntgUPGCheckNamespaceIVP/ns5:Status"/>
+                    </copy>
+                  </assign>
+                </case>
+                <otherwise>
+                  <assign name="AssignNotSuccess">
+                    <copy>
+                      <from expression="bpws:getVariableData('InvokeCheckUPGNamespaceSOAIVPSvc_OutputVariable','part','/ns7:Output/ns7:Response/ns8:OutputResponse')"/>
+                      <to variable="outputVariable" part="part"
+                          query="/ns5:Output/ns5:ValidateSOAUPGIVPRes/ns5:FndIntgUPGCheckNamespaceIVP/ns5:Status"/>
+                    </copy>
+                    <copy>
+                      <from expression="'Namespace parsing error occurred in FndIntgUPGCheckNamespaceIVP'"/>
+                      <to variable="outputVariable" part="part"
+                          query="/ns5:Output/ns5:ValidateSOAUPGIVPRes/ns5:FndIntgUPGCheckNamespaceIVP/ns5:AdditionalNote"/>
+                    </copy>
+                    <copy>
+                      <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','FndIntgUPGCheckNamespaceIVP Flt',string(bpws:getVariableData('outputVariable','part','/ns5:Output/ns5:ValidateSOAUPGIVPRes/ns5:FndIntgUPGCheckNamespaceIVP/ns5:AdditionalNote')),string('3'),'FndIntgValidateSOAUPGIVP')"/>
+                      <to variable="SNIFault" part="payload"
+                          query="/ns11:SNIFault"/>
+                    </copy>
+                    <copy>
+                      <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateSOAUPGIVP-Fault Occurred at the scope FndIntgUPGCheckNamespaceIVP ',bpws:getVariableData('SNIHeader','/ns11:SNIHeader/ns11:BusinessKey')),string('SEVERE'))"/>
+                      <to variable="logStatus"/>
+                    </copy>
+                  </assign>
+                </otherwise>
+              </switch>
+            </sequence>
+          </case>
+          <otherwise>
+            <assign name="NoInvocation">
+              <copy>
+                <from expression="'Skipped'"/>
+                <to variable="outputVariable" part="part"
+                    query="/ns5:Output/ns5:ValidateSOAUPGIVPRes/ns5:FndIntgUPGCheckNamespaceIVP/ns5:Status"/>
+              </copy>
+            </assign>
+          </otherwise>
+        </switch>
+      </sequence>
+    </scope>
+    <scope name="FndIntgUPGCheckDynamicPatnerlinkFaultIVP"
+           variableAccessSerializable="no">
+      <faultHandlers>
+        <catchAll>
+          <assign name="AssignFailure">
+            <copy>
+              <from expression="'Failure'"/>
+              <to variable="outputVariable" part="part"
+                  query="/ns5:Output/ns5:ValidateSOAUPGIVPRes/ns5:FndIntgUPGCheckDynamicPatnerlinkFaultIVP/ns5:Status"/>
+            </copy>
+            <copy>
+              <from expression="concat('FAILED in FndIntgUPGCheckDynamicPatnerlinkFaultIVP with the error: ',substring(ora:getFaultAsString(),1,bpws:getVariableData('Err_msg_length')))"/>
+              <to variable="outputVariable" part="part"
+                  query="/ns5:Output/ns5:ValidateSOAUPGIVPRes/ns5:FndIntgUPGCheckDynamicPatnerlinkFaultIVP/ns5:AdditionalNote"/>
+            </copy>
+            <copy>
+              <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','FndIntgUPGCheckDynamicPatnerlinkFaultIVP Flt',string(bpws:getVariableData('outputVariable','part','/ns5:Output/ns5:ValidateSOAUPGIVPRes/ns5:FndIntgUPGCheckDynamicPatnerlinkFaultIVP/ns5:AdditionalNote')),string('3'),'FndIntgValidateSOAUPGIVP')"/>
+              <to variable="SNIFault" part="payload" query="/ns11:SNIFault"/>
+            </copy>
+            <copy>
+              <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateSOAUPGIVP-Fault Occurred at the scope FndIntgUPGCheckDynamicPatnerlinkFaultIVP ',bpws:getVariableData('SNIHeader','/ns11:SNIHeader/ns11:BusinessKey')),string('SEVERE'))"/>
+              <to variable="logStatus"/>
+            </copy>
+          </assign>
+        </catchAll>
+      </faultHandlers>
+      <sequence name="Sequence5">
+        <switch name="Switch6">
+          <case condition="xp20:upper-case(string(bpws:getVariableData('inputVariable','part','/ns5:Input/ns5:ValidateSOAUPGIVPReq/ns5:FndIntgUPGCheckDynamicPatnerlinkFaultIVP')))='TRUE'">
+            <bpelx:annotation>
+              <bpelx:general>
+                <bpelx:property name="userLabel">If FndIntgUPGCheckDynamicPatnerlinkFaultIVP</bpelx:property>
+              </bpelx:general>
+            </bpelx:annotation>
+            <sequence name="Sequence6">
+              <assign name="AssignInput">
+                <copy>
+                  <from expression="'UPGIVP'"/>
+                  <to variable="InvokeCheckUPGDynamicPartnerlinkFaultSOAIVPSvc_InputVariable"
+                      part="payload" query="/ns9:process/ns9:input"/>
+                </copy>
+              </assign>
+              <invoke name="InvokeCheckUPGDynamicPartnerlinkFaultSOAIVPSvc"
+                      bpelx:invokeAsDetail="no"
+                      inputVariable="InvokeCheckUPGDynamicPartnerlinkFaultSOAIVPSvc_InputVariable"
+                      outputVariable="InvokeCheckUPGDynamicPartnerlinkFaultSOAIVPSvc_OutputVariable"
+                      partnerLink="CheckUPGDynamicPartnerlinkFaultSOAIVPSvc"
+                      portType="ns4:CheckUPGDynamicPatnerlinkFaultSOAIVPSvc"
+                      operation="process"/>
+              <switch name="Switch7">
+                <case condition="bpws:getVariableData('InvokeCheckUPGDynamicPartnerlinkFaultSOAIVPSvc_OutputVariable','payload','/ns9:processResponse/ns9:result')='Success'">
+                  <bpelx:annotation>
+                    <bpelx:general>
+                      <bpelx:property name="userLabel">If Success</bpelx:property>
+                    </bpelx:general>
+                  </bpelx:annotation>
+                  <assign name="AssignSuccess">
+                    <copy>
+                      <from expression="'Success'"/>
+                      <to variable="outputVariable" part="part"
+                          query="/ns5:Output/ns5:ValidateSOAUPGIVPRes/ns5:FndIntgUPGCheckDynamicPatnerlinkFaultIVP/ns5:Status"/>
+                    </copy>
+                  </assign>
+                </case>
+                <otherwise>
+                  <assign name="AssignNotSuccess">
+                    <copy>
+                      <from expression="bpws:getVariableData('InvokeCheckUPGDynamicPartnerlinkFaultSOAIVPSvc_OutputVariable','payload','/ns9:processResponse/ns9:result')"/>
+                      <to variable="outputVariable" part="part"
+                          query="/ns5:Output/ns5:ValidateSOAUPGIVPRes/ns5:FndIntgUPGCheckDynamicPatnerlinkFaultIVP/ns5:Status"/>
+                    </copy>
+                    <copy>
+                      <from expression="'Error in capturing fault in FndIntgUPGCheckDynamicPatnerlinkFaultIVP'"/>
+                      <to variable="outputVariable" part="part"
+                          query="/ns5:Output/ns5:ValidateSOAUPGIVPRes/ns5:FndIntgUPGCheckDynamicPatnerlinkFaultIVP/ns5:AdditionalNote"/>
+                    </copy>
+                    <copy>
+                      <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','FndIntgUPGCheckDynamicPatnerlinkFaultIVP Flt',string(bpws:getVariableData('outputVariable','part','/ns5:Output/ns5:ValidateSOAUPGIVPRes/ns5:FndIntgUPGCheckDynamicPatnerlinkFaultIVP/ns5:AdditionalNote')),string('3'),'FndIntgValidateSOAUPGIVP')"/>
+                      <to variable="SNIFault" part="payload"
+                          query="/ns11:SNIFault"/>
+                    </copy>
+                    <copy>
+                      <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateSOAUPGIVP-Fault Occurred at the scope FndIntgUPGCheckDynamicPatnerlinkFaultIVP ',bpws:getVariableData('SNIHeader','/ns11:SNIHeader/ns11:BusinessKey')),string('SEVERE'))"/>
+                      <to variable="logStatus"/>
+                    </copy>
+                  </assign>
+                </otherwise>
+              </switch>
+            </sequence>
+          </case>
+          <otherwise>
+            <assign name="NoInvocation">
+              <copy>
+                <from expression="'Skipped'"/>
+                <to variable="outputVariable" part="part"
+                    query="/ns5:Output/ns5:ValidateSOAUPGIVPRes/ns5:FndIntgUPGCheckDynamicPatnerlinkFaultIVP/ns5:Status"/>
+              </copy>
+            </assign>
+          </otherwise>
+        </switch>
+      </sequence>
+    </scope>
+    <assign name="AssignOtherDetails">
+      <copy>
+        <from expression="xp20:current-dateTime()"/>
+        <to variable="outputVariable" part="part"
+            query="/ns5:Output/ns5:ValidateSOAUPGIVPRes/ns5:OtherDetails/ns5:ExecutionEndTime"/>
+      </copy>
+      <copy>
+        <from expression="sniutil:getHostName()"/>
+        <to variable="outputVariable" part="part"
+            query="/ns5:Output/ns5:ValidateSOAUPGIVPRes/ns5:OtherDetails/ns5:ServerName"/>
+      </copy>
+    </assign>
+    <assign name="Xform_TrimEmptyElements_Output">
+      <bpelx:annotation>
+        <bpelx:pattern>transformation</bpelx:pattern>
+      </bpelx:annotation>
+      <copy>
+        <from expression="ora:doXSLTransformForDoc('xsl/Xform_TrimEmptyElements_Output.xsl', $outputVariable.part)"/>
+        <to variable="outputVariable" part="part"/>
+      </copy>
+    </assign>
+    <assign name="LogMessage">
+      <copy>
+        <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateSOAUPGIVP-Exit',bpws:getVariableData('SNIHeader','/ns11:SNIHeader/ns11:BusinessKey')),string('INFO'))"/>
+        <to variable="logStatus"/>
+      </copy>
+    </assign>
+    <reply name="replyOutput" partnerLink="fndintgvalidatesoaupgivp_client"
+           portType="ns1:FndIntgValidateSOAUPGIVPPortType"
+           operation="FndIntgValidateSOAUPGIVP" variable="outputVariable"/>
+    <!--<assign name="AssignFileOutput">
+      <copy>
+        <from variable="outputVariable" part="part"
+              query="/ns5:Output/ns5:ValidateSOAUPGIVPRes"/>
+        <to variable="InvokeWriteOutputFile_Write_InputVariable" part="body"
+            query="/ns5:Output/ns5:ValidateSOAUPGIVPRes"/>
+      </copy>
+      <copy>
+        <from expression='ora:getPreference("FileWriteDirectory")'/>
+        <to variable="FilePath"/>
+      </copy>
+    </assign>
+    <invoke name="InvokeWriteOutputFile"
+            inputVariable="InvokeWriteOutputFile_Write_InputVariable" partnerLink="WriteOutputFile"
+            portType="ns10:Write_ptt" operation="Write"
+            bpelx:invokeAsDetail="no">
+      <bpelx:inputProperty name="jca.file.Directory" variable="FilePath"/>
+    </invoke>-->
+    <!-- Generate reply to synchronous request -->
+  </sequence>
+</process>

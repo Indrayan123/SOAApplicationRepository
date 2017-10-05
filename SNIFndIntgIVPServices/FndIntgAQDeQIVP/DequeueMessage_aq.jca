@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<adapter-config name="DequeueMessage" adapter="aq" wsdlLocation="DequeueMessage.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+   <connection-factory location="eis/AQ/SOAIVP" UIConnectionName="s2aw0_soa5soainfra"/>
+   <endpoint-activation portType="Dequeue_ptt" operation="Dequeue">
+      <activation-spec className="oracle.tip.adapter.aq.inbound.AQDequeueActivationSpec">
+         <property name="SchemaValidation" value="false"/>
+         <property name="Consumer" value="FndIntgAQDeQIVP"/>
+         <property name="QueueName" value="IP_IN_QUEUE"/>
+         <property name="ObjectFieldName" value="PAYLOAD"/>
+         <property name="DatabaseSchema" value="SOA5_SOAINFRA"/>
+      </activation-spec>
+   </endpoint-activation>
+</adapter-config>

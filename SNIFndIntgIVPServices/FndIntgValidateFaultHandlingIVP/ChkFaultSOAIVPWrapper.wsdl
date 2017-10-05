@@ -1,0 +1,27 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="ChkFaultSOAIVP"
+     targetNamespace="http://xmlns.schneider.com/SNIFndIntgIVPServices/ChkFaultSOAIVPSvc"
+     xmlns:ns1="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1"
+     xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:tns="http://xmlns.schneider.com/SNIFndIntgIVPServices/ChkFaultSOAIVPSvc"
+     xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    >
+    <plnk:partnerLinkType name="FndIntgValidateFaultHandlingIVP">
+        <plnk:role name="ChkFaultSOAIVPPortType">
+            <plnk:portType name="tns:ChkFaultSOAIVPPortType"/>
+        </plnk:role>
+    </plnk:partnerLinkType>
+    <wsdl:import namespace="http://xmlns.schneider.com/SNIFndIntgIVPServices/ChkFaultSOAIVPSvc"
+         location="oramds:/apps/SNIComponents/FoundationServiceLibrary/IVP/ChkFaultSOAIVP.wsdl"/>
+    <wsdl:types>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1"
+             xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:tns="http://xmlns.schneider.com/SNIFndIntgIVPServices/ChkFaultSOAIVPSvc"
+             xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+            <xsd:import namespace="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1" schemaLocation="oramds:/apps/SNIComponents/EnterpriseObjectLibrary/Core/Common/V1/SNICore.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+</wsdl:definitions>

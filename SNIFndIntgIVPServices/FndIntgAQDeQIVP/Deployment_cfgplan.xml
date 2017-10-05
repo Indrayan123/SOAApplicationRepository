@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<SOAConfigPlan xmlns:jca="http://platform.integration.oracle/blocks/adapter/fw/metadata" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:orawsp="http://schemas.oracle.com/ws/2006/01/policy" xmlns:edl="http://schemas.oracle.com/events/edl" xmlns="http://schemas.oracle.com/soa/configplan">
+   <composite name="FndIntgAQDeQIVP">
+      <import>
+         <searchReplace>
+            <search/>
+            <replace/>
+         </searchReplace>
+      </import>
+      <service name="DequeueMessage">
+         <binding type="jca">
+            <property name="jca.retry.count">
+               <replace>2</replace>
+            </property>
+            <property name="jca.retry.interval">
+               <replace>10</replace>
+            </property>
+         </binding>
+      </service>
+      <component name="FndIntgAQDeQIVP">
+         <property name="bpel.config.transaction">
+            <replace>required</replace>
+         </property>
+         <property name="bpel.config.oneWayDeliveryPolicy">
+            <replace>sync</replace>
+         </property>
+      </component>
+   </composite>
+   <wsdlAndSchema name="DequeueMessage.wsdl|DequeueMessage_aq.jca|xsd/SOA5_SOAINFRA_IP_MESSAGE_TYPE.xsd|xsd/test.xsd">
+      <!--<searchReplace>
+         <search/>
+         <replace/>
+      </searchReplace>-->
+	  <jca:property name="DatabaseSchema">
+         <replace>${foundation.rt.soa.aqschema.url}</replace>
+      </jca:property> 
+   </wsdlAndSchema>
+</SOAConfigPlan>

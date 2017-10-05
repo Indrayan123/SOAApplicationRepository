@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<adapter-config name="DBAdapter" adapter="db" wsdlLocation="DBAdapter.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/DB/SNI" UIConnectionName="soaunt24_s2ah0" adapterRef=""/>
+  <endpoint-interaction portType="DBAdapter_ptt" operation="DBAdapterSelect">
+    <interaction-spec className="oracle.tip.adapter.db.DBReadInteractionSpec">
+      <property name="DescriptorName" value="DBAdapter.Fndintgsoaivp"/>
+      <property name="QueryName" value="DBAdapterSelect"/>
+      <property name="MappingsMetaDataURL" value="DBAdapter-or-mappings.xml"/>
+      <property name="ReturnSingleResultSet" value="false"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

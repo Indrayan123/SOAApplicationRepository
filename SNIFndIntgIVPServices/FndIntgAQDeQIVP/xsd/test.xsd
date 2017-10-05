@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.globalcompany.com/ns/sales" xmlns:test="http://www.globalcompany.com/ns/sales" elementFormDefault="qualified">
+   <element name="test" type="test:testType"/>
+   <complexType name="testType">
+      <sequence>
+         <element name="ID" type="string"/>
+         <element name="Street" type="string"/>
+         <element name="City" type="string"/>
+         <element name="State" type="string"/>
+         <element name="Zip" type="string"/>
+         <element name="Country" type="string"/>
+      </sequence>
+   </complexType>
+</schema>

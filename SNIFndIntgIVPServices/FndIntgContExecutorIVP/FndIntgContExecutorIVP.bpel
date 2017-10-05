@@ -1,0 +1,148 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Mon Apr 04 08:17:38 CDT 2016
+  Author:  f23963
+  Type: BPEL 1.1 Process
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="FndIntgContExecutorIVP"
+               targetNamespace="http://xmlns.schneider.com/SNIFndIntgIVPServices/FndIntgContExecutorIVP/FndIntgContExecutorIVP"
+               xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+               xmlns:client="http://xmlns.schneider.com/SNIFndIntgIVPServices/FndIntgContExecutorIVP/FndIntgContExecutorIVP"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:ns1="http://xmlns.schneider.com/SNIFndIntgIVPServices/FndIntgContValidatorIVP/FndIntgContValidatorIVP"
+         xmlns:bpel2="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns2="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap">
+
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    --> 
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="fndintgcontexecutorivp_client" partnerLinkType="client:FndIntgContExecutorIVP" myRole="FndIntgContExecutorIVPProvider"/>
+    <partnerLink name="FndIntgContValidatorIVP"
+                 partnerLinkType="ns1:FndIntgContValidatorIVP"
+                 partnerRole="FndIntgContValidatorIVPProvider"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:FndIntgContExecutorIVPRequestMessage"/>
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="outputVariable" messageType="client:FndIntgContExecutorIVPResponseMessage"/>
+    <variable name="InvokeContextValidator_InputVariable"
+              messageType="ns1:FndIntgContValidatorIVPRequestMessage"/>
+    <variable name="InvokeContextValidator_OutputVariable"
+              messageType="ns1:FndIntgContValidatorIVPResponseMessage"/>
+  </variables>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in FndIntgContExecutorIVP.wsdl) -->
+    <receive name="receiveInput" partnerLink="fndintgcontexecutorivp_client" portType="client:FndIntgContExecutorIVP" operation="process" variable="inputVariable" createInstance="yes"/>
+    <assign name="AssignContextValidator">
+      <copy>
+        <from variable="inputVariable" part="payload"
+              query="/client:process/client:input"/>
+        <to variable="InvokeContextValidator_InputVariable" part="payload"
+            query="/ns1:process/ns1:input"/>
+      </copy>
+      <copy>
+        <from expression="'FNDINTG'"/>
+        <to variable="InvokeContextValidator_InputVariable" part="payload"
+            query="/ns1:process/ns2:SNIHeader/ns2:Target/ns2:Name"/>
+      </copy>
+      <copy>
+        <from expression="ora:getComponentInstanceId()"/>
+        <to variable="InvokeContextValidator_InputVariable" part="payload"
+            query="/ns1:process/ns2:SNIHeader/ns2:MessageID"/>
+      </copy>
+      <copy>
+        <from expression="'FndIntgContextValidator'"/>
+        <to variable="InvokeContextValidator_InputVariable" part="payload"
+            query="/ns1:process/ns2:SNIHeader/ns2:MessageName"/>
+      </copy>
+      <copy>
+        <from expression="ora:getComponentInstanceId()"/>
+        <to variable="InvokeContextValidator_InputVariable" part="payload"
+            query="/ns1:process/ns2:SNIHeader/ns2:BusinessKey"/>
+      </copy>
+      <copy>
+        <from expression="xp20:current-dateTime()"/>
+        <to variable="InvokeContextValidator_InputVariable" part="payload"
+            query="/ns1:process/ns2:SNIHeader/ns2:CreatedDateTime"/>
+      </copy>
+      <copy>
+        <from expression="'FNDINTG'"/>
+        <to variable="InvokeContextValidator_InputVariable" part="payload"
+            query="/ns1:process/ns2:SNIHeader/ns2:Sender/ns2:Name"/>
+      </copy>
+      <copy>
+        <from expression="'FNDINTGCONTEXTVALIDATOR'"/>
+        <to variable="InvokeContextValidator_InputVariable" part="payload"
+            query="/ns1:process/ns2:SNIHeader/ns2:Sender/ns2:ApplicationName"/>
+      </copy>
+      <copy>
+        <from expression="'FNDINTGCONTEXTVALIDATOR'"/>
+        <to variable="InvokeContextValidator_InputVariable" part="payload"
+            query="/ns1:process/ns2:SNIHeader/ns2:Target/ns2:ApplicationName"/>
+      </copy>
+      <copy>
+        <from expression="''"/>
+        <to variable="InvokeContextValidator_InputVariable" part="payload"
+            query="/ns1:process/ns2:SNIHeader/ns2:HeaderExtension/ns2:Value/@Name"/>
+      </copy>
+    </assign>
+    <invoke name="InvokeContextValidator" bpelx:invokeAsDetail="no"
+            inputVariable="InvokeContextValidator_InputVariable"
+            outputVariable="InvokeContextValidator_OutputVariable"
+            partnerLink="FndIntgContValidatorIVP"
+            portType="ns1:FndIntgContValidatorIVP" operation="process"/>
+    <assign name="GenResponse">
+      <copy>
+        <from variable="InvokeContextValidator_OutputVariable" part="payload"
+              query="/ns1:processResponse/ns1:result"/>
+        <to variable="outputVariable" part="payload"
+            query="/client:processResponse/client:result"/>
+      </copy>
+    </assign>
+    <!-- Generate reply to synchronous request -->
+    <reply name="replyOutput" partnerLink="fndintgcontexecutorivp_client" portType="client:FndIntgContExecutorIVP" operation="process" variable="outputVariable"/>
+  </sequence>
+</process>

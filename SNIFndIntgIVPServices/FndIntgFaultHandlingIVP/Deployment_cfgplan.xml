@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAConfigPlan xmlns:jca="http://platform.integration.oracle/blocks/adapter/fw/metadata" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:orawsp="http://schemas.oracle.com/ws/2006/01/policy" xmlns:edl="http://schemas.oracle.com/events/edl" xmlns="http://schemas.oracle.com/soa/configplan">
+   <composite name="FndIntgFaultHandlingIVP">
+      <!--Add search and replace rules for the import section of a composite
+	Example:
+	<searchReplace>
+		<search>http://my-dev-server</search>
+		<replace>http://my-test-server</replace>
+	<searchReplace>
+	<searchReplace>
+		<search>8888</search>
+		<replace>8889</replace>
+	<searchReplace>-->
+      <import>
+         <searchReplace>
+            <search/>
+            <replace/>
+         </searchReplace>
+      </import>
+      <service name="fndintgfaulthandlebpel_client_ep">
+         <binding type="ws">
+            <attribute name="port">
+               <replace>http://xmlns.oracle.com/SNIFndIntgIVPServices/FndIntgFaultHandlingIVP/FndIntgFaultHandleBPEL#wsdl.endpoint(fndintgfaulthandlebpel_client_ep/FndIntgFaultHandleBPEL_pt)</replace>
+            </attribute>
+         </binding>
+      </service>
+      <property name="oracle.composite.faultPolicyFile">
+         <replace>oramds:/apps/SNIComponents/faultpolicies/SOAFaultPolicies.xml</replace>
+      </property>
+      <!--Add search and replace rules for the component properties
+	For components and service/reference bindings, you can add policy references.
+	Example:
+	<component name="*">
+		<wsp:PolicyReference orawsp:category="management" orawsp:status="enabled" URI="oracle/log_policy"/>
+	</component>-->
+      <component name="RemoteFaultThrowBPEL">
+         <property name="bpel.config.transaction">
+            <replace>required</replace>
+         </property>
+      </component>
+      <component name="FndIntgFaultHandleBPEL">
+         <property name="bpel.config.transaction">
+            <replace>required</replace>
+         </property>
+      </component>
+      <component name="BindingFaultThrowBPEL">
+         <property name="bpel.config.transaction">
+            <replace>required</replace>
+         </property>
+      </component>
+   </composite>
+</SOAConfigPlan>

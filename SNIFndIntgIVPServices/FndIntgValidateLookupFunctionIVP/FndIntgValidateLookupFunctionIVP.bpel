@@ -1,0 +1,798 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Thu Jul 07 08:43:47 CDT 2016
+  Author:  f23963
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="FndIntgValidateLookupFunctionIVP"
+               targetNamespace="http://xmlns.oracle.com/SNIFndIntgIVPServices/FndIntgValidateLookupFunctionIVP/FndIntgValidateLookupFunctionIVP"
+               xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+               xmlns:client="http://xmlns.oracle.com/SNIFndIntgIVPServices/FndIntgValidateLookupFunctionIVP/FndIntgValidateLookupFunctionIVP"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+               xmlns:ns1="http://xmlns.schneider.com/SNIFndIntgIVPServices/ChkLookupSOAIVPSvc"
+               xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+               xmlns:snibpel="http://xmlns.schneider.com/BPEL/sni/foundation/soa/extensions/xpath"
+         xmlns:ns2="http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/FndIntgXrefLookupIVP/FnfIntgXreflookupIVP"
+         xmlns:ns3="http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/FndIntgXrefPopulateIVP/FndIntgXrefPopulateIVP"
+         xmlns:ns4="http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/FndIntgSNICreateXRefRowIVP/FndIntgSNICreateXRefRowIVP"
+         xmlns:ns5="http://xmlns.oracle.com/SNIFndIntgIVPServices/FndIntgBCSLookupIVP/FndIntgBCSLookupIVP"
+         xmlns:ns6="http://xmlns.oracle.com/SNIFndIntgIVP_jws/FndIntgLookupDVMIVP/FndIntgLookupDVM"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpel2="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:ns7="http://xmlns.schneider.com/SNIFndIntgIVPServices/ChkLookupSOAIVP"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+         xmlns:ns8="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1">
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      PARTNERLINKS                                                      
+      List of services participating in this BPEL process               
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  --> 
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="fndintgvalidatelookupfunctionivp_client" partnerLinkType="ns1:FndIntgValidateLookupFunctionIVP" myRole="ChkLookupSOAIVPPortType"/>
+    <partnerLink name="FndIntgXrefLookupIVPSvc"
+                 partnerLinkType="ns2:FnfIntgXreflookupIVP"
+                 partnerRole="FnfIntgXreflookupIVPProvider"/>
+    <partnerLink name="FndIntgXrefPopulateIVPSvc"
+                 partnerLinkType="ns3:FndIntgXrefPopulateIVP"
+                 partnerRole="FndIntgXrefPopulateIVPProvider"/>
+    <partnerLink name="FndIntgSNICreateXRefRowIVPSvc"
+                 partnerLinkType="ns4:FndIntgSNICreateXRefRowIVP"
+                 partnerRole="FndIntgSNICreateXRefRowIVPProvider"/>
+    <partnerLink name="FndIntgBCSLookupIVPSvc"
+                 partnerLinkType="ns5:FndIntgBCSLookupIVP"
+                 partnerRole="FndIntgBCSLookupIVPProvider"/>
+    <partnerLink name="FndIntgLookupDVMIVPSvc"
+                 partnerLinkType="ns6:FndIntgLookupDVM"
+                 partnerRole="FndIntgLookupDVMProvider"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="ns1:InputMessage"/>
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="outputVariable" messageType="ns1:OuputMessage"/>
+    <variable name="Err_msg_length" type="xsd:double"/>
+    <variable name="InvokePopulateXref_InputVariable"
+              messageType="ns3:FndIntgXrefPopulateIVPRequestMessage"/>
+    <variable name="InvokePopulateXref_OutputVariable"
+              messageType="ns3:FndIntgXrefPopulateIVPResponseMessage"/>
+    <variable name="InvokeFndIntgXrefLookup_InputVariable"
+              messageType="ns2:FnfIntgXreflookupIVPRequestMessage"/>
+    <variable name="InvokeFndIntgXrefLookup_OutputVariable"
+              messageType="ns2:FnfIntgXreflookupIVPResponseMessage"/>
+    <variable name="InvokeBCSLookupIVP_InputVariable"
+              messageType="ns5:FndIntgBCSLookupIVPRequestMessage"/>
+    <variable name="InvokeBCSLookupIVP_OutputVariable"
+              messageType="ns5:FndIntgBCSLookupIVPResponseMessage"/>
+    <variable name="InvokeFndIntgSNICreateXrefRowIVP_InputVariable"
+              messageType="ns4:FndIntgSNICreateXRefRowIVPRequestMessage"/>
+    <variable name="InvokeFndIntgSNICreateXrefRowIVP_OutputVariable"
+              messageType="ns4:FndIntgSNICreateXRefRowIVPResponseMessage"/>
+    <variable name="InvokeFndIntgLookupDVMIVP_InputVariable"
+              messageType="ns6:FndIntgLookupDVMRequestMessage"/>
+    <variable name="InvokeFndIntgLookupDVMIVP_OutputVariable"
+              messageType="ns6:FndIntgLookupDVMResponseMessage"/>
+    <variable name="SNIHeader" element="ns8:SNIHeader"/>
+    <variable name="SNIFault" messageType="ns1:SNIFaultMessage"/>
+    <variable name="logStatus" type="xsd:string"/>
+  </variables>
+  <faultHandlers>
+    <catchAll>
+      <sequence name="Sequence9">
+        <assign name="createFault">
+          <copy>
+            <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','ValidateLookup Function Flt',string(ora:getFaultAsString()),string('3'),'FndIntgValidateLookupFunctionIVP')"/>
+            <to variable="SNIFault" part="payload" query="/ns8:SNIFault"/>
+          </copy>
+          <copy>
+            <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateLookupFunctionIVP-Fault Occurred at CATCHALL',bpws:getVariableData('SNIHeader','/ns8:SNIHeader/ns8:BusinessKey')),string('SEVERE'))"/>
+            <to variable="logStatus"/>
+          </copy>
+        </assign>
+        <reply name="ReplywithFault" faultName="ns1:SNIFault"
+               variable="SNIFault"
+               partnerLink="fndintgvalidatelookupfunctionivp_client"
+               portType="ns1:ChkLookupSOAIVPPortType"
+               operation="ChkLookupSOAIVP"/>
+      </sequence>
+    </catchAll>
+  </faultHandlers>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in FndIntgValidateLookupFunctionIVP.wsdl) -->
+    <receive name="receiveInput" partnerLink="fndintgvalidatelookupfunctionivp_client" portType="ns1:ChkLookupSOAIVPPortType" operation="ChkLookupSOAIVP" variable="inputVariable" createInstance="yes"/>
+    <assign name="createHeader">
+      <copy>
+        <from expression="snibpel:createSNIHeader('SOA-FndIntgValidateLookupFunctionIVP','IVP-Lookup','FndIntgValidateLookupFunctionIVP','SOAIVP','SOA','')"/>
+        <to variable="SNIHeader" query="/ns8:SNIHeader"/>
+      </copy>
+      <copy>
+        <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateLookupFunctionIVP-Enter',bpws:getVariableData('SNIHeader','/ns8:SNIHeader/ns8:BusinessKey')),string('INFO'))"/>
+        <to variable="logStatus"/>
+      </copy>
+    </assign>
+    <switch name="CheckErrorLength">
+      <case condition="string-length(string(bpws:getVariableData('inputVariable','part','/ns7:Input/ns7:Err_Msg_Length')))!='0.0'">
+        <bpelx:annotation>
+          <bpelx:general>
+            <bpelx:property name="userLabel">Is Error Length?</bpelx:property>
+          </bpelx:general>
+        </bpelx:annotation>
+        <assign name="AssignErrorLength">
+          <copy>
+            <from variable="inputVariable" part="part"
+                  query="/ns7:Input/ns7:Err_Msg_Length"/>
+            <to variable="Err_msg_length"/>
+          </copy>
+        </assign>
+      </case>
+      <otherwise>
+        <assign name="AssignErrorLength">
+          <copy>
+            <from expression="number('200')"/>
+            <to variable="Err_msg_length"/>
+          </copy>
+        </assign>
+      </otherwise>
+    </switch>
+    <scope name="FndIntXrefLookupXrefIVP" variableAccessSerializable="no">
+      <faultHandlers>
+        <catchAll>
+          <switch name="Switch3">
+            <case condition="contains(ora:getFaultAsString(),'lookup could not find values')='true'">
+              <bpelx:annotation>
+                <bpelx:general>
+                  <bpelx:property name="userLabel">NoDataFound</bpelx:property>
+                </bpelx:general>
+              </bpelx:annotation>
+              <assign name="AssignResponse">
+                <copy>
+                  <from expression="'Failure'"/>
+                  <to variable="outputVariable" part="part"
+                      query="/ns7:Output/ns7:ValidateLookupFunctionRes/ns7:fndintglookupxrefivp/ns7:Status"/>
+                </copy>
+                <copy>
+                  <from expression="'No Data Found'"/>
+                  <to variable="outputVariable" part="part"
+                      query="/ns7:Output/ns7:ValidateLookupFunctionRes/ns7:fndintglookupxrefivp/ns7:AdditionalNote"/>
+                </copy>
+                <copy>
+                  <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','FndIntgLookupXREFIVP Function Flt',string(bpws:getVariableData('outputVariable','part','/ns7:Output/ns7:ValidateLookupFunctionRes/ns7:fndintglookupxrefivp/ns7:AdditionalNote')),string('3'),'FndIntgValidateLookupFunctionIVP')"/>
+                  <to variable="SNIFault" part="payload" query="/ns8:SNIFault"/>
+                </copy>
+                <copy>
+                  <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateLookupFunctionIVP-Fault Occurred at the scope FndIntgLookupXefIVP',bpws:getVariableData('SNIHeader','/ns8:SNIHeader/ns8:BusinessKey')),string('SEVERE'))"/>
+                  <to variable="logStatus"/>
+                </copy>
+              </assign>
+            </case>
+            <otherwise>
+              <assign name="AssignErrorResponse">
+                <copy>
+                  <from expression="'Failure'"/>
+                  <to variable="outputVariable" part="part"
+                      query="/ns7:Output/ns7:ValidateLookupFunctionRes/ns7:fndintglookupxrefivp/ns7:Status"/>
+                </copy>
+                <copy>
+                  <from expression="concat('FAILED in FndIntgXrefLookupIVP with the error: ',substring(ora:getFaultAsString(),1,bpws:getVariableData('Err_msg_length')))"/>
+                  <to variable="outputVariable" part="part"
+                      query="/ns7:Output/ns7:ValidateLookupFunctionRes/ns7:fndintglookupxrefivp/ns7:AdditionalNote"/>
+                </copy>
+                <copy>
+                  <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','FndIntgLookupXREFIVP Function Flt',string(bpws:getVariableData('outputVariable','part','/ns7:Output/ns7:ValidateLookupFunctionRes/ns7:fndintglookupxrefivp/ns7:AdditionalNote')),string('3'),'FndIntgValidateLookupFunctionIVP')"/>
+                  <to variable="SNIFault" part="payload" query="/ns8:SNIFault"/>
+                </copy>
+                <copy>
+                  <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateLookupFunctionIVP-Fault Occurred at the scope FndIntgLookupXefIVP',bpws:getVariableData('SNIHeader','/ns8:SNIHeader/ns8:BusinessKey')),string('SEVERE'))"/>
+                  <to variable="logStatus"/>
+                </copy>
+              </assign>
+            </otherwise>
+          </switch>
+        </catchAll>
+      </faultHandlers>
+      <switch name="Switch2">
+        <case condition="xp20:upper-case(string(bpws:getVariableData('inputVariable','part','/ns7:Input/ns7:ValidateLookupFunctionReq/ns7:fndintglookupxrefivp')))='TRUE'">
+          <bpelx:annotation>
+            <bpelx:general>
+              <bpelx:property name="userLabel">If fndintglookupxref is true</bpelx:property>
+            </bpelx:general>
+          </bpelx:annotation>
+          <sequence name="Sequence2">
+            <assign name="AssignInput">
+              <copy>
+                <from expression="'oramds:/deployed-composites/fndintgivp/FndIntgSampleCrossRefIVP_rev1.0/FndIntgIVPXREF.xref'"/>
+                <to variable="InvokeFndIntgXrefLookup_InputVariable"
+                    part="payload" query="/ns2:process/ns2:xrefLocation"/>
+              </copy>
+              <copy>
+                <from expression="'system1'"/>
+                <to variable="InvokeFndIntgXrefLookup_InputVariable"
+                    part="payload" query="/ns2:process/ns2:refColumnname"/>
+              </copy>
+              <copy>
+                <from expression="'val1'"/>
+                <to variable="InvokeFndIntgXrefLookup_InputVariable"
+                    part="payload" query="/ns2:process/ns2:refvalue"/>
+              </copy>
+              <copy>
+                <from expression="'system2'"/>
+                <to variable="InvokeFndIntgXrefLookup_InputVariable"
+                    part="payload" query="/ns2:process/ns2:Columnname"/>
+              </copy>
+            </assign>
+            <invoke name="InvokeFndIntgXrefLookup" bpelx:invokeAsDetail="no"
+                    inputVariable="InvokeFndIntgXrefLookup_InputVariable"
+                    outputVariable="InvokeFndIntgXrefLookup_OutputVariable"
+                    partnerLink="FndIntgXrefLookupIVPSvc"
+                    portType="ns2:FnfIntgXreflookupIVP" operation="process"/>
+            <assign name="AssignResponse">
+              <copy>
+                <from expression="'Success'"/>
+                <to variable="outputVariable" part="part"
+                    query="/ns7:Output/ns7:ValidateLookupFunctionRes/ns7:fndintglookupxrefivp/ns7:Status"/>
+              </copy>
+            </assign>
+          </sequence>
+        </case>
+        <otherwise>
+          <assign name="NoInvocation">
+            <copy>
+              <from expression="'Skipped'"/>
+              <to variable="outputVariable" part="part"
+                  query="/ns7:Output/ns7:ValidateLookupFunctionRes/ns7:fndintglookupxrefivp/ns7:Status"/>
+            </copy>
+          </assign>
+        </otherwise>
+      </switch>
+    </scope>
+    <scope name="FndIntgPopulateXrefIVP" variableAccessSerializable="no">
+      <faultHandlers>
+        <catchAll>
+          <assign name="AssignErrorResponse">
+            <copy>
+              <from expression="'Failure'"/>
+              <to variable="outputVariable" part="part"
+                  query="/ns7:Output/ns7:ValidateLookupFunctionRes/ns7:fndintgPopulatexrefivp/ns7:Status"/>
+            </copy>
+            <copy>
+              <from expression="concat('FAILED in FndIntgPopulateXrefIVP with the error: ',substring(ora:getFaultAsString(),1,bpws:getVariableData('Err_msg_length')))"/>
+              <to variable="outputVariable" part="part"
+                  query="/ns7:Output/ns7:ValidateLookupFunctionRes/ns7:fndintgPopulatexrefivp/ns7:AdditionalNote"/>
+            </copy>
+            <copy>
+              <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','FndIntgPopulateXREFIVP Function Flt',string(bpws:getVariableData('outputVariable','part','/ns7:Output/ns7:ValidateLookupFunctionRes/ns7:fndintgPopulatexrefivp/ns7:AdditionalNote')),string('3'),'FndIntgValidateLookupFunctionIVP')"/>
+              <to variable="SNIFault" part="payload" query="/ns8:SNIFault"/>
+            </copy>
+            <copy>
+              <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateLookupFunctionIVP-Fault Occurred at the scope FndIntgPopulateXefIVP',bpws:getVariableData('SNIHeader','/ns8:SNIHeader/ns8:BusinessKey')),string('SEVERE'))"/>
+              <to variable="logStatus"/>
+            </copy>
+          </assign>
+        </catchAll>
+      </faultHandlers>
+      <sequence name="Sequence1">
+        <switch name="Switch1">
+          <case condition="xp20:upper-case(string(bpws:getVariableData('inputVariable','part','/ns7:Input/ns7:ValidateLookupFunctionReq/ns7:fndintgPopulatexrefivp')))='TRUE'">
+            <bpelx:annotation>
+              <bpelx:general>
+                <bpelx:property name="userLabel">If fndintgpopulatexref is true</bpelx:property>
+              </bpelx:general>
+            </bpelx:annotation>
+            <sequence>
+              <switch name="Switch4">
+                <case condition="contains(bpws:getVariableData('outputVariable','part','/ns7:Output/ns7:ValidateLookupFunctionRes/ns7:fndintglookupxrefivp/ns7:Status'),'Skipped')">
+                  <bpelx:annotation>
+                    <bpelx:general>
+                      <bpelx:property name="userLabel">LookUp Skipped</bpelx:property>
+                    </bpelx:general>
+                  </bpelx:annotation><assign name="AssignInput"
+                                             xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+                    <copy>
+                      <from expression="'oramds:/deployed-composites/fndintgivp/FndIntgSampleCrossRefIVP_rev1.0/FndIntgIVPXREF.xref'"/>
+                      <to variable="InvokePopulateXref_InputVariable"
+                          part="payload" query="/ns3:process/ns3:xrefLocation"/>
+                    </copy>
+                    <copy>
+                      <from expression="'system1'"/>
+                      <to variable="InvokePopulateXref_InputVariable"
+                          part="payload"
+                          query="/ns3:process/ns3:refColumnname"/>
+                    </copy>
+                    <copy>
+                      <from expression="ora:getComponentInstanceId()"/>
+                      <to variable="InvokePopulateXref_InputVariable"
+                          part="payload" query="/ns3:process/ns3:refValue"/>
+                    </copy>
+                    <copy>
+                      <from expression="'system2'"/>
+                      <to variable="InvokePopulateXref_InputVariable"
+                          part="payload" query="/ns3:process/ns3:columnName"/>
+                    </copy>
+                    <copy>
+                      <from expression="ora:getComponentInstanceId()"/>
+                      <to variable="InvokePopulateXref_InputVariable"
+                          part="payload" query="/ns3:process/ns3:Value"/>
+                    </copy>
+                    <copy>
+                      <from expression="'ADD'"/>
+                      <to variable="InvokePopulateXref_InputVariable"
+                          part="payload" query="/ns3:process/ns3:Mode"/>
+                    </copy>
+                  </assign></case>
+                <case condition="contains(bpws:getVariableData('outputVariable','part','/ns7:Output/ns7:ValidateLookupFunctionRes/ns7:fndintglookupxrefivp/ns7:AdditionalNote'),'No Data Found')">
+                  <bpelx:annotation>
+                    <bpelx:general>
+                      <bpelx:property name="userLabel">ADD</bpelx:property>
+                    </bpelx:general>
+                  </bpelx:annotation>
+                  <assign name="AssignInput">
+                    <copy>
+                      <from expression="'oramds:/deployed-composites/fndintgivp/FndIntgSampleCrossRefIVP_rev1.0/FndIntgIVPXREF.xref'"/>
+                      <to variable="InvokePopulateXref_InputVariable"
+                          part="payload" query="/ns3:process/ns3:xrefLocation"/>
+                    </copy>
+                    <copy>
+                      <from expression="'system1'"/>
+                      <to variable="InvokePopulateXref_InputVariable"
+                          part="payload"
+                          query="/ns3:process/ns3:refColumnname"/>
+                    </copy>
+                    <copy>
+                      <from expression="'val1'"/>
+                      <to variable="InvokePopulateXref_InputVariable"
+                          part="payload" query="/ns3:process/ns3:refValue"/>
+                    </copy>
+                    <copy>
+                      <from expression="'system2'"/>
+                      <to variable="InvokePopulateXref_InputVariable"
+                          part="payload" query="/ns3:process/ns3:columnName"/>
+                    </copy>
+                    <copy>
+                      <from expression="'val2'"/>
+                      <to variable="InvokePopulateXref_InputVariable"
+                          part="payload" query="/ns3:process/ns3:Value"/>
+                    </copy>
+                    <copy>
+                      <from expression="'ADD'"/>
+                      <to variable="InvokePopulateXref_InputVariable"
+                          part="payload" query="/ns3:process/ns3:Mode"/>
+                    </copy>
+                  </assign>
+                </case>
+                <otherwise><assign name="AssignInput"
+                                   xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+                    <copy>
+                      <from expression="'oramds:/deployed-composites/fndintgivp/FndIntgSampleCrossRefIVP_rev1.0/FndIntgIVPXREF.xref'"/>
+                      <to variable="InvokePopulateXref_InputVariable"
+                          part="payload" query="/ns3:process/ns3:xrefLocation"/>
+                    </copy>
+                    <copy>
+                      <from expression="'system1'"/>
+                      <to variable="InvokePopulateXref_InputVariable"
+                          part="payload"
+                          query="/ns3:process/ns3:refColumnname"/>
+                    </copy>
+                    <copy>
+                      <from expression="'val1'"/>
+                      <to variable="InvokePopulateXref_InputVariable"
+                          part="payload" query="/ns3:process/ns3:refValue"/>
+                    </copy>
+                    <copy>
+                      <from expression="'system2'"/>
+                      <to variable="InvokePopulateXref_InputVariable"
+                          part="payload" query="/ns3:process/ns3:columnName"/>
+                    </copy>
+                    <copy>
+                      <from expression="'val2'"/>
+                      <to variable="InvokePopulateXref_InputVariable"
+                          part="payload" query="/ns3:process/ns3:Value"/>
+                    </copy>
+                    <copy>
+                      <from expression="'UPDATE'"/>
+                      <to variable="InvokePopulateXref_InputVariable"
+                          part="payload" query="/ns3:process/ns3:Mode"/>
+                    </copy>
+                  </assign></otherwise>
+              </switch>
+              <invoke name="InvokePopulateXref" bpelx:invokeAsDetail="no"
+                      inputVariable="InvokePopulateXref_InputVariable"
+                      outputVariable="InvokePopulateXref_OutputVariable"
+                      partnerLink="FndIntgXrefPopulateIVPSvc"
+                      portType="ns3:FndIntgXrefPopulateIVP"
+                      operation="process"/>
+              <assign name="AssignResponse">
+                <copy>
+                  <from expression="'Success'"/>
+                  <to variable="outputVariable" part="part"
+                      query="/ns7:Output/ns7:ValidateLookupFunctionRes/ns7:fndintgPopulatexrefivp/ns7:Status"/>
+                </copy>
+              </assign>
+            </sequence>
+          </case>
+          <otherwise>
+            <assign name="NoInvocation">
+              <copy>
+                <from expression="'Skipped'"/>
+                <to variable="outputVariable" part="part"
+                    query="/ns7:Output/ns7:ValidateLookupFunctionRes/ns7:fndintgPopulatexrefivp/ns7:Status"/>
+              </copy>
+            </assign>
+          </otherwise>
+        </switch>
+      </sequence>
+    </scope>
+    <scope name="FndintgBCSLookupIVP" variableAccessSerializable="no">
+      <faultHandlers>
+        <catchAll>
+          <assign name="AssignErrorResponse">
+            <copy>
+              <from expression="'Failure'"/>
+              <to variable="outputVariable" part="part"
+                  query="/ns7:Output/ns7:ValidateLookupFunctionRes/ns7:fndintgBCSlookupivp/ns7:Status"/>
+            </copy>
+            <copy>
+              <from expression="concat('FAILED in FndIntgBCSLookupIVP with the error: ',substring(ora:getFaultAsString(),1,bpws:getVariableData('Err_msg_length')))"/>
+              <to variable="outputVariable" part="part"
+                  query="/ns7:Output/ns7:ValidateLookupFunctionRes/ns7:fndintgBCSlookupivp/ns7:AdditionalNote"/>
+            </copy>
+            <copy>
+              <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','FndIntgBCSLookupIVP Function Flt',string(bpws:getVariableData('outputVariable','part','/ns7:Output/ns7:ValidateLookupFunctionRes/ns7:fndintgBCSlookupivp/ns7:AdditionalNote')),string('3'),'FndIntgValidateLookupFunctionIVP')"/>
+              <to variable="SNIFault" part="payload" query="/ns8:SNIFault"/>
+            </copy>
+            <copy>
+              <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateLookupFunctionIVP-Fault Occurred at the scope FndIntgBCSLookupIVP',bpws:getVariableData('SNIHeader','/ns8:SNIHeader/ns8:BusinessKey')),string('SEVERE'))"/>
+              <to variable="logStatus"/>
+            </copy>
+          </assign>
+        </catchAll>
+      </faultHandlers>
+      <sequence name="Sequence3">
+        <switch name="Switch5">
+          <case condition="xp20:upper-case(string(bpws:getVariableData('inputVariable','part','/ns7:Input/ns7:ValidateLookupFunctionReq/ns7:fndintgBCSlookupivp')))='TRUE'">
+            <bpelx:annotation>
+              <bpelx:general>
+                <bpelx:property name="userLabel">If fndintgBCSlookupivp is true</bpelx:property>
+              </bpelx:general>
+            </bpelx:annotation>
+            <sequence name="Sequence4">
+              <assign name="AssignInput">
+                <copy>
+                  <from expression="'FND_B2B_MSG_ROUTER'"/>
+                  <to variable="InvokeBCSLookupIVP_InputVariable" part="payload"
+                      query="/ns5:process/ns5:messageType"/>
+                </copy>
+                <copy>
+                  <from expression="'FND_B2B_ROUTING_LOOKUP'"/>
+                  <to variable="InvokeBCSLookupIVP_InputVariable" part="payload"
+                      query="/ns5:process/ns5:translationRuleCode"/>
+                </copy>
+                <copy>
+                  <from expression="'B2B'"/>
+                  <to variable="InvokeBCSLookupIVP_InputVariable" part="payload"
+                      query="/ns5:process/ns5:systemCode"/>
+                </copy>
+                <copy>
+                  <from expression="'IVP'"/>
+                  <to variable="InvokeBCSLookupIVP_InputVariable" part="payload"
+                      query="/ns5:process/ns5:qualifier"/>
+                </copy>
+                <copy>
+                  <from expression="'SOA'"/>
+                  <to variable="InvokeBCSLookupIVP_InputVariable" part="payload"
+                      query="/ns5:process/ns5:subQualifier"/>
+                </copy>
+                <copy>
+                  <from expression="'INBOUND'"/>
+                  <to variable="InvokeBCSLookupIVP_InputVariable" part="payload"
+                      query="/ns5:process/ns5:messageDirection"/>
+                </copy>
+                <copy>
+                  <from expression="'10001'"/>
+                  <to variable="InvokeBCSLookupIVP_InputVariable" part="payload"
+                      query="/ns5:process/ns5:messageID"/>
+                </copy>
+                <copy>
+                  <from expression="'NOT USED'"/>
+                  <to variable="InvokeBCSLookupIVP_InputVariable" part="payload"
+                      query="/ns5:process/ns5:fromValue1"/>
+                </copy>
+                <copy>
+                  <from expression="'SOAIVP'"/>
+                  <to variable="InvokeBCSLookupIVP_InputVariable" part="payload"
+                      query="/ns5:process/ns5:fromValue2"/>
+                </copy>
+                <copy>
+                  <from expression="'FndIntgBCSLookupIVP'"/>
+                  <to variable="InvokeBCSLookupIVP_InputVariable" part="payload"
+                      query="/ns5:process/ns5:fromValue3"/>
+                </copy>
+                <copy>
+                  <from expression="'SEARCH_BY_FRMVAL2_FRMVAL3'"/>
+                  <to variable="InvokeBCSLookupIVP_InputVariable" part="payload"
+                      query="/ns5:process/ns5:searchType"/>
+                </copy>
+              </assign>
+              <invoke name="InvokeBCSLookupIVP" bpelx:invokeAsDetail="no"
+                      inputVariable="InvokeBCSLookupIVP_InputVariable"
+                      outputVariable="InvokeBCSLookupIVP_OutputVariable"
+                      partnerLink="FndIntgBCSLookupIVPSvc"
+                      portType="ns5:FndIntgBCSLookupIVP" operation="process"/>
+              <assign name="AssignResponse">
+                <copy>
+                  <from expression="'Success'"/>
+                  <to variable="outputVariable" part="part"
+                      query="/ns7:Output/ns7:ValidateLookupFunctionRes/ns7:fndintgBCSlookupivp/ns7:Status"/>
+                </copy>
+              </assign>
+            </sequence>
+          </case>
+          <otherwise>
+            <assign name="NoInvocation">
+              <copy>
+                <from expression="'Skipped'"/>
+                <to variable="outputVariable" part="part"
+                    query="/ns7:Output/ns7:ValidateLookupFunctionRes/ns7:fndintgBCSlookupivp/ns7:Status"/>
+              </copy>
+            </assign>
+          </otherwise>
+        </switch>
+      </sequence>
+    </scope>
+    <scope name="FndintgSNICreateXrefRowIVP" variableAccessSerializable="no">
+      <faultHandlers>
+        <catchAll><assign name="AssignErrorResponse"
+                          xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+            <copy>
+              <from expression="'Failure'"/>
+              <to variable="outputVariable" part="part"
+                  query="/ns7:Output/ns7:ValidateLookupFunctionRes/ns7:fndintgSNICreatexrefrowivp/ns7:Status"/>
+            </copy>
+            <copy>
+              <from expression="concat('FAILED in FndIntgSNICreateXrefIVP with the error: ',substring(ora:getFaultAsString(),1,bpws:getVariableData('Err_msg_length')))"/>
+              <to variable="outputVariable" part="part"
+                  query="/ns7:Output/ns7:ValidateLookupFunctionRes/ns7:fndintgSNICreatexrefrowivp/ns7:AdditionalNote"/>
+            </copy>
+            <copy>
+              <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','FndIntgSNICreateXREFRowIVP Function Flt',string(bpws:getVariableData('outputVariable','part','/ns7:Output/ns7:ValidateLookupFunctionRes/ns7:fndintgSNICreatexrefrowivp/ns7:AdditionalNote')),string('3'),'FndIntgValidateLookupFunctionIVP')"/>
+              <to variable="SNIFault" part="payload" query="/ns8:SNIFault"/>
+            </copy>
+            <copy>
+              <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateLookupFunctionIVP-Fault Occurred at the scope FndIntgSNICreateXefRowIVP',bpws:getVariableData('SNIHeader','/ns8:SNIHeader/ns8:BusinessKey')),string('SEVERE'))"/>
+              <to variable="logStatus"/>
+            </copy>
+          </assign></catchAll>
+      </faultHandlers>
+      <switch name="Switch8">
+        <case condition="xp20:upper-case(string(bpws:getVariableData('inputVariable','part','/ns7:Input/ns7:ValidateLookupFunctionReq/ns7:fndintgSNICreatexrefrowivp')))='TRUE'">
+          <bpelx:annotation>
+            <bpelx:general>
+              <bpelx:property name="userLabel">If FndintgSNICreatexrefrowIVP is true</bpelx:property>
+            </bpelx:general>
+          </bpelx:annotation>
+          <sequence>
+            <switch name="Switch9">
+              <case condition="(string(bpws:getVariableData('outputVariable','part','/ns7:Output/ns7:ValidateLookupFunctionRes/ns7:fndintglookupxrefivp/ns7:Status'))='Skipped')and(xp20:upper-case(string(bpws:getVariableData('inputVariable','part','/ns7:Input/ns7:ValidateLookupFunctionReq/ns7:fndintgPopulatexrefivp')))='TRUE')">
+                <bpelx:annotation>
+                  <bpelx:general>
+                    <bpelx:property name="userLabel">Lookup Skipped but Populate is True</bpelx:property>
+                  </bpelx:general>
+                </bpelx:annotation>
+                <sequence name="Sequence8">
+                  <assign name="AssignInput">
+                    <copy>
+                      <from expression="'oramds:/deployed-composites/fndintgivp/FndIntgSampleCrossRefIVP_rev1.0/FndIntgIVPXREF.xref'"/>
+                      <to variable="InvokeFndIntgSNICreateXrefRowIVP_InputVariable"
+                          part="payload" query="/ns4:process/ns4:tableName"/>
+                    </copy>
+                    <copy>
+                      <from expression="'system1'"/>
+                      <to variable="InvokeFndIntgSNICreateXrefRowIVP_InputVariable"
+                          part="payload"
+                          query="/ns4:process/ns4:referenceColumnName"/>
+                    </copy>
+                    <copy>
+                      <from expression="ora:getComponentInstanceId()"/>
+                      <to variable="InvokeFndIntgSNICreateXrefRowIVP_InputVariable"
+                          part="payload"
+                          query="/ns4:process/ns4:referenceColumnValue"/>
+                    </copy>
+                    <copy>
+                      <from expression="'system2'"/>
+                      <to variable="InvokeFndIntgSNICreateXrefRowIVP_InputVariable"
+                          part="payload" query="/ns4:process/ns4:columnName"/>
+                    </copy>
+                    <copy>
+                      <from expression="ora:getComponentInstanceId()"/>
+                      <to variable="InvokeFndIntgSNICreateXrefRowIVP_InputVariable"
+                          part="payload" query="/ns4:process/ns4:columnValue"/>
+                    </copy>
+                  </assign>
+                </sequence>
+              </case>
+              <otherwise>
+                <assign name="AssignInput"
+                        xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+                  <copy>
+                    <from expression="'oramds:/deployed-composites/fndintgivp/FndIntgSampleCrossRefIVP_rev1.0/FndIntgIVPXREF.xref'"/>
+                    <to variable="InvokeFndIntgSNICreateXrefRowIVP_InputVariable"
+                        part="payload" query="/ns4:process/ns4:tableName"/>
+                  </copy>
+                  <copy>
+                    <from expression="'system1'"/>
+                    <to variable="InvokeFndIntgSNICreateXrefRowIVP_InputVariable"
+                        part="payload"
+                        query="/ns4:process/ns4:referenceColumnName"/>
+                  </copy>
+                  <copy>
+                    <from expression="'val1'"/>
+                    <to variable="InvokeFndIntgSNICreateXrefRowIVP_InputVariable"
+                        part="payload"
+                        query="/ns4:process/ns4:referenceColumnValue"/>
+                  </copy>
+                  <copy>
+                    <from expression="'system2'"/>
+                    <to variable="InvokeFndIntgSNICreateXrefRowIVP_InputVariable"
+                        part="payload" query="/ns4:process/ns4:columnName"/>
+                  </copy>
+                  <copy>
+                    <from expression="'val2'"/>
+                    <to variable="InvokeFndIntgSNICreateXrefRowIVP_InputVariable"
+                        part="payload" query="/ns4:process/ns4:columnValue"/>
+                  </copy>
+                </assign>
+              </otherwise>
+            </switch>
+            <invoke name="InvokeFndIntgSNICreateXrefRowIVP"
+                    bpelx:invokeAsDetail="no"
+                    inputVariable="InvokeFndIntgSNICreateXrefRowIVP_InputVariable"
+                    outputVariable="InvokeFndIntgSNICreateXrefRowIVP_OutputVariable"
+                    partnerLink="FndIntgSNICreateXRefRowIVPSvc"
+                    portType="ns4:FndIntgSNICreateXRefRowIVP"
+                    operation="process"/>
+            <assign name="AssignResponse">
+              <copy>
+                <from expression="'Success'"/>
+                <to variable="outputVariable" part="part"
+                    query="/ns7:Output/ns7:ValidateLookupFunctionRes/ns7:fndintgSNICreatexrefrowivp/ns7:Status"/>
+              </copy>
+            </assign>
+          </sequence>
+        </case>
+        <otherwise>
+          <assign name="NoInvocation">
+            <copy>
+              <from expression="'Skipped'"/>
+              <to variable="outputVariable" part="part"
+                  query="/ns7:Output/ns7:ValidateLookupFunctionRes/ns7:fndintgSNICreatexrefrowivp/ns7:Status"/>
+            </copy>
+          </assign>
+        </otherwise>
+      </switch>
+    </scope>
+    <scope name="FndintgLookupDVMIVP" variableAccessSerializable="no">
+      <faultHandlers>
+        <catchAll>
+          <assign name="AssignErrorResponse">
+            <copy>
+              <from expression="'Failure'"/>
+              <to variable="outputVariable" part="part"
+                  query="/ns7:Output/ns7:ValidateLookupFunctionRes/ns7:fndintgLookupDVMivp/ns7:Status"/>
+            </copy>
+            <copy>
+              <from expression="concat('FAILED in FndIntgLookupDVMIVP with the error: ',substring(ora:getFaultAsString(),1,bpws:getVariableData('Err_msg_length')))"/>
+              <to variable="outputVariable" part="part"
+                  query="/ns7:Output/ns7:ValidateLookupFunctionRes/ns7:fndintgLookupDVMivp/ns7:AdditionalNote"/>
+            </copy>
+            <copy>
+              <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','FndIntgLookupDVMIVP Function Flt',string(bpws:getVariableData('outputVariable','part','/ns7:Output/ns7:ValidateLookupFunctionRes/ns7:fndintgLookupDVMivp/ns7:AdditionalNote')),string('3'),'FndIntgValidateLookupFunctionIVP')"/>
+              <to variable="SNIFault" part="payload" query="/ns8:SNIFault"/>
+            </copy>
+            <copy>
+              <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateLookupFunctionIVP-Fault Occurred at the scope FndIntgLookupDVMIVP',bpws:getVariableData('SNIHeader','/ns8:SNIHeader/ns8:BusinessKey')),string('SEVERE'))"/>
+              <to variable="logStatus"/>
+            </copy>
+          </assign>
+        </catchAll>
+      </faultHandlers>
+      <sequence name="Sequence6">
+        <switch name="Switch7">
+          <case condition="xp20:upper-case(string(bpws:getVariableData('inputVariable','part','/ns7:Input/ns7:ValidateLookupFunctionReq/ns7:fndintgLookupDVMivp')))='TRUE'">
+            <bpelx:annotation>
+              <bpelx:general>
+                <bpelx:property name="userLabel">If FndintgLookupDVMIVP is true</bpelx:property>
+              </bpelx:general>
+            </bpelx:annotation>
+            <sequence>
+              <assign name="AssignInput">
+                <copy>
+                  <from expression="'oramds:/deployed-composites/fndintgivp/FndIntgSampleDVMIVP_rev1.0/FndIntgIVPDVM.dvm'"/>
+                  <to variable="InvokeFndIntgLookupDVMIVP_InputVariable"
+                      part="payload" query="/ns6:process/ns6:DVMLocation"/>
+                </copy>
+                <copy>
+                  <from expression="'domain1'"/>
+                  <to variable="InvokeFndIntgLookupDVMIVP_InputVariable"
+                      part="payload" query="/ns6:process/ns6:sourceColumnName"/>
+                </copy>
+                <copy>
+                  <from expression="'value1'"/>
+                  <to variable="InvokeFndIntgLookupDVMIVP_InputVariable"
+                      part="payload" query="/ns6:process/ns6:sourceValue"/>
+                </copy>
+                <copy>
+                  <from expression="'domain2'"/>
+                  <to variable="InvokeFndIntgLookupDVMIVP_InputVariable"
+                      part="payload" query="/ns6:process/ns6:targetColumnName"/>
+                </copy>
+              </assign>
+              <invoke name="InvokeFndIntgLookupDVMIVP" bpelx:invokeAsDetail="no"
+                      inputVariable="InvokeFndIntgLookupDVMIVP_InputVariable"
+                      outputVariable="InvokeFndIntgLookupDVMIVP_OutputVariable"
+                      partnerLink="FndIntgLookupDVMIVPSvc"
+                      portType="ns6:FndIntgLookupDVM" operation="process"/>
+              <assign name="AssignResponse">
+                <copy>
+                  <from expression="'Success'"/>
+                  <to variable="outputVariable" part="part"
+                      query="/ns7:Output/ns7:ValidateLookupFunctionRes/ns7:fndintgLookupDVMivp/ns7:Status"/>
+                </copy>
+              </assign>
+            </sequence>
+          </case>
+          <otherwise>
+            <assign name="NoInvocation">
+              <copy>
+                <from expression="'Skipped'"/>
+                <to variable="outputVariable" part="part"
+                    query="/ns7:Output/ns7:ValidateLookupFunctionRes/ns7:fndintgLookupDVMivp/ns7:Status"/>
+              </copy>
+            </assign>
+          </otherwise>
+        </switch>
+      </sequence>
+    </scope>
+    <assign name="LogMessage">
+      <copy>
+        <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateLookupFunctionIVP-Exit',bpws:getVariableData('SNIHeader','/ns8:SNIHeader/ns8:BusinessKey')),string('INFO'))"/>
+        <to variable="logStatus"/>
+      </copy>
+    </assign>
+    <!-- Generate reply to synchronous request -->
+    <reply name="replyOutput" partnerLink="fndintgvalidatelookupfunctionivp_client" portType="ns1:ChkLookupSOAIVPPortType" operation="ChkLookupSOAIVP" variable="outputVariable"/>
+  </sequence>
+</process>

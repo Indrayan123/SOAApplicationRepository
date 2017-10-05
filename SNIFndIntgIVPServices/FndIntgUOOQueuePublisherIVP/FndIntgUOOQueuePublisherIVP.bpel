@@ -1,0 +1,195 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Mon Sep 20 14:56:46 CDT 2010
+  Author:  c06621
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="FndIntgUOOQueuePublisherIVP"
+               targetNamespace="http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/FndIntgUOOQueuePublisherIVP/FndIntgUOOQueuePublisherIVP"
+               xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+               xmlns:client="http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/FndIntgUOOQueuePublisherIVP/FndIntgUOOQueuePublisherIVP"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+               xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/jms/SNIFndIntgIVPServices/FndIntgUOOQueuePublisherIVP/FndIntgUOOQueuePublisherIVPJMSAdapter"
+         xmlns:ns2="http://xmlns.schneider.com/FoundationObjects/CrossRef/V1"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:sniadf="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIADFExtensionFunctions"
+         xmlns:bpel2="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:sniolock="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIOptimisticLockExtensionFunctions"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:snibpel="http://xmlns.schneider.com/BPEL/sni/foundation/soa/extensions/xpath"
+         xmlns:snifmt="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIFormatExtensionFunctions"
+         xmlns:socket="http://www.oracle.com/XSL/Transform/java/oracle.tip.adapter.socket.ProtocolTranslator"
+         xmlns:mhdr="http://www.oracle.com/XSL/Transform/java/oracle.tip.mediator.service.common.functions.MediatorExtnFunction"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:med="http://schemas.oracle.com/mediator/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:snidttm="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIDateTimeExtensionFunctions"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:sniprop="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIPropertyFileExtensionFunctions"
+         xmlns:snidvm="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIDVMExtensionFunctions"
+         xmlns:sniutil="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.utils.SNIUtilityExtensionFunctions"
+         xmlns:snixref="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIXRefExtensionFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      PARTNERLINKS                                                      
+      List of services participating in this BPEL process               
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  --> 
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="FndIntgUOOQueuePublisherIVP_client" partnerLinkType="client:FndIntgUOOQueuePublisherIVP" myRole="FndIntgUOOQueuePublisherIVPProvider"/>
+    <partnerLink name="FndIntgUOOQueuePublisherIVPJMSAdapter"
+                 partnerRole="Produce_Message_role"
+                 partnerLinkType="ns1:Produce_Message_plt"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="outputVariable" messageType="client:FndIntgUOOQueuePublisherIVPResponseMessage"/>
+    <variable name="Invoke_1_Produce_Message_InputVariable"
+              messageType="ns1:Produce_Message_msg"/>
+    <variable name="inputVariable"
+              messageType="client:FndIntgUOOQueuePublisherIVPRequestMessage"/>
+              <variable name="Identifier" type="xsd:string"/>
+              <variable name="KeyIdentifier" type="xsd:string"/>
+    <variable name="CacheStatus" type="xsd:string"/>
+    <variable name="LoopCounter" type="xsd:int"/>
+    <variable name="TotalLoopCounts" type="xsd:int"/>
+  </variables>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in FndIntgUOOQueuePublisherIVP.wsdl) -->
+    <receive name="receiveInput" partnerLink="FndIntgUOOQueuePublisherIVP_client" portType="client:FndIntgUOOQueuePublisherIVP" operation="process" variable="inputVariable" createInstance="yes"/>
+
+    <!-- Generate reply to synchronous request -->
+    <assign name="Assign_1">
+      <copy>
+        <from variable="inputVariable" part="payload"
+              query="/ns2:LookupXrefRequest"/>
+        <to variable="Invoke_1_Produce_Message_InputVariable" part="body"
+            query="/ns2:LookupXrefRequest"/>
+      </copy>
+      <copy>
+        <from expression='ora:getPreference("MsgSelector")'/>
+        <to variable="Identifier"/>
+      </copy>
+    </assign><assign name="AssignKeyIdentifier"
+                     xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+      <copy bpelx:ignoreMissingFromData="yes" bpelx:insertMissingToData="yes"
+            xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+        <from expression="concat('SOA-JMSUOO-',xp20:current-dateTime())"/>
+        <to variable="KeyIdentifier"/>
+      </copy>
+    </assign><assign name="AssignInsertIntoCache"
+                    xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+      <copy bpelx:insertMissingToData="yes" bpelx:ignoreMissingFromData="yes"
+            xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+         <from expression="snibpel:EnterpriseCachePutByCacheName('FNDCache-SOAIVPStatus',bpws:getVariableData('KeyIdentifier'), 'ENQUEUED', '172800000')"/>
+         <to variable="CacheStatus"/>
+      </copy>
+   </assign><invoke name="Invoke_UOOQueuePublish"
+            inputVariable="Invoke_1_Produce_Message_InputVariable"
+            partnerLink="FndIntgUOOQueuePublisherIVPJMSAdapter"
+            portType="ns1:Produce_Message_ptt" operation="Produce_Message"
+                    bpelx:invokeAsDetail="no">
+      <bpelx:inputProperty name="jca.jms.JMSCorrelationID"
+                           variable="KeyIdentifier"/>
+      <bpelx:inputProperty name="jca.jms.JMSProperty.JMS_BEA_UnitOfOrder" variable="inputVariable"
+                           part="payload" query="/ns2:LookupXrefRequest/ns2:Revision"/>
+                           <bpelx:inputProperty name="jca.jms.JMSProperty.Id"
+                           variable="Identifier"/>  
+    </invoke><assign name="AssignCounterValues"
+                     xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+      <copy>
+         <from expression="6"/>
+         <to variable="TotalLoopCounts"/>
+      </copy>
+      <copy>
+         <from expression="1"/>
+         <to variable="LoopCounter"/>
+      </copy>
+   </assign><while name="WhileLoopForTotalSeconds"
+                   condition="bpws:getVariableData('LoopCounter')&lt;=bpws:getVariableData('TotalLoopCounts')"
+                   xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+      <sequence name="CacheWaitSequence">
+         <wait name="WaitForCacheUpdate" for="'PT10S'"/>
+         <assign name="AssignGetCacheUpdatedStatus">
+            <copy>
+               <from expression="snibpel:EnterpriseCacheGetByCacheName('FNDCache-SOAIVPStatus',bpws:getVariableData('KeyIdentifier'))"/>
+               <to variable="CacheStatus"/>
+            </copy>
+         </assign>
+         <switch name="IfCacheIsUpdated">
+            <case condition="xp20:compare(bpws:getVariableData('CacheStatus'),'DEQUEUED')=0">
+               <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+                  <bpelx:general>
+                     <bpelx:property name="userLabel">Updated</bpelx:property>
+                  </bpelx:general>
+               </bpelx:annotation>
+               <sequence name="ResponseSuccessStatusSequence">
+                  <assign name="AssignStopLoopCounter">
+                     <copy>
+                        <from expression="bpws:getVariableData('TotalLoopCounts')+1"/>
+                        <to variable="LoopCounter"/>
+                     </copy>
+                  </assign>
+                  <assign name="AssignResponseStatus">
+                     <copy>
+                        <from expression="'Success'"/>
+                        <to variable="outputVariable" part="payload"
+                            query="/client:processResponse/client:result"/>
+                     </copy>
+                  </assign>
+               </sequence>
+            </case>
+            <otherwise>
+               <assign name="AssignFailureResponseStatus">
+              <copy>
+                <from expression="'Failure'"/>
+                <to variable="outputVariable" part="payload"
+                    query="/client:processResponse/client:result"/>
+              </copy>
+              <copy>
+                <from expression="bpws:getVariableData('LoopCounter')+1"/>
+                <to variable="LoopCounter"/>
+              </copy>
+            </assign>
+            </otherwise>
+         </switch>
+      </sequence>
+   </while>
+    <reply name="replyOutput" partnerLink="FndIntgUOOQueuePublisherIVP_client" portType="client:FndIntgUOOQueuePublisherIVP" operation="process" variable="outputVariable"/>
+  </sequence>
+</process>

@@ -1,0 +1,160 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Tue Nov 15 06:08:41 CST 2016
+  Author:  f23963
+  Type: BPEL 1.1 Process
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="CheckUPGDynamicPatnerlinkFaultSOAIVPSvc"
+               targetNamespace="http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/FndIntgUPGCheckDynamicPatnerlinkFaultIVP/CheckUPGDynamicPatnerlinkFaultSOAIVPSvc"
+               xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+               xmlns:client="http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/FndIntgUPGCheckDynamicPatnerlinkFaultIVP/CheckUPGDynamicPatnerlinkFaultSOAIVPSvc"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:ns1="http://schemas.xmlsoap.org/ws/2003/03/addressing"
+         xmlns:bpel2="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:ns2="http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/FndIntgUPGThrowFaultIVP/CheckUPGThrowFaultSOAIVPSvc"
+         xmlns:ns3="http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/UPG/CheckUPGDynamicPatnerlinkFaultSOAIVP"
+         xmlns:ns4="http://xmlns.schneider.com/FndB2B/FndB2BTestServiceEndpoint"
+         xmlns:ns5="http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/FndIntgUPGCheckDynamicPatnerlinkFaultIVP/FndIntgUpgTestSyncService">
+
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    --> 
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="checkupgdynamicpatnerlinkfaultsoaivpsvc_client" partnerLinkType="client:CheckUPGDynamicPatnerlinkFaultSOAIVPSvc" myRole="CheckUPGDynamicPatnerlinkFaultSOAIVPSvcProvider"/>
+    <partnerLink name="FndIntgUPGThrowFaultIVP"
+                 partnerLinkType="ns5:FndIntgUpgTestSyncService"
+                 partnerRole="FndIntgUpgTestSyncServiceProvider"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:CheckUPGDynamicPatnerlinkFaultSOAIVPSvcRequestMessage"/>
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="outputVariable" messageType="client:CheckUPGDynamicPatnerlinkFaultSOAIVPSvcResponseMessage"/>
+    <variable name="WSEndpoint" element="ns1:EndpointReference"/>
+    <variable name="endptVar" type="xsd:string"/>
+    <!--<variable name="Invoke1_process_InputVariable"
+              messageType="ns2:CheckUPGThrowFaultSOAIVPSvcRequestMessage"/>
+    <variable name="Invoke1_process_OutputVariable"
+              messageType="ns2:CheckUPGThrowFaultSOAIVPSvcResponseMessage"/>-->
+    <variable name="InvokeDynamicService_process_InputVariable"
+              messageType="ns5:FndIntgUpgTestSyncServiceRequestMessage"/>
+    <variable name="InvokeDynamicService_process_OutputVariable"
+              messageType="ns5:FndIntgUpgTestSyncServiceResponseMessage"/>
+  </variables>
+  <faultHandlers>
+    <catchAll>
+      <sequence name="Sequence1">
+        <switch name="Switch1">
+          <case condition="contains(ora:getFaultName(),'remote')">
+            <bpelx:annotation>
+              <bpelx:general>
+                <bpelx:property name="userLabel">If Remote</bpelx:property>
+              </bpelx:general>
+            </bpelx:annotation>
+            <sequence name="Sequence2">
+              <assign name="AssignSuccess">
+                <copy>
+                  <from expression="'Success'"/>
+                  <to variable="outputVariable" part="payload"
+                      query="/ns3:processResponse/ns3:result"/>
+                </copy>
+              </assign>
+              <reply name="ReplySuccess" variable="outputVariable"
+                     partnerLink="checkupgdynamicpatnerlinkfaultsoaivpsvc_client"
+                     portType="client:CheckUPGDynamicPatnerlinkFaultSOAIVPSvc"
+                     operation="process"/>
+            </sequence>
+          </case>
+          <otherwise>
+            <sequence name="Sequence3">
+              <assign name="AssignFailure">
+                <copy>
+                  <from expression="'Failure'"/>
+                  <to variable="outputVariable" part="payload"
+                      query="/ns3:processResponse/ns3:result"/>
+                </copy>
+              </assign>
+              <reply name="ReplyFailure" variable="outputVariable"
+                     partnerLink="checkupgdynamicpatnerlinkfaultsoaivpsvc_client"
+                     portType="client:CheckUPGDynamicPatnerlinkFaultSOAIVPSvc"
+                     operation="process"
+                     xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/"/>
+            </sequence>
+          </otherwise>
+        </switch>
+      </sequence>
+    </catchAll>
+  </faultHandlers>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in CheckUPGDynamicPatnerlinkFaultSOAIVPSvc.wsdl) -->
+    <receive name="receiveInput" partnerLink="checkupgdynamicpatnerlinkfaultsoaivpsvc_client" portType="client:CheckUPGDynamicPatnerlinkFaultSOAIVPSvc" operation="process" variable="inputVariable" createInstance="yes"/>
+    <assign name="AssignEndpointFragment">
+      <copy>
+        <from><EndpointReference xmlns="http://schemas.xmlsoap.org/ws/2003/03/addressing">
+    <Address/>
+</EndpointReference></from>
+        <to variable="WSEndpoint" query="/ns1:EndpointReference"/>
+      </copy>
+      <copy>
+        <from expression='ora:getPreference("endptSvc")'/>
+        <to variable="endptVar"/>
+      </copy>
+      <copy>
+        <from expression="bpws:getVariableData('endptVar')"/>
+        <to variable="WSEndpoint" query="/ns1:EndpointReference/ns1:Address"/>
+      </copy>
+      <copy>
+        <from variable="WSEndpoint" query="/ns1:EndpointReference"/>
+        <to partnerLink="FndIntgUPGThrowFaultIVP"/>
+      </copy>
+    </assign>
+    <invoke name="InvokeDynamicService" bpelx:invokeAsDetail="no"
+            inputVariable="InvokeDynamicService_process_InputVariable"
+            outputVariable="InvokeDynamicService_process_OutputVariable"
+            partnerLink="FndIntgUPGThrowFaultIVP"
+            portType="ns5:FndIntgUpgTestSyncService" operation="process"/>
+    <!-- Generate reply to synchronous request -->
+    <reply name="replyOutput" partnerLink="checkupgdynamicpatnerlinkfaultsoaivpsvc_client" portType="client:CheckUPGDynamicPatnerlinkFaultSOAIVPSvc" operation="process" variable="outputVariable"/>
+  </sequence>
+</process>

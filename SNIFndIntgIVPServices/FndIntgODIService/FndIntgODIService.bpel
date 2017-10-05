@@ -1,0 +1,256 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Mon Jul 23 15:39:46 CDT 2012
+  Author:  c88525
+  Type: BPEL 1.1 Process
+  Purpose: Asynchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="FndIntgODIService"
+         targetNamespace="http://xmlns.schneider.com/FndIntgODIService/FndIntgODIService/V1"
+         xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:client="http://xmlns.schneider.com/FndIntgODIService/FndIntgODIService/V1"
+         xmlns:ora="http://schemas.oracle.com/xpath/extension"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:ns1="xmlns.oracle.com/odi/OdiInvoke/"
+         xmlns:ns2="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:sniadf="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIADFExtensionFunctions"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:sniolock="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIOptimisticLockExtensionFunctions"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:snibpel="http://xmlns.schneider.com/BPEL/sni/foundation/soa/extensions/xpath"
+         xmlns:snifmt="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIFormatExtensionFunctions"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:snidttm="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIDateTimeExtensionFunctions"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:sniprop="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIPropertyFileExtensionFunctions"
+         xmlns:snidvm="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIDVMExtensionFunctions"
+         xmlns:sniutil="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.utils.SNIUtilityExtensionFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:snixref="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIXRefExtensionFunctions"
+         xmlns:snidb="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIDBExtensionFunctions"
+         xmlns:snixml="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIXMLDiffExtensionFunctions"
+         xmlns:snibam="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIBAMExtensionFunctions"
+         xmlns:snisec="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIEncryptDecryptUtilityExtensionFunctions">
+
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    --> 
+    <partnerLinks>
+        <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+        <partnerLink name="fndintgodiservice_client" partnerLinkType="client:FndIntgODIService" myRole="FndIntgODIServiceProvider" partnerRole="FndIntgODIServiceRequester"/>
+        <partnerLink name="ODIService" partnerLinkType="ns1:ODIService"
+                     partnerRole="requestPortType"
+                     myRole="requestPortTypeCallback"/>
+    </partnerLinks>
+
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        VARIABLES                                                        
+        List of messages and XML documents used within this BPEL process 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+    <variables>
+        <!-- Reference to the message passed as input during initiation -->
+        <variable name="inputVariable" messageType="client:FndIntgODIServiceRequestMessage"/>
+
+        <!-- Reference to the message that will be sent back to the requester during callback -->
+        <variable name="outputVariable" messageType="client:FndIntgODIServiceResponseMessage"/>
+        <variable name="Invoke_invokeStartScenWithCallback_InputVariable"
+                  messageType="ns1:invokeStartScenWithCallbackRequest"/>
+        <variable name="Receive_invokeStartScenCallback_InputVariable"
+                  messageType="ns1:invokeStartScenCallbackResponse"/>
+        <variable name="SNIHeader" element="ns2:SNIHeader"/>
+        <variable name="SNIFault" element="ns2:SNIFault"/>
+        <variable name="status" type="xsd:string"/>
+        <variable name="InvokeCallback_processResponse_InputVariable"
+                  messageType="client:FndIntgODIServiceResponseMessage"/>
+        <variable name="InvokeStatus_getSessionStatus_InputVariable"
+                  messageType="ns1:getSessionStatusRequest"/>
+        <variable name="InvokeStatus_getSessionStatus_OutputVariable"
+                  messageType="ns1:getSessionStatusResponse"/>
+    </variables>
+    <faultHandlers>
+        <catchAll>
+            <sequence name="Sequence1">
+                <assign name="CreateAndHandlefault">
+                    <copy>
+                        <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),string('FNDEVTCD'),string('FndIntgODISevice  Fault'),string(' For more details about fault check the logs'),string('3'),string('SNIFndIntgServices'))"/>
+                        <to variable="SNIFault" query="/ns2:SNIFault"/>
+                    </copy>
+                </assign>
+                <assign name="LogException">
+                    <copy>
+                        <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),string(' Exception occured in FndIntgODIService'),string('SEVERE'))"/>
+                        <to variable="status"/>
+                    </copy>
+                </assign>
+                <assign name="AssignFault">
+                    <copy>
+                        <from expression="'false'"/>
+                        <to variable="InvokeCallback_processResponse_InputVariable"
+                            part="payload"
+                            query="/ns2:invokeScenarioCallback/ns2:status"/>
+                    </copy>
+                    <copy>
+                        <from expression="'FndIntgODIService faulted' + ora:getFaultAsString()"/>
+                        <to variable="InvokeCallback_processResponse_InputVariable"
+                            part="payload"
+                            query="/ns2:invokeScenarioCallback/ns2:ErrorMessage"/>
+                    </copy>
+                </assign>
+                <invoke name="InvokeCallback"
+                        inputVariable="InvokeCallback_processResponse_InputVariable"
+                        partnerLink="fndintgodiservice_client"
+                        portType="client:FndIntgODIServiceCallback"
+                        operation="processResponse" bpelx:invokeAsDetail="no"/>
+                <terminate name="Terminate1"/>
+            </sequence>
+        </catchAll>
+    </faultHandlers>
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+       ORCHESTRATION LOGIC                                               
+       Set of activities coordinating the flow of messages across the    
+       services integrated within this business process                  
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+    <sequence name="main">
+        <!-- Receive input from requestor. (Note: This maps to operation defined in FndIntgODIService.wsdl) -->
+        <receive name="receiveInput" partnerLink="fndintgodiservice_client" portType="client:FndIntgODIService" operation="process" variable="inputVariable" createInstance="yes"/>
+
+        <!-- 
+          Asynchronous callback to the requester. (Note: the callback location and correlation id is transparently handled using WS-addressing.)
+        -->
+        <assign name="CreateSNIHeader">
+            <copy>
+                <from expression='snibpel:createSNIHeader("FndIntgODIService","FNDINTG","FndIntgODIService", "SNIFndIntgServices","SOA" , "")'/>
+                <to variable="SNIHeader" query="/ns2:SNIHeader"/>
+            </copy>
+        </assign>
+        <assign name="LogEntry">
+            <copy>
+                <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),string('Logtext enter FndIntgODIService'),string('INFO'))"/>
+                <to variable="status"/>
+            </copy>
+        </assign>
+        <assign name="AssignUser">
+            <copy>
+                <from expression="sniprop:getEncryptedValueFromPropertyFile('odiuser','/opt/schneider/applications/config/FNDINTG/FndIntgODIServiceUser.properties')"/>
+                <to variable="inputVariable" part="payload"
+                    query="/ns2:invokeScenario/ns2:RepositoryConnection/ns2:OdiUser"/>
+            </copy>
+            <copy>
+                <from expression="sniprop:getEncryptedValueFromPropertyFile('odipass','/opt/schneider/applications/config/FNDINTG/FndIntgODIServiceUser.properties')"/>
+                <to variable="inputVariable" part="payload"
+                    query="/ns2:invokeScenario/ns2:RepositoryConnection/ns2:OdiPassword"/>
+            </copy>
+            <copy bpelx:insertMissingToData="yes">
+                <from expression="'WORKREP'"/>
+                <to variable="inputVariable" part="payload"
+                    query="/ns2:invokeScenario/ns2:RepositoryConnection/ns2:WorkRepository"/>
+            </copy>
+        </assign>
+        <assign name="Input_to_ODIService">
+            <bpelx:annotation>
+                <bpelx:pattern>transformation</bpelx:pattern>
+            </bpelx:annotation>
+            <copy>
+                <from expression="ora:doXSLTransformForDoc('xsl/Transformation_1.xsl', $inputVariable.payload)"/>
+                <to variable="Invoke_invokeStartScenWithCallback_InputVariable"
+                    part="part1"/>
+            </copy>
+        </assign>
+        <invoke name="Invoke"
+                inputVariable="Invoke_invokeStartScenWithCallback_InputVariable"
+                partnerLink="ODIService" portType="ns1:requestPortType"
+                operation="invokeStartScenWithCallback"
+                bpelx:invokeAsDetail="no"/>
+        <receive name="Receive" createInstance="no"
+                 variable="Receive_invokeStartScenCallback_InputVariable"
+                 partnerLink="ODIService"
+                 portType="ns1:requestPortTypeCallback"
+                 operation="invokeStartScenCallback"/>
+        <assign name="AssignStatusInput">
+            <copy>
+                <from variable="Receive_invokeStartScenCallback_InputVariable"
+                      part="part1" query="/ns1:OdiStartScenResponse/Session"/>
+                <to variable="InvokeStatus_getSessionStatus_InputVariable"
+                    part="part1"
+                    query="/ns1:OdiGetSessionsStatusRequest/SessionIds"/>
+            </copy>
+            <copy>
+                <from variable="inputVariable" part="payload"
+                      query="/ns2:invokeScenario/ns2:RepositoryConnection/ns2:OdiUser"/>
+                <to variable="InvokeStatus_getSessionStatus_InputVariable"
+                    part="part1"
+                    query="/ns1:OdiGetSessionsStatusRequest/Credentials/OdiUser"/>
+            </copy>
+            <copy>
+                <from variable="inputVariable" part="payload"
+                      query="/ns2:invokeScenario/ns2:RepositoryConnection/ns2:OdiPassword"/>
+                <to variable="InvokeStatus_getSessionStatus_InputVariable"
+                    part="part1"
+                    query="/ns1:OdiGetSessionsStatusRequest/Credentials/OdiPassword"/>
+            </copy>
+            <copy>
+                <from variable="inputVariable" part="payload"
+                      query="/ns2:invokeScenario/ns2:RepositoryConnection/ns2:WorkRepository"/>
+                <to variable="InvokeStatus_getSessionStatus_InputVariable"
+                    part="part1"
+                    query="/ns1:OdiGetSessionsStatusRequest/Credentials/WorkRepository"/>
+            </copy>
+        </assign>
+        <invoke name="InvokeStatus"
+                partnerLink="ODIService" portType="ns1:requestPortType"
+                operation="getSessionStatus"
+                inputVariable="InvokeStatus_getSessionStatus_InputVariable"
+                outputVariable="InvokeStatus_getSessionStatus_OutputVariable"
+                bpelx:invokeAsDetail="no"/>
+        <assign name="LogExit">
+            <copy>
+                <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),string('Logtext Exit FndIntgODIService'),string('INFO'))"/>
+                <to variable="status"/>
+            </copy>
+            <copy>
+                <from variable="InvokeStatus_getSessionStatus_OutputVariable"
+                      part="part1"
+                      query="/ns1:OdiGetSessionsStatusResponse/SessionStatusResponse/SessionStatus"/>
+                <to variable="outputVariable" part="payload"
+                    query="/ns2:invokeScenarioCallback/ns2:status"/>
+            </copy>
+            <copy bpelx:ignoreMissingFromData="yes">
+                <from variable="InvokeStatus_getSessionStatus_OutputVariable"
+                      part="part1"
+                      query="/ns1:OdiGetSessionsStatusResponse/SessionStatusResponse/SessionMessage"/>
+                <to variable="outputVariable" part="payload"
+                    query="/ns2:invokeScenarioCallback/ns2:ErrorMessage"/>
+            </copy>
+            <copy>
+                <from variable="InvokeStatus_getSessionStatus_OutputVariable"
+                      part="part1"
+                      query="/ns1:OdiGetSessionsStatusResponse/SessionStatusResponse/SessionId"/>
+                <to variable="outputVariable" part="payload"
+                    query="/ns2:invokeScenarioCallback/ns2:sessionid"/>
+            </copy>
+        </assign>
+        <invoke name="callbackClient" partnerLink="fndintgodiservice_client" portType="client:FndIntgODIServiceCallback" operation="processResponse" inputVariable="outputVariable"/>
+    </sequence>
+</process>

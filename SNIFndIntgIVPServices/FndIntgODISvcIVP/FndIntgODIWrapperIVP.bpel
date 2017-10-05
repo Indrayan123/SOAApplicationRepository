@@ -1,0 +1,192 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Mon Sep 19 06:49:48 CDT 2016
+  Author:  f23963
+  Type: BPEL 1.1 Process
+  Purpose: Asynchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="FndIntgODIWrapperIVP"
+         targetNamespace="http://xmlns.schneider.com/SNIFndIntgIVPServices/FndIntgODISvcIVP/FndIntgODIWrapperIVP"
+         xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:client="http://xmlns.schneider.com/SNIFndIntgIVPServices/FndIntgODISvcIVP/FndIntgODIWrapperIVP"
+         xmlns:ora="http://schemas.oracle.com/xpath/extension"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:snibpel="http://xmlns.schneider.com/BPEL/sni/foundation/soa/extensions/xpath"
+         xmlns:ns1="http://xmlns.schneider.com/FndIntgODIService/FndIntgODIService/V1"
+         xmlns:bpel2="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns2="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap">
+
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    --> 
+    <partnerLinks>
+        <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+        <partnerLink name="fndintgodiwrapperivp_client" partnerLinkType="client:FndIntgODIWrapperIVP" myRole="FndIntgODIWrapperIVPProvider" partnerRole="FndIntgODIWrapperIVPRequester"/>
+        <partnerLink name="FndIntgODIIVPSvc"
+                     partnerLinkType="ns1:FndIntgODIService"
+                     partnerRole="FndIntgODIServiceProvider"
+                     myRole="FndIntgODIServiceRequester"/>
+    </partnerLinks>
+
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        VARIABLES                                                        
+        List of messages and XML documents used within this BPEL process 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+    <variables>
+        <!-- Reference to the message passed as input during initiation -->
+        <variable name="inputVariable" messageType="client:FndIntgODIWrapperIVPRequestMessage"/>
+
+        <!-- Reference to the message that will be sent back to the requester during callback -->
+        <variable name="outputVariable" messageType="client:FndIntgODIWrapperIVPResponseMessage"/>
+        <variable name="InvokeIVPODI_process_InputVariable"
+                  messageType="ns1:FndIntgODIServiceRequestMessage"/>
+        <variable name="ReceiveFromODIIVP_processResponse_InputVariable"
+                  messageType="ns1:FndIntgODIServiceResponseMessage"/>
+        <variable name="cacheupd" type="xsd:string"/>
+        <variable name="keyIdentifier" type="xsd:string"/>
+    </variables>
+    <faultHandlers>
+        <catchAll>
+            <assign name="cacheupdate">
+                <copy>
+                    <from expression="snibpel:EnterpriseCachePutByCacheName('FNDCache-SOAIVPStatus',bpws:getVariableData('keyIdentifier'), 'Failure in invoking the ODI IVP', '172800000')"/>
+                    <to variable="cacheupd"/>
+                </copy>
+            </assign>
+        </catchAll>
+    </faultHandlers>
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+       ORCHESTRATION LOGIC                                               
+       Set of activities coordinating the flow of messages across the    
+       services integrated within this business process                  
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+    <sequence name="main">
+        <!-- Receive input from requestor. (Note: This maps to operation defined in FndIntgODIWrapperIVP.wsdl) -->
+        <receive name="receiveInput" variable="inputVariable" createInstance="yes"
+                 partnerLink="fndintgodiwrapperivp_client"
+                 portType="client:FndIntgODIWrapperIVP" operation="process"/>
+        <assign name="PassInput">
+            <copy>
+                <from variable="inputVariable" part="payload"
+                      query="/ns2:invokeScenario/ns2:RepositoryConnection"/>
+                <to variable="InvokeIVPODI_process_InputVariable" part="payload"
+                    query="/ns2:invokeScenario/ns2:RepositoryConnection"/>
+            </copy>
+            <copy>
+                <from variable="inputVariable" part="payload"
+                      query="/ns2:invokeScenario/ns2:Command"/>
+                <to variable="InvokeIVPODI_process_InputVariable" part="payload"
+                    query="/ns2:invokeScenario/ns2:Command"/>
+            </copy>
+            <copy>
+                <from variable="inputVariable" part="payload"
+                      query="/ns2:invokeScenario/ns2:Agent"/>
+                <to variable="InvokeIVPODI_process_InputVariable" part="payload"
+                    query="/ns2:invokeScenario/ns2:Agent"/>
+            </copy>
+            <copy>
+                <from variable="inputVariable" part="payload"
+                      query="/ns2:invokeScenario/ns2:Command/ns2:SessionName"/>
+                <to variable="keyIdentifier"/>
+            </copy>
+        </assign>
+        <invoke name="InvokeIVPODI" bpelx:invokeAsDetail="no"
+                inputVariable="InvokeIVPODI_process_InputVariable"
+                partnerLink="FndIntgODIIVPSvc"
+                portType="ns1:FndIntgODIService" operation="process"/>
+        <receive name="ReceiveFromODIIVP" createInstance="no"
+                 variable="ReceiveFromODIIVP_processResponse_InputVariable"
+                 partnerLink="FndIntgODIIVPSvc"
+                 portType="ns1:FndIntgODIServiceCallback"
+                 operation="processResponse" bpelx:for="'PT4M'"/>
+        <switch name="Switch3">
+            <case condition="string-length(bpws:getVariableData('ReceiveFromODIIVP_processResponse_InputVariable','payload','/ns2:invokeScenarioCallback/ns2:sessionid'))!=0">
+                <bpelx:annotation>
+                    <bpelx:general>
+                        <bpelx:property name="userLabel">If SessionID Exists</bpelx:property>
+                    </bpelx:general>
+                </bpelx:annotation><assign name="cacheupdate"
+                                           xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+      
+   <copy>
+         <from expression="snibpel:EnterpriseCachePutByCacheName('FNDCache-SOAIVPStatus',bpws:getVariableData('keyIdentifier'), 'Task Completed', '300000')"/>
+         <to variable="cacheupd"/>
+      </copy></assign></case>
+            <otherwise>
+                <switch name="Switch1">
+                    <case condition="(bpws:getVariableData('ReceiveFromODIIVP_processResponse_InputVariable','payload','/ns2:invokeScenarioCallback/ns2:status')='E')or(string-length(bpws:getVariableData('ReceiveFromODIIVP_processResponse_InputVariable','payload','/ns2:invokeScenarioCallback/ns2:ErrorMessage'))!=0.0)">
+                        <bpelx:annotation>
+                            <bpelx:general>
+                                <bpelx:property name="userLabel">If Error</bpelx:property>
+                            </bpelx:general>
+                        </bpelx:annotation>
+                        <sequence name="Sequence1">
+                            <switch name="Switch2">
+                                <case condition="contains(string(bpws:getVariableData('ReceiveFromODIIVP_processResponse_InputVariable','payload','/ns2:invokeScenarioCallback/ns2:ErrorMessage')),'NaN')">
+                                    <bpelx:annotation>
+                                        <bpelx:general>
+                                            <bpelx:property name="userLabel">If Error Message is NaN</bpelx:property>
+                                        </bpelx:general>
+                                    </bpelx:annotation>
+                                    <assign name="cacheupdate"
+                                            xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+                                        <copy>
+                                            <from expression="snibpel:EnterpriseCachePutByCacheName('FNDCache-SOAIVPStatus',bpws:getVariableData('keyIdentifier'), 'ODIService Invocation returned SOAPfault from ODI end', '172800000')"/>
+                                            <to variable="cacheupd"/>
+                                        </copy>
+                                    </assign>
+                                </case>
+                                <otherwise>
+                                    <assign name="cacheupdate">
+                                        <copy>
+                                            <from expression="snibpel:EnterpriseCachePutByCacheName('FNDCache-SOAIVPStatus',bpws:getVariableData('keyIdentifier'), substring(string(bpws:getVariableData('ReceiveFromODIIVP_processResponse_InputVariable','payload','/ns2:invokeScenarioCallback/ns2:ErrorMessage')),1,200), '172800000')"/>
+                                            <to variable="cacheupd"/>
+                                        </copy>
+                                    </assign>
+                                </otherwise>
+                            </switch>
+                        </sequence>
+                    </case>
+                    <otherwise>
+                        <assign name="cacheupdate"
+                                xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+                            <copy>
+                                <from expression="snibpel:EnterpriseCachePutByCacheName('FNDCache-SOAIVPStatus',bpws:getVariableData('keyIdentifier'), 'Task Completed', '300000')"/>
+                                <to variable="cacheupd"/>
+                            </copy>
+                        </assign>
+                    </otherwise>
+                </switch>
+            </otherwise>
+        </switch>
+        <!-- 
+          Asynchronous callback to the requester. (Note: the callback location and correlation id is transparently handled using WS-addressing.)
+        -->
+    </sequence>
+</process>

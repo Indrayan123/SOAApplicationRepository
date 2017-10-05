@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions name="FndIntgBIPService" targetNamespace="http://xmlns.oracle.com/SNIFndIntgServices_jws/FndIntgBIPService/FndIntgBIPService" xmlns:ns1="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1/Services/FndBIPReportService" xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:client="http://xmlns.oracle.com/SNIFndIntgServices_jws/FndIntgBIPService/FndIntgBIPService" xmlns:pns1="http://xmlns.oracle.com/SNIFndIntgServices_jws/FndIntgBIPService/FndIntgBIPService/correlationset" xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+<plnk:partnerLinkType name="FndIntgBIPService">
+<plnk:role name="FndIntgBIPServiceProvider">
+<plnk:portType name="client:FndIntgBIPService"/>
+</plnk:role>
+<plnk:role name="FndIntgBIPServiceRequester">
+<plnk:portType name="client:FndIntgBIPServiceCallback"/>
+</plnk:role>
+</plnk:partnerLinkType>
+<bpws:propertyAlias propertyName="pns1:BIPInternalCorrlationKey" xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/jms/SNIFndIntgServices/FndIntgBIPService/enqueueJMSFndIntgBIPRequest" messageType="ns1:Produce_Message_msg" part="body" query="/ns2:ScheduleReport/ns2:IntCorrelationKey" xmlns:ns2="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1/Services/FndBIPReportService"/>
+<bpws:propertyAlias propertyName="pns1:BIPInternalCorrlationKey" messageType="client:FndIntgBIPServiceResponseMessage" part="payload" query="/ns2:ScheduleReportResponse/ns2:IntCorrelationKey" xmlns:ns2="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1/Services/FndBIPReportService"/>
+<wsdl:import namespace="http://xmlns.oracle.com/SNIFndIntgServices_jws/FndIntgBIPService/FndIntgBIPService/correlationset" location="FndIntgBIPService_Properties.wsdl"/>
+<wsdl:types>
+<schema xmlns="http://www.w3.org/2001/XMLSchema">
+<import namespace="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1/Services/FndBIPReportService" schemaLocation="oramds:/apps/SNIComponents/EnterpriseObjectLibrary/Core/Common/V1/SNIScheduleReport.xsd"/>
+</schema>
+<schema xmlns="http://www.w3.org/2001/XMLSchema">
+<import namespace="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1" schemaLocation="oramds:/apps/SNIComponents/EnterpriseObjectLibrary/Core/Common/V1/SNICore.xsd"/>
+</schema>
+</wsdl:types>
+<wsdl:message name="FndIntgBIPServiceRequestMessage">
+<wsdl:part name="payload" element="ns1:ScheduleReport"/>
+</wsdl:message>
+<wsdl:message name="FndIntgBIPServiceResponseMessage">
+<wsdl:part name="payload" element="ns1:ScheduleReportResponse"/>
+</wsdl:message>
+<wsdl:portType name="FndIntgBIPService">
+<wsdl:operation name="process">
+<wsdl:input message="client:FndIntgBIPServiceRequestMessage"/>
+</wsdl:operation>
+<wsdl:operation name="ProcessResponseFromBIPRequestHandler">
+<wsdl:input message="client:FndIntgBIPServiceResponseMessage"/>
+</wsdl:operation>
+</wsdl:portType>
+<wsdl:portType name="FndIntgBIPServiceCallback">
+<wsdl:operation name="processResponse">
+<wsdl:input message="client:FndIntgBIPServiceResponseMessage"/>
+</wsdl:operation>
+</wsdl:portType>
+</wsdl:definitions>

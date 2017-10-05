@@ -1,0 +1,975 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Mon Jun 27 17:43:29 IST 2016
+  Author:  t15581
+  Type: BPEL 1.1 Process
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="FndIntgValidateAdapterIntgIVP"
+         targetNamespace="http://xmlns.oracle.com/ValidatALLSOAIVP/FndIntgValidateAdapterIntegrationIVP/FndIntgValidateAdapterIntgIVP"
+         xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:client="http://xmlns.oracle.com/ValidatALLSOAIVP/FndIntgValidateAdapterIntegrationIVP/FndIntgValidateAdapterIntgIVP"
+         xmlns:ora="http://schemas.oracle.com/xpath/extension"
+         xmlns:snibpel="http://xmlns.schneider.com/BPEL/sni/foundation/soa/extensions/xpath"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:ns1="http://xmlns.schneider.com/SNIFndIntgIVPServices/ChkAdapterIntgSOAIVPSvc"
+         xmlns:bpel2="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+         xmlns:ns2="http://xmlns.schneider.com/SNIFndIntgIVPServices/ChkAdapterIntgSOAIVP"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:ns3="http://xmlns.schneider.com/SNIFndIntgIVPServices/FndIntgAQEnQIVP/FndIntgAQEnQIVP"
+         xmlns:ns4="http://www.globalcompany.com/ns/sales"
+         xmlns:ns5="http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/FndIntgDBAdapterIVP/FndIntgDBAdapterIVP"
+         xmlns:ns6="http://xmlns.oracle.com/SNIFndIntgIVPServices/FndIntgJMSRQEnqueue/FndIntgJMSRQEnqueue"
+         xmlns:ns8="http://xmlns.schneider.com/FoundationObjects/CrossRef/V1"
+         xmlns:ns9="http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/FndIntgUOOQueuePublisherIVP/FndIntgUOOQueuePublisherIVP"
+         xmlns:ns7="http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/FndIntgAppsAdapterIVP/FndIntgAppsAdapterIVP"
+         xmlns:ns10="http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/FndIntgTopicPublisherIVP/FndIntgTopicPublisherIVP"
+         xmlns:ns11="http://client/"
+         xmlns:ns12="http://xmlns.schneider.com/SNIFndIntgIVPServices/FndIntgUMSMailProcessIVP/FndIntgUMSMailPushNotificationIVP"
+         xmlns:ns13="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1">
+  <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="fndintgvalidateadapterintgivp_client_ep"
+                 partnerLinkType="ns1:fndintgvalidateadapterintgivp_client_ep"
+                 myRole="ChkAdapterIntgSOAIVPPortType"/>
+    <partnerLink name="FndIntgAQEnQIVP" partnerLinkType="ns3:FndIntgAQEnQIVP"
+                 partnerRole="FndIntgAQEnQIVPProvider"/>
+    <partnerLink name="FndIntgDBAdapterIVP"
+                 partnerLinkType="ns5:FndIntgDBAdapterIVP"
+                 partnerRole="FndIntgDBAdapterIVPProvider"/>
+    <partnerLink name="FndIntgJMSRQEnqueue"
+                 partnerLinkType="ns6:FndIntgJMSRQEnqueue"
+                 partnerRole="FndIntgJMSRQEnqueueProvider"/>
+    <partnerLink name="FndIntgUOOQueuePublisher"
+                 partnerLinkType="ns9:FndIntgUOOQueuePublisherIVP"
+                 partnerRole="FndIntgUOOQueuePublisherIVPProvider"/>
+    <partnerLink name="FndIntgAppsAdapterIVP"
+                 partnerLinkType="ns7:FndIntgAppsAdapterIVP"
+                 partnerRole="FndIntgAppsAdapterIVPProvider"/>
+    <partnerLink name="FndIntgTopicPublisherIVP"
+                 partnerLinkType="ns10:FndIntgTopicPublisherIVP"
+                 partnerRole="FndIntgTopicPublisherIVPProvider"/>
+  </partnerLinks>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="ChkAdapterIntgSOAIVPReqMsg" messageType="ns1:InputMessage"/>
+    <variable name="ChkAdapterIntgSOAIVPResMsg"
+              messageType="ns1:OutputMessage"/>
+    <variable name="ErrMsgLength" type="xsd:int"/>
+    <variable name="ThreadCount" type="xsd:int"/>
+    <variable name="FndIntgAQEnQIVPResMsg" type="xsd:string"/>
+    <variable name="InvokeFndIntgAQEnQIVPReqMsg"
+              messageType="ns3:FndIntgAQEnQIVPRequestMessage"/>
+    <variable name="InvokeFndIntgAQEnQIVPResMsg"
+              messageType="ns3:FndIntgAQEnQIVPResponseMessage"/>
+    <variable name="InvokeFndIntgDBAdapterIVPReqMsg"
+              messageType="ns5:FndIntgDBAdapterIVPRequestMessage"/>
+    <variable name="InvokeFndIntgDBAdapterIVPResMsg"
+              messageType="ns5:FndIntgDBAdapterIVPResponseMessage"/>
+    <variable name="FndIntgDBAdapterIVPResMsg" type="xsd:string"/>
+    <variable name="InvokeFndIntgJMSRQEnqueueReqMsg"
+              messageType="ns6:FndIntgJMSRQEnqueueRequestMessage"/>
+    <variable name="InvokeFndIntgJMSRQEnqueueResMsg"
+              messageType="ns6:FndIntgJMSRQEnqueueResponseMessage"/>
+    <variable name="FndIntgJMSRQEnqueueResMsg" type="xsd:string"/>
+    <variable name="FndIntgUOOQueuePublisherResMsg" type="xsd:string"/>
+    <variable name="InvokeFndIntgUOOQueuePublisherReqMsg"
+              messageType="ns9:FndIntgUOOQueuePublisherIVPRequestMessage"/>
+    <variable name="InvokeFndIntgUOOQueuePublisherResMsg"
+              messageType="ns9:FndIntgUOOQueuePublisherIVPResponseMessage"/>
+    <variable name="FndIntgAQDeIVPResMsg" type="xsd:string"/>
+    <variable name="FndIntgJMSRQDequeueResMsg" type="xsd:string"/>
+    <variable name="FndIntgUOOQueueConsumerIVPResMsg" type="xsd:string"/>
+    <variable name="InvokeFndIntgAppsAdapterIVPReqMsg"
+              messageType="ns7:FndIntgAppsAdapterIVPRequestMessage"/>
+    <variable name="InvokeFndIntgAppsAdapterIVPResMsg"
+              messageType="ns7:FndIntgAppsAdapterIVPResponseMessage"/>
+    <variable name="FndIntgAppsAdapterIVPResMsg" type="xsd:string"/>
+    <variable name="FndIntgTopicPublisherRes" type="xsd:string"/>
+    <variable name="InvokeFndIntgTopicPublisherIVP_InputVariable"
+              messageType="ns10:FndIntgTopicPublisherIVPRequestMessage"/>
+    <variable name="InvokeFndIntgTopicPublisherIVP_OutputVariable"
+              messageType="ns10:FndIntgTopicPublisherIVPResponseMessage"/>
+    <variable name="SNIHeader" element="ns13:SNIHeader"/>
+    <variable name="SNIFault" messageType="ns1:SNIFaultMessage"/>
+    <variable name="logStatus" type="xsd:string"/>
+  </variables>
+  <faultHandlers>
+    <catchAll>
+      <sequence name="Sequence6">
+        <assign name="createFault">
+          <copy>
+            <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','ValidateAdapterIntegration Flt',string(ora:getFaultAsString()),string('3'),'FndIntgValidateAdapterIntegrationIVP')"/>
+            <to variable="SNIFault" part="payload" query="/ns13:SNIFault"/>
+          </copy>
+          <copy>
+            <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateAdapterIntegrationIVP-Fault Occurred at CATCHALL',bpws:getVariableData('SNIHeader','/ns13:SNIHeader/ns13:BusinessKey')),string('SEVERE'))"/>
+            <to variable="logStatus"/>
+          </copy>
+        </assign>
+        <reply name="ReplywithFault" faultName="ns1:SNIFault"
+               variable="SNIFault"
+               partnerLink="fndintgvalidateadapterintgivp_client_ep"
+               portType="ns1:ChkAdapterIntgSOAIVPPortType"
+               operation="ChkAdapterIntgSOAIVP"/>
+      </sequence>
+    </catchAll>
+  </faultHandlers>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+    <!-- Receive input from requestor. (Note: This maps to operation defined in FndIntgValidateAdapterIntgIVP.wsdl) -->
+    <receive name="receiveInput"
+             partnerLink="fndintgvalidateadapterintgivp_client_ep"
+             portType="ns1:ChkAdapterIntgSOAIVPPortType"
+             operation="ChkAdapterIntgSOAIVP"
+             variable="ChkAdapterIntgSOAIVPReqMsg" createInstance="yes"/>
+    <assign name="createHeader">
+      <copy>
+        <from expression="snibpel:createSNIHeader('SOA-FndIntgValidateAdapterIntegrationIVP','IVP-Adapter','FndIntgValidateAdapterIntegrationIVP','SOAIVP','SOA','')"/>
+        <to variable="SNIHeader" query="/ns13:SNIHeader"/>
+      </copy>
+      <copy>
+        <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateAdapterIntegrationIVP-Enter',bpws:getVariableData('SNIHeader','/ns13:SNIHeader/ns13:BusinessKey')),string('INFO'))"/>
+        <to variable="logStatus"/>
+      </copy>
+    </assign>
+    <switch name="IfErrorMsgLength">
+      <case condition="bpws:getVariableData('ChkAdapterIntgSOAIVPReqMsg','part','/ns2:Input/ns2:Err_Msg_Length')!=''">
+        <bpelx:annotation>
+          <bpelx:general>
+            <bpelx:property name="userLabel">IfErrorMsgLength Exists</bpelx:property>
+          </bpelx:general>
+        </bpelx:annotation>
+        <assign name="AssignErrMsgLength">
+          <copy>
+            <from expression="ora:integer(bpws:getVariableData('ChkAdapterIntgSOAIVPReqMsg','part','/ns2:Input/ns2:Err_Msg_Length'))"/>
+            <to variable="ErrMsgLength"/>
+          </copy>
+        </assign>
+      </case>
+      <otherwise>
+        <assign name="AssignCustomErrorMsgLength">
+          <copy>
+            <from expression="200"/>
+            <to variable="ErrMsgLength"/>
+          </copy>
+        </assign>
+      </otherwise>
+    </switch>
+    <flow name="AdapterIntgFlow">
+      <sequence name="AppsAdapterIVPSequence">
+        <scope name="FndIntgAppsAdapterIVPScope"
+               variableAccessSerializable="no">
+          <faultHandlers>
+            <catchAll>
+              <assign name="AssignErrorResponse">
+                <copy>
+                  <from expression="'Failure'"/>
+                  <to variable="ChkAdapterIntgSOAIVPResMsg" part="part"
+                      query="/ns2:Output/ns2:ValidateAdapterIntgRes/ns2:fndintgappsadapterivp/ns2:Status"/>
+                </copy>
+                <copy>
+                  <from expression="concat('FAILED In FndIntgAppsAdapterIVP::',substring(ora:getFaultAsString(),1,bpws:getVariableData('ErrMsgLength')))"/>
+                  <to variable="ChkAdapterIntgSOAIVPResMsg" part="part"
+                      query="/ns2:Output/ns2:ValidateAdapterIntgRes/ns2:fndintgappsadapterivp/ns2:AdditionalNote"/>
+                </copy>
+                <copy>
+                  <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','FndIntgAppsAdapter Flt',string(bpws:getVariableData('ChkAdapterIntgSOAIVPResMsg','part','/ns2:Output/ns2:ValidateAdapterIntgRes/ns2:fndintgappsadapterivp/ns2:AdditionalNote')),string('3'),'FndIntgValidateAdapterIntegrationIVP')"/>
+                  <to variable="SNIFault" part="payload"
+                      query="/ns13:SNIFault"/>
+                </copy>
+                <copy>
+                  <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateAdapterIntegrationIVP-Fault Occurred at the scope FndIntgAppsadapterIVP',bpws:getVariableData('SNIHeader','/ns13:SNIHeader/ns13:BusinessKey')),string('SEVERE'))"/>
+                  <to variable="logStatus"/>
+                </copy>
+              </assign>
+            </catchAll>
+          </faultHandlers>
+          <switch name="IfToCheckFndIntgAppsAdapterIVP">
+            <case condition="xp20:upper-case(string(bpws:getVariableData('ChkAdapterIntgSOAIVPReqMsg','part','/ns2:Input/ns2:ValidateAdapterIntgReq/ns2:fndintgappsadapterivp')))='TRUE'">
+              <bpelx:annotation>
+                <bpelx:general>
+                  <bpelx:property name="userLabel">CheckFndIntgAppsAdapterIVP</bpelx:property>
+                </bpelx:general>
+              </bpelx:annotation>
+              <sequence name="FndIntgAppsAdapterIVPSequence">
+                <assign name="AssignRequestMsg">
+                  <copy bpelx:insertMissingToData="yes">
+                    <from expression="'7654'"/>
+                    <to variable="InvokeFndIntgAppsAdapterIVPReqMsg"
+                        part="payload" query="/ns7:process/ns7:input"/>
+                  </copy>
+                </assign>
+                <invoke name="InvokeFndIntgAppsAdapterIVP"
+                        inputVariable="InvokeFndIntgAppsAdapterIVPReqMsg"
+                        outputVariable="InvokeFndIntgAppsAdapterIVPResMsg"
+                        partnerLink="FndIntgAppsAdapterIVP"
+                        portType="ns7:FndIntgAppsAdapterIVP" operation="process"
+                        bpelx:invokeAsDetail="no"/>
+                <assign name="Assign1">
+                  <copy bpelx:insertMissingToData="yes"
+                        bpelx:ignoreMissingFromData="yes">
+                    <from expression="bpws:getVariableData('ThreadCount')"/>
+                    <to variable="ThreadCount"/>
+                  </copy>
+                </assign>
+                <switch name="IfResponseMsgExists">
+                  <case condition="string-length(bpws:getVariableData('InvokeFndIntgAppsAdapterIVPResMsg','payload','/ns7:processResponse/ns7:result'))!=0">
+                    <bpelx:annotation>
+                      <bpelx:general>
+                        <bpelx:property name="userLabel">ResponseMsgExists</bpelx:property>
+                      </bpelx:general>
+                    </bpelx:annotation>
+                    <assign name="AssignResponse">
+                      <copy>
+                        <from expression="'Success'"/>
+                        <to variable="ChkAdapterIntgSOAIVPResMsg" part="part"
+                            query="/ns2:Output/ns2:ValidateAdapterIntgRes/ns2:fndintgappsadapterivp/ns2:Status"/>
+                      </copy>
+                    </assign>
+                  </case>
+                  <otherwise>
+                    <assign name="AssignDefaultResponse">
+                      <copy>
+                        <from expression="'Failure'"/>
+                        <to variable="ChkAdapterIntgSOAIVPResMsg" part="part"
+                            query="/ns2:Output/ns2:ValidateAdapterIntgRes/ns2:fndintgappsadapterivp/ns2:Status"/>
+                      </copy>
+                      <copy>
+                        <from expression="'No Data Found'"/>
+                        <to variable="ChkAdapterIntgSOAIVPResMsg" part="part"
+                            query="/ns2:Output/ns2:ValidateAdapterIntgRes/ns2:fndintgappsadapterivp/ns2:AdditionalNote"/>
+                      </copy>
+                      <copy>
+                        <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','FndIntgAppsAdapter Flt',string(bpws:getVariableData('ChkAdapterIntgSOAIVPResMsg','part','/ns2:Output/ns2:ValidateAdapterIntgRes/ns2:fndintgappsadapterivp/ns2:AdditionalNote')),string('3'),'FndIntgValidateAdapterIntegrationIVP')"/>
+                        <to variable="SNIFault" part="payload"
+                            query="/ns13:SNIFault"/>
+                      </copy>
+                      <copy>
+                        <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateAdapterIntegrationIVP-Fault Occurred at the scope FndIntgAppsadapterIVP',bpws:getVariableData('SNIHeader','/ns13:SNIHeader/ns13:BusinessKey')),string('SEVERE'))"/>
+                        <to variable="logStatus"/>
+                      </copy>
+                    </assign>
+                  </otherwise>
+                </switch>
+              </sequence>
+            </case>
+            <otherwise>
+              <assign name="AssignDefaultResponse">
+                <copy>
+                  <from expression="'Skipped'"/>
+                  <to variable="ChkAdapterIntgSOAIVPResMsg" part="part"
+                      query="/ns2:Output/ns2:ValidateAdapterIntgRes/ns2:fndintgappsadapterivp/ns2:Status"/>
+                </copy>
+              </assign>
+            </otherwise>
+          </switch>
+        </scope>
+      </sequence>
+      <sequence name="TopicPublisherIVPSequence">
+        <scope name="FndIntgTopicPublisherIVPScope"
+               variableAccessSerializable="no">
+          <bpelx:annotation>
+            <bpelx:general>
+              <bpelx:property name="userLabel">FndIntgTopicPublisherIVPScope</bpelx:property>
+            </bpelx:general>
+          </bpelx:annotation>
+          <faultHandlers>
+            <catchAll>
+              <assign name="AssignErrorResponse">
+                <copy>
+                  <from expression="'Failure'"/>
+                  <to variable="ChkAdapterIntgSOAIVPResMsg" part="part"
+                      query="/ns2:Output/ns2:ValidateAdapterIntgRes/ns2:fndintgtopicpublisherivp/ns2:Status"/>
+                </copy>
+                <copy>
+                  <from expression="concat('FAILED In FndIntgTopicPublisherIVP::',substring(ora:getFaultAsString(),1,bpws:getVariableData('ErrMsgLength')))"/>
+                  <to variable="ChkAdapterIntgSOAIVPResMsg" part="part"
+                      query="/ns2:Output/ns2:ValidateAdapterIntgRes/ns2:fndintgtopicpublisherivp/ns2:AdditionalNote"/>
+                </copy>
+                <copy>
+                  <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','FndIntgTopicPublisherIVP Flt',string(bpws:getVariableData('ChkAdapterIntgSOAIVPResMsg','part','/ns2:Output/ns2:ValidateAdapterIntgRes/ns2:fndintgtopicpublisherivp/ns2:AdditionalNote')),string('3'),'FndIntgValidateAdapterIntegrationIVP')"/>
+                  <to variable="SNIFault" part="payload"
+                      query="/ns13:SNIFault"/>
+                </copy>
+                <copy>
+                  <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateAdapterIntegrationIVP-Fault Occurred at the scope FndIntgTopicPublisherIVP',bpws:getVariableData('SNIHeader','/ns13:SNIHeader/ns13:BusinessKey')),string('SEVERE'))"/>
+                  <to variable="logStatus"/>
+                </copy>
+              </assign>
+            </catchAll>
+          </faultHandlers>
+          <sequence name="Sequence1">
+            <switch name="Switch1">
+              <case condition="xp20:upper-case(string(bpws:getVariableData('ChkAdapterIntgSOAIVPReqMsg','part','/ns2:Input/ns2:ValidateAdapterIntgReq/ns2:fndintgtopicpublisherivp')))='TRUE'">
+                <bpelx:annotation>
+                  <bpelx:general>
+                    <bpelx:property name="userLabel">CheckFndIntgTopicPublisher</bpelx:property>
+                  </bpelx:general>
+                </bpelx:annotation>
+                <sequence>
+                  <assign name="AssignRequestMessage">
+                    <copy>
+                      <from expression="'Topic'"/>
+                      <to variable="InvokeFndIntgTopicPublisherIVP_InputVariable"
+                          part="payload" query="/payload/ns8:TableName"/>
+                    </copy>
+                    <copy>
+                      <from expression="2.0"/>
+                      <to variable="InvokeFndIntgTopicPublisherIVP_InputVariable"
+                          part="payload" query="/payload/ns8:Revision"/>
+                    </copy>
+                    <copy>
+                      <from expression="'Source'"/>
+                      <to variable="InvokeFndIntgTopicPublisherIVP_InputVariable"
+                          part="payload" query="/payload/ns8:SourceColumnName"/>
+                    </copy>
+                    <copy>
+                      <from expression="'Val1'"/>
+                      <to variable="InvokeFndIntgTopicPublisherIVP_InputVariable"
+                          part="payload" query="/payload/ns8:SourceValue"/>
+                    </copy>
+                    <copy>
+                      <from expression="'Ref'"/>
+                      <to variable="InvokeFndIntgTopicPublisherIVP_InputVariable"
+                          part="payload"
+                          query="/payload/ns8:ReferenceColumnName"/>
+                    </copy>
+                    <copy>
+                      <from expression="'true'"/>
+                      <to variable="InvokeFndIntgTopicPublisherIVP_InputVariable"
+                          part="payload" query="/payload/ns8:NeedException"/>
+                    </copy>
+                  </assign>
+                  <invoke name="InvokeFndIntgTopicPublisherIVP"
+                          bpelx:invokeAsDetail="no"
+                          inputVariable="InvokeFndIntgTopicPublisherIVP_InputVariable"
+                          outputVariable="InvokeFndIntgTopicPublisherIVP_OutputVariable"
+                          partnerLink="FndIntgTopicPublisherIVP"
+                          portType="ns10:FndIntgTopicPublisherIVP"
+                          operation="process"/><switch name="Switch2"
+                                                       xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+      <case condition="bpws:getVariableData('InvokeFndIntgTopicPublisherIVP_OutputVariable','payload','/ns10:processResponse/ns10:result')='Success'">
+         <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+            <bpelx:general>
+               <bpelx:property name="userLabel">If Success</bpelx:property>
+            </bpelx:general>
+         </bpelx:annotation>
+         
+      <sequence>
+                        <assign name="AssignResponseMessage">
+                          <copy>
+                            <from expression="'Success'"/>
+                            <to variable="ChkAdapterIntgSOAIVPResMsg"
+                                part="part"
+                                query="/ns2:Output/ns2:ValidateAdapterIntgRes/ns2:fndintgtopicpublisherivp/ns2:Status"/>
+                          </copy>
+                        </assign></sequence></case>
+      <otherwise>
+         
+      <sequence name="Sequence3"><assign name="AssignResponseMessage"
+                                         xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+                          <copy>
+                            <from expression="'Failure'"/>
+                            <to variable="ChkAdapterIntgSOAIVPResMsg"
+                                part="part"
+                                query="/ns2:Output/ns2:ValidateAdapterIntgRes/ns2:fndintgtopicpublisherivp/ns2:Status"/>
+                          </copy>
+                          <copy>
+                            <from expression="'Message is not Dequeued yet'"/>
+                            <to variable="ChkAdapterIntgSOAIVPResMsg"
+                                part="part"
+                                query="/ns2:Output/ns2:ValidateAdapterIntgRes/ns2:fndintgtopicpublisherivp/ns2:AdditionalNote"/>
+                          </copy>
+                          <copy>
+                            <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','FndIntgTopicPublisherIVP Flt',string(bpws:getVariableData('ChkAdapterIntgSOAIVPResMsg','part','/ns2:Output/ns2:ValidateAdapterIntgRes/ns2:fndintgtopicpublisherivp/ns2:AdditionalNote')),string('3'),'FndIntgValidateAdapterIntegrationIVP')"/>
+                            <to variable="SNIFault" part="payload"
+                                query="/ns13:SNIFault"/>
+                          </copy>
+                          <copy>
+                            <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateAdapterIntegrationIVP-Fault Occurred at the scope FndIntgTopicPublisherIVP',bpws:getVariableData('SNIHeader','/ns13:SNIHeader/ns13:BusinessKey')),string('SEVERE'))"/>
+                            <to variable="logStatus"/>
+                          </copy>
+                        </assign></sequence></otherwise>
+   </switch>
+                </sequence>
+              </case>
+              <otherwise>
+                <assign name="AssignDefaultResponse">
+                  <copy>
+                    <from expression="'Skipped'"/>
+                    <to variable="ChkAdapterIntgSOAIVPResMsg" part="part"
+                        query="/ns2:Output/ns2:ValidateAdapterIntgRes/ns2:fndintgtopicpublisherivp/ns2:Status"/>
+                  </copy>
+                </assign>
+              </otherwise>
+            </switch>
+          </sequence>
+        </scope>
+      </sequence>
+      <sequence name="UOOQueuePublisherIVPSequence">
+        <scope name="FndIntgUOOQueuePublisherScope"
+               variableAccessSerializable="no">
+          <bpelx:annotation>
+            <bpelx:general>
+              <bpelx:property name="userLabel">FndIntgUOOQueuePublisherIVPScope</bpelx:property>
+            </bpelx:general>
+          </bpelx:annotation>
+          <faultHandlers>
+            <catchAll>
+              <assign name="AssignErrorResponse">
+                <copy>
+                  <from expression="'Failure'"/>
+                  <to variable="ChkAdapterIntgSOAIVPResMsg" part="part"
+                      query="/ns2:Output/ns2:ValidateAdapterIntgRes/ns2:fndintguooqueuepublisher/ns2:Status"/>
+                </copy>
+                <copy>
+                  <from expression="concat('FAILED In FndIntgUOOQueuePublisherIVP::',substring(ora:getFaultAsString(),1,bpws:getVariableData('ErrMsgLength')))"/>
+                  <to variable="ChkAdapterIntgSOAIVPResMsg" part="part"
+                      query="/ns2:Output/ns2:ValidateAdapterIntgRes/ns2:fndintguooqueuepublisher/ns2:AdditionalNote"/>
+                </copy>
+                <copy>
+                  <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','FndIntgUOOQueuePublisherIVP Flt',string(bpws:getVariableData('ChkAdapterIntgSOAIVPResMsg','part','/ns2:Output/ns2:ValidateAdapterIntgRes/ns2:fndintguooqueuepublisher/ns2:AdditionalNote')),string('3'),'FndIntgValidateAdapterIntegrationIVP')"/>
+                  <to variable="SNIFault" part="payload"
+                      query="/ns13:SNIFault"/>
+                </copy>
+                <copy>
+                  <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateAdapterIntegrationIVP-Fault Occurred at the scope FndIntgUOOQueuePublisherIVP',bpws:getVariableData('SNIHeader','/ns13:SNIHeader/ns13:BusinessKey')),string('SEVERE'))"/>
+                  <to variable="logStatus"/>
+                </copy>
+              </assign>
+            </catchAll>
+          </faultHandlers>
+          <switch name="IfToCheckFndIntgUOOQueuePublisher">
+            <case condition="xp20:upper-case(string(bpws:getVariableData('ChkAdapterIntgSOAIVPReqMsg','part','/ns2:Input/ns2:ValidateAdapterIntgReq/ns2:fndintguooqueuepublisher')))='TRUE'">
+              <bpelx:annotation>
+                <bpelx:general>
+                  <bpelx:property name="userLabel">CheckFndIntgUOOQueuePublisher</bpelx:property>
+                </bpelx:general>
+              </bpelx:annotation>
+              <sequence name="FndIntgUOOQueuePublisherSequence">
+                <assign name="AssignRequestMessage">
+                  <copy>
+                    <from expression="'UOO'"/>
+                    <to variable="InvokeFndIntgUOOQueuePublisherReqMsg"
+                        part="payload"
+                        query="/ns8:LookupXrefRequest/ns8:TableName"/>
+                  </copy>
+                  <copy>
+                    <from expression="1.0"/>
+                    <to variable="InvokeFndIntgUOOQueuePublisherReqMsg"
+                        part="payload"
+                        query="/ns8:LookupXrefRequest/ns8:Revision"/>
+                  </copy>
+                  <copy>
+                    <from expression="'Src'"/>
+                    <to variable="InvokeFndIntgUOOQueuePublisherReqMsg"
+                        part="payload"
+                        query="/ns8:LookupXrefRequest/ns8:SourceColumnName"/>
+                  </copy>
+                  <copy>
+                    <from expression="'val'"/>
+                    <to variable="InvokeFndIntgUOOQueuePublisherReqMsg"
+                        part="payload"
+                        query="/ns8:LookupXrefRequest/ns8:SourceValue"/>
+                  </copy>
+                  <copy>
+                    <from expression="'Rf'"/>
+                    <to variable="InvokeFndIntgUOOQueuePublisherReqMsg"
+                        part="payload"
+                        query="/ns8:LookupXrefRequest/ns8:ReferenceColumnName"/>
+                  </copy>
+                  <copy>
+                    <from expression="'true'"/>
+                    <to variable="InvokeFndIntgUOOQueuePublisherReqMsg"
+                        part="payload"
+                        query="/ns8:LookupXrefRequest/ns8:NeedException"/>
+                  </copy>
+                </assign>
+                <invoke name="InvokeFndIntgUOOQueuePublisher"
+                        inputVariable="InvokeFndIntgUOOQueuePublisherReqMsg"
+                        outputVariable="InvokeFndIntgUOOQueuePublisherResMsg"
+                        partnerLink="FndIntgUOOQueuePublisher"
+                        portType="ns9:FndIntgUOOQueuePublisherIVP"
+                        operation="process" bpelx:invokeAsDetail="no"/><switch name="Switch2"
+                                                                               xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+      <case condition="bpws:getVariableData('InvokeFndIntgUOOQueuePublisherResMsg','payload','/ns9:processResponse/ns9:result')='Success'">
+         <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+            <bpelx:general>
+               <bpelx:property name="userLabel">If Success</bpelx:property>
+            </bpelx:general>
+         </bpelx:annotation>
+         
+      <sequence>
+                      <assign name="AssignResponseMessage">
+                        <copy>
+                          <from expression="'Success'"/>
+                          <to variable="ChkAdapterIntgSOAIVPResMsg" part="part"
+                              query="/ns2:Output/ns2:ValidateAdapterIntgRes/ns2:fndintguooqueuepublisher/ns2:Status"/>
+                        </copy>
+                      </assign>
+                    </sequence></case>
+      <otherwise>
+         
+      <sequence name="Sequence3"><assign name="AssignResponseMessage"
+                                    xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+                        <copy>
+                          <from expression="'Failure'"/>
+                          <to variable="ChkAdapterIntgSOAIVPResMsg" part="part"
+                              query="/ns2:Output/ns2:ValidateAdapterIntgRes/ns2:fndintguooqueuepublisher/ns2:Status"/>
+                        </copy>
+                        <copy>
+                          <from expression="'Message is not Dequeued yet'"/>
+                          <to variable="FndIntgUOOQueuePublisherResMsg"/>
+                        </copy>
+                        <copy>
+                          <from expression="'Message is not Dequeued yet'"/>
+                          <to variable="ChkAdapterIntgSOAIVPResMsg" part="part"
+                              query="/ns2:Output/ns2:ValidateAdapterIntgRes/ns2:fndintguooqueuepublisher/ns2:AdditionalNote"/>
+                        </copy>
+                        <copy>
+                          <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','FndIntgUOOQueuePublisherIVP Flt',string(bpws:getVariableData('ChkAdapterIntgSOAIVPResMsg','part','/ns2:Output/ns2:ValidateAdapterIntgRes/ns2:fndintguooqueuepublisher/ns2:AdditionalNote')),string('3'),'FndIntgValidateAdapterIntegrationIVP')"/>
+                          <to variable="SNIFault" part="payload"
+                              query="/ns13:SNIFault"/>
+                        </copy>
+                        <copy>
+                          <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateAdapterIntegrationIVP-Fault Occurred at the scope FndIntgUOOQueuePublisherIVP',bpws:getVariableData('SNIHeader','/ns13:SNIHeader/ns13:BusinessKey')),string('SEVERE'))"/>
+                          <to variable="logStatus"/>
+                        </copy>
+                      </assign></sequence></otherwise>
+   </switch>
+              </sequence>
+            </case>
+            <otherwise>
+              <assign name="AssignDefaultResponse">
+                <copy>
+                  <from expression="'Skipped'"/>
+                  <to variable="ChkAdapterIntgSOAIVPResMsg" part="part"
+                      query="/ns2:Output/ns2:ValidateAdapterIntgRes/ns2:fndintguooqueuepublisher/ns2:Status"/>
+                </copy>
+              </assign>
+            </otherwise>
+          </switch>
+        </scope>
+      </sequence>
+      <sequence name="JMSRQEnqueueSequence">
+        <scope name="FndIntgJMSRQEnqueueScope" variableAccessSerializable="no">
+          <bpelx:annotation>
+            <bpelx:general>
+              <bpelx:property name="userLabel">FndIntgJMSRQEnqueueScope</bpelx:property>
+            </bpelx:general>
+          </bpelx:annotation>
+          <faultHandlers>
+            <catchAll>
+              <assign name="AssignErrorResponse">
+                <copy>
+                  <from expression="'Failure'"/>
+                  <to variable="ChkAdapterIntgSOAIVPResMsg" part="part"
+                      query="/ns2:Output/ns2:ValidateAdapterIntgRes/ns2:fndintgjmsrqenqueue/ns2:Status"/>
+                </copy>
+                <copy>
+                  <from expression="concat('FAILED In FndIntgJMSRQEnqueueIVP::',substring(ora:getFaultAsString(),1,bpws:getVariableData('ErrMsgLength')))"/>
+                  <to variable="ChkAdapterIntgSOAIVPResMsg" part="part"
+                      query="/ns2:Output/ns2:ValidateAdapterIntgRes/ns2:fndintgjmsrqenqueue/ns2:AdditionalNote"/>
+                </copy>
+                <copy>
+                  <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','FndIntgJMSRQEnqueueIVP Flt',string(bpws:getVariableData('ChkAdapterIntgSOAIVPResMsg','part','/ns2:Output/ns2:ValidateAdapterIntgRes/ns2:fndintgjmsrqenqueue/ns2:AdditionalNote')),string('3'),'FndIntgValidateAdapterIntegrationIVP')"/>
+                  <to variable="SNIFault" part="payload"
+                      query="/ns13:SNIFault"/>
+                </copy>
+                <copy>
+                  <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateAdapterIntegrationIVP-Fault Occurred at the scope FndIntgJMSRQEnqueueIVP',bpws:getVariableData('SNIHeader','/ns13:SNIHeader/ns13:BusinessKey')),string('SEVERE'))"/>
+                  <to variable="logStatus"/>
+                </copy>
+              </assign>
+            </catchAll>
+          </faultHandlers>
+          <switch name="ToCheckFndIntgJMSRQEnqueue">
+            <case condition="xp20:upper-case(string(bpws:getVariableData('ChkAdapterIntgSOAIVPReqMsg','part','/ns2:Input/ns2:ValidateAdapterIntgReq/ns2:fndintgjmsrqenqueue')))='TRUE'">
+              <bpelx:annotation>
+                <bpelx:general>
+                  <bpelx:property name="userLabel">CheckFndIntgJMSRQEnqueue</bpelx:property>
+                </bpelx:general>
+              </bpelx:annotation>
+              <sequence name="FndIntgJMSRQEnqueueSequence">
+                <invoke name="InvokeFndIntgJMSRQEnqueue"
+                        inputVariable="InvokeFndIntgJMSRQEnqueueReqMsg"
+                        outputVariable="InvokeFndIntgJMSRQEnqueueResMsg"
+                        partnerLink="FndIntgJMSRQEnqueue"
+                        portType="ns6:FndIntgJMSRQEnqueue" operation="process"
+                        bpelx:invokeAsDetail="no"/>
+                <switch name="Switch2">
+                  <case condition="bpws:getVariableData('InvokeFndIntgJMSRQEnqueueResMsg','payload','/ns6:processResponse/ns6:result')='Success'">
+                    <bpelx:annotation>
+                      <bpelx:general>
+                        <bpelx:property name="userLabel">If Success</bpelx:property>
+                      </bpelx:general>
+                    </bpelx:annotation>
+                    <assign name="AssignResponse">
+                      <copy>
+                        <from expression="'Success'"/>
+                        <to variable="ChkAdapterIntgSOAIVPResMsg" part="part"
+                            query="/ns2:Output/ns2:ValidateAdapterIntgRes/ns2:fndintgjmsrqenqueue/ns2:Status"/>
+                      </copy>
+                    </assign>
+                  </case>
+                  <otherwise><assign name="AssignResponse"
+                                     xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+                      <copy>
+                        <from expression="'Failure'"/>
+                        <to variable="ChkAdapterIntgSOAIVPResMsg" part="part"
+                            query="/ns2:Output/ns2:ValidateAdapterIntgRes/ns2:fndintgjmsrqenqueue/ns2:Status"/>
+                      </copy>
+                      <copy>
+                        <from expression="'Message is not Dequeued yet'"/>
+                        <to variable="ChkAdapterIntgSOAIVPResMsg" part="part"
+                            query="/ns2:Output/ns2:ValidateAdapterIntgRes/ns2:fndintgjmsrqenqueue/ns2:AdditionalNote"/>
+                      </copy>
+                      <copy>
+                        <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','FndIntgJMSRQEnqueueIVP Flt',string(bpws:getVariableData('ChkAdapterIntgSOAIVPResMsg','part','/ns2:Output/ns2:ValidateAdapterIntgRes/ns2:fndintgjmsrqenqueue/ns2:AdditionalNote')),string('3'),'FndIntgValidateAdapterIntegrationIVP')"/>
+                        <to variable="SNIFault" part="payload"
+                            query="/ns13:SNIFault"/>
+                      </copy>
+                      <copy>
+                        <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateAdapterIntegrationIVP-Fault Occurred at the scope FndIntgJMSRQEnqueueIVP',bpws:getVariableData('SNIHeader','/ns13:SNIHeader/ns13:BusinessKey')),string('SEVERE'))"/>
+                        <to variable="logStatus"/>
+                      </copy>
+                    </assign></otherwise>
+                </switch>
+              </sequence>
+            </case>
+            <otherwise>
+              <assign name="AssignDefaultResponse">
+                <copy>
+                  <from expression="'Skipped'"/>
+                  <to variable="ChkAdapterIntgSOAIVPResMsg" part="part"
+                      query="/ns2:Output/ns2:ValidateAdapterIntgRes/ns2:fndintgjmsrqenqueue/ns2:Status"/>
+                </copy>
+              </assign>
+            </otherwise>
+          </switch>
+        </scope>
+      </sequence>
+      <sequence name="AQEnqIVPSequence">
+        <scope name="fndintgaqenqivpScope" variableAccessSerializable="no">
+          <bpelx:annotation>
+            <bpelx:general>
+              <bpelx:property name="userLabel">FndIntgAQEnqIVPScope</bpelx:property>
+            </bpelx:general>
+          </bpelx:annotation>
+          <faultHandlers>
+            <catchAll>
+              <assign name="AssignErrorResponse"
+                      xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+                <copy>
+                  <from expression="'Failure'"/>
+                  <to variable="ChkAdapterIntgSOAIVPResMsg" part="part"
+                      query="/ns2:Output/ns2:ValidateAdapterIntgRes/ns2:fndintgaqenqivp/ns2:Status"/>
+                </copy>
+                <copy>
+                  <from expression="concat('FAILED In FndIntgAQEnQIVP::',substring(ora:getFaultAsString(),1,bpws:getVariableData('ErrMsgLength')))"/>
+                  <to variable="ChkAdapterIntgSOAIVPResMsg" part="part"
+                      query="/ns2:Output/ns2:ValidateAdapterIntgRes/ns2:fndintgaqenqivp/ns2:AdditionalNote"/>
+                </copy>
+                <copy>
+                  <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','FndIntgAQEnqueueIVP Flt',string(bpws:getVariableData('ChkAdapterIntgSOAIVPResMsg','part','/ns2:Output/ns2:ValidateAdapterIntgRes/ns2:fndintgaqenqivp/ns2:AdditionalNote')),string('3'),'FndIntgValidateAdapterIntegrationIVP')"/>
+                  <to variable="SNIFault" part="payload"
+                      query="/ns13:SNIFault"/>
+                </copy>
+                <copy>
+                  <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateAdapterIntegrationIVP-Fault Occurred at the scope FndIntgAQEnqueueIVP',bpws:getVariableData('SNIHeader','/ns13:SNIHeader/ns13:BusinessKey')),string('SEVERE'))"/>
+                  <to variable="logStatus"/>
+                </copy>
+              </assign>
+            </catchAll>
+          </faultHandlers>
+          <switch name="IfToCheck">
+            <case condition="xp20:upper-case(string(bpws:getVariableData('ChkAdapterIntgSOAIVPReqMsg','part','/ns2:Input/ns2:ValidateAdapterIntgReq/ns2:fndintgaqenqivp')))='TRUE'">
+              <bpelx:annotation>
+                <bpelx:general>
+                  <bpelx:property name="userLabel">fndintgaqenqivp Is True</bpelx:property>
+                </bpelx:general>
+              </bpelx:annotation>
+              <sequence name="fndintgaqenqivpSequence">
+                <assign name="AssignRequestMessage">
+                  <copy bpelx:insertMissingToData="yes">
+                    <from expression="'t15581'"/>
+                    <to variable="InvokeFndIntgAQEnQIVPReqMsg" part="payload"
+                        query="/ns4:test/ns4:ID"/>
+                  </copy>
+                  <copy bpelx:insertMissingToData="yes">
+                    <from expression="'500032'"/>
+                    <to variable="InvokeFndIntgAQEnQIVPReqMsg" part="payload"
+                        query="/ns4:test/ns4:Zip"/>
+                  </copy>
+                  <copy bpelx:insertMissingToData="yes">
+                    <from expression="'India'"/>
+                    <to variable="InvokeFndIntgAQEnQIVPReqMsg" part="payload"
+                        query="/ns4:test/ns4:Country"/>
+                  </copy>
+                  <copy bpelx:insertMissingToData="yes">
+                    <from expression="'IndraNagar'"/>
+                    <to variable="InvokeFndIntgAQEnQIVPReqMsg" part="payload"
+                        query="/ns4:test/ns4:Street"/>
+                  </copy>
+                  <copy bpelx:insertMissingToData="yes">
+                    <from expression="'Hyderabad'"/>
+                    <to variable="InvokeFndIntgAQEnQIVPReqMsg" part="payload"
+                        query="/ns4:test/ns4:City"/>
+                  </copy>
+                  <copy bpelx:insertMissingToData="yes">
+                    <from expression="'AndhraPradesh'"/>
+                    <to variable="InvokeFndIntgAQEnQIVPReqMsg" part="payload"
+                        query="/ns4:test/ns4:State"/>
+                  </copy>
+                </assign>
+                <invoke name="InvokeFndIntgAQEnQIVP"
+                        inputVariable="InvokeFndIntgAQEnQIVPReqMsg"
+                        outputVariable="InvokeFndIntgAQEnQIVPResMsg"
+                        partnerLink="FndIntgAQEnQIVP"
+                        portType="ns3:FndIntgAQEnQIVP" operation="process"
+                        bpelx:invokeAsDetail="no"/><switch name="Switch2"
+                                                           xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+      <case condition="bpws:getVariableData('InvokeFndIntgAQEnQIVPResMsg','payload','/ns3:processResponse/ns3:result')='Success'">
+         <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+            <bpelx:general>
+               <bpelx:property name="userLabel">If Success</bpelx:property>
+            </bpelx:general>
+         </bpelx:annotation>
+                    <sequence>
+                      <assign name="AssignResponseMessage">
+                        <copy>
+                          <from expression="'Success'"/>
+                          <to variable="ChkAdapterIntgSOAIVPResMsg" part="part"
+                              query="/ns2:Output/ns2:ValidateAdapterIntgRes/ns2:fndintgaqenqivp/ns2:Status"/>
+                        </copy>
+                      </assign>
+                    </sequence>
+                  </case>
+      <otherwise><sequence name="Sequence5"><assign name="AssignResponseMessage"
+                                                                                                                                                                                                                                                                                                                                                                                                                                     xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+                        <copy>
+                          <from expression="'Failure'"/>
+                          <to variable="ChkAdapterIntgSOAIVPResMsg" part="part"
+                              query="/ns2:Output/ns2:ValidateAdapterIntgRes/ns2:fndintgaqenqivp/ns2:Status"/>
+                        </copy>
+                        <copy>
+                          <from expression="'Message is not Dequeued yet'"/>
+                          <to variable="ChkAdapterIntgSOAIVPResMsg" part="part"
+                              query="/ns2:Output/ns2:ValidateAdapterIntgRes/ns2:fndintgaqenqivp/ns2:AdditionalNote"/>
+                        </copy>
+                        <copy>
+                          <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','FndIntgAQEnqueueIVP Flt',string(bpws:getVariableData('ChkAdapterIntgSOAIVPResMsg','part','/ns2:Output/ns2:ValidateAdapterIntgRes/ns2:fndintgaqenqivp/ns2:AdditionalNote')),string('3'),'FndIntgValidateAdapterIntegrationIVP')"/>
+                          <to variable="SNIFault" part="payload"
+                              query="/ns13:SNIFault"/>
+                        </copy>
+                        <copy>
+                          <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateAdapterIntegrationIVP-Fault Occurred at the scope FndIntgAQEnqueueIVP',bpws:getVariableData('SNIHeader','/ns13:SNIHeader/ns13:BusinessKey')),string('SEVERE'))"/>
+                          <to variable="logStatus"/>
+                        </copy>
+                      </assign></sequence></otherwise>
+   </switch>
+              </sequence>
+            </case>
+            <otherwise>
+              <assign name="AssignDefaultResponse">
+                <copy>
+                  <from expression="'Skipped'"/>
+                  <to variable="ChkAdapterIntgSOAIVPResMsg" part="part"
+                      query="/ns2:Output/ns2:ValidateAdapterIntgRes/ns2:fndintgaqenqivp/ns2:Status"/>
+                </copy>
+              </assign>
+            </otherwise>
+          </switch>
+        </scope>
+      </sequence>
+      <sequence name="DBAdapterIVPSequence">
+        <scope name="fndintgdbadapterivpScope" variableAccessSerializable="no">
+          <bpelx:annotation>
+            <bpelx:general>
+              <bpelx:property name="userLabel">FndIntgDBAdapterIVPScope</bpelx:property>
+            </bpelx:general>
+          </bpelx:annotation>
+          <faultHandlers>
+            <catchAll>
+              <assign name="AssignErrorMessage">
+                <copy>
+                  <from expression="'Failure'"/>
+                  <to variable="ChkAdapterIntgSOAIVPResMsg" part="part"
+                      query="/ns2:Output/ns2:ValidateAdapterIntgRes/ns2:fndintgdbadapterivp/ns2:Status"/>
+                </copy>
+                <copy>
+                  <from expression="concat('FAILED In FndIntgDBAdapterIVP::',substring(ora:getFaultAsString(),1,bpws:getVariableData('ErrMsgLength')))"/>
+                  <to variable="ChkAdapterIntgSOAIVPResMsg" part="part"
+                      query="/ns2:Output/ns2:ValidateAdapterIntgRes/ns2:fndintgdbadapterivp/ns2:AdditionalNote"/>
+                </copy>
+                <copy>
+                  <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','FndIntgDBAdapterIVP Flt',string(bpws:getVariableData('ChkAdapterIntgSOAIVPResMsg','part','/ns2:Output/ns2:ValidateAdapterIntgRes/ns2:fndintgdbadapterivp/ns2:AdditionalNote')),string('3'),'FndIntgValidateAdapterIntegrationIVP')"/>
+                  <to variable="SNIFault" part="payload"
+                      query="/ns13:SNIFault"/>
+                </copy>
+                <copy>
+                  <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateAdapterIntegrationIVP-Fault Occurred at the scope FndIntgDBAdapterIVP',bpws:getVariableData('SNIHeader','/ns13:SNIHeader/ns13:BusinessKey')),string('SEVERE'))"/>
+                  <to variable="logStatus"/>
+                </copy>
+              </assign>
+            </catchAll>
+          </faultHandlers>
+          <switch name="IfToCheckFndIntgDBAdapterIVP">
+            <case condition="xp20:upper-case(string(bpws:getVariableData('ChkAdapterIntgSOAIVPReqMsg','part','/ns2:Input/ns2:ValidateAdapterIntgReq/ns2:fndintgdbadapterivp')))='TRUE'">
+              <bpelx:annotation>
+                <bpelx:general>
+                  <bpelx:property name="userLabel">Check fndintgdbadapterivp</bpelx:property>
+                </bpelx:general>
+              </bpelx:annotation>
+              <sequence name="fndintgdbadapterivpSequence">
+                <assign name="AssignRequestMessage">
+                  <copy>
+                    <from expression="'7369'"/>
+                    <to variable="InvokeFndIntgDBAdapterIVPReqMsg"
+                        part="payload" query="/ns5:process/ns5:input"/>
+                  </copy>
+                </assign>
+                <invoke name="InvokeFndIntgDBAdapterIVP"
+                        inputVariable="InvokeFndIntgDBAdapterIVPReqMsg"
+                        outputVariable="InvokeFndIntgDBAdapterIVPResMsg"
+                        partnerLink="FndIntgDBAdapterIVP"
+                        portType="ns5:FndIntgDBAdapterIVP" operation="process"
+                        bpelx:invokeAsDetail="no"/>
+                <switch name="CheckDBAdapterResponse">
+                  <case condition="string-length(bpws:getVariableData('InvokeFndIntgDBAdapterIVPResMsg','payload','/ns5:processResponse/ns5:result'))!=0">
+                    <bpelx:annotation>
+                      <bpelx:general>
+                        <bpelx:property name="userLabel">IfResponseExists</bpelx:property>
+                      </bpelx:general>
+                    </bpelx:annotation>
+                    <assign name="AssignSuccess">
+                      <copy>
+                        <from expression="'Success'"/>
+                        <to variable="ChkAdapterIntgSOAIVPResMsg" part="part"
+                            query="/ns2:Output/ns2:ValidateAdapterIntgRes/ns2:fndintgdbadapterivp/ns2:Status"/>
+                      </copy>
+                    </assign>
+                  </case>
+                  <otherwise>
+                    <assign name="AssignDefaultResponse">
+                      <copy>
+                        <from expression="'Failure'"/>
+                        <to variable="ChkAdapterIntgSOAIVPResMsg" part="part"
+                            query="/ns2:Output/ns2:ValidateAdapterIntgRes/ns2:fndintgdbadapterivp/ns2:Status"/>
+                      </copy>
+                      <copy>
+                        <from expression="'No Data Found'"/>
+                        <to variable="ChkAdapterIntgSOAIVPResMsg" part="part"
+                            query="/ns2:Output/ns2:ValidateAdapterIntgRes/ns2:fndintgdbadapterivp/ns2:AdditionalNote"/>
+                      </copy>
+                      <copy>
+                        <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'FNDINTGIVPERROR','FndIntgDBAdapterIVP Flt',string(bpws:getVariableData('ChkAdapterIntgSOAIVPResMsg','part','/ns2:Output/ns2:ValidateAdapterIntgRes/ns2:fndintgdbadapterivp/ns2:AdditionalNote')),string('3'),'FndIntgValidateAdapterIntegrationIVP')"/>
+                        <to variable="SNIFault" part="payload"
+                            query="/ns13:SNIFault"/>
+                      </copy>
+                      <copy>
+                        <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateAdapterIntegrationIVP-Fault Occurred at the scope FndIntgDBAdapterIVP',bpws:getVariableData('SNIHeader','/ns13:SNIHeader/ns13:BusinessKey')),string('SEVERE'))"/>
+                        <to variable="logStatus"/>
+                      </copy>
+                    </assign>
+                  </otherwise>
+                </switch>
+              </sequence>
+            </case>
+            <otherwise>
+              <assign name="AssignDefaultResponse">
+                <copy>
+                  <from expression="'Skipped'"/>
+                  <to variable="ChkAdapterIntgSOAIVPResMsg" part="part"
+                      query="/ns2:Output/ns2:ValidateAdapterIntgRes/ns2:fndintgdbadapterivp/ns2:Status"/>
+                </copy>
+              </assign>
+            </otherwise>
+          </switch>
+        </scope>
+      </sequence>
+    </flow>
+    <assign name="LogMessage">
+      <copy>
+        <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),concat('FndIntgValidateAdapterIntegrationIVP-Exit',bpws:getVariableData('SNIHeader','/ns13:SNIHeader/ns13:BusinessKey')),string('INFO'))"/>
+        <to variable="logStatus"/>
+      </copy>
+    </assign>
+    <!--assign name="AssignConsolidatedOutput">
+      <copy bpelx:insertMissingToData="yes">
+        <from expression="bpws:getVariableData('FndIntgAQEnQIVPResMsg')"/>
+        <to variable="ChkAdapterIntgSOAIVPResMsg" part="part"
+            query="/ns2:Output/ns2:ValidateAdapterIntgRes/ns2:fndintgaqenqivp"/>
+      </copy>
+      <copy>
+        <from expression="bpws:getVariableData('FndIntgTopicPublisherRes')"/>
+        <to variable="ChkAdapterIntgSOAIVPResMsg" part="part"
+            query="/ns2:Output/ns2:ValidateAdapterIntgRes/ns2:fndintgtopicpublisherivp"/>
+      </copy>
+      <copy>
+        <from expression="bpws:getVariableData('FndIntgAppsAdapterIVPResMsg')"/>
+        <to variable="ChkAdapterIntgSOAIVPResMsg" part="part"
+            query="/ns2:Output/ns2:ValidateAdapterIntgRes/ns2:fndintgappsadapterivp"/>
+      </copy>
+      <copy>
+        <from expression="bpws:getVariableData('FndIntgJMSRQEnqueueResMsg')"/>
+        <to variable="ChkAdapterIntgSOAIVPResMsg" part="part"
+            query="/ns2:Output/ns2:ValidateAdapterIntgRes/ns2:fndintgjmsrqenqueue"/>
+      </copy>
+      <copy>
+        <from expression="bpws:getVariableData('FndIntgUOOQueuePublisherResMsg')"/>
+        <to variable="ChkAdapterIntgSOAIVPResMsg" part="part"
+            query="/ns2:Output/ns2:ValidateAdapterIntgRes/ns2:fndintguooqueuepublisher"/>
+      </copy>
+      <copy bpelx:insertMissingToData="yes">
+        <from expression="bpws:getVariableData('FndIntgDBAdapterIVPResMsg')"/>
+        <to variable="ChkAdapterIntgSOAIVPResMsg" part="part"
+            query="/ns2:Output/ns2:ValidateAdapterIntgRes/ns2:fndintgdbadapterivp"/>
+      </copy>
+    </assign-->
+    <!-- Generate reply to synchronous request -->
+    <reply name="replyOutput"
+           partnerLink="fndintgvalidateadapterintgivp_client_ep"
+           portType="ns1:ChkAdapterIntgSOAIVPPortType"
+           operation="ChkAdapterIntgSOAIVP"
+           variable="ChkAdapterIntgSOAIVPResMsg"/>
+  </sequence>
+</process>

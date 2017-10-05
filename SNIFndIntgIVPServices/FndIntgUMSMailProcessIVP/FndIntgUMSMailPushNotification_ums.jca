@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<adapter-config name="FndIntgUMSMailPushNotification" adapter="ums" wsdlLocation="FndIntgUMSMailPushNotification.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+   <connection-factory location="eis/ums/UMSAdapterOutbound"/>
+   <endpoint-interaction portType="SendNotification_ptt" operation="SendNotification">
+      <interaction-spec className="oracle.tip.adapter.ums.outbound.UmsInteractionSpec">
+         <property name="DeliveryType" value="Email"/>         
+         <property name="Subject" value="subject"/>
+         <property name="To" value="ITB2BTest2@schneider.com"/>
+         <property name="From" value="senguptaD@schneider.com"/>
+      </interaction-spec>
+   </endpoint-interaction>
+</adapter-config>

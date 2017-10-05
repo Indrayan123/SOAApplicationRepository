@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<adapter-config name="FndIntgUMSMailProcessIVPService" adapter="ums" wsdlLocation="FndIntgUMSMailProcessIVPService.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+   <connection-factory location="eis/ums/UMSAdapterInbound"/>
+   <endpoint-activation portType="ReceiveNotification_ptt" operation="ReceiveNotification">
+      <activation-spec className="oracle.tip.adapter.ums.inbound.UmsActivationSpec">
+         <property name="ConsumeMode" value="listener"/>
+         <property name="InboundThreadCount" value="1"/>
+         <property name="DeliveryType" value="Email"/>
+         <property name="To" value="ITB2BTest2@schneider.com"/>
+         <property name="MessageFilters" value="messagefilter"/>
+      </activation-spec>
+   </endpoint-activation>
+</adapter-config>

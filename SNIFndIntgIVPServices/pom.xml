@@ -20,29 +20,71 @@
   <modules>	   
   	<module>BR_FndIntg_SimpleRuleIVP</module>
 	<module>Fndintg_largepayloadBRIVP</module>
-	<module>FndIntg_SimpleBRIVP</module>
-	<module>FndIntgBCSLookupIVP</module>
+	<module>FndIntg_SimpleBRIVP</module>	
+	<module>FndIntgBIPIVP</module>
 	<module>FndIntgBIPSvcIVP</module>
-	<module>FndIntgCompareXMLIVP</module>
-	<module>FndIntgDateXpathIVP</module>
-	<module>FndIntgHandleSNIFaultIVP</module>
-	<module>FndIntgHeaderXPath</module>
+	<module>FndIntgBPELMediatorCompositeIVP</module>
+	<module>FndIntgMediatorToExternalBPELIVP</module>
 	<module>FndIntgHumanTaskSvcIVP</module>
+	<module>FndIntgODIService</module>
+	<module>FndIntgODISvcIVP</module>
+	<module>FndIntgSyncToOneWayIVP</module>
+	<module>FndIntgValidateServiceInteractionIVP</module>
+	
+	<module>FndIntgAppsAdapterIVP</module>
+	<module>FndIntgAQDeQIVP</module>
+	<module>FndIntgAQEnQIVP</module>
+	<module>FndIntgDBAdapterIVP</module>
 	<module>FndIntgJMSRQDequeue</module>
 	<module>FndIntgJMSRQEnqueue</module>
-	<module>FndIntgLogSNIMessageIVP</module>
-	<module>FndIntgLookupDVMIVP</module>
-	<module>FndIntgMiscellaneousIVP</module>
-	<module>FndIntgOptimisticLockIVP</module>
+	<module>FndIntgUOOQueueConsumerIVP</module>
+	<module>FndIntgUOOQueuePublisherIVP</module>
+	<module>FndIntgTopicPublisherIVP</module>
+	<module>FndIntgTopicSubscriberIVP</module>
+	<module>FndIntgValidateAdapterIntegrationIVP</module>
+	
 	<module>FndIntgSampleCrossRefIVP</module>
 	<module>FndIntgSampleDVMIVP</module>
-	<module>FndIntgSecurityIVP</module>
-	<module>FndIntgSendEmailIVP</module>
-	<module>FndIntgSNIConfigTableIVP</module>
-	<module>FndIntgSNICreateXRefRowIVP</module>
-	<module>FndIntgVisibiltyDataLookupIVP</module>
+	<module>FndIntgLookupDVMIVP</module>
+	<module>FndIntgSNICreateXRefRowIVP</module>	
 	<module>FndIntgXrefLookupIVP</module>
 	<module>FndIntgXrefPopulateIVP</module>
+	<module>FndIntgSNICreateXRefRowIVP</module>
+	<module>FndIntgBCSLookupIVP</module>
+	<module>FndIntgValidateLookupFunctionIVP</module>
+	
+	
+	<module>FndIntgMiscellaneousIVP</module>
+	<module>FndIntgSNIConfigTableIVP</module>	
+	<module>FndIntgEnterpriseCacheIVP</module>
+	<module>FndIntgVisibiltyDataLookupIVP</module>
+	<module>FndIntgCompareXMLIVP</module>
+	<module>FndIntgDateXpathIVP</module>
+	<module>FndIntgSendEmailIVP</module>
+	<module>FndIntgOptimisticLockIVP</module>	
+	<module>FndIntgValidateXpathFunctionIVP</module>
+	
+	<module>FndIntgSecurityIVP</module>
+	<module>FndIntgContExecutorIVP</module>
+	<module>FndIntgContValidatorIVP</module>
+	<module>FndIntgOWSMServerIVP</module>
+	<module>FndIntgSiebelSecIVP</module>
+	<module>FndIntgValidateSecurityIVP</module>
+	
+	<module>FndIntgFaultHandlingIVP</module>
+	<module>FndIntgHandleSNIFaultIVP</module>
+	<module>FndIntgHeaderXPath</module>
+	<module>FndIntgLogSNIMessageIVP</module>
+	<module>FndIntgValidateFaultHandlingIVP</module>
+
+	<module>FndIntgUPGCheckDynamicPatnerlinkFaultIVP</module>
+	<module>FndIntgUPGCheckNamespaceConsumerIVP</module>
+	<module>FndIntgUPGCheckNamespaceIVP</module>
+	<module>FndIntgUPGCheckXSlEmptyValueIVP</module>
+	<module>FndIntgUPGThrowFaultIVP</module>
+	<module>FndIntgValidateSOAUPGIVP</module>
+	
+	<module>FndIntgValidateALLSOAIVP</module>
     </modules>
   <build>
   <resources>

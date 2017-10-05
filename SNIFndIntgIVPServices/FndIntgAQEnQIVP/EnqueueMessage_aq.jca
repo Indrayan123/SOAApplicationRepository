@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<adapter-config name="EnqueueMessage" adapter="aq" wsdlLocation="EnqueueMessage.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+   <connection-factory location="eis/AQ/SOAIVP" UIConnectionName="s2aw0_soa5soainfra"/>
+   <endpoint-interaction portType="Enqueue_ptt" operation="Enqueue">
+      <interaction-spec className="oracle.tip.adapter.aq.outbound.AQEnqueueInteractionSpec">
+         <property name="RecipientList" value="FndIntgAQDeQIVP"/>
+         <property name="QueueName" value="IP_IN_QUEUE"/>
+         <property name="ObjectFieldName" value="PAYLOAD"/>
+         <property name="DatabaseSchema" value="SOA5_SOAINFRA"/>
+      </interaction-spec>
+   </endpoint-interaction>
+</adapter-config>

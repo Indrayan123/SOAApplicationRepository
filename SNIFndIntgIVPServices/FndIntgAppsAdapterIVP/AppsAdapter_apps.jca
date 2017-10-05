@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<adapter-config name="AppsAdapter" adapter="apps" wsdlLocation="AppsAdapter.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/Apps/SNI" UIConnectionName="soaunt24_s2ah0" UIOracleAppType="DBOBJECT" UIOracleAppObjList="SNI.FNDINTGSOAIVP" adapterRef=""/>
+  <endpoint-interaction portType="AppsAdapter_ptt" operation="AppsAdapterSelect">
+    <interaction-spec className="oracle.tip.adapter.apps.AppsTableReadInteractionSpec">
+      <property name="DescriptorName" value="AppsAdapter.Fndintgsoaivp"/>
+      <property name="QueryName" value="AppsAdapterSelect"/>
+      <property name="MappingsMetaDataURL" value="AppsAdapter-or-mappings.xml"/>
+      <property name="ReturnSingleResultSet" value="false"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

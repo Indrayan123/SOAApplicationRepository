@@ -1,0 +1,151 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Wed Jul 20 10:56:54 CDT 2016
+  Author:  f23963
+  Type: BPEL 1.1 Process
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="FndIntgFaultHandleBPEL"
+               targetNamespace="http://xmlns.oracle.com/SNIFndIntgIVPServices/FndIntgFaultHandlingIVP/FndIntgFaultHandleBPEL"
+               xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+               xmlns:client="http://xmlns.oracle.com/SNIFndIntgIVPServices/FndIntgFaultHandlingIVP/FndIntgFaultHandleBPEL"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:snibpel="http://xmlns.schneider.com/BPEL/sni/foundation/soa/extensions/xpath"
+         xmlns:ns1="http://xmlns.oracle.com/SNIFndIntgIVPServices/FndIntgFaultHandlingIVP/RemoteFaultThrowBPEL"
+         xmlns:ns2="http://xmlns.oracle.com/SNIFndIntgIVPServices/FndIntgFaultHandlingIVP/BindingFaultThrowBPEL"
+         xmlns:bpel2="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:ns3="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1">
+
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    --> 
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="fndintgfaulthandlebpel_client" partnerLinkType="client:FndIntgFaultHandleBPEL" myRole="FndIntgFaultHandleBPELProvider"/>
+    <partnerLink name="RemoteFaultThrowBPEL.remotefaultthrowbpel_client"
+                 partnerLinkType="ns1:RemoteFaultThrowBPEL"
+                 partnerRole="RemoteFaultThrowBPELProvider"/>
+    <partnerLink name="BindingFaultThrowBPEL.bindingfaultthrowbpel_client"
+                 partnerLinkType="ns2:BindingFaultThrowBPEL"
+                 partnerRole="BindingFaultThrowBPELProvider"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:FndIntgFaultHandleBPELRequestMessage"/>
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="outputVariable" messageType="client:FndIntgFaultHandleBPELResponseMessage"/>
+    <variable name="InvokeRmtFlt_process_InputVariable"
+              messageType="ns1:RemoteFaultThrowBPELRequestMessage"/>
+    <variable name="InvokeRmtFlt_process_OutputVariable"
+              messageType="ns1:RemoteFaultThrowBPELResponseMessage"/>
+    <variable name="InvokeBindingFault_process_InputVariable"
+              messageType="ns2:BindingFaultThrowBPELRequestMessage"/>
+    <variable name="InvokeBindingFault_process_OutputVariable"
+              messageType="ns2:BindingFaultThrowBPELResponseMessage"/>
+    <variable name="SNIHeader" element="ns3:SNIHeader"/>
+    <variable name="SNIFault" element="ns3:SNIFault"/>
+  </variables>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in FndIntgFaultHandleBPEL.wsdl) -->
+    <receive name="receiveInput" partnerLink="fndintgfaulthandlebpel_client" portType="client:FndIntgFaultHandleBPEL" operation="process" variable="inputVariable" createInstance="yes"/>
+    <assign name="createSNIHeader">
+      <copy>
+        <from expression="snibpel:createSNIHeader('IVPTestFlt','IVP','IVPTestProcessFlt','FndIntgFaultHandleBPEL','SOA','')"/>
+        <to variable="SNIHeader" query="/ns3:SNIHeader"/>
+      </copy>
+    </assign>
+    <scope name="CheckRemoteFault" variableAccessSerializable="no">
+      <faultHandlers>
+        <catchAll>
+          <sequence name="Sequence1">
+            <assign name="createSNIFault">
+              <copy>
+                <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'TestIVPFlt','Test Remote Fault',string(ora:getFaultAsString()),string('3'),'FndIntgFaultHandleBPEL')"/>
+                <to variable="SNIFault" query="/ns3:SNIFault"/>
+              </copy>
+            </assign>
+            <assign name="AssignResponse">
+              <copy>
+                <from expression="'TestComplete'"/>
+                <to variable="outputVariable" part="payload"
+                    query="/client:processResponse/client:RmtFltresult"/>
+              </copy>
+            </assign>
+          </sequence>
+        </catchAll>
+      </faultHandlers>
+      <invoke name="InvokeRmtFlt" bpelx:invokeAsDetail="no"
+              inputVariable="InvokeRmtFlt_process_InputVariable"
+              outputVariable="InvokeRmtFlt_process_OutputVariable"
+              partnerLink="RemoteFaultThrowBPEL.remotefaultthrowbpel_client"
+              portType="ns1:RemoteFaultThrowBPEL" operation="process"/>
+    </scope>
+    <scope name="CheckBindingFault" variableAccessSerializable="no">
+      <faultHandlers>
+        <catchAll>
+          <sequence name="Sequence2">
+            <assign name="createSNIFault">
+              <copy>
+                <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),'TestIVPFlt','Test Binding Fault',string(ora:getFaultAsString()),string('3'),'FndIntgFaultHandleBPEL')"/>
+                <to variable="SNIFault" query="/ns3:SNIFault"/>
+              </copy>
+            </assign>
+            <assign name="AssignResponse">
+              <copy>
+                <from expression="'TestComplete'"/>
+                <to variable="outputVariable" part="payload"
+                    query="/client:processResponse/client:BndgFltresult"/>
+              </copy>
+            </assign>
+          </sequence>
+        </catchAll>
+      </faultHandlers>
+      <invoke name="InvokeBindingFault" bpelx:invokeAsDetail="no"
+              inputVariable="InvokeBindingFault_process_InputVariable"
+              outputVariable="InvokeBindingFault_process_OutputVariable"
+              partnerLink="BindingFaultThrowBPEL.bindingfaultthrowbpel_client"
+              portType="ns2:BindingFaultThrowBPEL" operation="process"/>
+    </scope>
+    <!-- Generate reply to synchronous request -->
+    <reply name="replyOutput" partnerLink="fndintgfaulthandlebpel_client" portType="client:FndIntgFaultHandleBPEL" operation="process" variable="outputVariable"/>
+  </sequence>
+</process>

@@ -1,0 +1,33 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<?binding.jca FndIntgUOOQueueConsumerIVPJMSAdapter_jms.jca?>
+<wsdl:definitions
+     name="FndIntgUOOQueueConsumerIVPJMSAdapter"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/jms/SNIFndIntgIVPServices/FndIntgUOOQueueConsumerIVP/FndIntgUOOQueueConsumerIVPJMSAdapter"
+     xmlns:ns1="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/jms/SNIFndIntgIVPServices/FndIntgUOOQueueConsumerIVP/FndIntgUOOQueueConsumerIVPJMSAdapter"
+     xmlns:imp1="http://xmlns.schneider.com/FoundationObjects/CrossRef/V1"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+    >
+    <plt:partnerLinkType name="Consume_Message_plt">
+        <plt:role name="Consume_Message_role">
+            <plt:portType name="tns:Consume_Message_ptt"/>
+        </plt:role>
+    </plt:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.schneider.com/FoundationObjects/CrossRef/V1" schemaLocation="oramds:/apps/SNIComponents/FoundationObjectLibrary/CrossRef/CrossRef.xsd"/>
+        </schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1" schemaLocation="oramds:/apps/SNIComponents/EnterpriseObjectLibrary/Core/Common/V1/SNICore.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="Consume_Message_msg">
+        <wsdl:part name="body" element="imp1:LookupXrefRequest"/>
+    </wsdl:message>
+    <wsdl:portType name="Consume_Message_ptt">
+        <wsdl:operation name="Consume_Message">
+            <wsdl:input message="tns:Consume_Message_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

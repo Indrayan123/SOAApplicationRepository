@@ -1,0 +1,244 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Thu Aug 18 00:41:16 CDT 2016
+  Author:  a46475
+  Type: BPEL 1.1 Process
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="FndIntgODISvcIVPInit"
+         targetNamespace="http://xmlns.oracle.com/SOA_IVP_App/FndIntgODISvcIVP/FndIntgODISvcIVPInit"
+         xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:client="http://xmlns.oracle.com/SOA_IVP_App/FndIntgODISvcIVP/FndIntgODISvcIVPInit"
+         xmlns:ora="http://schemas.oracle.com/xpath/extension"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+          xmlns:snibpel="http://xmlns.schneider.com/BPEL/sni/foundation/soa/extensions/xpath"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:ns1="http://xmlns.oracle.com/SOA_IVP_App/FndIntgODISvcIVP/FndIntgODISvcIVP"
+         xmlns:bpel2="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns2="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:ns3="http://xmlns.schneider.com/SNIFndIntgIVPServices/FndIntgODISvcIVP/FndIntgODIWrapperIVP">
+   <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+   <partnerLinks>
+      <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+      <partnerLink name="fndintgodisvcivpinit_client"
+                   partnerLinkType="client:FndIntgODISvcIVPInit"
+                   myRole="FndIntgODISvcIVPInitProvider"/>
+      <partnerLink name="FndIntgODIWrapperIVP.fndintgodiwrapperivp_client"
+                   partnerLinkType="ns3:FndIntgODIWrapperIVP"
+                   partnerRole="FndIntgODIWrapperIVPProvider"
+                   myRole="FndIntgODIWrapperIVPRequester"/>
+   </partnerLinks>
+   <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+   <variables>
+      <!-- Reference to the message passed as input during initiation -->
+      <variable name="inputVariable"
+                messageType="client:FndIntgODISvcIVPInitRequestMessage"/>
+      <!-- Reference to the message that will be returned to the requester-->
+      <variable name="outputVariable"
+                messageType="client:FndIntgODISvcIVPInitResponseMessage"/>
+      <variable name="keyIdentifier" type="xsd:string"/>
+      <variable name="cacheStatus" type="xsd:string"/>
+      <variable name="iCounter" type="xsd:int"/>
+      <variable name="InvokeODIWrapper_process_InputVariable"
+                messageType="ns3:FndIntgODIWrapperIVPRequestMessage"/>
+   </variables>
+   <faultHandlers>
+      <catchAll>
+         <sequence name="Sequence1">
+            <assign name="Assign_Status">
+               <copy>
+                  <from expression="'Failure'"/>
+                  <to variable="outputVariable" part="payload"
+                      query="/ns2:invokeScenarioCallback/ns2:status"/>
+               </copy>
+               <copy>
+                  <from expression="concat('FndIntgODISvcIVPInit faulted',ora:getFaultAsString())"/>
+                  <to variable="outputVariable" part="payload"
+                      query="/ns2:invokeScenarioCallback/ns2:ErrorMessage"/>
+               </copy>
+            </assign>
+            <reply name="ReplyOutput" variable="outputVariable"
+                   partnerLink="fndintgodisvcivpinit_client"
+                   portType="client:FndIntgODISvcIVPInit" operation="process"/>
+         </sequence>
+      </catchAll>
+   </faultHandlers>
+   <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+   <sequence name="main">
+      <!-- Receive input from requestor. (Note: This maps to operation defined in FndIntgODISvcIVPInit.wsdl) -->
+      <receive name="receiveInput" partnerLink="fndintgodisvcivpinit_client"
+               portType="client:FndIntgODISvcIVPInit" operation="process"
+               variable="inputVariable" createInstance="yes"/>
+      <assign name="Assign_Input">
+         <copy>
+            <from variable="inputVariable" part="payload"
+                  query="/ns2:invokeScenario/ns2:RepositoryConnection"/>
+            <to variable="InvokeODIWrapper_process_InputVariable" part="payload"
+                query="/ns2:invokeScenario/ns2:RepositoryConnection"/>
+         </copy>
+         <copy>
+            <from variable="inputVariable" part="payload"
+                  query="/ns2:invokeScenario/ns2:Command"/>
+            <to variable="InvokeODIWrapper_process_InputVariable" part="payload"
+                query="/ns2:invokeScenario/ns2:Command"/>
+         </copy>
+         <copy>
+            <from variable="inputVariable" part="payload"
+                  query="/ns2:invokeScenario/ns2:Agent"/>
+            <to variable="InvokeODIWrapper_process_InputVariable" part="payload"
+                query="/ns2:invokeScenario/ns2:Agent"/>
+         </copy>
+         <copy>
+            <from expression="0"/>
+            <to variable="iCounter"/>
+         </copy>
+      </assign>
+      <assign name="Assign_KeyIdentifier"
+              xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+         <!--copy>
+        <from variable="keyIdentifier"/>
+        <to variable="Invoke_Update_Task_process_InputVariable" part="payload"
+            query="/ns2:ManageHumanTaskRequest/ns5:SNIHeader/ns5:RequestMessageID"/>
+      </copy-->
+         <copy>
+            <from expression="concat('SOA-ODI-',xp20:current-dateTime())"/>
+            <to variable="keyIdentifier"/>
+         </copy>
+         <copy bpelx:insertMissingToData="yes">
+            <from expression="bpws:getVariableData('keyIdentifier')"/>
+            <to variable="InvokeODIWrapper_process_InputVariable" part="payload"
+                query="/ns2:invokeScenario/ns2:Command/ns2:SessionName"/>
+         </copy>
+      </assign>
+      <assign name="Insert_In_Cache"
+              xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+         <copy>
+            <from expression="snibpel:EnterpriseCachePutByCacheName('FNDCache-SOAIVPStatus',bpws:getVariableData('keyIdentifier'), 'Task Created', '172800000')"/>
+            <to variable="cacheStatus"/>
+         </copy>
+      </assign>
+      <invoke name="InvokeODIWrapper"
+              inputVariable="InvokeODIWrapper_process_InputVariable"
+              partnerLink="FndIntgODIWrapperIVP.fndintgodiwrapperivp_client"
+              portType="ns3:FndIntgODIWrapperIVP" operation="process"
+              bpelx:invokeAsDetail="no"/>
+      <while name="While1" condition="bpws:getVariableData('iCounter')&lt;12"
+             xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+         <sequence>
+            <wait name="Wait_For_20sec" for="'PT20S'"/>
+            <assign name="CheckCacheStatus">
+               <!--copy>
+            <from expression="snibpel:EnterpriseCacheGetByCacheName('FNDCache-SOAIVPStatus',bpws:getVariableData('keyIdentifier'))"/>
+            <to variable="outputVariable" part="payload"
+                query="/ns1:processResponse/ns1:result"/>
+          </copy-->
+               <copy>
+                  <from expression="snibpel:EnterpriseCacheGetByCacheName('FNDCache-SOAIVPStatus',bpws:getVariableData('keyIdentifier'))"/>
+                  <to variable="cacheStatus"/>
+               </copy>
+            </assign>
+            <switch name="Switch1">
+               <case condition="bpws:getVariableData('cacheStatus')='Task Created'">
+                  <assign name="Increment_Counter">
+                     <copy>
+                        <from expression="bpws:getVariableData('iCounter')+1"/>
+                        <to variable="iCounter"/>
+                     </copy>
+                  </assign>
+               </case>
+               <otherwise>
+                  <assign name="Increment_Counter">
+                     <copy>
+                        <from expression="bpws:getVariableData('iCounter')+15"/>
+                        <to variable="iCounter"/>
+                     </copy>
+                  </assign>
+               </otherwise>
+            </switch>
+         </sequence>
+      </while>
+      <switch name="Switch2"
+              xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+         <case condition="bpws:getVariableData('cacheStatus')='Task Created'">
+            <assign name="Assign_Status">
+               <copy>
+                  <from expression="'Failure'"/>
+                  <to variable="outputVariable" part="payload"
+                      query="/ns2:invokeScenarioCallback/ns2:status"/>
+               </copy>
+               <copy>
+                  <from expression="'Timeout value crossed, process not completed yet'"/>
+                  <to variable="outputVariable" part="payload"
+                      query="/ns2:invokeScenarioCallback/ns2:ErrorMessage"/>
+               </copy>
+            </assign>
+         </case>
+         <case condition="bpws:getVariableData('cacheStatus')='Task Completed'">
+            <bpelx:annotation>
+               <bpelx:general>
+                  <bpelx:property name="userLabel">ODI Success Response</bpelx:property>
+               </bpelx:general>
+            </bpelx:annotation>
+            <assign name="Assign_Status">
+               <copy>
+                  <from expression="'Success'"/>
+                  <to variable="outputVariable" part="payload"
+                      query="/ns2:invokeScenarioCallback/ns2:status"/>
+               </copy>
+            </assign>
+         </case>
+         <otherwise>
+            <assign name="Assign_Status">
+               <copy>
+                  <from expression="'Failure'"/>
+                  <to variable="outputVariable" part="payload"
+                      query="/ns2:invokeScenarioCallback/ns2:status"/>
+               </copy>
+               <copy>
+                  <from variable="cacheStatus"/>
+                  <to variable="outputVariable" part="payload"
+                      query="/ns2:invokeScenarioCallback/ns2:ErrorMessage"/>
+               </copy>
+            </assign>
+         </otherwise>
+      </switch>
+      <!-- Generate reply to synchronous request -->
+      <reply name="replyOutput" partnerLink="fndintgodisvcivpinit_client"
+             portType="client:FndIntgODISvcIVPInit" operation="process"
+             variable="outputVariable"/>
+   </sequence>
+</process>

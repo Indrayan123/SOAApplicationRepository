@@ -1,0 +1,99 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Tue Nov 15 05:27:34 CST 2016
+  Author:  f23963
+  Type: BPEL 1.1 Process
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="CheckUPGThrowFaultSOAIVPSvc"
+               targetNamespace="http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/FndIntgUPGThrowFaultIVP/CheckUPGThrowFaultSOAIVPSvc"
+               xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+               xmlns:client="http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/FndIntgUPGThrowFaultIVP/CheckUPGThrowFaultSOAIVPSvc"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:bpel2="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap">
+
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    --> 
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="checkupgthrowfaultsoaivpsvc_client" partnerLinkType="client:CheckUPGThrowFaultSOAIVPSvc" myRole="CheckUPGThrowFaultSOAIVPSvcProvider"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:CheckUPGThrowFaultSOAIVPSvcRequestMessage"/>
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="outputVariable" messageType="client:CheckUPGThrowFaultSOAIVPSvcResponseMessage"/>
+    <variable name="FaultVar" messageType="bpelx:RuntimeFaultMessage"/>
+  </variables>
+  <faultHandlers>
+    <catchAll>
+      <sequence name="Sequence1">
+        <assign name="AssignFault">
+          <copy>
+            <from expression="ora:getFaultName()"/>
+            <to variable="FaultVar" part="code"/>
+          </copy>
+          <copy>
+            <from expression="'Fault Thrown From FndIntgUPGThrowFaultIVP'"/>
+            <to variable="FaultVar" part="summary"/>
+          </copy>
+          <copy>
+            <from expression="ora:getFaultAsString()"/>
+            <to variable="FaultVar" part="detail"/>
+          </copy>
+        </assign>
+        <reply name="ReplywithRmtFlt" variable="FaultVar"
+               partnerLink="checkupgthrowfaultsoaivpsvc_client"
+               portType="client:CheckUPGThrowFaultSOAIVPSvc"
+               operation="process" faultName="bpelx:remoteFault"/>
+      </sequence>
+    </catchAll>
+  </faultHandlers>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in CheckUPGThrowFaultSOAIVPSvc.wsdl) -->
+    <receive name="receiveInput" partnerLink="checkupgthrowfaultsoaivpsvc_client" portType="client:CheckUPGThrowFaultSOAIVPSvc" operation="process" variable="inputVariable" createInstance="yes"/>
+    <throw name="ThrowFault" faultName="bpelx:remoteFault"
+           faultVariable="FaultVar"/>
+    <!-- Generate reply to synchronous request -->
+    <reply name="replyOutput" partnerLink="checkupgthrowfaultsoaivpsvc_client" portType="client:CheckUPGThrowFaultSOAIVPSvc" operation="process" variable="outputVariable"/>
+  </sequence>
+</process>

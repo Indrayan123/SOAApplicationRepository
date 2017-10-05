@@ -1,0 +1,25 @@
+<?binding.jca DBAdapter_db.jca?>
+<wsdl:definitions name="DBAdapter" targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/SNIFndIntgIVPServices/FndIntgDBAdapterIVP/DBAdapter" xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/SNIFndIntgIVPServices/FndIntgDBAdapterIVP/DBAdapter" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:top="http://xmlns.oracle.com/pcbpel/adapter/db/top/DBAdapter">
+    <plt:partnerLinkType name="DBAdapter_plt">
+        <plt:role name="DBAdapter_role">
+            <plt:portType name="tns:DBAdapter_ptt"/>
+        </plt:role>
+    </plt:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DBAdapter" schemaLocation="xsd/DBAdapter_table.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="DBAdapterSelect_inputParameters">
+        <wsdl:part name="DBAdapterSelect_inputParameters" element="top:DBAdapterSelect_param1InputParameters"/>
+    </wsdl:message>
+    <wsdl:message name="FndintgsoaivpCollection_msg">
+        <wsdl:part name="FndintgsoaivpCollection" element="top:FndintgsoaivpCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="DBAdapter_ptt">
+        <wsdl:operation name="DBAdapterSelect">
+            <wsdl:input message="tns:DBAdapterSelect_inputParameters"/>
+            <wsdl:output message="tns:FndintgsoaivpCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

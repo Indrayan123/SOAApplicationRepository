@@ -1,0 +1,27 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xs:schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DBAdapter" xmlns="http://xmlns.oracle.com/pcbpel/adapter/db/top/DBAdapter" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="FndintgsoaivpCollection" type="FndintgsoaivpCollection"/>
+   <xs:complexType name="FndintgsoaivpCollection">
+      <xs:sequence>
+         <xs:element name="Fndintgsoaivp" type="Fndintgsoaivp" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="Fndintgsoaivp">
+      <xs:sequence>
+         <xs:element name="empno" type="xs:int"/>
+         <xs:element name="ename" minOccurs="0" nillable="true">
+            <xs:simpleType>
+               <xs:restriction base="xs:string">
+                  <xs:maxLength value="10"/>
+               </xs:restriction>
+            </xs:simpleType>
+         </xs:element>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:element name="DBAdapterSelect_param1InputParameters" type="DBAdapterSelect_param1"/>
+   <xs:complexType name="DBAdapterSelect_param1">
+      <xs:sequence>
+         <xs:element name="param1" type="xs:int" minOccurs="1" maxOccurs="1"/>
+      </xs:sequence>
+   </xs:complexType>
+</xs:schema>

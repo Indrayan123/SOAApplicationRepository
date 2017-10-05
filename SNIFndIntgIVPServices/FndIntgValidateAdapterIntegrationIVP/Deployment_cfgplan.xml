@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAConfigPlan xmlns:jca="http://platform.integration.oracle/blocks/adapter/fw/metadata" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:orawsp="http://schemas.oracle.com/ws/2006/01/policy" xmlns:edl="http://schemas.oracle.com/events/edl" xmlns="http://schemas.oracle.com/soa/configplan">
+   <composite name="FndIntgValidateAdapterIntegrationIVP">
+      <!--Add search and replace rules for the import section of a composite
+	Example:
+	<searchReplace>
+		<search>http://my-dev-server</search>
+		<replace>http://my-test-server</replace>
+	<searchReplace>
+	<searchReplace>
+		<search>8888</search>
+		<replace>8889</replace>
+	<searchReplace>-->
+      <import>
+         <searchReplace>
+            <search/>
+            <replace/>
+         </searchReplace>
+      </import>
+      <service name="fndintgvalidateadapterintgivp_client_ep">
+         <!--Add search and replace rules for the binding properties-->
+         <binding type="ws">
+            <attribute name="port">
+               <replace>http://xmlns.schneider.com/SNIFndIntgIVPServices/ChkAdapterIntgSOAIVPSvc#wsdl.endpoint(fndintgvalidateadapterintgivp_client_ep/ChkAdapterIntgSOAIVPPort)</replace>
+            </attribute>
+            <property name="weblogic.wsee.wsat.transaction.flowOption">
+               <replace>NEVER</replace>
+            </property>
+         </binding>
+      </service>
+      <!--Add search and replace rules for the component properties
+	For components and service/reference bindings, you can add policy references.
+	Example:
+	<component name="*">
+		<wsp:PolicyReference orawsp:category="management" orawsp:status="enabled" URI="oracle/log_policy"/>
+	</component>-->
+      <component name="FndIntgValidateAdapterIntgIVP">
+         <property name="bpel.config.transaction">
+            <replace>requiresNew</replace>
+         </property>
+         <property name="partnerLink.FndIntgUOOQueuePublisher.nonBlockingInvoke">
+            <replace>true</replace>
+         </property>
+         <property name="partnerLink.FndIntgJMSRQEnqueue.nonBlockingInvoke">
+            <replace>true</replace>
+         </property>
+         <property name="partnerLink.FndIntgAQEnQIVP.nonBlockingInvoke">
+            <replace>true</replace>
+         </property>
+         <property name="partnerLink.FndIntgAppsAdapterIVP.nonBlockingInvoke">
+            <replace>true</replace>
+         </property>
+         <property name="partnerLink.FndIntgDBAdapterIVP.nonBlockingInvoke">
+            <replace>true</replace>
+         </property>
+         <property name="partnerLink.FndIntgTopicPublisherIVP.nonBlockingInvoke">
+            <replace>true</replace>
+         </property>
+      </component>
+      <reference name="FndIntgAQEnQIVP">
+         <!--Add search and replace rules for the binding properties-->
+         <binding type="ws">
+            <attribute name="port">
+               <replace>http://xmlns.schneider.com/SNIFndIntgIVPServices/FndIntgAQEnQIVP/FndIntgAQEnQIVP#wsdl.endpoint(fndintgaqenqivp_client_ep/FndIntgAQEnQIVP_pt)</replace>
+            </attribute>
+            <attribute name="location">
+               <replace>${foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgAQEnQIVP/fndintgaqenqivp_client_ep?WSDL</replace>
+            </attribute>
+            <property name="weblogic.wsee.wsat.transaction.flowOption">
+               <replace>WSDLDriven</replace>
+            </property>
+         </binding>
+      </reference>
+      <reference name="FndIntgDBAdapterIVP">
+         <!--Add search and replace rules for the binding properties-->
+         <binding type="ws">
+            <attribute name="port">
+               <replace>http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/FndIntgDBAdapterIVP/FndIntgDBAdapterIVP#wsdl.endpoint(fndintgdbadapterivp_client_ep/FndIntgDBAdapterIVP_pt)</replace>
+            </attribute>
+            <attribute name="location">
+               <replace>${foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgDBAdapterIVP/fndintgdbadapterivp_client_ep?WSDL</replace>
+            </attribute>
+            <property name="weblogic.wsee.wsat.transaction.flowOption">
+               <replace>WSDLDriven</replace>
+            </property>
+         </binding>
+      </reference>
+      <reference name="FndIntgJMSRQEnqueue">
+         <!--Add search and replace rules for the binding properties-->
+         <binding type="ws">
+            <attribute name="port">
+               <replace>http://xmlns.oracle.com/SNIFndIntgIVPServices/FndIntgJMSRQEnqueue/FndIntgJMSRQEnqueue#wsdl.endpoint(fndintgjmsrqenqueue_client_ep/FndIntgJMSRQEnqueue_pt)</replace>
+            </attribute>
+            <attribute name="location">
+               <replace>${foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgJMSRQEnqueue/fndintgjmsrqenqueue_client_ep?WSDL</replace>
+            </attribute>
+            <property name="weblogic.wsee.wsat.transaction.flowOption">
+               <replace>WSDLDriven</replace>
+            </property>
+         </binding>
+      </reference>
+      <reference name="FndIntgUOOQueuePublisher">
+         <!--Add search and replace rules for the binding properties-->
+         <binding type="ws">
+            <attribute name="port">
+               <replace>http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/FndIntgUOOQueuePublisherIVP/FndIntgUOOQueuePublisherIVP#wsdl.endpoint(FndIntgUOOQueuePublisherIVP_client_ep/FndIntgUOOQueuePublisherIVP_pt)</replace>
+            </attribute>
+            <attribute name="location">
+               <replace>${foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgUOOQueuePublisherIVP/FndIntgUOOQueuePublisherIVP_client_ep?WSDL</replace>
+            </attribute>
+            <property name="weblogic.wsee.wsat.transaction.flowOption">
+               <replace>WSDLDriven</replace>
+            </property>
+         </binding>
+      </reference>
+      <reference name="FndIntgAppsAdapterIVP">
+         <!--Add search and replace rules for the binding properties-->
+         <binding type="ws">
+            <attribute name="port">
+               <replace>http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/FndIntgAppsAdapterIVP/FndIntgAppsAdapterIVP#wsdl.endpoint(fndintgappsadapterivp_client_ep/FndIntgAppsAdapterIVP_pt)</replace>
+            </attribute>
+            <attribute name="location">
+               <replace>${foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgAppsAdapterIVP/fndintgappsadapterivp_client_ep?WSDL</replace>
+            </attribute>
+            <property name="weblogic.wsee.wsat.transaction.flowOption">
+               <replace>WSDLDriven</replace>
+            </property>
+         </binding>
+      </reference>
+      <reference name="FndIntgTopicPublisherIVP">
+         <!--Add search and replace rules for the binding properties-->
+         <binding type="ws">
+            <attribute name="port">
+               <replace>http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/FndIntgTopicPublisherIVP/FndIntgTopicPublisherIVP#wsdl.endpoint(fndintgtopicpublisherivp_client_ep/FndIntgTopicPublisherIVP_pt)</replace>
+            </attribute>
+            <attribute name="location">
+               <replace>${foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgTopicPublisherIVP/fndintgtopicpublisherivp_client_ep?WSDL</replace>
+            </attribute>
+            <property name="weblogic.wsee.wsat.transaction.flowOption">
+               <replace>WSDLDriven</replace>
+            </property>
+         </binding>
+      </reference>
+   </composite>
+   <!--To configure monitor.config: 
+	<property name="enabled"><replace>true</replace></property>
+	<property name="dataObjectsFolder"><searchReplace><search>mydev</search><replace>myproduction</replace></searchReplace></property>
+	
+	sample properties to configure for adapter: 
+	<jca:property name="QueueName"><replace>medmq1</replace></jca:property>
+	
+	To add search and replace rules for wsdls, xsd and jca files
+	Example:
+	<searchReplace>
+		<search>http://my-dev-server</search>
+		<replace>http://my-test-server</replace>
+	<searchReplace>
+	<searchReplace>
+		<search>8888</search>
+		<replace>8889</replace>
+	<searchReplace>
+	-->
+   <wsdlAndSchema name="ChkAdapterIntgSOAIVPSvcWrapper.wsdl">
+      <searchReplace>
+         <search/>
+         <replace/>
+      </searchReplace>
+   </wsdlAndSchema>
+</SOAConfigPlan>

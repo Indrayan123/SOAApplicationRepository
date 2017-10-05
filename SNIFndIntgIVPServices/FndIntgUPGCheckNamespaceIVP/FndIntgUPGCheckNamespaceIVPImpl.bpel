@@ -1,0 +1,189 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Mon Nov 14 08:02:06 CST 2016
+  Author:  t15581
+  Type: BPEL 1.1 Process
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="FndIntgUPGCheckNamespaceIVPImpl"
+               targetNamespace="http://xmlns.oracle.com/SNIFndIntgUPGIVPServices/FndIntgUPGCheckNamespaceIVP/FndIntgUPGTestNampespaceIVPImpl"
+               xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+               xmlns:client="http://xmlns.oracle.com/SNIFndIntgUPGIVPServices/FndIntgUPGCheckNamespaceIVP/FndIntgUPGTestNampespaceIVPImpl"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+               xmlns:snibpel="http://xmlns.schneider.com/BPEL/sni/foundation/soa/extensions/xpath"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:ns1="http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/FndIntgUPGCheckNamespaceIVP/CheckUPGNamespaceSOAIVPSvc"
+         xmlns:bpel2="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns2="http://xmlns.oracle.com/pcbpel/adapter/jms/SNIFndIntgUPGIVPServices/FndIntgUPGCheckNamespaceIVP/ProduceUPGNamespaceJMSMsgService"
+         xmlns:ns3="http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/UPG/CheckUPGNamespaceSOAIVP/V1"
+         xmlns:ns4="http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/UPG/CheckUPGNamespaceSOAIVP/V2"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap">
+
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    --> 
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="CheckUPGNamespaceSOAIVPSvc"
+                 partnerLinkType="ns1:CheckUPGNamespaceSOAIVPSvc"
+                 myRole="CheckUPGNamespace_ptt"/>
+    <partnerLink name="ProduceUPGNamespaceJMSMsgService"
+                 partnerLinkType="ns2:Produce_Message_plt"
+                 partnerRole="Produce_Message_role"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="receiveCheckUPGNamespaceReqMsg"
+              messageType="ns1:requestMessage"/>
+    <variable name="receiveCheckUPGNamespaceResMsg"
+              messageType="ns1:replyMessage"/>
+    <variable name="RQProduceJMSMessageReqMsg"
+              messageType="ns2:Produce_Message_msg"/>
+    <variable name="KeyIdentifier" type="xsd:string"/>
+    <variable name="CacheStatus" type="xsd:string"/>
+    <variable name="LoopCounter" type="xsd:int"/>
+    <variable name="TotalLoopCounts" type="xsd:int"/>
+     <variable name="MessageSelector" type="xsd:string"/>
+  </variables>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in FndIntgUPGTestNampespaceIVPImpl.wsdl) --><receive name="receiveInput" partnerLink="CheckUPGNamespaceSOAIVPSvc"
+             portType="ns1:CheckUPGNamespace_ptt" operation="CheckUPGNamespace"
+             variable="receiveCheckUPGNamespaceReqMsg" createInstance="yes"/>
+    <assign name="AssignKeyIdentifier">
+      <copy>
+        <from expression="concat('FndIntgUPGTestNamespace-',xp20:current-dateTime())"/>
+        <to variable="KeyIdentifier"/>
+      </copy>
+    </assign>
+    <assign name="AssignMessageSelector">
+      <copy>
+        <from expression='ora:getPreference("MsgSelector")'/>
+        <to variable="MessageSelector"/>
+      </copy>
+    </assign>
+    <assign name="AssignInsertIntoCacheWithKey">
+      <copy>
+        <from expression="snibpel:EnterpriseCachePutByCacheName('FNDCache-SOAIVPStatus',bpws:getVariableData('KeyIdentifier'), 'ENQUEUED', '172800000')"/>
+        <to variable="CacheStatus"/>
+      </copy>
+    </assign>
+    <assign name="AssignJMSReqMsg">
+      <copy>
+        <from variable="receiveCheckUPGNamespaceReqMsg" part="part"
+              query="/ns3:Input"/>
+        <to variable="RQProduceJMSMessageReqMsg" part="body"
+            query="/ns3:Input"/>
+      </copy>
+    </assign>
+    <invoke name="InvokeRQProduceJMSMessage"
+            inputVariable="RQProduceJMSMessageReqMsg"
+            partnerLink="ProduceUPGNamespaceJMSMsgService"
+            portType="ns2:Produce_Message_ptt" operation="Produce_Message"
+            bpelx:invokeAsDetail="no">
+      <bpelx:inputProperty name="jca.jms.JMSCorrelationID"
+                           variable="KeyIdentifier"/>
+      <bpelx:inputProperty name="jca.jms.JMSProperty.Id"
+                           variable="MessageSelector"/> 
+            </invoke>
+    <assign name="AssignCounterValues"
+            xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+      <copy>
+        <from expression="6"/>
+        <to variable="TotalLoopCounts"/>
+      </copy>
+      <copy>
+        <from expression="1"/>
+        <to variable="LoopCounter"/>
+      </copy>
+    </assign><while name="WhileLoopForTotalSeconds"
+                   condition="bpws:getVariableData('LoopCounter')&lt;=bpws:getVariableData('TotalLoopCounts')"
+                   xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+      <sequence name="CacheWaitSequence">
+         <wait name="WaitForCacheUpdate" for="'PT10S'"/>
+         <assign name="AssignGetCacheUpdatedStatus">
+          <copy>
+            <from expression="snibpel:EnterpriseCacheGetByCacheName('FNDCache-SOAIVPStatus',bpws:getVariableData('KeyIdentifier'))"/>
+            <to variable="CacheStatus"/>
+          </copy>
+        </assign>
+         <switch name="IfCacheIsUpdated">
+            <case condition="xp20:compare(bpws:getVariableData('CacheStatus'),'DEQUEUED')=0">
+               <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+                  <bpelx:general>
+                     <bpelx:property name="userLabel">Updated</bpelx:property>
+                  </bpelx:general>
+               </bpelx:annotation>
+               <sequence name="ResponseSuccessStatusSequence">
+                  <assign name="AssignStopLoopCounter">
+                     <copy>
+                        <from expression="bpws:getVariableData('TotalLoopCounts')+1"/>
+                        <to variable="LoopCounter"/>
+                     </copy>
+                  </assign>
+                  <assign name="AssignResponseStatus">
+                <copy>
+                  <from expression="'Success'"/>
+                  <to variable="receiveCheckUPGNamespaceResMsg" part="part"
+                      query="/ns3:Output/ns3:Response/ns4:OutputResponse"/>
+                </copy>
+              </assign>
+               </sequence>
+            </case>
+            <otherwise>
+               <assign name="AssignFailureResponseStatus">
+              <copy>
+                <from expression="bpws:getVariableData('LoopCounter')+1"/>
+                <to variable="LoopCounter"/>
+              </copy>
+              <copy>
+                <from expression="'Failure'"/>
+                <to variable="receiveCheckUPGNamespaceResMsg" part="part"
+                    query="/ns3:Output/ns3:Response/ns4:OutputResponse"/>
+              </copy>
+            </assign>
+            </otherwise>
+         </switch>
+      </sequence>
+   </while><!-- Generate reply to synchronous request -->
+    <reply name="replyOutput" partnerLink="CheckUPGNamespaceSOAIVPSvc"
+           portType="ns1:CheckUPGNamespace_ptt" operation="CheckUPGNamespace"
+           variable="receiveCheckUPGNamespaceResMsg"/>
+  </sequence>
+</process>

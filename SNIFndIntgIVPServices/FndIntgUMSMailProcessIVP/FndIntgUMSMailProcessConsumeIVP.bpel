@@ -1,0 +1,77 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Thu Aug 04 04:14:21 CDT 2016
+  Author:  f23963
+  Type: BPEL 1.1 Process
+  Purpose: Empty BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="FndIntgUMSMailProcessConsumeIVP"
+               targetNamespace="http://xmlns.schneider.com/SNIFndIntgIVPServices/FndIntgUMSMailProcessIVP/FndIntgUMSMailProcessConsumeIVP"
+               xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+               xmlns:client="http://xmlns.schneider.com/SNIFndIntgIVPServices/FndIntgUMSMailProcessIVP/FndIntgUMSMailProcessConsumeIVP"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/ums/SNIFndIntgIVPServices/FndIntgUMSMailProcessIVP/FndIntgUMSMailProcessIVPService"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+         xmlns:bpel2="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:sniadf="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIADFExtensionFunctions"
+         xmlns:sniolock="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIOptimisticLockExtensionFunctions"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:snibpel="http://xmlns.schneider.com/BPEL/sni/foundation/soa/extensions/xpath"
+         xmlns:snifmt="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIFormatExtensionFunctions"
+         xmlns:snidb="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIDBExtensionFunctions"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:snixml="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIXMLDiffExtensionFunctions"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:snidttm="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIDateTimeExtensionFunctions"
+         xmlns:snibam="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIBAMExtensionFunctions"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:sniprop="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIPropertyFileExtensionFunctions"
+         xmlns:snisec="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIEncryptDecryptUtilityExtensionFunctions"
+         xmlns:snidvm="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIDVMExtensionFunctions"
+         xmlns:sniutil="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.utils.SNIUtilityExtensionFunctions"
+         xmlns:snixref="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIXRefExtensionFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap">
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <partnerLinks>
+    <partnerLink name="FndIntgUMSMailProcessIVPService"
+                 partnerLinkType="ns1:ReceiveNotification_plt"
+                 myRole="ReceiveNotification_role"/>
+  </partnerLinks>
+  <variables>
+    <variable name="ReceiveInput_ReceiveNotification_InputVariable"
+              messageType="ns1:ReceiveNotification_msg"/>
+    <variable name="CacheKeyValue" type="xsd:string"/>    
+  </variables>
+  <sequence name="main">
+    <receive name="ReceiveInput" createInstance="yes"
+             variable="ReceiveInput_ReceiveNotification_InputVariable"
+             partnerLink="FndIntgUMSMailProcessIVPService"
+             portType="ns1:ReceiveNotification_ptt"
+             operation="ReceiveNotification">
+      <bpelx:property name="jca.ums.comments" variable="CacheKeyValue"/>      
+    </receive>
+    <assign name="AssignUpdateCacheKeyValue">
+      <copy>
+        <from expression="snibpel:EnterpriseCachePutByCacheName('FNDCache-SOAIVPStatus',bpws:getVariableData('CacheKeyValue'),'CONSUMED','300000')"/>
+        <to variable="CacheKeyValue"/>
+      </copy>
+    </assign>
+  </sequence>
+</process>
