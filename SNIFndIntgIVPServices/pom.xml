@@ -18,20 +18,20 @@
     <version>12.2.1-0-0</version>   
   </parent>
   <modules>	   
-  	<module>BR_FndIntg_SimpleRuleIVP</module>
+  	<!--<module>BR_FndIntg_SimpleRuleIVP</module>
 	<module>Fndintg_largepayloadBRIVP</module>
 	<module>FndIntg_SimpleBRIVP</module>	
 	<module>FndIntgBIPIVP</module>
 	<module>FndIntgBIPSvcIVP</module>
 	<module>FndIntgBPELMediatorCompositeIVP</module>
 	<module>FndIntgMediatorToExternalBPELIVP</module>
-	<!--module>FndIntgHumanTaskSvcIVP</module-->
+	<module>FndIntgHumanTaskSvcIVP</module>
 	<module>FndIntgODIService</module>
 	<module>FndIntgODISvcIVP</module>
 	<module>FndIntgSyncToOneWayIVP</module>
 	<module>FndIntgValidateServiceInteractionIVP</module>
 	
-	<module>FndIntgAppsAdapterIVP</module>
+	<module>FndIntgAppsAdapterIVP</module>-->
 	<module>FndIntgAQDeQIVP</module>
 	<module>FndIntgAQEnQIVP</module>
 	<module>FndIntgDBAdapterIVP</module>
