@@ -1,0 +1,286 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Tue Nov 22 13:51:21 CST 2011
+  Author:  c88525
+  Type: BPEL 1.1 Process
+  Purpose: Asynchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="FndIntgHumanTaskIVP"
+         targetNamespace="http://xmlns.oracle.com/SNIFndIntgIVPServices/FndIntgHumanTaskIVP/FndIntgHumanTaskIVP"
+         xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:client="http://xmlns.oracle.com/SNIFndIntgIVPServices/FndIntgHumanTaskIVP/FndIntgHumanTaskIVP"
+         xmlns:ora="http://schemas.oracle.com/xpath/extension"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:ns1="http://xmlns.oracle.com/bpel/workflow/taskService"
+         xmlns:task="http://xmlns.oracle.com/bpel/workflow/task"
+         xmlns:wfcommon="http://xmlns.oracle.com/bpel/workflow/common"
+         xmlns:wf="http://schemas.oracle.com/bpel/extensions/workflow"
+         xmlns:ns2="http://xmlns.schneider.com/EnterpriseObjects/Common/HumanTask/V1"
+         xmlns:bpel2="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns3="http://xmlns.oracle.com/bpel/workflow/TaskEvidenceService">
+
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+    <bpelx:annotation>
+        <bpelx:analysis>
+            <bpelx:property name="wsdlFile">
+                <![CDATA[oramds:/apps/SNIComponents/FoundationServiceLibrary/IVP/FndIntgHumanTaskIVP.wsdl]]>
+            </bpelx:property>
+        </bpelx:analysis>
+    </bpelx:annotation>
+    <partnerLinks>
+        <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+        <partnerLink name="fndintghumantaskivp_client" partnerLinkType="client:FndIntgHumanTaskIVP" myRole="FndIntgHumanTaskIVPProvider" partnerRole="FndIntgHumanTaskIVPRequester"/>
+        <partnerLink name="HumantaskIVP.TaskService_1"
+                     partnerLinkType="ns1:TaskService" partnerRole="TaskService"
+                     myRole="TaskServiceCallbackListener"/>
+    </partnerLinks>
+
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        VARIABLES                                                        
+        List of messages and XML documents used within this BPEL process 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+    <variables>
+        <!-- Reference to the message passed as input during initiation -->
+        <variable name="inputVariable" messageType="client:FndIntgHumanTaskIVPRequestMessage"/>
+
+        <!-- Reference to the message that will be sent back to the requester during callback -->
+        <variable name="outputVariable" messageType="client:FndIntgHumanTaskIVPResponseMessage"/>
+        <variable name="HumantaskIVP1_globalVariable"
+                  messageType="ns1:taskMessage"/>
+    </variables>
+
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+       ORCHESTRATION LOGIC                                               
+       Set of activities coordinating the flow of messages across the    
+       services integrated within this business process                  
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+    <sequence name="main">
+        <!-- Receive input from requestor. (Note: This maps to operation defined in FndIntgHumanTaskIVP.wsdl) -->
+        <receive name="receiveInput" partnerLink="fndintghumantaskivp_client" portType="client:FndIntgHumanTaskIVP" operation="process" variable="inputVariable" createInstance="yes"/>
+
+        <!-- 
+          Asynchronous callback to the requester. (Note: the callback location and correlation id is transparently handled using WS-addressing.)
+        -->
+        <assign name="Assign1">
+            <copy>
+                <from expression="bpws:getVariableData('inputVariable','payload','/ns2:HumanTaskRequest/ns2:Initiator')"/>
+                <to variable="HumantaskIVP1_globalVariable" part="payload"
+                    query="/task:task/task:creator"/>
+            </copy>
+        </assign>
+        <scope name="HumantaskIVP1"
+               xmlns:wf="http://schemas.oracle.com/bpel/extensions/workflow"
+               wf:key="HumantaskIVP1_globalVariable">
+            <bpelx:annotation>
+                <bpelx:pattern patternName="bpelx:workflow"></bpelx:pattern>
+            </bpelx:annotation>
+            <variables>
+                <variable name="initiateTaskInput"
+                          messageType="ns1:initiateTaskMessage"/>
+                <variable name="initiateTaskResponseMessage"
+                          messageType="ns1:initiateTaskResponseMessage"/>
+            </variables>
+            <sequence>
+                <assign name="HumantaskIVP1_AssignTaskAttributes">
+                    <copy>
+                        <from expression="number(3)"/>
+                        <to variable="initiateTaskInput" part="payload"
+                            query="/ns1:initiateTask/task:task/task:priority"/>
+                    </copy>
+                    <copy>
+                        <from><payload xmlns="http://xmlns.oracle.com/bpel/workflow/task">
+ <Assignee xmlns="http://xmlns.oracle.com/bpel/workflow/task"/>
+ <KeyData1 xmlns="http://xmlns.oracle.com/bpel/workflow/task"/>
+ <KeyData2 xmlns="http://xmlns.oracle.com/bpel/workflow/task"/>
+ <KeyData3 xmlns="http://xmlns.oracle.com/bpel/workflow/task"/>
+</payload></from>
+                        <to variable="initiateTaskInput" part="payload"
+                            query="/ns1:initiateTask/task:task/task:payload"/>
+                    </copy>
+                    <copy>
+                        <from variable="inputVariable" part="payload"
+                              query="/ns2:HumanTaskRequest/ns2:KeyData1"/>
+                        <to variable="initiateTaskInput" part="payload"
+                            query="/ns1:initiateTask/task:task/task:payload/task:KeyData1"/>
+                    </copy>
+                    <copy>
+                        <from variable="inputVariable" part="payload"
+                              query="/ns2:HumanTaskRequest/ns2:KeyData2"/>
+                        <to variable="initiateTaskInput" part="payload"
+                            query="/ns1:initiateTask/task:task/task:payload/task:KeyData2"/>
+                    </copy>
+                    <copy>
+                        <from variable="inputVariable" part="payload"
+                              query="/ns2:HumanTaskRequest/ns2:KeyData3"/>
+                        <to variable="initiateTaskInput" part="payload"
+                            query="/ns1:initiateTask/task:task/task:payload/task:KeyData3"/>
+                    </copy>
+                    <copy>
+                        <from expression="bpws:getVariableData('inputVariable','payload','/ns2:HumanTaskRequest/ns2:Initiator')"/>
+                        <to variable="initiateTaskInput" part="payload"
+                            query="/ns1:initiateTask/task:task/task:creator"/>
+                    </copy>
+                    <copy>
+                        <from expression="string('HumanTaskIVP')"/>
+                        <to variable="initiateTaskInput" part="payload"
+                            query="/ns1:initiateTask/task:task/task:title"/>
+                    </copy>
+                    <copy>
+                        <from variable="inputVariable" part="payload"
+                              query="/ns2:HumanTaskRequest/ns2:Assignee"/>
+                        <to variable="initiateTaskInput" part="payload"
+                            query="/ns1:initiateTask/task:task/task:payload/task:Assignee"/>
+                    </copy>
+                </assign>
+                <invoke name="initiateTask_HumantaskIVP1"
+                        partnerLink="HumantaskIVP.TaskService_1"
+                        operation="initiateTask" portType="ns1:TaskService"
+                        inputVariable="initiateTaskInput"
+                        outputVariable="initiateTaskResponseMessage"
+                        bpelx:invokeAsDetail="no"/>
+                <receive name="receiveCompletedTask_HumantaskIVP1"
+                         partnerLink="HumantaskIVP.TaskService_1"
+                         portType="ns1:TaskServiceCallback"
+                         operation="onTaskCompleted"
+                         variable="HumantaskIVP1_globalVariable"
+                         createInstance="no"/>
+            </sequence>
+        </scope>
+        <switch name="taskSwitch">
+            <case condition="$HumantaskIVP1_globalVariable.payload/task:systemAttributes/task:outcome = 'REJECT'">
+                <bpelx:annotation>
+                    <bpelx:pattern>Task outcome is REJECT</bpelx:pattern>
+                    <bpelx:general>
+                        <bpelx:property/>
+                    </bpelx:general>
+                </bpelx:annotation>
+                <sequence>
+                    <assign name="reject">
+                        <copy>
+                            <from variable="HumantaskIVP1_globalVariable"
+                                  part="payload"
+                                  query="/task:task/task:payload/task:Assignee"/>
+                            <to variable="inputVariable" part="payload"
+                                query="/ns2:HumanTaskRequest/ns2:Assignee"/>
+                        </copy>
+                        <copy>
+                            <from variable="HumantaskIVP1_globalVariable"
+                                  part="payload"
+                                  query="/task:task/task:payload/task:KeyData1"/>
+                            <to variable="inputVariable" part="payload"
+                                query="/ns2:HumanTaskRequest/ns2:KeyData1"/>
+                        </copy>
+                        <copy>
+                            <from variable="HumantaskIVP1_globalVariable"
+                                  part="payload"
+                                  query="/task:task/task:payload/task:KeyData2"/>
+                            <to variable="inputVariable" part="payload"
+                                query="/ns2:HumanTaskRequest/ns2:KeyData2"/>
+                        </copy>
+                        <copy>
+                            <from variable="HumantaskIVP1_globalVariable"
+                                  part="payload"
+                                  query="/task:task/task:payload/task:KeyData3"/>
+                            <to variable="inputVariable" part="payload"
+                                query="/ns2:HumanTaskRequest/ns2:KeyData3"/>
+                        </copy>
+                    </assign>
+                </sequence>
+            </case>
+            <case condition="$HumantaskIVP1_globalVariable.payload/task:systemAttributes/task:outcome = 'APPROVE'">
+                <bpelx:annotation>
+                    <bpelx:pattern>Task outcome is APPROVE</bpelx:pattern>
+                    <bpelx:general>
+                        <bpelx:property/>
+                    </bpelx:general>
+                </bpelx:annotation>
+                <sequence>
+                    <assign name="Approve">
+                        <copy>
+                            <from variable="HumantaskIVP1_globalVariable"
+                                  part="payload"
+                                  query="/task:task/task:payload/task:Assignee"/>
+                            <to variable="inputVariable" part="payload"
+                                query="/ns2:HumanTaskRequest/ns2:Assignee"/>
+                        </copy>
+                        <copy>
+                            <from variable="HumantaskIVP1_globalVariable"
+                                  part="payload"
+                                  query="/task:task/task:payload/task:KeyData1"/>
+                            <to variable="inputVariable" part="payload"
+                                query="/ns2:HumanTaskRequest/ns2:KeyData1"/>
+                        </copy>
+                        <copy>
+                            <from variable="HumantaskIVP1_globalVariable"
+                                  part="payload"
+                                  query="/task:task/task:payload/task:KeyData2"/>
+                            <to variable="inputVariable" part="payload"
+                                query="/ns2:HumanTaskRequest/ns2:KeyData2"/>
+                        </copy>
+                        <copy>
+                            <from variable="HumantaskIVP1_globalVariable"
+                                  part="payload"
+                                  query="/task:task/task:payload/task:KeyData3"/>
+                            <to variable="inputVariable" part="payload"
+                                query="/ns2:HumanTaskRequest/ns2:KeyData3"/>
+                        </copy>
+                    </assign>
+                </sequence>
+            </case>
+            <otherwise>
+                <sequence>
+                    <assign name="Otherwise">
+                        <copy>
+                            <from variable="HumantaskIVP1_globalVariable"
+                                  part="payload"
+                                  query="/task:task/task:payload/task:Assignee"/>
+                            <to variable="inputVariable" part="payload"
+                                query="/ns2:HumanTaskRequest/ns2:Assignee"/>
+                        </copy>
+                        <copy>
+                            <from variable="HumantaskIVP1_globalVariable"
+                                  part="payload"
+                                  query="/task:task/task:payload/task:KeyData1"/>
+                            <to variable="inputVariable" part="payload"
+                                query="/ns2:HumanTaskRequest/ns2:KeyData1"/>
+                        </copy>
+                        <copy>
+                            <from variable="HumantaskIVP1_globalVariable"
+                                  part="payload"
+                                  query="/task:task/task:payload/task:KeyData2"/>
+                            <to variable="inputVariable" part="payload"
+                                query="/ns2:HumanTaskRequest/ns2:KeyData2"/>
+                        </copy>
+                        <copy>
+                            <from variable="HumantaskIVP1_globalVariable"
+                                  part="payload"
+                                  query="/task:task/task:payload/task:KeyData3"/>
+                            <to variable="inputVariable" part="payload"
+                                query="/ns2:HumanTaskRequest/ns2:KeyData3"/>
+                        </copy>
+                    </assign>
+                </sequence>
+            </otherwise>
+        </switch>
+        <invoke name="callbackClient" partnerLink="fndintghumantaskivp_client" portType="client:FndIntgHumanTaskIVPCallback" operation="processResponse" inputVariable="outputVariable"
+                bpelx:invokeAsDetail="no"/>
+    </sequence>
+</process>

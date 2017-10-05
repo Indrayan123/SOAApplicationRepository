@@ -80,9 +80,11 @@
 	<module>FndIntgUPGCheckNamespaceConsumerIVP</module>
 	<module>FndIntgUPGCheckNamespaceIVP</module>
 	<module>FndIntgUPGCheckXSlEmptyValueIVP</module>
-	<module>FndIntgUPGThrowFaultIVP</module>-->	
+	<module>FndIntgUPGThrowFaultIVP</module>
 	
-	<module>FndIntgValidateALLSOAIVP</module>
+	<module>FndIntgValidateALLSOAIVP</module>-->
+	<module>FndIntgHumanTaskIVP</module>
+	<module>FndIntgHumanTaskSvcIVP</module>
     </modules>
   <build>
   <resources>

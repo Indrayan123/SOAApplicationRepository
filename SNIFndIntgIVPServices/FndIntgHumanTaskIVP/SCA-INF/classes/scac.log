@@ -1,0 +1,24 @@
+Oct 4, 2017 6:58:48 AM oracle.mds
+NOTIFICATION: PManager instance is created without multitenancy support as JVM flag "oracle.multitenant.enabled" is not set to enable multitenancy support.
+Oct 4, 2017 6:58:48 AM oracle.security.jps.internal.config.xml.XmlConfigurationFactory initDefaultConfiguration
+SEVERE: java.io.FileNotFoundException: .\config\jps-config.xml (The system cannot find the path specified)
+Oct 4, 2017 6:58:48 AM oracle.mds
+NOTIFICATION: Auditing is disabled for component MDS.
+Oct 4, 2017 6:58:49 AM oracle.fabric.common.wsdl.SchemaManager isIncrementalBuildSupported
+INFO: XMLSchema incremental build enabled.
+Oct 4, 2017 6:58:49 AM com.collaxa.cube.CubeLogger info
+INFO: validating "FndIntgHumanTaskIVP.bpel" ...
+Oct 4, 2017 6:58:49 AM oracle.integration.platform.blocks.FabricConfigManager <clinit>
+WARNING: JRF is unable to determine the current application server platform.
+Oct 4, 2017 6:58:49 AM oracle.integration.platform.blocks.WLSPlatformConfigurationProvider <clinit>
+WARNING: JRF is unable to determine the current application server platform.
+Oct 4, 2017 6:58:50 AM com.collaxa.cube.CubeLogger info
+INFO: Composed "FndIntgHumanTaskIVP" in 264.8 milliseconds [nodes 22=1+21, 83.1 nodes/sec]
+Oct 4, 2017 6:59:01 AM com.collaxa.cube.CubeLogger info
+INFO: Compiled "FndIntgHumanTaskIVP" in 11.462 seconds
+Oct 4, 2017 6:59:01 AM com.collaxa.cube.CubeLogger info
+INFO: Gathered 5 files in 2.8 milliseconds
+
+Oct 4, 2017 6:59:01 AM com.collaxa.cube.CubeLogger info
+INFO: Packaged "FndIntgHumanTaskIVP" in 35.1 milliseconds
+
