@@ -48,8 +48,7 @@
 	<module>FndIntgLookupDVMIVP</module>
 	<module>FndIntgSNICreateXRefRowIVP</module>	
 	<module>FndIntgXrefLookupIVP</module>
-	<module>FndIntgXrefPopulateIVP</module>
-	<module>FndIntgSNICreateXRefRowIVP</module>
+	<module>FndIntgXrefPopulateIVP</module>	
 	<module>FndIntgBCSLookupIVP</module>
 	<module>FndIntgValidateLookupFunctionIVP</module>
 	
