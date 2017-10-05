@@ -25,7 +25,7 @@
 	<module>FndIntgBIPSvcIVP</module>
 	<module>FndIntgBPELMediatorCompositeIVP</module>
 	<module>FndIntgMediatorToExternalBPELIVP</module>
-	<module>FndIntgHumanTaskSvcIVP</module>
+	<!--module>FndIntgHumanTaskSvcIVP</module-->
 	<module>FndIntgODIService</module>
 	<module>FndIntgODISvcIVP</module>
 	<module>FndIntgSyncToOneWayIVP</module>
