@@ -76,12 +76,11 @@
 	<module>FndIntgLogSNIMessageIVP</module>
 	<module>FndIntgValidateFaultHandlingIVP</module>
 
-	<module>FndIntgUPGCheckDynamicPatnerlinkFaultIVP</module>-->
+	<module>FndIntgUPGCheckDynamicPatnerlinkFaultIVP</module>
 	<module>FndIntgUPGCheckNamespaceConsumerIVP</module>
 	<module>FndIntgUPGCheckNamespaceIVP</module>
 	<module>FndIntgUPGCheckXSlEmptyValueIVP</module>
-	<module>FndIntgUPGThrowFaultIVP</module>
-	<module>FndIntgValidateSOAUPGIVP</module>
+	<module>FndIntgUPGThrowFaultIVP</module>-->	
 	
 	<module>FndIntgValidateALLSOAIVP</module>
     </modules>
