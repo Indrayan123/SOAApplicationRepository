@@ -23,6 +23,7 @@
 	<module>FndIntg_SimpleBRIVP</module>	
 	<module>FndIntgBIPIVP</module>
 	<module>FndIntgBIPSvcIVP</module>
+	<module>FndIntgOneWaySvc</module>
 	<module>FndIntgBPELMediatorCompositeIVP</module>
 	<module>FndIntgMediatorToExternalBPELIVP</module>
 	<!--<module>FndIntgManageHumanTaskService</module>-->

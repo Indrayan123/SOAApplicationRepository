@@ -65,13 +65,13 @@
 			<Capability>all_capability</Capability>	
 			<IgnoreAutoRevision>true</IgnoreAutoRevision>
 	    </Project>		
-<Project>
+<!--<Project>
 			<Name>FndIntgOSBToSOAExecuteIVP</Name>
 			<Revision>1.0</Revision>
 			<Partition>fndintgivp</Partition>
 			<Capability>all_capability</Capability>	
 			<IgnoreAutoRevision>true</IgnoreAutoRevision>
-	    </Project>
+	    </Project>-->
 		<Project>
 			<Name>FndIntgODIService</Name>
 			<Revision>1.0</Revision>
