@@ -38,13 +38,6 @@
         List of services participating in this BPEL process               
       ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     -->
-  <bpelx:annotation>
-    <bpelx:analysis>
-      <bpelx:property name="wsdlFile">
-        <![CDATA[oramds:/apps/SNIComponents/FoundationServiceLibrary/IVP/FndIntgBIPSvcIVPInit.wsdl]]>
-      </bpelx:property>
-    </bpelx:analysis>
-  </bpelx:annotation>
   <partnerLinks>
     <!-- 
       The 'client' role represents the requester of this service. It is 

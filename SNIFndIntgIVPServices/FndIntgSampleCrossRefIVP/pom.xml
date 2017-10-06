@@ -41,8 +41,8 @@
  
   <!-- These parameters are used by the deploy and undeploy goals -->
   <composite.name>${project.artifactId}</composite.name>
-  <composite.revision>${project.version}</composite.revision>
-  <composite.partition>fndintgivp</composite.partition>  
+  <composite.revision>${FndIntgSampleCrossRefIVP.Revision}</composite.revision>
+  <composite.partition>${FndIntgSampleCrossRefIVP.Partition}</composite.partition> 
         
   
   <overwrite>true</overwrite>
@@ -103,7 +103,44 @@
         </executions>
     </plugin> 
 	   
-	 
+	  <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>properties-maven-plugin</artifactId>
+        <version>1.0-alpha-2</version>
+        <executions>
+          <execution>
+            <phase>initialize</phase>
+            <goals>
+              <goal>read-project-properties</goal>
+            </goals>
+            <configuration>
+              <files>
+                <file>${project.basedir}/../ControlFiles/ControlFile.properties</file>
+              </files>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+	<plugin>
+        <groupId>com.google.code.maven-replacer-plugin</groupId>
+        <artifactId>replacer</artifactId>
+        <version>1.5.3</version>
+        <executions>
+          <execution>
+            <phase>initialize</phase>
+            <goals>
+              <goal>replace</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <ignoreMissingFile>true</ignoreMissingFile>
+          <file>${scac.input}</file>
+          <xpath>//composite/@revision</xpath>
+          <token>^.*$</token>
+          <value>${composite.revision}</value>
+        </configuration>
+      </plugin>
 
       <plugin>
         <groupId>com.oracle.soa.plugin</groupId>

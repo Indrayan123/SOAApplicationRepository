@@ -1,19 +1,13 @@
 <IntegrationControlFile>
 	<Application>
-		<Project>
-			<Name>Fndintg_largepayloadBRIVP</Name>
-			<Revision>1.0</Revision>
-			<Partition>fndintgivp</Partition>
-			<Capability>all_capability</Capability>	
-			<IgnoreAutoRevision>true</IgnoreAutoRevision>
-	    </Project>
+		
 		<!--<Project>
 			<Name>BR_FndIntg_SimpleRuleIVP</Name>
 			<Revision>1.0</Revision>
 			<Partition>fndintgivp</Partition>
 			<Capability>all_capability</Capability>	
 			<IgnoreAutoRevision>true</IgnoreAutoRevision>
-	    </Project>	
+	    </Project>-->	
 		<Project>
 			<Name>Fndintg_largepayloadBRIVP</Name>
 			<Revision>1.0</Revision>
@@ -121,13 +115,13 @@
 			<IgnoreAutoRevision>true</IgnoreAutoRevision>
 	    </Project>
 	
-		<Project>
+		<!--<Project>
 			<Name>FndIntgAppsAdapterIVP</Name>
 			<Revision>1.0</Revision>
 			<Partition>fndintgivp</Partition>
 			<Capability>all_capability</Capability>	
 			<IgnoreAutoRevision>true</IgnoreAutoRevision>
-	    </Project>	
+	    </Project>-->	
 		<Project>
 			<Name>FndIntgAQDeQIVP</Name>
 			<Revision>1.0</Revision>
@@ -368,13 +362,13 @@
 			<Capability>all_capability</Capability>	
 			<IgnoreAutoRevision>true</IgnoreAutoRevision>
 	    </Project>	
-		<Project>
+		<!--<Project>
 			<Name>FndIntgUPGCheckDynamicPatnerlinkFaultIVP</Name>
 			<Revision>1.0</Revision>
 			<Partition>fndintgivp</Partition>
 			<Capability>all_capability</Capability>	
 			<IgnoreAutoRevision>true</IgnoreAutoRevision>
-	    </Project>
+	    </Project>-->
 		
 		<Project>
 			<Name>FndIntgUPGCheckNamespaceConsumerIVP</Name>
@@ -397,13 +391,13 @@
 			<Capability>all_capability</Capability>	
 			<IgnoreAutoRevision>true</IgnoreAutoRevision>
 	    </Project>			
-		<Project>
+		<!--<Project>
 			<Name>FndIntgValidateSOAUPGIVP</Name>
 			<Revision>1.0</Revision>
 			<Partition>fndintgivp</Partition>
 			<Capability>all_capability</Capability>	
 			<IgnoreAutoRevision>true</IgnoreAutoRevision>
-	    </Project>	
+	    </Project>-->	
 		<Project>
 			<Name>FndIntgOWSMServerIVP</Name>
 			<Revision>1.0</Revision>
@@ -461,7 +455,7 @@
 			<Partition>fndintgivp</Partition>
 			<Capability>all_capability</Capability>	
 			<IgnoreAutoRevision>true</IgnoreAutoRevision>
-	    </Project>-->
+	    </Project>
 
 	</Application>
 </IntegrationControlFile>

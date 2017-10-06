@@ -30,9 +30,6 @@
          <binding.ws port="http://xmlns.schneider.com/SNIFndIntgIVPServices/FndIntgBIPWrapperIVP/FndIntgBIPWrapperIVP#wsdl.endpoint(fndintgbipwrapperivp_client_ep/FndIntgBIPWrapperIVPCallback_pt)"/>
       </callback>
    </service>
-   <property name="originalProductVersion" type="xs:string" many="false">11.0.0.0.0</property>
-   <property name="productVersion" type="xs:string" many="false">12.2.1.0.0.151013</property>
-   <property name="compositeID" type="xs:string" many="false">97e422f9-900b-4d26-ad2d-7f2c59bf3bb4</property>
    <component name="FndIntgBIPSvcIVPInit" version="1.1">
       <implementation.bpel src="FndIntgBIPSvcIVPInit.bpel"/>
       <componentType xmlns="http://xmlns.oracle.com/sca/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema"

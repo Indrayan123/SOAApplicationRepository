@@ -9,7 +9,7 @@
         -->
   <modelVersion>4.0.0</modelVersion>
   <groupId>SNIFndIntgIVPServices</groupId>
-  <artifactId>FndIntgValidateServiceInteractionIVP</artifactId>
+  <artifactId>FndIntgSOAToOSBExecuteIVP</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>sar</packaging>
   <!--
@@ -41,8 +41,8 @@
  
   <!-- These parameters are used by the deploy and undeploy goals -->
   <composite.name>${project.artifactId}</composite.name>
-  <composite.revision>${FndIntgValidateServiceInteractionIVP.Revision}</composite.revision>
-  <composite.partition>${FndIntgValidateServiceInteractionIVP.Partition}</composite.partition> 
+  <composite.revision>${FndIntgSOAToOSBExecuteIVP.Revision}</composite.revision>
+  <composite.partition>${FndIntgSOAToOSBExecuteIVP.Partition}</composite.partition> 
         
   
   <overwrite>true</overwrite>
