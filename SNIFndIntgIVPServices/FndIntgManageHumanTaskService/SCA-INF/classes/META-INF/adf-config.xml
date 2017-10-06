@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='windows-1252'?>
+<adf-config xmlns="http://xmlns.oracle.com/adf/config" xmlns:sec="http://xmlns.oracle.com/adf/security/config">
+   <adf-mds-config xmlns="http://xmlns.oracle.com/adf/mds/config">
+      <mds-config xmlns="http://xmlns.oracle.com/mds/config">
+         <persistence-config>
+            <metadata-namespaces>
+               <namespace metadata-store-usage="mstore-usage_1" path="/soa/shared"/>
+               <namespace metadata-store-usage="mstore-usage_1" path="/apps"/>
+               <namespace metadata-store-usage="mstore-usage_1" path="/soa/configuration"/>
+               <namespace metadata-store-usage="mstore-usage_1" path="/deployed-composites"/>
+            </metadata-namespaces>
+            <metadata-store-usages>
+               <metadata-store-usage id="mstore-usage_1">
+                  <metadata-store class-name="oracle.mds.persistence.stores.db.DBMetadataStore">
+                     <property name="jdbc-userid" value="soa4_mds"/>
+                     <property name="jdbc-password" value="soa4_0201"/>
+                     <property name="jdbc-url" value="jdbc:oracle:thin:@uxunt186v.schneider.com:3553/s2aw0_soa4.world"/>
+                     <property name="partition-name" value="soa-infra"/>
+                  </metadata-store>
+               </metadata-store-usage>
+            </metadata-store-usages>
+         </persistence-config>
+      </mds-config>
+   </adf-mds-config>
+   <sec:adf-security-child xmlns="http://xmlns.oracle.com/adf/security/config">
+      <CredentialStoreContext credentialStoreClass="oracle.adf.share.security.providers.jps.CSFCredentialStore" credentialStoreLocation="../../src/META-INF/jps-config.xml"/>
+   </sec:adf-security-child>
+</adf-config>

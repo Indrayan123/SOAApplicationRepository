@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions name="FndIntgManageHumanTaskService" targetNamespace="http://xmlns.oracle.com/SNIFndIntgServices/FndIntgManageHumanTaskService/FndIntgManageHumanTaskService" xmlns:ns2="http://xmlns.schneider.com/EnterpriseObjects/Common/HumanTask/V1" xmlns:ns1="http://xmlns.schneider.com/EnterpriseObjects/Common/HumanTask/V1" xmlns:ns4="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1" xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:ns="http://xmlns.schneider.com/EnterpriseObjects/Common/HumanTask/V1" xmlns:ns3="http://xmlns.schneider.com/EnterpriseObjects/Common/HumanTask/V1" xmlns:client="http://xmlns.oracle.com/SNIFndIntgServices/FndIntgManageHumanTaskService/FndIntgManageHumanTaskService" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+   <plnk:partnerLinkType name="FndIntgManageHumanTaskService">
+      <plnk:role name="FndIntgManageHumanTaskServiceProvider">
+         <plnk:portType name="client:FndIntgManageHumanTaskService"/>
+      </plnk:role>
+   </plnk:partnerLinkType>
+   <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema">
+         <import namespace="http://xmlns.oracle.com/SNIFndIntgServices/FndIntgManageHumanTaskService/FndIntgManageHumanTaskService" schemaLocation="xsd/FndIntgManageHumanTaskService.xsd"/>
+      </schema>
+      <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+         <xsd:import namespace="http://xmlns.schneider.com/EnterpriseObjects/Common/HumanTask/V1" schemaLocation="oramds:/apps/SNIComponents/EnterpriseObjectLibrary/Common/HumanTask/V1/HumanTaskInfoEBM.xsd"/>
+      </xsd:schema>
+      <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+         <xsd:import namespace="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1" schemaLocation="oramds:/apps/SNIComponents/EnterpriseObjectLibrary/Core/Common/V1/SNICore.xsd"/>
+      </xsd:schema>
+   </wsdl:types>
+   <wsdl:message name="FndIntgManageHumanTaskServiceRequestMessage">
+      <wsdl:part name="payload" type="ns2:ManageHumanTaskRequestType"/>
+   </wsdl:message>
+   <wsdl:message name="FndIntgManageHumanTaskServiceResponseMessage">
+      <wsdl:part name="payload" type="ns2:ManageHumanTaskResponseType"/>
+   </wsdl:message>
+   <wsdl:message name="FaultMessage">
+      <wsdl:part name="SNIFault" type="ns4:SNIFaultType"/>
+   </wsdl:message>
+   <wsdl:portType name="FndIntgManageHumanTaskService">
+      <wsdl:operation name="process">
+         <wsdl:input message="client:FndIntgManageHumanTaskServiceRequestMessage"/>
+         <wsdl:output message="client:FndIntgManageHumanTaskServiceResponseMessage"/>
+         <wsdl:fault message="client:FaultMessage" name="Fault"/>
+      </wsdl:operation>
+   </wsdl:portType>
+</wsdl:definitions>

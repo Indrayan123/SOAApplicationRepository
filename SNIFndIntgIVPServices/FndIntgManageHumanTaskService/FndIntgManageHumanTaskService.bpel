@@ -1,0 +1,320 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Wed May 23 14:43:48 CDT 2012
+  Author:  c88525
+  Type: BPEL 1.1 Process
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="FndIntgManageHumanTaskService"
+               targetNamespace="http://xmlns.oracle.com/SNIFndIntgServices/FndIntgManageHumanTaskService/FndIntgManageHumanTaskService"
+               xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+               xmlns:client="http://xmlns.oracle.com/SNIFndIntgServices/FndIntgManageHumanTaskService/FndIntgManageHumanTaskService"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:ns1="http://xmlns.schneider.com/EnterpriseObjects/Common/HumanTask/V1"
+         xmlns:ns2="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1"
+         xmlns:ns3="http://xmlns.oracle.com/bpel/workflow/taskQueryService"
+         xmlns:ns4="http://xmlns.oracle.com/bpel/workflow/taskService"
+         xmlns:bpel2="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+         xmlns:ns6="http://xmlns.oracle.com/bpel/workflow/taskQuery"
+         xmlns:ns5="http://xmlns.oracle.com/bpel/workflow/common"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:sniadf="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIADFExtensionFunctions"
+         xmlns:ns8="http://xmlns.oracle.com/bpel/workflow/TaskEvidenceService"
+         xmlns:sniolock="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIOptimisticLockExtensionFunctions"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:snifmt="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIFormatExtensionFunctions"
+         xmlns:snibpel="http://xmlns.schneider.com/BPEL/sni/foundation/soa/extensions/xpath"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:snidttm="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIDateTimeExtensionFunctions"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:sniprop="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIPropertyFileExtensionFunctions"
+         xmlns:ns7="http://xmlns.oracle.com/bpel/workflow/task"
+         xmlns:snidvm="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIDVMExtensionFunctions"
+         xmlns:sniutil="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.utils.SNIUtilityExtensionFunctions"
+         xmlns:snixref="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIXRefExtensionFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:ns9="http://xmlns.oracle.com/bpel/workflow/routingSlip">
+
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+  <bpelx:annotation>
+    <bpelx:analysis>
+      <bpelx:property name="wsdlFile">
+        <![CDATA[FndIntgManageHumanTaskService.wsdl]]>
+      </bpelx:property>
+    </bpelx:analysis>
+  </bpelx:annotation>
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="fndintgmanagehumantaskservice_client" partnerLinkType="client:FndIntgManageHumanTaskService" myRole="FndIntgManageHumanTaskServiceProvider"/>
+    <partnerLink name="TaskQueryService" partnerLinkType="ns3:TaskQueryService"
+                 partnerRole="TaskQueryService"/>
+    <partnerLink name="TaskService" partnerLinkType="ns4:TaskService"
+                 partnerRole="TaskService"
+                 myRole="TaskServiceCallbackListener"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:FndIntgManageHumanTaskServiceRequestMessage"/>
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="outputVariable" messageType="client:FndIntgManageHumanTaskServiceResponseMessage"/>
+    <variable name="status" type="xsd:string"/>
+    <variable name="userId" type="xsd:string"/>
+    <variable name="passWord" type="xsd:string"/>
+    <variable name="keyData1" type="xsd:string"/>
+    <variable name="keyData2" type="xsd:string"/>
+    <variable name="keyData3" type="xsd:string"/>
+    <variable name="TaskDefinitionNames" type="xsd:string"/>
+    <variable name="Operation" type="xsd:string"/>
+    <variable name="UpdateData" type="xsd:string"/>
+    <variable name="SNIHeader" element="ns2:SNIHeader"/>
+    <variable name="SNIFaultVar" messageType="client:FaultMessage"/>
+    <variable name="Invoke_TaskQueryService_queryTasks_InputVariable"
+              messageType="ns3:taskListRequestMessage"/>
+    <variable name="Invoke_TaskQueryService_queryTasks_OutputVariable"
+              messageType="ns3:taskListResponseMessage"/>
+    <variable name="Invoke_TaskService_updateTaskOutcome_InputVariable"
+              messageType="ns4:updateTaskOutcomeMessage"/>
+    <variable name="Invoke_TaskService_updateTaskOutcome_OutputVariable"
+              messageType="ns4:taskMessage"/>
+    <variable name="countTasks" type="xsd:integer"/>
+    <variable name="countVariable" type="xsd:integer"/>
+  </variables>
+  <faultHandlers>
+    <catchAll>
+      <sequence name="Sequence2">
+        <assign name="createAndhHandleSNIFault">
+          <copy>
+            <from expression="snibpel:createAndHandleSNIFault(bpws:getVariableData('SNIHeader'),string('FNDEVTCD'),string('FndIntgManageHumanTaskService Faulted'),string(' For more details about fault check the logs'),string('3'),string('SNIFndIntgServices'))"/>
+            <to variable="SNIFaultVar" part="SNIFault" query="/SNIFault"/>
+          </copy>
+        </assign>
+        <assign name="LogException">
+          <copy>
+            <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),string(' FndIntgManageHumanTaskService faulted for more details check logs'),string('SEVERE'))"/>
+            <to variable="status"/>
+          </copy>
+        </assign>
+        <reply name="ReplyFault" faultName="client:Fault"
+               variable="SNIFaultVar"
+               partnerLink="fndintgmanagehumantaskservice_client"
+               portType="client:FndIntgManageHumanTaskService"
+               operation="process"/>
+        <terminate name="Terminate1"/>
+      </sequence>
+    </catchAll>
+  </faultHandlers>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in FndIntgManageHumanTaskService.wsdl) -->
+    <receive name="receiveInput" partnerLink="fndintgmanagehumantaskservice_client" portType="client:FndIntgManageHumanTaskService" operation="process" variable="inputVariable" createInstance="yes"/>
+
+    <!-- Generate reply to synchronous request -->
+    <assign name="CreateSNIHeader">
+      <copy>
+        <from expression='snibpel:createSNIHeader("FndIntgManageHumanTaskService","FNDINTG","FndIntgManageHumanTaskService", "SNIFndIntgServices","SOA" , "")'/>
+        <to variable="SNIHeader" query="/ns2:SNIHeader"/>
+      </copy>
+    </assign>
+    <assign name="LogEntry">
+      <copy>
+        <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),string('ENTER FndIntgManageHumanTaskService'),string('INFO'))"/>
+        <to variable="status"/>
+      </copy>
+      <copy>
+        <from expression="sniprop:getEncryptedValueFromPropertyFile(string(bpws:getVariableData('inputVariable','payload','/payload/ns1:UserId')),'/opt/schneider/applications/config/passwords.properties')"/>
+        <to variable="inputVariable" part="payload"
+            query="/payload/ns1:PassWord"/>
+      </copy>
+    </assign>
+      <assign name="InputTaskQueryService">
+            <bpelx:annotation>
+              <bpelx:pattern>transformation</bpelx:pattern>
+            </bpelx:annotation>
+            <copy>
+              <from expression="ora:doXSLTransformForDoc('xsl/Input_to_TaskQueryService.xsl', $inputVariable.payload)"/>
+              <to variable="Invoke_TaskQueryService_queryTasks_InputVariable"
+                  part="payload"/>
+            </copy>
+          </assign>
+          <invoke name="Invoke_TaskQueryService"
+                  inputVariable="Invoke_TaskQueryService_queryTasks_InputVariable"
+                  outputVariable="Invoke_TaskQueryService_queryTasks_OutputVariable"
+                  partnerLink="TaskQueryService" portType="ns3:TaskQueryService"
+                  operation="queryTasks" bpelx:invokeAsDetail="no"/>
+    <switch name="Switch1">
+      <case condition="bpws:getVariableData('inputVariable','payload','/payload/ns1:Operation') ='IS_AVAILABLE'">
+        <bpelx:annotation>
+          <bpelx:general>
+            <bpelx:property name="userLabel">IS_AVAILABLE</bpelx:property>
+          </bpelx:general>
+        </bpelx:annotation>
+        <switch name="Switch2">
+          <case condition="ora:countNodes('Invoke_TaskQueryService_queryTasks_OutputVariable','payload','/ns3:taskListResponse/ns7:task/ns7:systemAttributes/ns7:taskId' ) > 0">
+            <bpelx:annotation>
+              <bpelx:general>
+                <bpelx:property name="userLabel">taskID_yes</bpelx:property>
+              </bpelx:general>
+            </bpelx:annotation>
+            <assign name="Assign_Output">
+              <copy>
+                <from expression="'yes'"/>
+                <to variable="outputVariable" part="payload"
+                    query="/payload/ns1:status"/>
+              </copy>
+            </assign>
+          </case>
+          <otherwise>
+            <assign name="Assign_Output">
+              <copy>
+                <from expression="'no'"/>
+                <to variable="outputVariable" part="payload"
+                    query="/payload/ns1:status"/>
+              </copy>
+            </assign>
+          </otherwise>
+        </switch>
+      </case>
+      <case condition="bpws:getVariableData('inputVariable','payload','/payload/ns1:Operation')= 'UPDATE_OUTCOME'">
+        <bpelx:annotation>
+          <bpelx:general>
+            <bpelx:property name="userLabel">UPDATE_OUTCOME</bpelx:property>
+          </bpelx:general>
+        </bpelx:annotation>
+        <sequence name="Sequence1">
+          <assign name="TasksCount">
+            <copy>
+              <from expression="ora:countNodes('Invoke_TaskQueryService_queryTasks_OutputVariable','payload','/ns3:taskListResponse/ns7:task/ns7:systemAttributes/ns7:taskId' )"/>
+              <to variable="countTasks"/>
+            </copy>
+            <copy>
+              <from expression="number(1)"/>
+              <to variable="countVariable"/>
+            </copy>
+          </assign>
+          <while name="While1"
+                 condition="bpws:getVariableData('countVariable') &lt;= bpws:getVariableData('countTasks')">
+            <sequence>
+              <assign name="Assign_Input">
+                <copy>
+                  <from variable="Invoke_TaskQueryService_queryTasks_OutputVariable"
+                        part="payload"
+                        query="/ns3:taskListResponse/ns7:task[$countVariable]/ns7:systemAttributes/ns7:taskId"/>
+                  <to variable="Invoke_TaskService_updateTaskOutcome_InputVariable"
+                      part="payload" query="/ns4:updateTaskOutcome/ns4:taskId"/>
+                </copy>
+                <copy>
+                  <from variable="inputVariable" part="payload"
+                        query="/payload/ns1:UpdateData"/>
+                  <to variable="Invoke_TaskService_updateTaskOutcome_InputVariable"
+                      part="payload"
+                      query="/ns4:updateTaskOutcome/ns4:outcome"/>
+                </copy>
+                <copy>
+                  <from variable="inputVariable" part="payload"
+                        query="/payload/ns1:UserId"/>
+                  <to variable="Invoke_TaskService_updateTaskOutcome_InputVariable"
+                      part="payload"
+                      query="/ns4:updateTaskOutcome/ns5:workflowContext/ns5:credential/ns5:login"/>
+                </copy>
+                <copy>
+                  <from expression="'jazn.com'"/>
+                  <to variable="Invoke_TaskService_updateTaskOutcome_InputVariable"
+                      part="payload"
+                      query="/ns4:updateTaskOutcome/ns5:workflowContext/ns5:credential/ns5:identityContext"/>
+                </copy>
+                <copy>
+                  <from variable="inputVariable" part="payload"
+                        query="/payload/ns1:PassWord"/>
+                  <to variable="Invoke_TaskService_updateTaskOutcome_InputVariable"
+                      part="payload"
+                      query="/ns4:updateTaskOutcome/ns5:workflowContext/ns5:credential/ns5:password"/>
+                </copy>
+              </assign>
+              <invoke name="Invoke_TaskService"
+                      inputVariable="Invoke_TaskService_updateTaskOutcome_InputVariable"
+                      outputVariable="Invoke_TaskService_updateTaskOutcome_OutputVariable"
+                      partnerLink="TaskService" portType="ns4:TaskService"
+                      operation="updateTaskOutcome" bpelx:invokeAsDetail="no"/>
+              <assign name="CountIncrement">
+                <copy>
+                  <from expression="bpws:getVariableData('countVariable') + 1"/>
+                  <to variable="countVariable"/>
+                </copy>
+              </assign>
+            </sequence>
+          </while>
+          <switch name="Switch3">
+            <case condition="bpws:getVariableData('countTasks') > 0">
+              <bpelx:annotation>
+                <bpelx:general>
+                  <bpelx:property name="userLabel">IfTaskExists</bpelx:property>
+                </bpelx:general>
+              </bpelx:annotation>
+              <assign name="Output">
+                <copy>
+                  <from expression="bpws:getVariableData('Invoke_TaskService_updateTaskOutcome_OutputVariable','payload','/ns7:task/ns7:systemAttributes/ns7:state')"/>
+                  <to variable="outputVariable" part="payload"
+                      query="/payload/ns1:status"/>
+                </copy>
+              </assign>
+            </case>
+            <otherwise>
+              <assign name="Output">
+                <copy>
+                  <from expression="'TaskNotFound'"/>
+                  <to variable="outputVariable" part="payload"
+                      query="/payload/ns1:status"/>
+                </copy>
+              </assign>
+            </otherwise>
+          </switch>
+        </sequence>
+      </case>
+      <otherwise>
+        <empty name="DoNothing"/>
+      </otherwise>
+    </switch>
+    <assign name="LogExit">
+      <copy>
+        <from expression="snibpel:logSNIMessage(bpws:getVariableData('SNIHeader'),string('EXIT FndIntgManageHumanTaskService'),string('INFO'))"/>
+        <to variable="status"/>
+      </copy>
+    </assign>
+    <reply name="replyOutput" partnerLink="fndintgmanagehumantaskservice_client" portType="client:FndIntgManageHumanTaskService" operation="process" variable="outputVariable"/>
+  </sequence>
+</process>

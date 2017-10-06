@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<SOAConfigPlan xmlns:jca="http://platform.integration.oracle/blocks/adapter/fw/metadata" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:orawsp="http://schemas.oracle.com/ws/2006/01/policy" xmlns:edl="http://schemas.oracle.com/events/edl" xmlns="http://schemas.oracle.com/soa/configplan">
+   <composite name="FndIntgManageHumanTaskService">
+      <import>
+         <searchReplace>
+            <search/>
+            <replace/>
+         </searchReplace>
+      </import>
+      <service name="fndintgmanagehumantaskservice_client_ep">
+         <binding type="ws">
+            <attribute name="port">
+               <replace>http://xmlns.oracle.com/SNIFndIntgServices/FndIntgManageHumanTaskService/FndIntgManageHumanTaskService#wsdl.endpoint(fndintgmanagehumantaskservice_client_ep/FndIntgManageHumanTaskService_pt)</replace>
+            </attribute>
+         </binding>
+      </service>
+      <reference name="TaskService">
+         <binding type="ws">
+            <attribute name="port">
+               <replace>http://xmlns.oracle.com/bpel/workflow/taskService#wsdl.endpoint(TaskService/TaskServicePort)</replace>
+            </attribute>
+            <attribute name="location">
+               <replace>http://soaunt4.intra.schneider.com:80/integration/services/TaskService/TaskServicePort?wsdl</replace>
+            </attribute>
+            <property name="weblogic.wsee.wsat.transaction.flowOption">
+               <replace>WSDLDriven</replace>
+            </property>
+         </binding>
+      </reference>
+      <reference name="TaskQueryService">
+         <binding type="ws">
+            <attribute name="port">
+               <replace>http://xmlns.oracle.com/bpel/workflow/taskQueryService#wsdl.endpoint(TaskQueryService/TaskQueryServicePort)</replace>
+            </attribute>
+            <attribute name="location">
+               <replace>http://soaunt4.intra.schneider.com:80/integration/services/TaskQueryService/TaskQueryService?wsdl</replace>
+            </attribute>
+            <property name="weblogic.wsee.wsat.transaction.flowOption">
+               <replace>WSDLDriven</replace>
+            </property>
+         </binding>
+      </reference>
+   </composite>
+   <wsdlAndSchema name="FndIntgManageHumanTaskService.wsdl|TaskQueryServiceWrapper.wsdl|xsd/FndIntgManageHumanTaskService.xsd">
+      <searchReplace>
+         <search/>
+         <replace/>
+      </searchReplace>
+   </wsdlAndSchema>
+</SOAConfigPlan>

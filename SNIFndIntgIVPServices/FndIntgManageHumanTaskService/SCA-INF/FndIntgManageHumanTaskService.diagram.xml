@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dgm:gDiagram xmlns:dgm="http://xmlns.oracle.com/sca/soadgm">
+    <dgm:gService name="fndintgmanagehumantaskservice_client_ep">
+        <dgm:body borderWidth="2" arcRad="20" X="21" Y="97" width="137" height="84">
+            <dgm:borderColor r="153" g="153" b="153"/>
+            <dgm:bgColor r="255" g="255" b="255"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="11" Y="90" width="156" height="98">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:outputPort name="fndintgmanagehumantaskservice_client_ep" X="127" Y="0" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/SNIFndIntgServices/FndIntgManageHumanTaskService/FndIntgManageHumanTaskService#wsdl.interface(FndIntgManageHumanTaskService)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/adapters/designtime/adapter/images/mft_adapter_20x20.png" X="20" Y="4" width="20" height="20"/>
+        <dgm:operations>
+            <dgm:item>process</dgm:item>
+        </dgm:operations>
+    </dgm:gService>
+    <dgm:gReference name="TaskService">
+        <dgm:body borderWidth="2" arcRad="20" X="600" Y="122" width="136" height="168">
+            <dgm:borderColor r="153" g="153" b="153"/>
+            <dgm:bgColor r="255" g="255" b="255"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="590" Y="115" width="156" height="182">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:inputPort name="TaskService" X="-10" Y="0" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/bpel/workflow/taskService#wsdl.interface(TaskService)" callbackInterface="http://xmlns.oracle.com/bpel/workflow/taskService#wsdl.interface(TaskServiceCallback)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/adapters/designtime/adapter/images/mft_adapter_20x20.png" X="27" Y="4" width="20" height="20"/>
+        <dgm:operations>
+            <dgm:item>initiateTask</dgm:item>
+            <dgm:item>reinitiateTask</dgm:item>
+            <dgm:item>overrideRoutingSlip</dgm:item>
+            <dgm:item>skipCurrentAssignment</dgm:item>
+            <dgm:item>updateTask</dgm:item>
+            <dgm:item>mergeAndUpdateTask</dgm:item>
+            <dgm:item>submitInfoForTask</dgm:item>
+            <dgm:item>getUsersToRequestInfoForTask</dgm:item>
+            <dgm:item>getFutureParticipants</dgm:item>
+            <dgm:item>getApprovers</dgm:item>
+            <dgm:item>escalateTask</dgm:item>
+            <dgm:item>escalateTasks</dgm:item>
+            <dgm:item>withdrawTask</dgm:item>
+            <dgm:item>withdrawTasks</dgm:item>
+            <dgm:item>suspendTask</dgm:item>
+            <dgm:item>suspendTasks</dgm:item>
+            <dgm:item>resumeTask</dgm:item>
+            <dgm:item>resumeTasks</dgm:item>
+            <dgm:item>acquireTask</dgm:item>
+            <dgm:item>acquireTasks</dgm:item>
+            <dgm:item>releaseTask</dgm:item>
+            <dgm:item>releaseTasks</dgm:item>
+            <dgm:item>reassignTask</dgm:item>
+            <dgm:item>reassignTasks</dgm:item>
+            <dgm:item>routeTask</dgm:item>
+            <dgm:item>pushBackTask</dgm:item>
+            <dgm:item>delegateTask</dgm:item>
+            <dgm:item>delegateTasks</dgm:item>
+            <dgm:item>errorTask</dgm:item>
+            <dgm:item>addComment</dgm:item>
+            <dgm:item>addCommentToTasks</dgm:item>
+            <dgm:item>addAttachment</dgm:item>
+            <dgm:item>removeAttachment</dgm:item>
+            <dgm:item>addDocument</dgm:item>
+            <dgm:item>removeDocument</dgm:item>
+            <dgm:item>renewTask</dgm:item>
+            <dgm:item>updateTaskOutcome</dgm:item>
+            <dgm:item>updateOutcomeOfTasks</dgm:item>
+            <dgm:item>updateTaskOutcomeAndRoute</dgm:item>
+            <dgm:item>requestInfoForTask</dgm:item>
+            <dgm:item>requestInfoForTaskWithReapproval</dgm:item>
+            <dgm:item>createToDoTask</dgm:item>
+            <dgm:item>deleteTask</dgm:item>
+            <dgm:item>deleteTasks</dgm:item>
+            <dgm:item>purgeTask</dgm:item>
+            <dgm:item>purgeTasks</dgm:item>
+            <dgm:item>setTaskSequenceChanges</dgm:item>
+            <dgm:item>restartRootTask</dgm:item>
+            <dgm:item>prepareForRestartRootTask</dgm:item>
+            <dgm:item>reevaluateTask</dgm:item>
+            <dgm:item>updatePriority</dgm:item>
+            <dgm:item>updatePriorityOfTasks</dgm:item>
+            <dgm:item>suspendTimers</dgm:item>
+            <dgm:item>resumeTimers</dgm:item>
+            <dgm:item>decomposeTask</dgm:item>
+            <dgm:item>updateTasksByCommands</dgm:item>
+            <dgm:item>onTaskCompleted</dgm:item>
+            <dgm:item>onTaskAssigned</dgm:item>
+            <dgm:item>onTaskUpdated</dgm:item>
+            <dgm:item>onSubTaskUpdated</dgm:item>
+            <dgm:item>onStageCompleted</dgm:item>
+        </dgm:operations>
+    </dgm:gReference>
+    <dgm:gReference name="TaskQueryService">
+        <dgm:body borderWidth="2" arcRad="20" X="600" Y="26" width="136" height="54">
+            <dgm:borderColor r="153" g="153" b="153"/>
+            <dgm:bgColor r="255" g="255" b="255"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="590" Y="19" width="156" height="68">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:inputPort name="TaskQueryService" X="-10" Y="0" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/bpel/workflow/taskQueryService#wsdl.interface(TaskQueryService)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/adapters/designtime/adapter/images/mft_adapter_20x20.png" X="14" Y="4" width="20" height="20"/>
+        <dgm:operations/>
+    </dgm:gReference>
+    <dgm:gComponent name="FndIntgManageHumanTaskService">
+        <dgm:body borderWidth="2" arcRad="20" X="314" Y="82" width="130" height="86">
+            <dgm:borderColor r="69" g="113" b="140"/>
+            <dgm:lightBgColor r="166" g="208" b="230"/>
+            <dgm:darkBgColor r="99" g="162" b="201"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="304" Y="75" width="150" height="102">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:inputPort name="fndintgmanagehumantaskservice_client" X="-10" Y="15" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/SNIFndIntgServices/FndIntgManageHumanTaskService/FndIntgManageHumanTaskService#wsdl.interface(FndIntgManageHumanTaskService)"/>
+        <dgm:outputPort name="TaskQueryService" X="120" Y="15" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/bpel/workflow/taskQueryService#wsdl.interface(TaskQueryService)"/>
+        <dgm:outputPort name="TaskService" X="120" Y="40" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/bpel/workflow/taskService#wsdl.interface(TaskService)" callbackInterface="http://xmlns.oracle.com/bpel/workflow/taskService#wsdl.interface(TaskServiceCallback)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/bpel/shared/plugins/resources/images/soa/process_20x20.png" X="10" Y="4" width="20" height="20"/>
+    </dgm:gComponent>
+    <dgm:gWireLink source="fndintgmanagehumantaskservice_client_ep" target="FndIntgManageHumanTaskService/fndintgmanagehumantaskservice_client" width="2">
+        <dgm:gSegment X1="168" Y1="107" X2="304" Y2="107"/>
+        <dgm:baseColor r="153" g="153" b="153"/>
+        <dgm:selectedColor r="49" g="106" b="196"/>
+    </dgm:gWireLink>
+    <dgm:gWireLink source="FndIntgManageHumanTaskService/TaskQueryService" target="TaskQueryService" width="2">
+        <dgm:gSegment X1="454" Y1="107" X2="478" Y2="107"/>
+        <dgm:gSegment X1="478" Y1="107" X2="478" Y2="36"/>
+        <dgm:gSegment X1="478" Y1="36" X2="590" Y2="36"/>
+        <dgm:baseColor r="153" g="153" b="153"/>
+        <dgm:selectedColor r="49" g="106" b="196"/>
+    </dgm:gWireLink>
+    <dgm:gWireLink source="FndIntgManageHumanTaskService/TaskService" target="TaskService" width="2">
+        <dgm:gSegment X1="454" Y1="132" X2="590" Y2="132"/>
+        <dgm:baseColor r="153" g="153" b="153"/>
+        <dgm:selectedColor r="49" g="106" b="196"/>
+    </dgm:gWireLink>
+</dgm:gDiagram>
