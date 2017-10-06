@@ -7,9 +7,9 @@
   <description>Project for DeployMDSObjects</description>
   <packaging>pom</packaging>
 <properties>
-  <serverURL>http://uxlab1312:8101</serverURL>
-  <user>wls_soa_admin</user>
-  <password>tssisfb13</password>  
+  <serverURL>${serverURL}</serverURL>
+  <user>${user}</user>
+  <password>${soapassword}</password>   
   </properties>
   <build>    
 	<plugins>
