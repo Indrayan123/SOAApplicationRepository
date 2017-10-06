@@ -82,8 +82,8 @@
 	<module>FndIntgUPGCheckXSlEmptyValueIVP</module>
 	<module>FndIntgUPGThrowFaultIVP</module>
 	
-	<module>FndIntgValidateALLSOAIVP</module>-->
-	<module>FndIntgManageHumanTaskService</module>
+	<module>FndIntgValidateALLSOAIVP</module>
+	<module>FndIntgManageHumanTaskService</module>-->
 	<module>FndIntgHumanTaskIVP</module>
 	<module>FndIntgHumanTaskSvcIVP</module>
     </modules>
