@@ -94,7 +94,7 @@
               <includes>
                 <include>Deployment_cfgplan.xml</include>
               </includes>
-              <filtering>false</filtering>
+              <filtering>true</filtering>
             </resource>
           </resources>             
         </configuration>           
