@@ -87,7 +87,7 @@
           <goal>copy-resources</goal>
         </goals>
         <configuration>
-          <outputDirectory>${project.basedir}/</outputDirectory>
+          <outputDirectory>${scac.output.dir}</outputDirectory>
           <resources>         
             <resource>
               <directory>${project.basedir}</directory>
