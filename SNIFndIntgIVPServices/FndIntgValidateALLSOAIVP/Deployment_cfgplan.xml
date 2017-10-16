@@ -60,7 +60,7 @@
             <replace>/opt/schneider/applications/config/FNDINTG/IVP/SOA/OUTPUT</replace>
          </property>
          <property name="bpel.preference.FileName">
-            <replace>${SOAINTG_ENVNAME}</replace>
+            <replace>${user}</replace>
          </property>
          <property name="partnerLink.FndIntgValidateSOAUPGIVP.nonBlockingInvoke">
             <replace>true</replace>
