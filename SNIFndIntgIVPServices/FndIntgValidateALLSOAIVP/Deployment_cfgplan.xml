@@ -60,7 +60,7 @@
             <replace>/opt/schneider/applications/config/FNDINTG/IVP/SOA/OUTPUT</replace>
          </property>
          <property name="bpel.preference.FileName">
-            <replace>${foundation.rt.soa.domain.url}</replace>
+            <replace>${env.foundation.rt.soa.domain.url}</replace>
          </property>
          <property name="partnerLink.FndIntgValidateSOAUPGIVP.nonBlockingInvoke">
             <replace>true</replace>
@@ -73,7 +73,7 @@
                <replace>http://xmlns.schneider.com/SNIFndIntgIVPServices/ChkAdapterIntgSOAIVPSvc#wsdl.endpoint(fndintgvalidateadapterintgivp_client_ep/ChkAdapterIntgSOAIVPPort)</replace>
             </attribute>
             <attribute name="location">
-               <replace>${foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgValidateAdapterIntegrationIVP/fndintgvalidateadapterintgivp_client_ep?WSDL</replace>
+               <replace>${env.foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgValidateAdapterIntegrationIVP/fndintgvalidateadapterintgivp_client_ep?WSDL</replace>
             </attribute>
             <property name="weblogic.wsee.wsat.transaction.flowOption">
                <replace>WSDLDriven</replace>
@@ -99,7 +99,7 @@
                <replace>http://xmlns.schneider.com/SNIFndIntgIVPServices/ChkFaultSOAIVPSvc#wsdl.endpoint(fndintgvalidatefaulthandlingivp_client_ep/ChkFaultSOAIVPPort)</replace>
             </attribute>
             <attribute name="location">
-               <replace>${foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgValidateFaultHandlingIVP/fndintgvalidatefaulthandlingivp_client_ep?WSDL</replace>
+               <replace>${env.foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgValidateFaultHandlingIVP/fndintgvalidatefaulthandlingivp_client_ep?WSDL</replace>
             </attribute>
             <property name="weblogic.wsee.wsat.transaction.flowOption">
                <replace>WSDLDriven</replace>
@@ -125,7 +125,7 @@
                <replace>http://xmlns.schneider.com/SNIFndIntgIVPServices/ChkLookupSOAIVPSvc#wsdl.endpoint(fndintgvalidatelookupfunctionivp_client_ep/ChkLookupSOAIVPPort)</replace>
             </attribute>
             <attribute name="location">
-               <replace>${foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgValidateLookupFunctionIVP/fndintgvalidatelookupfunctionivp_client_ep?WSDL</replace>
+               <replace>${env.foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgValidateLookupFunctionIVP/fndintgvalidatelookupfunctionivp_client_ep?WSDL</replace>
             </attribute>
             <property name="weblogic.wsee.wsat.transaction.flowOption">
                <replace>WSDLDriven</replace>
@@ -151,7 +151,7 @@
                <replace>http://xmlns.schneider.com/SNIFndIntgIVPServices/ChkSecuritySOAIVPSvc#wsdl.endpoint(fndintgvalidatesecurityivp_client_ep/ChkSecuritySOAIVPPort)</replace>
             </attribute>
             <attribute name="location">
-               <replace>${foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgValidateSecurityIVP/fndintgvalidatesecurityivp_client_ep?WSDL</replace>
+               <replace>${env.foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgValidateSecurityIVP/fndintgvalidatesecurityivp_client_ep?WSDL</replace>
             </attribute>
             <property name="weblogic.wsee.wsat.transaction.flowOption">
                <replace>WSDLDriven</replace>
@@ -177,7 +177,7 @@
                <replace>http://xmlns.schneider.com/SNIFndIntgIVPServices/ChkServiceIntSOAIVPSvc#wsdl.endpoint(fndintgvalidateserviceinteractionivp_client_ep/ChkServiceIntSOAIVPPort)</replace>
             </attribute>
             <attribute name="location">
-               <replace>${foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgValidateServiceInteractionIVP/fndintgvalidateserviceinteractionivp_client_ep?WSDL</replace>
+               <replace>${env.foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgValidateServiceInteractionIVP/fndintgvalidateserviceinteractionivp_client_ep?WSDL</replace>
             </attribute>
             <property name="weblogic.wsee.wsat.transaction.flowOption">
                <replace>WSDLDriven</replace>
@@ -203,7 +203,7 @@
                <replace>http://xmlns.schneider.com/SNIFndIntgIVPServices/ChkXpathSOAIVPSvc#wsdl.endpoint(FndIntgValidateXpathFunctionIVP_client_ep/ChkXpathSOAIVPPort)</replace>
             </attribute>
             <attribute name="location">
-               <replace>${foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgValidateXpathFunctionIVP/FndIntgValidateXpathFunctionIVP_client_ep?WSDL</replace>
+               <replace>${env.foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgValidateXpathFunctionIVP/FndIntgValidateXpathFunctionIVP_client_ep?WSDL</replace>
             </attribute>
             <property name="weblogic.wsee.wsat.transaction.flowOption">
                <replace>WSDLDriven</replace>
@@ -232,7 +232,7 @@
                <replace>http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/FndIntgValidateSOAUPGIVP/FndIntgValidateSOAUPGIVP#wsdl.endpoint(fndintgvalidatesoaupgivp_client_ep/FndIntgValidateSOAUPGIVPPort)</replace>
             </attribute>
             <attribute name="location">
-               <replace>${foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgValidateSOAUPGIVP/fndintgvalidatesoaupgivp_client_ep?WSDL</replace>
+               <replace>${env.foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgValidateSOAUPGIVP/fndintgvalidatesoaupgivp_client_ep?WSDL</replace>
             </attribute>
             <property name="weblogic.wsee.wsat.transaction.flowOption">
                <replace>WSDLDriven</replace>
