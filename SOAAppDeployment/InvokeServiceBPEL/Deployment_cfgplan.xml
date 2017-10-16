@@ -48,7 +48,7 @@
                <replace>http://xmlns.oracle.com/SOAAppDeployment/SOA12cMavenProject/SOASyncBPEL#wsdl.endpoint(soasyncbpel_client_ep/SOASyncBPEL_pt)</replace>
             </attribute>
             <attribute name="location">
-               <replace>${serverURL}/soa-infra/services/default/SOA12cMavenProject/soasyncbpel_client_ep?WSDL</replace>
+               <replace>http://uxlab1312:8101/soa-infra/services/default/SOA12cMavenProject/soasyncbpel_client_ep?WSDL/soa-infra/services/default/SOA12cMavenProject/soasyncbpel_client_ep?WSDL</replace>
             </attribute>
             <property name="weblogic.wsee.wsat.transaction.flowOption">
                <replace>WSDLDriven</replace>

@@ -39,7 +39,7 @@
             <replace>requiresNew</replace>
          </property>
          <property name="bpel.preference.MsgSelector">
-            <replace>UPGIVP_${foundation.rt.soa.nonsec.url}</replace>
+            <replace>UPGIVP_${env.foundation.rt.soa.nonsec.url}</replace>
          </property>
       </component>
       <reference name="ProduceUPGNamespaceJMSMsgService">

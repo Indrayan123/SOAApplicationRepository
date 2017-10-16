@@ -35,7 +35,7 @@
             <replace>requiresNew</replace>
          </property>
          <property name="bpel.preference.MsgSelector">
-            <replace>TopicIVP_${foundation.rt.soa.nonsec.url}</replace>
+            <replace>TopicIVP_${env.foundation.rt.soa.nonsec.url}</replace>
          </property>
       </component>
       <reference name="FNDIntgPoicPublisherIVPJMSAdapter">

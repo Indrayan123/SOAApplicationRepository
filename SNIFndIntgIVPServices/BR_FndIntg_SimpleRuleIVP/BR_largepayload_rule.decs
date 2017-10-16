@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<decisionServices xmlns="http://xmlns.oracle.com/bpel/rules" name="BR_largepayload_rule">
+    <ruleEngineProvider name="OracleRulesSDK" provider="Oracle_11.0.0.0.0">
+        <repository type="SCA-Archive">
+            <path>BR_FndIntg_SimpleRuleIVP/oracle/rules/br_fndintg_simpleruleivp/BR_largepayload_rule.rules</path>
+        </repository>
+    </ruleEngineProvider>
+    <decisionService targetNamespace="http://xmlns.oracle.com/BR_largepayload_rule/BR_largepayload_rule_DecisionService_1" ruleEngineProviderReference="OracleRulesSDK" name="BR_largepayload_rule_DecisionService_1">
+        <catalog>BR_largepayload_rule</catalog>
+        <pattern name="CallFunctionStateless">
+            <arguments>
+                <call>br_fndintg_simpleruleivp.BR_largepayload_rule.BR_largepayload_rule_DecisionService_1</call>
+            </arguments>
+        </pattern>
+        <pattern name="CallFunctionStateful">
+            <arguments>
+                <call>br_fndintg_simpleruleivp.BR_largepayload_rule.BR_largepayload_rule_DecisionService_1</call>
+            </arguments>
+        </pattern>
+    </decisionService>
+</decisionServices>

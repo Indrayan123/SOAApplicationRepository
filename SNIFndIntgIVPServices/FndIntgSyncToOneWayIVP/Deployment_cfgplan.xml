@@ -37,7 +37,7 @@
                <replace>http://xmlns.schneider.com/SNIFndIntgIVPServices/FndIntgOneWaySvc/FndIntgOneWaySvc#wsdl.endpoint(fndintgonewaysvc_client_ep/FndIntgOneWaySvc_pt)</replace>
             </attribute>
             <attribute name="location">
-               <replace>${foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgOneWaySvc/fndintgonewaysvc_client_ep?WSDL</replace>
+               <replace>${env.foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgOneWaySvc/fndintgonewaysvc_client_ep?WSDL</replace>
             </attribute>
             <property name="weblogic.wsee.wsat.transaction.flowOption">
                <replace>WSDLDriven</replace>

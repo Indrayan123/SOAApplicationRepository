@@ -42,7 +42,7 @@
                <replace>http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/FndIntgXrefLookupIVP/FnfIntgXreflookupIVP#wsdl.endpoint(fnfintgxreflookupivp_client_ep/FnfIntgXreflookupIVP_pt)</replace>
             </attribute>
             <attribute name="location">
-               <replace>${foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgXrefLookupIVP/fnfintgxreflookupivp_client_ep?WSDL</replace>
+               <replace>${env.foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgXrefLookupIVP/fnfintgxreflookupivp_client_ep?WSDL</replace>
             </attribute>
             <property name="weblogic.wsee.wsat.transaction.flowOption">
                <replace>WSDLDriven</replace>
@@ -56,7 +56,7 @@
                <replace>http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/FndIntgXrefPopulateIVP/FndIntgXrefPopulateIVP#wsdl.endpoint(fndintgxrefpopulateivp_client_ep/FndIntgXrefPopulateIVP_pt)</replace>
             </attribute>
             <attribute name="location">
-               <replace>${foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgXrefPopulateIVP/fndintgxrefpopulateivp_client_ep?WSDL</replace>
+               <replace>${env.foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgXrefPopulateIVP/fndintgxrefpopulateivp_client_ep?WSDL</replace>
             </attribute>
             <property name="weblogic.wsee.wsat.transaction.flowOption">
                <replace>WSDLDriven</replace>
@@ -70,7 +70,7 @@
                <replace>http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/FndIntgSNICreateXRefRowIVP/FndIntgSNICreateXRefRowIVP#wsdl.endpoint(fndintgsnicreatexrefrowivp_client_ep/FndIntgSNICreateXRefRowIVP_pt)</replace>
             </attribute>
             <attribute name="location">
-               <replace>${foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgSNICreateXRefRowIVP/fndintgsnicreatexrefrowivp_client_ep?WSDL</replace>
+               <replace>${env.foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgSNICreateXRefRowIVP/fndintgsnicreatexrefrowivp_client_ep?WSDL</replace>
             </attribute>
             <property name="weblogic.wsee.wsat.transaction.flowOption">
                <replace>WSDLDriven</replace>
@@ -84,7 +84,7 @@
                <replace>http://xmlns.oracle.com/SNIFndIntgIVPServices/FndIntgBCSLookupIVP/FndIntgBCSLookupIVP#wsdl.endpoint(fndintgbcslookupivp_client_ep/FndIntgBCSLookupIVP_pt)</replace>
             </attribute>
             <attribute name="location">
-               <replace>${foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgBCSLookupIVP/fndintgbcslookupivp_client_ep?WSDL</replace>
+               <replace>${env.foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgBCSLookupIVP/fndintgbcslookupivp_client_ep?WSDL</replace>
             </attribute>
             <property name="weblogic.wsee.wsat.transaction.flowOption">
                <replace>WSDLDriven</replace>
@@ -98,7 +98,7 @@
                <replace>http://xmlns.oracle.com/SNIFndIntgIVP_jws/FndIntgLookupDVMIVP/FndIntgLookupDVM#wsdl.endpoint(fndintglookupdvm_client_ep/FndIntgLookupDVM_pt)</replace>
             </attribute>
             <attribute name="location">
-               <replace>${foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgLookupDVMIVP/fndintglookupdvm_client_ep?WSDL</replace>
+               <replace>${env.foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgLookupDVMIVP/fndintglookupdvm_client_ep?WSDL</replace>
             </attribute>
             <property name="weblogic.wsee.wsat.transaction.flowOption">
                <replace>WSDLDriven</replace>

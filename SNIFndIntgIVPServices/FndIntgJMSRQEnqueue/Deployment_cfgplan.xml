@@ -35,7 +35,7 @@
             <replace>requiresNew</replace>
          </property>
          <property name="bpel.preference.MsgSelector">
-            <replace>${foundation.rt.soa.nonsec.url}</replace>
+            <replace>${env.foundation.rt.soa.nonsec.url}</replace>
          </property>
       </component>
       <reference name="Enqueue">

@@ -46,7 +46,7 @@
                <replace>http://xmlns.schneider.com/SNIFndSOAIVPServices/FndIntgSOAToOSBIntg/FndIntgSOAToOSBIntg#wsdl.endpoint(FndIntgSOAToOSBIntgSoapBindingQSService/FndIntgSOAToOSBIntgSoapBindingQSPort)</replace>
             </attribute>
             <attribute name="location">
-               <replace>${foundation.rt.osb.nonsec.url}/FndIntgSOAToOSBIntg/ProxyServices/FndIntgSOAToOSBIntg?WSDL</replace>
+               <replace>${env.foundation.rt.osb.nonsec.url}/FndIntgSOAToOSBIntg/ProxyServices/FndIntgSOAToOSBIntg?WSDL</replace>
             </attribute>
             <property name="weblogic.wsee.wsat.transaction.flowOption">
                <replace>WSDLDriven</replace>

@@ -66,7 +66,7 @@
                <replace>http://xmlns.oracle.com/SNIFndIntgServices/FndIntgManageHumanTaskService/FndIntgManageHumanTaskService#wsdl.endpoint(fndintgmanagehumantaskservice_client_ep/FndIntgManageHumanTaskService_pt)</replace>
             </attribute>
             <attribute name="location">
-               <replace>${foundation.rt.soa.nonsec.url}/soa-infra/services/fndintg/FndIntgManageHumanTaskService/fndintgmanagehumantaskservice_client_ep?wsdl</replace>
+               <replace>${env.foundation.rt.soa.nonsec.url}/soa-infra/services/fndintg/FndIntgManageHumanTaskService/fndintgmanagehumantaskservice_client_ep?wsdl</replace>
             </attribute>
             <property name="weblogic.wsee.wsat.transaction.flowOption">
                <replace>WSDLDriven</replace>
@@ -80,7 +80,7 @@
                <replace>http://xmlns.oracle.com/SNIFndIntgIVPServices/FndIntgHumanTaskIVP/FndIntgHumanTaskIVP#wsdl.endpoint(fndintghumantaskivp_client_ep/FndIntgHumanTaskIVP_pt)</replace>
             </attribute>
             <attribute name="location">
-               <replace>${foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgHumanTaskIVP/fndintghumantaskivp_client_ep?WSDL</replace>
+               <replace>${env.foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgHumanTaskIVP/fndintghumantaskivp_client_ep?WSDL</replace>
             </attribute>
             <property name="weblogic.wsee.wsat.transaction.flowOption">
                <replace>WSDLDriven</replace>

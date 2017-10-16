@@ -37,7 +37,7 @@
                <replace>http://xmlns.oracle.com/SNIFndIntgIVPServices/FndIntgBPELMediatorCompositeIVP/SyncCreateAddressService#wsdl.endpoint(SyncCreateAddressService_ep/execute_pt)</replace>
             </attribute>
             <attribute name="location">
-               <replace>${foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgBPELMediatorCompositeIVP/SyncCreateAddressService_ep?WSDL</replace>
+               <replace>${env.foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgBPELMediatorCompositeIVP/SyncCreateAddressService_ep?WSDL</replace>
             </attribute>
             <property name="weblogic.wsee.wsat.transaction.flowOption">
                <replace>WSDLDriven</replace>

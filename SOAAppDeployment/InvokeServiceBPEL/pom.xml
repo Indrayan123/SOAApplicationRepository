@@ -10,7 +10,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>SOAAppDeployment</groupId>
   <artifactId>InvokeServiceBPEL</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>2.0-SNAPSHOT</version>
   <packaging>sar</packaging>
   <!--
            The parent points to the common SOA parent POM.  That is a special POM that is
@@ -40,8 +40,8 @@
  
   <!-- These parameters are used by the deploy and undeploy goals -->
   <composite.name>${project.artifactId}</composite.name>
-  <composite.revision>${project.version}</composite.revision>
-  <composite.partition>default</composite.partition>  
+  <composite.revision>${InvokeServiceBPEL.Revision}</composite.revision>
+  <composite.partition>${InvokeServiceBPEL.Partition}</composite.partition>  
         
   
   <overwrite>true</overwrite>
@@ -72,7 +72,7 @@
   </properties>
   <build>
     <plugins>	 	
-    <plugin>
+   <!-- <plugin>
         <artifactId>maven-resources-plugin</artifactId>
         <version>2.7</version>
         <configuration>
@@ -97,7 +97,7 @@
             </resource>
           </resources>             
         </configuration>           
-      </execution>  
+      </execution>  -->
 <!--  <execution>
             <id>copy-jar-file</id>
             <phase>package</phase>
@@ -116,9 +116,47 @@
                 </resource>
               </resources>             
             </configuration>           
-          </execution> 	 -->
+          </execution> 	
         </executions>
-    </plugin> 
+    </plugin>  -->
+	    <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>properties-maven-plugin</artifactId>
+        <version>1.0-alpha-2</version>
+        <executions>
+          <execution>
+            <phase>initialize</phase>
+            <goals>
+              <goal>read-project-properties</goal>
+            </goals>
+            <configuration>
+              <files>
+                <file>${project.basedir}/../ControlFiles/ControlFile.properties</file>
+              </files>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+	<plugin>
+        <groupId>com.google.code.maven-replacer-plugin</groupId>
+        <artifactId>replacer</artifactId>
+        <version>1.5.3</version>
+        <executions>
+          <execution>
+            <phase>initialize</phase>
+            <goals>
+              <goal>replace</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <ignoreMissingFile>true</ignoreMissingFile>
+          <file>${scac.input}</file>
+          <xpath>//composite/@revision</xpath>
+          <token>^.*$</token>
+          <value>${composite.revision}</value>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>com.oracle.soa.plugin</groupId>
         <artifactId>oracle-soa-plugin</artifactId>
@@ -144,6 +182,9 @@
           <revision>
             ${composite.revision}
           </revision>
+		<partition>
+            ${composite.partition}
+          </partition>
           <scacInputDir>
             ${scac.input.dir}
           </scacInputDir>

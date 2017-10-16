@@ -45,7 +45,7 @@
                <replace>http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/FndIntgUPGCheckXSlEmptyValueIVP/CheckUPGXSlEmptyValueSOAIVPSvc#wsdl.endpoint(CheckUPGXSlEmptyValueSOAIVPSvc/execute_pt)</replace>
             </attribute>
             <attribute name="location">
-               <replace>${foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgUPGCheckXSlEmptyValueIVP/CheckUPGXSlEmptyValueSOAIVPSvc?WSDL</replace>
+               <replace>${env.foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgUPGCheckXSlEmptyValueIVP/CheckUPGXSlEmptyValueSOAIVPSvc?WSDL</replace>
             </attribute>
             <property name="weblogic.wsee.wsat.transaction.flowOption">
                <replace>WSDLDriven</replace>
@@ -59,7 +59,7 @@
                <replace>http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/FndIntgUPGCheckNamespaceIVP/CheckUPGNamespaceSOAIVPSvc#wsdl.endpoint(CheckUPGNamespaceSOAIVPSvc/CheckUPGNamespace_pt)</replace>
             </attribute>
             <attribute name="location">
-               <replace>${foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgUPGCheckNamespaceIVP/CheckUPGNamespaceSOAIVPSvc?WSDL</replace>
+               <replace>${env.foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgUPGCheckNamespaceIVP/CheckUPGNamespaceSOAIVPSvc?WSDL</replace>
             </attribute>
             <property name="weblogic.wsee.wsat.transaction.flowOption">
                <replace>WSDLDriven</replace>
@@ -73,7 +73,7 @@
                <replace>http://xmlns.schneider.com/SNIFndIntgUPGIVPServices/FndIntgUPGCheckDynamicPatnerlinkFaultIVP/CheckUPGDynamicPatnerlinkFaultSOAIVPSvc#wsdl.endpoint(checkupgdynamicpatnerlinkfaultsoaivpsvc_client_ep/CheckUPGDynamicPatnerlinkFaultSOAIVPSvc_pt)</replace>
             </attribute>
             <attribute name="location">
-               <replace>${foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgUPGCheckDynamicPatnerlinkFaultIVP/checkupgdynamicpatnerlinkfaultsoaivpsvc_client_ep?WSDL</replace>
+               <replace>${env.foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgUPGCheckDynamicPatnerlinkFaultIVP/checkupgdynamicpatnerlinkfaultsoaivpsvc_client_ep?WSDL</replace>
             </attribute>
             <property name="weblogic.wsee.wsat.transaction.flowOption">
                <replace>WSDLDriven</replace>

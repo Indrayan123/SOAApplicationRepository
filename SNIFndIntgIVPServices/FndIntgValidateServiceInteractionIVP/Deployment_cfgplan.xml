@@ -72,7 +72,7 @@
                <replace>http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/Fndintg_largepayloadBRIVP/Fndintg_largepayloadBRIVP#wsdl.endpoint(fndintg_largepayloadbrivp_client_ep/Fndintg_largepayloadBRIVP_pt)</replace>
             </attribute>
             <attribute name="location">
-               <replace>${foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/Fndintg_largepayloadBRIVP/fndintg_largepayloadbrivp_client_ep?WSDL</replace>
+               <replace>${env.foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/Fndintg_largepayloadBRIVP/fndintg_largepayloadbrivp_client_ep?WSDL</replace>
             </attribute>
             <property name="weblogic.wsee.wsat.transaction.flowOption">
                <replace>WSDLDriven</replace>
@@ -86,7 +86,7 @@
                <replace>http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/FndIntg_SimpleBRIVP/BPELProcess1#wsdl.endpoint(bpelprocess1_client_ep/BPELProcess1_pt)</replace>
             </attribute>
             <attribute name="location">
-               <replace>${foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntg_SimpleBRIVP/bpelprocess1_client_ep?WSDL</replace>
+               <replace>${env.foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntg_SimpleBRIVP/bpelprocess1_client_ep?WSDL</replace>
             </attribute>
             <property name="weblogic.wsee.wsat.transaction.flowOption">
                <replace>WSDLDriven</replace>
@@ -100,7 +100,7 @@
                <replace>http://xmlns.oracle.com/SOA_IVP_App/FndIntgBIPSvcIVPInit/FndIntgBIPSvcIVPInit#wsdl.endpoint(fndintgbipsvcivpinit_client_ep/FndIntgBIPSvcIVPInit_pt)</replace>
             </attribute>
             <attribute name="location">
-               <replace>${foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgBIPSvcIVP/fndintgbipsvcivpinit_client_ep?WSDL</replace>
+               <replace>${env.foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgBIPSvcIVP/fndintgbipsvcivpinit_client_ep?WSDL</replace>
             </attribute>
             <property name="weblogic.wsee.wsat.transaction.flowOption">
                <replace>WSDLDriven</replace>
@@ -114,7 +114,7 @@
                <replace>http://xmlns.oracle.com/SOA_IVP_App/FndIntgODISvcIVP/FndIntgODISvcIVPInit#wsdl.endpoint(fndintgodisvcivpinit_client_ep/FndIntgODISvcIVPInit_pt)</replace>
             </attribute>
             <attribute name="location">
-               <replace>${foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgODISvcIVP/fndintgodisvcivpinit_client_ep?WSDL</replace>
+               <replace>${env.foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgODISvcIVP/fndintgodisvcivpinit_client_ep?WSDL</replace>
             </attribute>
             <property name="weblogic.wsee.wsat.transaction.flowOption">
                <replace>WSDLDriven</replace>
@@ -128,7 +128,7 @@
                <replace>http://xmlns.oracle.com/SNIFndIntgIVPServices/FndIntgHumanTaskSvcIVP/FndIntgHumanTaskSvcInit#wsdl.endpoint(fndintghumantasksvcinit_client_ep/FndIntgHumanTaskSvcInit_pt)</replace>
             </attribute>
             <attribute name="location">
-               <replace>${foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgHumanTaskSvcIVP/fndintghumantasksvcinit_client_ep?WSDL</replace>
+               <replace>${env.foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgHumanTaskSvcIVP/fndintghumantasksvcinit_client_ep?WSDL</replace>
             </attribute>
             <property name="weblogic.wsee.wsat.transaction.flowOption">
                <replace>WSDLDriven</replace>
@@ -142,7 +142,7 @@
                <replace>http://xmlns.schneider.com/SNIFndIntgIVPServices/FndIntgSyncToOneWayIVP/FndIntgSyncToOneWayIVP#wsdl.endpoint(fndintgsynctoonewayivp_client_ep/FndIntgSyncToOneWayIVP_pt)</replace>
             </attribute>
             <attribute name="location">
-               <replace>${foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgSyncToOneWayIVP/fndintgsynctoonewayivp_client_ep?WSDL</replace>
+               <replace>${env.foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgSyncToOneWayIVP/fndintgsynctoonewayivp_client_ep?WSDL</replace>
             </attribute>
             <property name="weblogic.wsee.wsat.transaction.flowOption">
                <replace>WSDLDriven</replace>
@@ -156,7 +156,7 @@
                <replace>http://xmlns.oracle.com/SNIFndIntgIVPServices/FndIntgMediatorToExternalBPELIVP/SyncAddressService#wsdl.endpoint(SyncAddressService_ep/execute_pt)</replace>
             </attribute>
             <attribute name="location">
-               <replace>${foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgMediatorToExternalBPELIVP/SyncAddressService_ep?WSDL</replace>
+               <replace>${env.foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgMediatorToExternalBPELIVP/SyncAddressService_ep?WSDL</replace>
             </attribute>
             <property name="weblogic.wsee.wsat.transaction.flowOption">
                <replace>WSDLDriven</replace>
@@ -170,7 +170,7 @@
                <replace>http://xmlns.oracle.com/SNIFndIntgIVPServices/FndIntgBPELMediatorCompositeIVP/SyncCreateAddressService#wsdl.endpoint(SyncCreateAddressService_ep/execute_pt)</replace>
             </attribute>
             <attribute name="location">
-               <replace>${foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgBPELMediatorCompositeIVP/SyncCreateAddressService_ep?WSDL</replace>
+               <replace>${env.foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgBPELMediatorCompositeIVP/SyncCreateAddressService_ep?WSDL</replace>
             </attribute>
             <property name="weblogic.wsee.wsat.transaction.flowOption">
                <replace>WSDLDriven</replace>
@@ -184,7 +184,7 @@
                <replace>http://xmlns.schneider.com/SNIFndIntgIVPServices/FndIntgUMSMailProcessIVP/FndIntgUMSMailPushNotificationIVP#wsdl.endpoint(fndintgumsmailpushnotificationivp_client_ep/FndIntgUMSMailPushNotificationIVP_pt)</replace>
             </attribute>
             <attribute name="location">
-               <replace>${foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgUMSMailProcessIVP/fndintgumsmailpushnotificationivp_client_ep?WSDL</replace>
+               <replace>${env.foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgUMSMailProcessIVP/fndintgumsmailpushnotificationivp_client_ep?WSDL</replace>
             </attribute>
             <property name="weblogic.wsee.wsat.transaction.flowOption">
                <replace>WSDLDriven</replace>
@@ -198,7 +198,7 @@
                <replace>http://xmlns.schneider.com/SNIFndIntgIVPServices/FndIntgSOAToOSBExecuteIVP/FndIntgSOAToOSBExecuteIVP#wsdl.endpoint(fndintgsoatoosbexecuteivp_client_ep/FndIntgSOAToOSBExecuteIVP_pt)</replace>
             </attribute>
             <attribute name="location">
-               <replace>${foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgSOAToOSBExecuteIVP/fndintgsoatoosbexecuteivp_client_ep?WSDL</replace>
+               <replace>${env.foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgSOAToOSBExecuteIVP/fndintgsoatoosbexecuteivp_client_ep?WSDL</replace>
             </attribute>
             <property name="weblogic.wsee.wsat.transaction.flowOption">
                <replace>WSDLDriven</replace>

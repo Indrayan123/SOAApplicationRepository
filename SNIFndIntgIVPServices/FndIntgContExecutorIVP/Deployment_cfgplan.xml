@@ -42,7 +42,7 @@
                <replace>http://xmlns.schneider.com/SNIFndIntgIVPServices/FndIntgContValidatorIVP/FndIntgContValidatorIVP#wsdl.endpoint(fndintgcontvalidatorivp_client_ep/FndIntgContValidatorIVP_pt)</replace>
             </attribute>
             <attribute name="location">
-               <replace>${foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgContValidatorIVP/fndintgcontvalidatorivp_client_ep?WSDL</replace>
+               <replace>${env.foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgContValidatorIVP/fndintgcontvalidatorivp_client_ep?WSDL</replace>
             </attribute>
             <property name="weblogic.wsee.wsat.transaction.flowOption">
                <replace>WSDLDriven</replace>

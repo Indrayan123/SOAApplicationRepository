@@ -65,7 +65,7 @@
       </searchReplace>-->
 <jca:property name="DatabaseSchema">
         
- <replace>${foundation.rt.soa.aqschema.url}</replace>
+ <replace>${env.foundation.rt.soa.aqschema.url}</replace>
  
      </jca:property> 
    </wsdlAndSchema>

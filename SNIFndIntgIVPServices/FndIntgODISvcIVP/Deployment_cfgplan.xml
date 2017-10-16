@@ -61,7 +61,7 @@
                <replace>http://xmlns.schneider.com/FndIntgODIService/FndIntgODIService/V1#wsdl.endpoint(fndintgodiservice_client_ep/FndIntgODIService_pt)</replace>
             </attribute>
             <attribute name="location">
-               <replace>${foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgODIService/fndintgodiservice_client_ep?WSDL</replace>
+               <replace>${env.foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgODIService/fndintgodiservice_client_ep?WSDL</replace>
             </attribute>
             <property name="weblogic.wsee.wsat.transaction.flowOption">
                <replace>WSDLDriven</replace>

@@ -61,7 +61,7 @@
                <replace>http://xmlns.oracle.com/SNIFndIntgIVPServices/FndIntgBIPIVP/FndIntgBIPIVP#wsdl.endpoint(fndintgbipivp_client_ep/FndIntgBIPIVP_pt)</replace>
             </attribute>
             <attribute name="location">
-               <replace>${foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgBIPIVP/fndintgbipivp_client_ep?WSDL</replace>
+               <replace>${env.foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgBIPIVP/fndintgbipivp_client_ep?WSDL</replace>
             </attribute>
             <property name="weblogic.wsee.wsat.transaction.flowOption">
                <replace>WSDLDriven</replace>

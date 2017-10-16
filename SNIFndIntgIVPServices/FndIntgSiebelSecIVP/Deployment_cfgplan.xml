@@ -77,7 +77,7 @@
    <wsdlAndSchema name="SNISiebelOrderCheckOpenRevisions.wsdl|SNISiebelOrderCheckOpenRevisionsWrapper.wsdl">
       <searchReplace>
          <search>http://anyhost.anyport</search>
-         <replace>${sebl.nonsec.url}</replace>
+         <replace>${env.sebl.nonsec.url}</replace>
       </searchReplace>
    </wsdlAndSchema>
 </SOAConfigPlan>

@@ -41,10 +41,10 @@
             <replace>required</replace>
          </property>
          <property name="bpel.config.completionPersistPolicy">
-            <replace>${completionPersistPolicy}</replace>
+            <replace>faulted</replace>
          </property>
          <property name="bpel.config.inMemoryOptimization">
-            <replace>${inMemoryOptimization}</replace>
+            <replace>true</replace>
          </property>
       </component>
       <reference name="SOAPReference">
@@ -54,7 +54,7 @@
                <replace>http://xmlns.schneider.com/SOAAppDeployment/InvokeServiceBPEL/InvokeServiceBPEL#wsdl.endpoint(invokeservicebpel_client_ep/InvokeServiceBPEL_pt)</replace>
             </attribute>
             <attribute name="location">
-               <replace>${serverURL}/soa-infra/services/default/InvokeServiceBPEL/invokeservicebpel_client_ep?WSDL</replace>
+               <replace>http://uxlab1312:8101/soa-infra/services/default/InvokeServiceBPEL/invokeservicebpel_client_ep?WSDL</replace>
             </attribute>
             <property name="weblogic.wsee.wsat.transaction.flowOption">
                <replace>WSDLDriven</replace>

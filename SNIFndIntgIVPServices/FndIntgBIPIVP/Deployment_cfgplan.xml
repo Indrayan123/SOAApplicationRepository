@@ -43,7 +43,7 @@
                <replace>http://xmlns.oracle.com/SNIFndIntgServices_jws/FndIntgBIPService/FndIntgBIPService#wsdl.endpoint(fndintgbipservice_client_ep/FndIntgBIPService_pt)</replace>
             </attribute>
             <attribute name="location">
-               <replace>${batch.rt.soa.nonsec.url}/soa-infra/services/fndintg/FndIntgBIPService/fndintgbipservice_client_ep?WSDL</replace>
+               <replace>${env.batch.rt.soa.nonsec.url}/soa-infra/services/fndintg/FndIntgBIPService/fndintgbipservice_client_ep?WSDL</replace>
             </attribute>
          </binding>
          <callback>

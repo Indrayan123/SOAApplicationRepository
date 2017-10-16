@@ -61,7 +61,7 @@
          <replace/>
       </searchReplace>-->
       <jca:property name="MessageSelector">
-         <replace>Id='UOO_${foundation.rt.soa.nonsec.url}'</replace>
+         <replace>Id='UOO_${env.foundation.rt.soa.nonsec.url}'</replace>
       </jca:property> 
    </wsdlAndSchema>
 </SOAConfigPlan>

@@ -36,7 +36,7 @@
 	  
   <!-- if you are using a config plan, uncomment the following line and update to point
              to your config plan -->
-  <configplan>${project.basedir}/Deployment_cfgplan.xml</configplan>
+  <configplan>${scac.output.dir}/Deployment_cfgplan.xml</configplan>
  
  
   <!-- These parameters are used by the deploy and undeploy goals -->
@@ -87,14 +87,14 @@
           <goal>copy-resources</goal>
         </goals>
         <configuration>
-          <outputDirectory>${project.basedir}/</outputDirectory>
+          <outputDirectory>${scac.output.dir}</outputDirectory>
           <resources>         
             <resource>
               <directory>${project.basedir}</directory>
               <includes>
                 <include>Deployment_cfgplan.xml</include>
               </includes>
-              <filtering>false</filtering>
+              <filtering>true</filtering>
             </resource>
           </resources>             
         </configuration>           
@@ -148,7 +148,7 @@
         <version>12.2.1-0-0</version>
         <configuration>
 		<target>
-		<property name="configPlan" values="${project.basedir}/Deployment_cfgplan.xml"/>
+		<property name="configPlan" values="${scac.output.dir}/Deployment_cfgplan.xml"/>
 		</target>		  
           <compositeName>
             ${project.artifactId}
@@ -180,7 +180,9 @@
           <input>
             ${input}
           </input>
-		
+		<excludes>
+		  <exclude>**/target/*.jar</exclude>
+		  </excludes>
         </configuration>
         <!-- extensions=true is needed to use the custom sar packaging type -->
         <extensions>true</extensions>

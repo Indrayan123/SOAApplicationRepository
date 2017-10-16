@@ -19,9 +19,9 @@
    
   </parent>
   <modules>	
-    <module>SOA12cMavenProject</module>
+   <!-- <module>SOA12cMavenProject</module>-->
 	<module>InvokeServiceBPEL</module>
-	<module>SOA12cMavenClientProject</module>
+	<!--<module>SOA12cMavenClientProject</module>-->
   </modules>
   <build>
   <resources>

@@ -38,7 +38,7 @@
 	</component>-->
       <component name="SOASyncBPEL">
          <property name="bpel.config.transaction">
-            <replace>${transaction}</replace>
+            <replace>required</replace>
          </property>
       </component>
    </composite>

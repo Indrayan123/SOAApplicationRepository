@@ -17,10 +17,8 @@
     <artifactId>adf-parent</artifactId>
     <version>12.2.1-0-0</version>   
   </parent>
-  <modules>	  
-  
-	<module>FndIntgValidateXpathFunctionIVP</module>	
-	
+  <modules>	     			
+	<module>FndIntgValidateALLSOAIVP</module>	
     </modules>
   <build>
   <resources>

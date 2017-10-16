@@ -35,7 +35,7 @@
             <replace>required</replace>
          </property>
          <property name="bpel.preference.endptSvc">
-            <replace>${foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgUPGThrowFaultIVP/checkupgthrowfaultsoaivpsvc_client_ep</replace>
+            <replace>${env.foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/FndIntgUPGThrowFaultIVP/checkupgthrowfaultsoaivpsvc_client_ep</replace>
          </property>
       </component>
       <reference name="FndIntgUPGThrowFaultIVP">

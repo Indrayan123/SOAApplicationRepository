@@ -60,7 +60,7 @@
          <replace/>
       </searchReplace>-->
       <jca:property name="MessageSelector">
-         <replace>Id='${foundation.rt.soa.nonsec.url}'</replace>
+         <replace>Id='${env.foundation.rt.soa.nonsec.url}'</replace>
       </jca:property> 
    </wsdlAndSchema>
 </SOAConfigPlan>

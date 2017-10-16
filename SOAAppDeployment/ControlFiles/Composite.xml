@@ -1,0 +1,25 @@
+<IntegrationControlFile>
+	<Application>
+		<Project>
+			<Name>SOA12cMavenProject</Name>
+				<Revision>2.0</Revision>
+			<Partition>fndintgivp</Partition>
+			<Capability>all_capability</Capability>	
+			<IgnoreAutoRevision>true</IgnoreAutoRevision>
+	    </Project>	
+		<Project>
+			<Name>InvokeServiceBPEL</Name>
+				<Revision>2.0</Revision>
+			<Partition>fndintgivp</Partition>
+			<Capability>all_capability</Capability>	
+			<IgnoreAutoRevision>true</IgnoreAutoRevision>
+	    </Project>	
+		<Project>
+			<Name>SOA12cMavenClientProject</Name>
+			<Revision>2.0</Revision>
+			<Partition>fndintgivp</Partition>
+			<Capability>all_capability</Capability>	
+			<IgnoreAutoRevision>true</IgnoreAutoRevision>
+	    </Project>
+	</Application>
+</IntegrationControlFile>

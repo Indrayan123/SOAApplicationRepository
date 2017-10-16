@@ -603,7 +603,7 @@
                   </bpelx:annotation>
                   <sequence name="Sequence10">
                     <switch name="Switch14">
-                      <case condition="contains(oraext:get-content-as-string(bpws:getVariableData('InvokefndIntgVisibilityDataLookupIVP_OutputVariable','payload','/ns4:processResponse/ns4:result')),' &lt;executionStatus>true&lt;/executionStatus>')">
+                      <case condition="contains(oraext:get-content-as-string(bpws:getVariableData('InvokefndIntgVisibilityDataLookupIVP_OutputVariable','payload','/ns4:processResponse/ns4:result')),'true&lt;/executionStatus>')">
                         <bpelx:annotation>
                           <bpelx:general>
                             <bpelx:property name="userLabel">If Execution Status is True</bpelx:property>

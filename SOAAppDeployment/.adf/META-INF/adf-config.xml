@@ -18,9 +18,9 @@
         <metadata-store-usages>
           <metadata-store-usage id="mstore-usage_1">
             <metadata-store class-name="oracle.mds.persistence.stores.db.DBMetadataStore">
-              <property name="jdbc-userid" value="LAB120_MDS"/>
-              <property name="jdbc-password" value="Welcome01"/>
-              <property name="jdbc-url" value="jdbc:oracle:thin:@uxlab180:1567/PUPS0.WORLD"/>
+              <property name="jdbc-userid" value="SOALAB122H_MDS1"/>
+              <property name="jdbc-password" value="soa122"/>
+              <property name="jdbc-url" value="jdbc:oracle:thin:@//uxlab180:1567/PUPS0.WORLD"/>
               <property name="partition-name" value="soa-infra"/>
             </metadata-store>
           </metadata-store-usage>         

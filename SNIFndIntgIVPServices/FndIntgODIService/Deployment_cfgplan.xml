@@ -44,7 +44,7 @@
                <replace>xmlns.oracle.com/odi/OdiInvoke/#wsdl.endpoint(OdiInvoke/OdiInvokeRequestSOAP11port0)</replace>
             </attribute>
             <attribute name="location">
-               <replace>${odi11.nonsec.url}/oraclediagent/OdiInvoke?wsdl</replace>
+               <replace>${env.odi11.nonsec.url}/oraclediagent/OdiInvoke?wsdl</replace>
             </attribute>
             <property name="weblogic.wsee.wsat.transaction.flowOption">
                <replace>WSDLDriven</replace>

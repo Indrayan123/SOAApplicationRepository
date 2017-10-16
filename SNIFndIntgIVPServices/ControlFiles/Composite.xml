@@ -1,13 +1,13 @@
 <IntegrationControlFile>
 	<Application>
 		
-		<!--<Project>
+		<Project>
 			<Name>BR_FndIntg_SimpleRuleIVP</Name>
 			<Revision>1.0</Revision>
 			<Partition>fndintgivp</Partition>
 			<Capability>all_capability</Capability>	
 			<IgnoreAutoRevision>true</IgnoreAutoRevision>
-	    </Project>-->	
+	    </Project>	
 		<Project>
 			<Name>Fndintg_largepayloadBRIVP</Name>
 			<Revision>1.0</Revision>
@@ -266,14 +266,7 @@
 			<Partition>fndintgivp</Partition>
 			<Capability>all_capability</Capability>	
 			<IgnoreAutoRevision>true</IgnoreAutoRevision>
-	    </Project>
-		<Project>
-			<Name>FndIntgLookupDVMIVP</Name>
-			<Revision>1.0</Revision>
-			<Partition>fndintgivp</Partition>
-			<Capability>all_capability</Capability>	
-			<IgnoreAutoRevision>true</IgnoreAutoRevision>
-	    </Project>	
+	    </Project>			
 		<Project>
 			<Name>FndIntgEnterpriseCacheIVP</Name>
 			<Revision>1.0</Revision>

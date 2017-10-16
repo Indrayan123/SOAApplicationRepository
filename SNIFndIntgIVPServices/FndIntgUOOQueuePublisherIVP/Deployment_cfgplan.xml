@@ -35,7 +35,7 @@
             <replace>requiresNew</replace>
          </property>
           <property name="bpel.preference.MsgSelector">
-            <replace>UOO_${foundation.rt.soa.nonsec.url}</replace>
+            <replace>UOO_${env.foundation.rt.soa.nonsec.url}</replace>
          </property>
          <property name="configuration.monitorLocation">
             <replace>FndIntgUOOQueuePublisherIVP.monitor</replace>
