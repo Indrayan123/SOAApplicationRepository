@@ -37,7 +37,7 @@
                <replace>http://xmlns.oracle.com/BR_simpulerule/BR_simpulerule_DecisionService_1#wsdl.endpoint(BR_simpulerule_DecisionService_1/IDecisionService_pt)</replace>
             </attribute>
             <attribute name="location">
-               <replace>${foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/BR_FndIntg_SimpleRuleIVP/BR_simpulerule_DecisionService_1?WSDL</replace>
+               <replace>${env.foundation.rt.soa.nonsec.url}/soa-infra/services/fndintgivp/BR_FndIntg_SimpleRuleIVP/BR_simpulerule_DecisionService_1?WSDL</replace>
             </attribute>
             <property name="weblogic.wsee.wsat.transaction.flowOption">
                <replace>WSDLDriven</replace>
