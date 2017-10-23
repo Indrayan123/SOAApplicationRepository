@@ -24,9 +24,9 @@
                 <package>com.siebel.ordermanagement.order.data</package>
                 <namespace>http://siebel.com/OrderManagement/Order/Data</namespace>
             </schemaBrowser>
-            <schemaImport namespace="http://siebel.com/OrderManagement/Order/Data" localPart="SNISiebelOrderABM.xsd" schemaLocation="oramds:/apps/SNIComponents/FoundationObjectLibrary/IVP/BusRules/schemas/SNISiebelOrderABM.xsd" package="com.siebel.ordermanagement.order.data">
-                <import namespace="http://siebel.com/OrderManagement/Order/Data" localPart="SNISiebelOrderABM.xsd"/>
-                <import namespace="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1" localPart="SNICore.xsd"/>
+            <schemaImport namespace="http://siebel.com/OrderManagement/Order/Data" localPart="SNISiebelOrderABM.xsd" schemaLocation="oramds:/apps/SNIComponents/FoundationObjectLibrary/IVP/BusRules/schemas/SNISiebelOrderABM.xsd">
+                <import namespace="http://siebel.com/OrderManagement/Order/Data" localPart="SNISiebelOrderABM.xsd" schemaLocation="oramds:/apps/SNIComponents/FoundationObjectLibrary/IVP/BusRules/schemas/SNISiebelOrderABM.xsd"/>
+                <import namespace="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1" localPart="SNICore.xsd" schemaLocation="oramds:/apps/SNIComponents/EnterpriseObjectLibrary/Core/Common/V1/SNICore.xsd"/>
             </schemaImport>
         </dictionary>
     </schemaInformation>

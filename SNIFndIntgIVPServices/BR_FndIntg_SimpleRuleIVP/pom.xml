@@ -26,7 +26,7 @@
   </parent> 
   <properties>
   <!-- These parameters are used by the compile goal -->
-  <scac.input.dir>${project.basedir}/SOA</scac.input.dir>
+  <scac.input.dir>${project.basedir}</scac.input.dir>
   <!--<scac.output.dir>${project.basedir}/target</scac.output.dir>-->
   <scac.output.dir>${project.basedir}/target</scac.output.dir>
   <scac.input>${scac.input.dir}/composite.xml</scac.input>
@@ -36,13 +36,13 @@
 	  
   <!-- if you are using a config plan, uncomment the following line and update to point
              to your config plan -->
-  <configplan>${scac.output.dir}/Deployment_cfgplan.xml</configplan>
+  <configplan>${project.basedir}/Deployment_cfgplan.xml</configplan>
  
  
   <!-- These parameters are used by the deploy and undeploy goals -->
   <composite.name>${project.artifactId}</composite.name>
-  <composite.revision>1.0</composite.revision>
-  <composite.partition>fndintgivp</composite.partition> 
+  <composite.revision>${project.version}</composite.revision>
+  <composite.partition>fndintgivp</composite.partition>  
         
   
   <overwrite>true</overwrite>
@@ -87,14 +87,14 @@
           <goal>copy-resources</goal>
         </goals>
         <configuration>
-          <outputDirectory>${scac.output.dir}</outputDirectory>
+          <outputDirectory>${project.basedir}/</outputDirectory>
           <resources>         
             <resource>
-              <directory>${scac.input.dir}</directory>
+              <directory>${project.basedir}</directory>
               <includes>
                 <include>Deployment_cfgplan.xml</include>
               </includes>
-              <filtering>true</filtering>
+              <filtering>false</filtering>
             </resource>
           </resources>             
         </configuration>           
@@ -103,44 +103,7 @@
         </executions>
     </plugin> 
 	   
-	 <!-- <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>properties-maven-plugin</artifactId>
-        <version>1.0-alpha-2</version>
-        <executions>
-          <execution>
-            <phase>initialize</phase>
-            <goals>
-              <goal>read-project-properties</goal>
-            </goals>
-            <configuration>
-              <files>
-                <file>${project.basedir}/../ControlFiles/ControlFile.properties</file>
-              </files>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-	<plugin>
-        <groupId>com.google.code.maven-replacer-plugin</groupId>
-        <artifactId>replacer</artifactId>
-        <version>1.5.3</version>
-        <executions>
-          <execution>
-            <phase>initialize</phase>
-            <goals>
-              <goal>replace</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <ignoreMissingFile>true</ignoreMissingFile>
-          <file>${scac.input}</file>
-          <xpath>//composite/@revision</xpath>
-          <token>^.*$</token>
-          <value>${composite.revision}</value>
-        </configuration>
-      </plugin>-->
+	 
 
       <plugin>
         <groupId>com.oracle.soa.plugin</groupId>
@@ -148,7 +111,7 @@
         <version>12.2.1-0-0</version>
         <configuration>
 		<target>
-		<property name="configPlan" values="${scac.output.dir}/Deployment_cfgplan.xml"/>
+		<property name="configPlan" values="${project.basedir}/Deployment_cfgplan.xml"/>
 		</target>		  
           <compositeName>
             ${project.artifactId}
@@ -180,9 +143,7 @@
           <input>
             ${input}
           </input>
-		<excludes>
-		  <exclude>**/target/*.jar</exclude>
-		  </excludes>
+		
         </configuration>
         <!-- extensions=true is needed to use the custom sar packaging type -->
         <extensions>true</extensions>
