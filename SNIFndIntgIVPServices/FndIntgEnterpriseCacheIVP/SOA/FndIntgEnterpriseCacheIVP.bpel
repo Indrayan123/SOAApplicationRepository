@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Wed Sep 22 16:11:38 CDT 2010
+  Author:  c88525
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+--><process xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/" xmlns:bpel2="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:bpelx="http://schemas.oracle.com/bpel/extension" xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions" xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/" xmlns:client="http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/FndIntgEnterpriseCacheIVP/FndIntgEnterpriseCacheIVP" xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue" xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath" xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath" xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap" xmlns:ora="http://schemas.oracle.com/xpath/extension" xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc" xmlns:sniadf="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIADFExtensionFunctions" xmlns:snibpel="http://xmlns.schneider.com/BPEL/sni/foundation/soa/extensions/xpath" xmlns:snidttm="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIDateTimeExtensionFunctions" xmlns:snidvm="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIDVMExtensionFunctions" xmlns:snifmt="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIFormatExtensionFunctions" xmlns:sniolock="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIOptimisticLockExtensionFunctions" xmlns:sniprop="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIPropertyFileExtensionFunctions" xmlns:sniutil="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.utils.SNIUtilityExtensionFunctions" xmlns:snixref="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIXRefExtensionFunctions" xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk" xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20" xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="FndIntgEnterpriseCacheIVP" targetNamespace="http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/FndIntgEnterpriseCacheIVP/FndIntgEnterpriseCacheIVP">
+<bpelx:annotation>
+<bpelx:analysis>
+<bpelx:property name="wsdlFile">
+<![CDATA[null]]>
+</bpelx:property>
+</bpelx:analysis>
+</bpelx:annotation>
+<partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink myRole="FndIntgEnterpriseCacheIVPProvider" name="fndintgenterprisecacheivp_client" partnerLinkType="client:FndIntgEnterpriseCacheIVP"/>
+  </partnerLinks>
+<variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable messageType="client:FndIntgEnterpriseCacheIVPRequestMessage" name="inputVariable"/>
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable messageType="client:FndIntgEnterpriseCacheIVPResponseMessage" name="outputVariable"/>
+    <variable name="Temp_1" type="xsd:string"/>
+    <variable name="Temp_2" type="xsd:string"/>
+    <variable name="Temp_3" type="xsd:string"/>
+    <variable name="Temp_4" type="xsd:string"/>
+    <variable name="Temp_5" type="xsd:string"/>
+  </variables>
+<sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in FndIntgEnterpriseCacheIVP.wsdl) -->
+    <receive createInstance="yes" name="receiveInput" operation="process" partnerLink="fndintgenterprisecacheivp_client" portType="client:FndIntgEnterpriseCacheIVP" variable="inputVariable"/>
+
+    <!-- Generate reply to synchronous request -->
+    <assign name="Assign_1">
+      <copy>
+        <from expression="snibpel:EnterpriseCachePut('IVP_Key','IVP_Value','5000')"/>
+        <to variable="Temp_1"/>
+      </copy>
+      <copy>
+        <from expression="snibpel:EnterpriseCacheGet('IVP_Key')"/>
+        <to variable="Temp_2"/>
+      </copy>
+      <copy>
+        <from expression="snibpel:EnterpriseCacheGetByCacheName('FNDCache-SOABPELXrefExtensions','IVP_Key')"/>
+        <to variable="Temp_3"/>
+      </copy>
+      <copy>
+        <from expression="snibpel:EnterpriseCachePutByCacheName('FNDCache-SOABPELXrefExtensions','IVP_Key','IVPValue')"/>
+        <to variable="Temp_4"/>
+      </copy>
+      <copy>
+        <from expression="snibpel:EnterpriseCacheGetByCacheName('FNDCache-SOABPELXrefExtensions','IVP_Key')"/>
+        <to variable="Temp_5"/>
+      </copy>
+      <copy>
+        <from expression="snibpel:EnterpriseCacheRemoveByCacheName('FNDCache-SOABPELXrefExtensions','IVP_Key')"/>
+        <to part="payload" query="/client:processResponse/client:result" variable="outputVariable"/>
+      </copy>
+    </assign>
+    <reply name="replyOutput" operation="process" partnerLink="fndintgenterprisecacheivp_client" portType="client:FndIntgEnterpriseCacheIVP" variable="outputVariable"/>
+  </sequence>
+</process>

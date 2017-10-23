@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ns0:measurements xmlns:ns0="http://xmlns.oracle.com/bpm/analytics/measurementV20">
+   <ns0:compositeDN>FndIntgEnterpriseCacheIVP</ns0:compositeDN>
+   <ns0:measurementElements>
+      <ns0:measurementElement enabled="true" name="Composite_Measurement" type="COMPOSITE" userDefined="false">
+         <ns0:elementSelection>
+            <ns0:noneList>NONE</ns0:noneList>
+         </ns0:elementSelection>
+         <ns0:elementStates>
+            <ns0:allList>ALL</ns0:allList>
+         </ns0:elementStates>
+         <ns0:businessIndicators allAttributes="true" allDimensions="true" allMeasures="true"/>
+      </ns0:measurementElement>
+   <ns0:measurementElement enabled="true" name="FndIntgEnterpriseCacheIVP_Measurement" type="COMPONENT" userDefined="false">
+<ns0:componentName>FndIntgEnterpriseCacheIVP</ns0:componentName>
+<ns0:elementSelection>
+            <ns0:noneList>NONE</ns0:noneList>
+         </ns0:elementSelection>
+<ns0:elementStates>
+            <ns0:allList>ALL</ns0:allList>
+         </ns0:elementStates>
+<ns0:businessIndicators allAttributes="true" allDimensions="true" allMeasures="true"/>
+</ns0:measurementElement>
+</ns0:measurementElements>
+</ns0:measurements>

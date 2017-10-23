@@ -86,8 +86,8 @@
 <string v="oracle.sb.tooling.ide.core.projects.SbProjectSettings/sbContentSet"/>
 <string v="oracle.jdeveloper.model.PathsConfiguration/cepContentSet"/>
 </list>
-<value n="defaultPackage" v="fndintg_largepayloadbrivp"/>
-<value n="Namespace" v="http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/Fndintg_largepayloadBRIVP/Fndintg_largepayloadBRIVP"/>
+<value n="defaultPackage" v="fndintgenterprisecacheivp"/>
+<value n="Namespace" v="http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/FndIntgEnterpriseCacheIVP/FndIntgEnterpriseCacheIVP"/>
 <hash n="oracle.ide.model.ResourcePaths">
       <hash n="resourcesContentSet">
          <list n="url-path"/>
@@ -122,8 +122,6 @@
          <string v=".xsl"/>
          <string v=".xsd"/>
          <string v=".exm"/>
-         <string v=".exm"/>
-         <string v=".xml"/>
       </list>
 <list n="Javac.commandline.optionlist">
          <string v="-g"/>
@@ -139,7 +137,7 @@
 </hash>
 <hash n="oracle.jdeveloper.deploy.dt.DeploymentProfiles">
 <hash n="profileDefinitions">
-<hash n="Fndintg_largepayloadBRIVP">
+<hash n="FndIntgEnterpriseCacheIVP">
 <hash n="archiveOptions">
                <value n="hasManifest" v="false"/>
             </hash>
@@ -285,19 +283,19 @@
 </hash>
 </list>
 </hash>
-<url n="jarURL" path="deploy/sca_Fndintg_largepayloadBRIVP.jar"/>
+<url n="jarURL" path="deploy/sca_FndIntgEnterpriseCacheIVP.jar"/>
 <hash n="libraryDependencies"/>
 <value n="profileClass" v="oracle.tip.tools.ide.fabric.deploy.sar.SarProfile"/>
-<value n="profileName" v="Fndintg_largepayloadBRIVP"/>
+<value n="profileName" v="FndIntgEnterpriseCacheIVP"/>
 </hash>
 </hash>
 <list n="profileList">
-         <string v="Fndintg_largepayloadBRIVP"/>
+         <string v="FndIntgEnterpriseCacheIVP"/>
       </list>
 </hash>
 <hash n="oracle.jdeveloper.model.J2eeSettings">
-      <value n="j2eeWebAppName" v="SNIFndIntgIVPServices-Fndintg_largepayloadBRIVP-webapp"/>
-      <value n="j2eeWebContextRoot" v="SNIFndIntgIVPServices-Fndintg_largepayloadBRIVP-context-root"/>
+      <value n="j2eeWebAppName" v="SNIFndIntgIVPServices-FndIntgEnterpriseCacheIVP-webapp"/>
+      <value n="j2eeWebContextRoot" v="SNIFndIntgIVPServices-FndIntgEnterpriseCacheIVP-context-root"/>
    </hash>
 <hash n="oracle.jdeveloper.model.PathsConfiguration">
       <hash n="javaContentSet">
@@ -350,10 +348,6 @@
             <value n="id" v="MDS Runtime"/>
             <value n="isJDK" v="false"/>
          </hash>
-         <hash>
-            <value n="id" v="BC4J Service Runtime"/>
-            <value n="isJDK" v="false"/>
-         </hash>
       </list>
 <list n="libraryReferences">
          <hash>
@@ -376,10 +370,6 @@
             <value n="id" v="MDS Runtime"/>
             <value n="isJDK" v="false"/>
          </hash>
-         <hash>
-            <value n="id" v="BC4J Service Runtime"/>
-            <value n="isJDK" v="false"/>
-         </hash>
       <hash>
 <value n="id" v="BC4J Service Runtime"/>
 <value n="isJDK" v="false"/>
@@ -396,6 +386,6 @@
          </list>
       </hash>
    </hash>
-<value n="ProcessName" v="Fndintg_largepayloadBRIVP"/>
-<value n="Template" v="BPEL_ASYNC_PROCESS"/>
+<value n="ProcessName" v="FndIntgEnterpriseCacheIVP"/>
+<value n="Template" v="BPEL_SYNC_PROCESS"/>
 </jpr:project>

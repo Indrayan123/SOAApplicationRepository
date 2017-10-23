@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Thu Oct 07 11:31:06 CDT 2010
+  Author:  c88525
+  Purpose: Asynchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+--><process xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/" xmlns:bpelx="http://schemas.oracle.com/bpel/extension" xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/" xmlns:client="http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/Fndintg_largepayloadBRIVP/Fndintg_largepayloadBRIVP" xmlns:ns1="http://xmlns.oracle.com/BR_largepayload_rule/BR_largepayload_rule_DecisionService_1" xmlns:ns10="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.utils.SNIUtilityExtensionFunctions" xmlns:ns11="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIDateTimeExtensionFunctions" xmlns:ns12="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIPropertyFileExtensionFunctions" xmlns:ns13="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIFormatExtensionFunctions" xmlns:ns14="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIADFExtensionFunctions" xmlns:ns15="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:ns16="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions" xmlns:ns17="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue" xmlns:ns18="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIOptimisticLockExtensionFunctions" xmlns:ns19="http://schemas.oracle.com/bpel/extension/xpath/function/xdk" xmlns:ns2="http://xmlns.oracle.com/bpel" xmlns:ns20="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIXRefExtensionFunctions" xmlns:ns3="http://siebel.com/OrderManagement/Order/Data" xmlns:ns4="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1" xmlns:ns5="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIDVMExtensionFunctions" xmlns:ns6="http://xmlns.schneider.com/BPEL/sni/foundation/soa/extensions/xpath" xmlns:ns7="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20" xmlns:ns8="http://schemas.oracle.com/xpath/extension/ldap" xmlns:ns9="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc" xmlns:ora="http://schemas.oracle.com/xpath/extension" name="Fndintg_largepayloadBRIVP" targetNamespace="http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/Fndintg_largepayloadBRIVP/Fndintg_largepayloadBRIVP">
+<bpelx:annotation>
+<bpelx:analysis>
+<bpelx:property name="wsdlFile">
+<![CDATA[null]]>
+</bpelx:property>
+</bpelx:analysis>
+</bpelx:annotation>
+<partnerLinks>
+        <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+        <partnerLink name="LargepayloadBR" partnerLinkType="ns1:LargepayloadBR" partnerRole="IDecisionService"/>
+        <partnerLink myRole="Fndintg_largepayloadBRIVPProvider" name="fndintg_largepayloadbrivp_client_ep" partnerLinkType="client:Fndintg_largepayloadBRIVP"/>
+    </partnerLinks>
+<variables>
+        <!-- Reference to the message passed as input during initiation -->
+        <variable messageType="client:Fndintg_largepayloadBRIVPRequestMessage" name="inputVariable"/>
+
+        <!-- Reference to the message that will be sent back to the requester during callback -->
+        <variable messageType="client:Fndintg_largepayloadBRIVPResponseMessage" name="outputVariable"/>
+        <variable messageType="ns1:callFunctionStatelessMessage" name="Invoke_1_callFunctionStateless_InputVariable"/>
+        <variable messageType="ns1:callFunctionStatelessDecisionMessage" name="Invoke_1_callFunctionStateless_OutputVariable"/>
+    </variables>
+<sequence name="main">
+        <!-- Receive input from requestor. (Note: This maps to operation defined in Fndintg_largepayloadBRIVP.wsdl) -->
+        <receive createInstance="yes" name="receiveInput" operation="process" partnerLink="fndintg_largepayloadbrivp_client_ep" portType="client:Fndintg_largepayloadBRIVP" variable="inputVariable"/>
+
+        <!-- 
+          Asynchronous callback to the requester. (Note: the callback location and correlation id is transparently handled using WS-addressing.)
+        -->
+        <assign name="Assign_1">
+            <copy>
+                <from expression="'BR_largepayload_rule_DecisionService_1'"/>
+                <to part="payload" query="/ns1:callFunctionStateless/@name" variable="Invoke_1_callFunctionStateless_InputVariable"/>
+            </copy>
+            <copy>
+                <from expression="ora:getProcessId()"/>
+                <to part="payload" query="/ns1:callFunctionStateless/ns1:bpelInstance/ns2:processId" variable="Invoke_1_callFunctionStateless_InputVariable"/>
+            </copy>
+            <copy>
+                <from expression="ora:getProcessVersion()"/>
+                <to part="payload" query="/ns1:callFunctionStateless/ns1:bpelInstance/ns2:processVersion" variable="Invoke_1_callFunctionStateless_InputVariable"/>
+            </copy>
+            <copy>
+                <from expression="'soadomain'"/>
+                <to part="payload" query="/ns1:callFunctionStateless/ns1:bpelInstance/ns2:domainId" variable="Invoke_1_callFunctionStateless_InputVariable"/>
+            </copy>
+            <copy>
+                <from expression="ora:getProcessURL()"/>
+                <to part="payload" query="/ns1:callFunctionStateless/ns1:bpelInstance/ns2:processURL" variable="Invoke_1_callFunctionStateless_InputVariable"/>
+            </copy>
+            <copy>
+                <from expression="ora:getInstanceId()"/>
+                <to part="payload" query="/ns1:callFunctionStateless/ns1:bpelInstance/ns2:instanceId" variable="Invoke_1_callFunctionStateless_InputVariable"/>
+            </copy>
+            <copy>
+                <from expression="'ConvID'"/>
+                <to part="payload" query="/ns1:callFunctionStateless/ns1:bpelInstance/ns2:conversationId" variable="Invoke_1_callFunctionStateless_InputVariable"/>
+            </copy>
+            <copy>
+                <from part="payload" query="/ns3:SWIOrderIO/ns3:SWIOrder/ns3:SNIAccountId" variable="inputVariable"/>
+                <to part="payload" query="/ns1:callFunctionStateless/ns1:parameterList/ns3:SWIOrderIO/ns3:SWIOrder/ns3:SNIAccountId" variable="Invoke_1_callFunctionStateless_InputVariable"/>
+            </copy>
+        </assign>
+        <invoke inputVariable="Invoke_1_callFunctionStateless_InputVariable" name="Invoke_1" operation="callFunctionStateless" outputVariable="Invoke_1_callFunctionStateless_OutputVariable" partnerLink="LargepayloadBR" portType="ns1:IDecisionService"/>
+        <assign name="Assign_2">
+            <copy>
+                <from part="payload" query="/ns1:callFunctionStatelessDecision/ns1:resultList/ns3:SWIOrderOutputs/ns3:Value1" variable="Invoke_1_callFunctionStateless_OutputVariable"/>
+                <to part="payload" query="/ns3:SWIOrderOutputs/ns3:Value1" variable="outputVariable"/>
+            </copy>
+        </assign>
+        <reply name="Replyoutput" operation="process" partnerLink="fndintg_largepayloadbrivp_client_ep" portType="client:Fndintg_largepayloadBRIVP" variable="outputVariable"/>
+    </sequence>
+</process>

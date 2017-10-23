@@ -26,7 +26,7 @@
   </parent> 
   <properties>
   <!-- These parameters are used by the compile goal -->
-  <scac.input.dir>${project.basedir}</scac.input.dir>
+  <scac.input.dir>${project.basedir}/SOA</scac.input.dir>
   <!--<scac.output.dir>${project.basedir}/target</scac.output.dir>-->
   <scac.output.dir>${project.basedir}/target</scac.output.dir>
   <scac.input>${scac.input.dir}/composite.xml</scac.input>
@@ -41,8 +41,8 @@
  
   <!-- These parameters are used by the deploy and undeploy goals -->
   <composite.name>${project.artifactId}</composite.name>
-  <composite.revision>${FndIntg_SimpleBRIVP.Revision}</composite.revision>
-  <composite.partition>${FndIntg_SimpleBRIVP.Partition}</composite.partition> 
+  <composite.revision>1.0</composite.revision>
+  <composite.partition>fndintgivp</composite.partition> 
         
   
   <overwrite>true</overwrite>
@@ -90,7 +90,7 @@
           <outputDirectory>${scac.output.dir}</outputDirectory>
           <resources>         
             <resource>
-              <directory>${project.basedir}</directory>
+              <directory>${scac.input.dir}</directory>
               <includes>
                 <include>Deployment_cfgplan.xml</include>
               </includes>
@@ -103,7 +103,7 @@
         </executions>
     </plugin> 
 	   
-	  <plugin>
+	 <!-- <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>properties-maven-plugin</artifactId>
         <version>1.0-alpha-2</version>
@@ -140,7 +140,7 @@
           <token>^.*$</token>
           <value>${composite.revision}</value>
         </configuration>
-      </plugin>
+      </plugin>-->
 
       <plugin>
         <groupId>com.oracle.soa.plugin</groupId>

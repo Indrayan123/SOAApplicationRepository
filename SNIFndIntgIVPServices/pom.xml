@@ -20,6 +20,9 @@
   <modules>	     			
 	<module>FndIntgDateXpathIVP</module>
 <module>FndIntgEnterpriseCacheIVP</module>	
+	<module>BR_FndIntg_SimpleRuleIVP</module>
+<module>Fndintg_largepayloadBRIVP</module>	
+<module>FndIntg_SimpleBRIVP</module>	
     </modules>
   <build>
   <resources>

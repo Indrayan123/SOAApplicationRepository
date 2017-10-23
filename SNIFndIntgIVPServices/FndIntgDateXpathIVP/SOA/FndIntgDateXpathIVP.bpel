@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Mon Oct 18 15:40:42 CDT 2010
+  Author:  c88525
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+--><process xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/" xmlns:bpel2="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:bpelx="http://schemas.oracle.com/bpel/extension" xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/" xmlns:client="http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/FndIntgDateXpathIVP/FndIntgDateXpathIVP" xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue" xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap" xmlns:ora="http://schemas.oracle.com/xpath/extension" xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc" xmlns:sniadf="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIADFExtensionFunctions" xmlns:snibpel="http://xmlns.schneider.com/BPEL/sni/foundation/soa/extensions/xpath" xmlns:snidttm="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIDateTimeExtensionFunctions" xmlns:snidvm="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIDVMExtensionFunctions" xmlns:snifmt="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIFormatExtensionFunctions" xmlns:sniolock="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIOptimisticLockExtensionFunctions" xmlns:sniprop="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIPropertyFileExtensionFunctions" xmlns:sniutil="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.utils.SNIUtilityExtensionFunctions" xmlns:snixref="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIXRefExtensionFunctions" xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk" xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20" xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="FndIntgDateXpathIVP" targetNamespace="http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/FndIntgDateXpathIVP/FndIntgDateXpathIVP">
+<bpelx:annotation>
+<bpelx:analysis>
+<bpelx:property name="wsdlFile">
+<![CDATA[null]]>
+</bpelx:property>
+</bpelx:analysis>
+</bpelx:annotation>
+<partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink myRole="FndIntgDateXpathIVPProvider" name="fndintgdatexpathivp_client" partnerLinkType="client:FndIntgDateXpathIVP"/>
+  </partnerLinks>
+<variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable messageType="client:FndIntgDateXpathIVPRequestMessage" name="inputVariable"/>
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable messageType="client:FndIntgDateXpathIVPResponseMessage" name="outputVariable"/>
+    <variable name="temp1" type="xsd:string"/>
+    <variable name="temp2" type="xsd:string"/>
+    <variable name="temp3" type="xsd:string"/>
+  </variables>
+<sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in FndIntgDateXpathIVP.wsdl) -->
+    <receive createInstance="yes" name="receiveInput" operation="process" partnerLink="fndintgdatexpathivp_client" portType="client:FndIntgDateXpathIVP" variable="inputVariable"/>
+
+    <!-- Generate reply to synchronous request -->
+    <assign name="Assign_1">
+      <copy>
+        <from expression="snidttm:convertDateFormat(&quot;2010-10-13&quot;,&quot;yyyy-MM-dd&quot;,&quot;dd-MM-yyyy&quot;)"/>
+        <to variable="temp3"/>
+      </copy>
+      <copy>
+        <from expression="snidttm:convertFormattedDttmToXSDDttm(&quot;2010-10-13T10:16:00&quot;,&quot;US/Central&quot;,&quot;yyyy-MM-dd'T'HH:mm:ss&quot;)"/>
+        <to variable="temp1"/>
+      </copy>
+      <copy>
+        <from expression="snidttm:convertXSDDttmToFormattedDttm(&quot;2010-10-13T15:16:00.000Z&quot;,&quot;US/Central&quot;,&quot;yyyy-MM-dd'T'HH:mm:ss&quot;)"/>
+        <to variable="temp2"/>
+      </copy>
+      <copy>
+        <from expression="'success'"/>
+        <to part="payload" query="/client:processResponse/client:result" variable="outputVariable"/>
+      </copy>
+    </assign>
+    <reply name="replyOutput" operation="process" partnerLink="fndintgdatexpathivp_client" portType="client:FndIntgDateXpathIVP" variable="outputVariable"/>
+  </sequence>
+</process>

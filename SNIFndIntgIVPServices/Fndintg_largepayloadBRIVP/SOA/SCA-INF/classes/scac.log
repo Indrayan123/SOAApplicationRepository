@@ -1,0 +1,40 @@
+Sep 25, 2017 8:17:38 AM oracle.mds
+NOTIFICATION: PManager instance is created without multitenancy support as JVM flag "oracle.multitenant.enabled" is not set to enable multitenancy support.
+Sep 25, 2017 8:17:38 AM oracle.security.jps.internal.config.xml.XmlConfigurationFactory initDefaultConfiguration
+SEVERE: java.io.FileNotFoundException: .\config\jps-config.xml (The system cannot find the path specified)
+Sep 25, 2017 8:17:38 AM oracle.mds
+NOTIFICATION: Auditing is disabled for component MDS.
+Sep 25, 2017 8:17:39 AM oracle.adf.share.ADFContext getCurrent
+WARNING: Automatically initializing a DefaultContext for getCurrent.
+Caller should ensure that a DefaultContext is proper for this use.
+Memory leaks and/or unexpected behaviour may occur if the automatic initialization is performed improperly.
+This message may be avoided by performing initADFContext before using getCurrent().
+For more information please enable logging for oracle.adf.share.ADFContext at FINEST level.
+Sep 25, 2017 8:17:39 AM oracle.mds
+NOTIFICATION: PManager instance is created without multitenancy support as JVM flag "oracle.multitenant.enabled" is not set to enable multitenancy support.
+Sep 25, 2017 8:17:39 AM oracle.security.jps.internal.config.xml.XmlConfigurationFactory initDefaultConfiguration
+SEVERE: java.io.FileNotFoundException: .\config\jps-config.xml (The system cannot find the path specified)
+Sep 25, 2017 8:17:39 AM oracle.mds
+NOTIFICATION: Auditing is disabled for component MDS.
+Sep 25, 2017 8:17:39 AM oracle.security.jps.internal.config.xml.XmlConfigurationFactory initDefaultConfiguration
+SEVERE: java.io.FileNotFoundException: .\config\jps-config.xml (The system cannot find the path specified)
+Sep 25, 2017 8:17:39 AM oracle.mds
+NOTIFICATION: Auditing is disabled for component ADF-MDS.
+Sep 25, 2017 8:17:40 AM oracle.fabric.common.wsdl.SchemaManager isIncrementalBuildSupported
+INFO: XMLSchema incremental build enabled.
+Sep 25, 2017 8:17:40 AM com.collaxa.cube.CubeLogger info
+INFO: validating "Fndintg_largepayloadBRIVP.bpel" ...
+Sep 25, 2017 8:17:40 AM oracle.integration.platform.blocks.FabricConfigManager <clinit>
+WARNING: JRF is unable to determine the current application server platform.
+Sep 25, 2017 8:17:40 AM oracle.integration.platform.blocks.WLSPlatformConfigurationProvider <clinit>
+WARNING: JRF is unable to determine the current application server platform.
+Sep 25, 2017 8:17:41 AM com.collaxa.cube.CubeLogger info
+INFO: Composed "Fndintg_largepayloadBRIVP" in 230.9 milliseconds [nodes 8=0+8, 34.6 nodes/sec]
+Sep 25, 2017 8:17:53 AM com.collaxa.cube.CubeLogger info
+INFO: Compiled "Fndintg_largepayloadBRIVP" in 11.423 seconds
+Sep 25, 2017 8:17:53 AM com.collaxa.cube.CubeLogger info
+INFO: Gathered 3 files in 2.3 milliseconds
+
+Sep 25, 2017 8:17:53 AM com.collaxa.cube.CubeLogger info
+INFO: Packaged "Fndintg_largepayloadBRIVP" in 30.2 milliseconds
+

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<decisionServices xmlns="http://xmlns.oracle.com/bpel/rules" name="BR_largepayload_rule">
+    <ruleEngineProvider provider="Oracle_11.0.0.0.0" name="OracleRulesSDK">
+        <repository type="SCA-Archive">
+            <path>BR_FndIntg_SimpleRuleIVP/oracle/rules/br_fndintg_simpleruleivp/BR_largepayload_rule.rules</path>
+        </repository>
+    </ruleEngineProvider>
+    <decisionService name="BR_largepayload_rule_DecisionService_1" ruleEngineProviderReference="OracleRulesSDK" targetNamespace="http://xmlns.oracle.com/BR_largepayload_rule/BR_largepayload_rule_DecisionService_1">
+        <catalog>BR_largepayload_rule</catalog>
+        <pattern name="CallFunctionStateless">
+            <arguments>
+                <call>br_fndintg_simpleruleivp.BR_largepayload_rule.BR_largepayload_rule_DecisionService_1</call>
+            </arguments>
+        </pattern>
+        <pattern name="CallFunctionStateful">
+            <arguments>
+                <call>br_fndintg_simpleruleivp.BR_largepayload_rule.BR_largepayload_rule_DecisionService_1</call>
+            </arguments>
+        </pattern>
+    </decisionService>
+    <schemaInformation>
+        <dictionary fqnPackage="br_fndintg_simpleruleivp" fqnName="BR_largepayload_rule" updateNumber="103">
+            <schemaBrowser>
+                <package>com.siebel.ordermanagement.order.data</package>
+                <namespace>http://siebel.com/OrderManagement/Order/Data</namespace>
+            </schemaBrowser>
+            <schemaImport namespace="http://siebel.com/OrderManagement/Order/Data" localPart="SNISiebelOrderABM.xsd" schemaLocation="oramds:/apps/SNIComponents/FoundationObjectLibrary/IVP/BusRules/schemas/SNISiebelOrderABM.xsd" package="com.siebel.ordermanagement.order.data">
+                <import namespace="http://siebel.com/OrderManagement/Order/Data" localPart="SNISiebelOrderABM.xsd"/>
+                <import namespace="http://xmlns.schneider.com/EnterpriseObjects/Core/Common/V1" localPart="SNICore.xsd"/>
+            </schemaImport>
+        </dictionary>
+    </schemaInformation>
+</decisionServices>

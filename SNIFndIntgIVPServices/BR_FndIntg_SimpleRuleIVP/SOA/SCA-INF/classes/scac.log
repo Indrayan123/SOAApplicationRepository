@@ -1,0 +1,24 @@
+Oct 10, 2017 4:57:59 AM oracle.mds
+NOTIFICATION: PManager instance is created without multitenancy support as JVM flag "oracle.multitenant.enabled" is not set to enable multitenancy support.
+Oct 10, 2017 4:57:59 AM oracle.security.jps.internal.config.xml.XmlConfigurationFactory initDefaultConfiguration
+SEVERE: java.io.FileNotFoundException: .\config\jps-config.xml (The system cannot find the path specified)
+Oct 10, 2017 4:57:59 AM oracle.mds
+NOTIFICATION: Auditing is disabled for component MDS.
+Oct 10, 2017 4:58:00 AM oracle.fabric.common.wsdl.SchemaManager isIncrementalBuildSupported
+INFO: XMLSchema incremental build enabled.
+Oct 10, 2017 4:58:00 AM oracle.adf.share.ADFContext getCurrent
+WARNING: Automatically initializing a DefaultContext for getCurrent.
+Caller should ensure that a DefaultContext is proper for this use.
+Memory leaks and/or unexpected behaviour may occur if the automatic initialization is performed improperly.
+This message may be avoided by performing initADFContext before using getCurrent().
+For more information please enable logging for oracle.adf.share.ADFContext at FINEST level.
+Oct 10, 2017 4:58:01 AM oracle.mds
+NOTIFICATION: PManager instance is created without multitenancy support as JVM flag "oracle.multitenant.enabled" is not set to enable multitenancy support.
+Oct 10, 2017 4:58:01 AM oracle.security.jps.internal.config.xml.XmlConfigurationFactory initDefaultConfiguration
+SEVERE: java.io.FileNotFoundException: .\config\jps-config.xml (The system cannot find the path specified)
+Oct 10, 2017 4:58:01 AM oracle.mds
+NOTIFICATION: Auditing is disabled for component MDS.
+Oct 10, 2017 4:58:01 AM oracle.security.jps.internal.config.xml.XmlConfigurationFactory initDefaultConfiguration
+SEVERE: java.io.FileNotFoundException: .\config\jps-config.xml (The system cannot find the path specified)
+Oct 10, 2017 4:58:01 AM oracle.mds
+NOTIFICATION: Auditing is disabled for component ADF-MDS.

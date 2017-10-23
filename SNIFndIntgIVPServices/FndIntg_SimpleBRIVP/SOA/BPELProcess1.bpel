@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Wed Sep 29 15:19:48 CDT 2010
+  Author:  c88525
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+--><process xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/" xmlns:bpelx="http://schemas.oracle.com/bpel/extension" xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/" xmlns:client="http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/FndIntg_SimpleBRIVP/BPELProcess1" xmlns:ns1="http://xmlns.oracle.com/BR_simpulerule/BR_simpulerule_DecisionService_1" xmlns:ns10="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIDateTimeExtensionFunctions" xmlns:ns11="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIPropertyFileExtensionFunctions" xmlns:ns12="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIFormatExtensionFunctions" xmlns:ns13="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIADFExtensionFunctions" xmlns:ns14="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:ns15="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions" xmlns:ns16="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue" xmlns:ns17="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIOptimisticLockExtensionFunctions" xmlns:ns18="http://schemas.oracle.com/bpel/extension/xpath/function/xdk" xmlns:ns19="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIXRefExtensionFunctions" xmlns:ns2="http://siebel.com/OrderManagement/Order/Data" xmlns:ns3="http://xmlns.oracle.com/bpel" xmlns:ns4="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.SNIDVMExtensionFunctions" xmlns:ns5="http://xmlns.schneider.com/BPEL/sni/foundation/soa/extensions/xpath" xmlns:ns6="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20" xmlns:ns7="http://schemas.oracle.com/xpath/extension/ldap" xmlns:ns8="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc" xmlns:ns9="http://www.oracle.com/XSL/Transform/java/sni.foundation.soa.extensions.xpath.utils.SNIUtilityExtensionFunctions" xmlns:ora="http://schemas.oracle.com/xpath/extension" name="BPELProcess1" targetNamespace="http://xmlns.oracle.com/SNIFndIntgIVPServices_jws/FndIntg_SimpleBRIVP/BPELProcess1">
+<bpelx:annotation>
+<bpelx:analysis>
+<bpelx:property name="wsdlFile">
+<![CDATA[null]]>
+</bpelx:property>
+</bpelx:analysis>
+</bpelx:annotation>
+<partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink myRole="BPELProcess1Provider" name="bpelprocess1_client" partnerLinkType="client:BPELProcess1"/>
+    <partnerLink name="BR_Service" partnerLinkType="ns1:BR_Service" partnerRole="IDecisionService"/>
+  </partnerLinks>
+<variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable messageType="client:BPELProcess1RequestMessage" name="inputVariable"/>
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable messageType="client:BPELProcess1ResponseMessage" name="outputVariable"/>
+    <variable messageType="ns1:callFunctionStatefulMessage" name="Invoke_1_callFunctionStateful_InputVariable"/>
+    <variable messageType="ns1:callFunctionStatefulDecisionMessage" name="Invoke_1_callFunctionStateful_OutputVariable"/>
+  </variables>
+<sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in BPELProcess1.wsdl) -->
+    <receive createInstance="yes" name="receiveInput" operation="process" partnerLink="bpelprocess1_client" portType="client:BPELProcess1" variable="inputVariable"/>
+
+    <!-- Generate reply to synchronous request -->
+    <assign name="Assign_1">
+      <copy>
+        <from expression="'BR_simpulerule_DecisionService_1'"/>
+        <to part="payload" query="/ns1:callFunctionStateful/@name" variable="Invoke_1_callFunctionStateful_InputVariable"/>
+      </copy>
+      <copy>
+        <from expression="ora:getProcessVersion()"/>
+        <to part="payload" query="/ns1:callFunctionStateful/ns1:bpelInstance/ns3:processVersion" variable="Invoke_1_callFunctionStateful_InputVariable"/>
+      </copy>
+      <copy>
+        <from expression="'soa4'"/>
+        <to part="payload" query="/ns1:callFunctionStateful/ns1:bpelInstance/ns3:domainId" variable="Invoke_1_callFunctionStateful_InputVariable"/>
+      </copy>
+      <copy>
+        <from expression="ora:getProcessURL()"/>
+        <to part="payload" query="/ns1:callFunctionStateful/ns1:bpelInstance/ns3:processURL" variable="Invoke_1_callFunctionStateful_InputVariable"/>
+      </copy>
+      <copy>
+        <from expression="ora:getInstanceId()"/>
+        <to part="payload" query="/ns1:callFunctionStateful/ns1:bpelInstance/ns3:instanceId" variable="Invoke_1_callFunctionStateful_InputVariable"/>
+      </copy>
+      <copy>
+        <from expression="'ConvID'"/>
+        <to part="payload" query="/ns1:callFunctionStateful/ns1:bpelInstance/ns3:conversationId" variable="Invoke_1_callFunctionStateful_InputVariable"/>
+      </copy>
+      <copy>
+        <from expression="ora:getProcessId()"/>
+        <to part="payload" query="/ns1:callFunctionStateful/ns1:bpelInstance/ns3:processId" variable="Invoke_1_callFunctionStateful_InputVariable"/>
+      </copy>
+      <copy>
+        <from part="payload" query="/ns2:SWIOrderOutputs/ns2:Value1" variable="inputVariable"/>
+        <to part="payload" query="/ns1:callFunctionStateful/ns1:parameterList/ns2:SWIOrderOutputs/ns2:Value1" variable="Invoke_1_callFunctionStateful_InputVariable"/>
+      </copy>
+      <copy>
+        <from part="payload" query="/ns2:SWIOrderOutputs/ns2:Value2" variable="inputVariable"/>
+        <to part="payload" query="/ns1:callFunctionStateful/ns1:parameterList/ns2:SWIOrderOutputs/ns2:Value2" variable="Invoke_1_callFunctionStateful_InputVariable"/>
+      </copy>
+      <copy>
+        <from part="payload" query="/ns2:SWIOrderOutputs/ns2:Value3" variable="inputVariable"/>
+        <to part="payload" query="/ns1:callFunctionStateful/ns1:parameterList/ns2:SWIOrderOutputs/ns2:Value3" variable="Invoke_1_callFunctionStateful_InputVariable"/>
+      </copy>
+      <copy>
+        <from part="payload" query="/ns2:SWIOrderOutputs/ns2:Value4" variable="inputVariable"/>
+        <to part="payload" query="/ns1:callFunctionStateful/ns1:parameterList/ns2:SWIOrderOutputs/ns2:Value4" variable="Invoke_1_callFunctionStateful_InputVariable"/>
+      </copy>
+      <copy>
+        <from part="payload" query="/ns2:SWIOrderOutputs/ns2:Value5" variable="inputVariable"/>
+        <to part="payload" query="/ns1:callFunctionStateful/ns1:parameterList/ns2:SWIOrderOutputs/ns2:Value5" variable="Invoke_1_callFunctionStateful_InputVariable"/>
+      </copy>
+      <copy>
+        <from part="payload" query="/ns2:SWIOrderOutputs/ns2:Value6" variable="inputVariable"/>
+        <to part="payload" query="/ns1:callFunctionStateful/ns1:parameterList/ns2:SWIOrderOutputs/ns2:Value6" variable="Invoke_1_callFunctionStateful_InputVariable"/>
+      </copy>
+    </assign>
+    <invoke inputVariable="Invoke_1_callFunctionStateful_InputVariable" name="Invoke_1" operation="callFunctionStateful" outputVariable="Invoke_1_callFunctionStateful_OutputVariable" partnerLink="BR_Service" portType="ns1:IDecisionService"/>
+    <assign name="Assign_2">
+      <copy>
+        <from part="payload" query="/ns1:callFunctionStatefulDecision/ns1:resultList/ns2:SWIOrderOutputs/ns2:Value2" variable="Invoke_1_callFunctionStateful_OutputVariable"/>
+        <to part="payload" query="/ns2:SWIOrderOutputs/ns2:Value2" variable="outputVariable"/>
+      </copy>
+    </assign>
+    <reply name="replyOutput" operation="process" partnerLink="bpelprocess1_client" portType="client:BPELProcess1" variable="outputVariable"/>
+  </sequence>
+</process>
